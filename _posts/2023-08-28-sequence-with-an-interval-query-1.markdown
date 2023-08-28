@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_About_Sequence_With_An_Interval_Query_1
-title: 구간 쿼리를 통해 수열을 제어하는 방법에 대하여 1(with.Java)
-How to control a sequence with an interval query 1(with.Java)
+title: How to control a sequence with an interval query 1(with.Java)
+
 # title: About browser
 
 # post specific
@@ -42,39 +42,82 @@ date: 2023-08-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Flag에 따라 다른 값 반환하는 방법에 대하여(with.Java)
+### How to control a sequence with interval queries 1(with.Java)
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
-문제에 대해 먼저 알아보겠습니다.
+We're going to learn by solving a coding test problem, doing a retrospective on the problem we solved, and looking at other ways to solve it.
+Let's start with the problem.
 
-#### 문제
+#### Problem
 
-두 정수 a, b와 boolean 변수 flag가 매개변수로 주어질 때, flag가 true면 a + b를 false면 a - b를 return 하는 solution 함수를 작성해 주세요.
+You are given an array of integers arr and a two-dimensional array of integers queries. The elements of queries, each representing one query, are of the form [s, e, k].
 
-##### 입출력 예시
+For each query, in order, find the smallest arr[i] greater than k for all i such that s ≤ i ≤ e.
 
-a: -4
-b: 7
-flag: true
-result: 3
+Complete the solution function, which returns an array containing the answers to each query in order.
+However, if the answer to a particular query does not exist, store -1.
 
-즉, flag가 true이므로 a + b = (-4) + 7 = 3을 return 합니다.
+**Caveat** If you get this wrong, you might think this is a problem of comparing values. In essence, it's a problem that is solved by finding a number greater than k for the range s and e **index**, and storing the smallest of all such numbers in an array. I hope this is not misunderstood.
 
-#### 문제에 대한 나의 풀이
+##### Example input and output
+
+arr: [0, 1, 2, 4, 3]
+queries: [[0, 4, 2],[0, 3, 2],[0, 2, 2]]
+result: [3, 4, -1]
+
+The first query has a range of 0, 1, 2, 4, and 3, with 3 being the smallest value that is greater than 2.
+The second query has a range of 0, 1, 2, 4, where the smallest value greater than 2 is 4.
+The third query has a range of 0, 1, and 2, none of which are greater than 2.
+Therefore, it returns [3, 4, -1].
+
+#### My solution to the problem
 
 ```java
+import java.util.*;
+
 class Solution {
-    public int solution(int a, int b, boolean flag) {
-        int answer = (flag) ? a+b : a-b;
-        return answer;
-    }
+    public int[] solution(int[] arr, int[][] queries) {
+        int[] result = new int[queries.length];
+
+        for(int i = 0; i < queries.length; i++){
+            ArrayList<Integer> temp = new ArrayList<Integer>();
+            int compare = Integer.MAX_VALUE;
+
+            for(int j = queries[i][0]; j <= queries[i][1]; j++){
+                if(arr[j] > queries[i][2]){
+                    temp.add(arr[j]);
+                }
+            }
+
+            if(temp.isEmpty()){
+                result[i] = -1;
+            } else {
+                for(int k = 0; k < temp.size(); k++){
+                    if(compare > temp.get(k)){
+                        compare = temp.get(k);
+                    }
+                }
+                } result[i] = compare;
+            }
+        }
+
+        } return result;
+        }
 }
 ```
 
-##### 풀이 설명
+##### Explain your solution
 
-삼항 연산자를 활용하여 flag의 boolean 값에 따라 a+b, a-b 연산을 하도록 작성하였습니다.
+I'll try to explain as much as I can about the code I wrote and why I wrote it this way.
+First, we declare a result of type int[] to store the result, and we need the size of the array to be as long as the elements of queries, so we enter queries.length.
+Then we declare a loop to iterate through the queries, and in the process, we declare a temporary ArrayList type, temp, to store the calculated value.
+We also declare a compare variable of type int to compare the smallest numbers.
+Since the purpose of declaring the compare variable is to store the smallest number, we assign it an initial value of Integer.MAX_VALUE, a constant that represents the maximum value of the data type.
+We then enter a loop to extract the index corresponding to the specified range of values in queries, the range s<=i<=e.
+In this iteration, we store the number greater than k specified in queries into temp, which we declared earlier to be a temporary storage space.
+After storing all the values that satisfy the condition, since we had a condition to return -1 if none existed, we use the ArrayList.isEmpty() function to throw an exception to return -1 if the value is empty, and if the value exists, we write a loop that iterates over the number of numbers that satisfy all the conditions.
+We then determined the smallest number by storing that value in compare if it was less than compare, and then we simply stored the value in compare in result.
+Translated with www.DeepL.com/Translator (free version)
