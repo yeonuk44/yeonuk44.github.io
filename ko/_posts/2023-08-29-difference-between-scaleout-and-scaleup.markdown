@@ -8,9 +8,9 @@ title: 스케일 아웃(Scale-Out)과 스케일 업(Scale-Up)의 차이에 대�
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
-category: Java
+category: Infra
 # multiple tag entries are possible
-tags: [java, coding test]
+tags: [infra]
 # thumbnail image for post
 img: ":post_pic1.jpg"
 # disable comments on this page
