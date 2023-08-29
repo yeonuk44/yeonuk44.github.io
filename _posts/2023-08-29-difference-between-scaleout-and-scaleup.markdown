@@ -7,9 +7,9 @@ title: About the difference between Scale-Out and Scale-Up
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
-category: Java
+category: Infra
 # multiple tag entries are possible
-tags: [java, coding test]
+tags: [infra]
 # thumbnail image for post
 img: ":post_pic1.jpg"
 # disable comments on this page
