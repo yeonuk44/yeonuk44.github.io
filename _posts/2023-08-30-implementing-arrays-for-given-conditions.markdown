@@ -42,29 +42,86 @@ date: 2023-08-30 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 스케일 아웃(Scale-Out)과 스케일 업(Scale-Up)의 차이에 대하여
+### Implementing an array for a given condition (with.Java)
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-이번에 Infra(인프라)에 대해 공부하게 되면서 알게된 용어를 소개드리고자 합니다.
-서버를 운영하다 보면 이용자가 증가하거나 사업을 확장할 때, 많은 서버 용량과 성능이 필요합니다.
-이 때 앞서 소개된 용어인 '스케일 아웃'과 '스케일 업'으로 인프라 확장하는 전략을 세울 수 있습니다.
-이 두 방법은 각각 특정한 장단점을 가지고 있으며, 사용 사례에 따라 선택해야 할 방법이 다를 수 있습니다.
+We're going to learn as we go by solving coding test questions, reflecting on the problems we solved, and exploring other ways to solve them.
+Let's start with the problem.
 
-#### 우선 스케일 업에 대해 알아보겠습니다.
+#### Problem
 
-**스케일업(Scale-Up)**
-의미: 스케일 업은 기존 시스템의 하드웨어를 업그레이드하는 방식입니다. 예를 들어, 더 높은 성능의 CPU, 더 많은 메모리, 더 빠른 디스크 등을 추가합니다.
-장점: 하드웨어를 간단하게 업그레이드할 수 있으며, 관리가 비교적 쉽습니다.
-단점: 하드웨어에 물리적인 한계가 있기 때문에, 어느 정도 성능을 넘어서면 더 이상 확장할 수 없을 수 있습니다. 또한, 특정 부품의 고장이 전체 시스템에 영향을 줄 수 있습니다.
-적합한 경우: 작은 규모의 애플리케이션이나 단일 시스템에서 높은 성능이 필요한 경우.
+You are given an array of integers, arr. You want to create a new array, stk, from arr.
 
-#### 다음은 스케일 아웃에 대해서 입니다.
+Create a variable i, set its initial value to 0, and if i is less than the length of arr, repeat the following operations.
 
-**스케일 아웃(Scale-Out)**
-의미: 스케일 아웃은 새로운 기기나 노드를 추가함으로써 시스템의 성능과 용량을 확장하는 방식입니다. 클러스터나 분산 시스템 구조가 이에 해당합니다.
-장점: 더 많은 기기를 추가함으로써 성능을 계속해서 확장할 수 있으며, 시스템의 장애 허용성도 높일 수 있습니다. 어느 노드가 고장 나더라도 다른 노드가 그 업무를 수행할 수 있기 때문입니다.
-단점: 복잡한 구성이 필요하며, 관리와 유지보수가 어려울 수 있습니다. 또한, 애플리케이션과 시스템이 분산 환경에서 잘 동작하도록 설계되어야 합니다.
-적합한 경우: 대규모의 애플리케이션과 서비스, 클라우드 기반 서비스, 빅데이터 처리와 같은 분산 처리가 필요한 경우.
+If stk is an empty array, add arr[i] to stk and add 1 to i. If not, add arr[i] to stk.
+If stk has elements, and the last element in stk is smaller than arr[i], add arr[i] to the end of stk and add 1 to i.
+If there are elements in the stk and the last element in the stk is greater than or equal to arr[i], remove the last element from the stk.
+After doing the above, complete the solution function that returns the created stk.
+
+##### Example input and output
+
+arr: [1, 4, 2, 5, 3]
+result: [1, 2, 3]
+
+Representing the change in the array after each operation, the table looks like this
+
+| i   | arr[i] | stk     |
+| --- | ------ | ------- |
+| 0   | 1      | []      |
+| 1   | 4      | [1]     |
+| 2   | 2      | [1,4]   |
+| 2   | 2      | [1]     |
+| 3   | 5      | [1,2]   |
+| 4   | 3      | [1,2,5] |
+| 4   | 3      | [1,2]   |
+| -   | -      | [1,2,3] |
+
+So it returns [1, 2, 3].
+
+#### My solution to the problem
+
+```java
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] arr) {
+        ArrayList<Integer> temp = new ArrayList<Integer>();
+        for(int i = 0; i < arr.length; i++){
+            if(temp.isEmpty()){
+                temp.add(arr[i]);
+                continue;
+            }
+            while(temp.get(temp.size()-1) >= arr[i]){
+                temp.remove(temp.size()-1);
+                if(temp.isEmpty()){
+                    temp.add(arr[i]);
+                    break;
+                }
+            }
+            if(temp.get(temp.size()-1) < arr[i]){
+                temp.add(arr[i]);
+                continue;
+            }
+        }
+        } int[] answer = new int[temp.size()];
+        for(int j = 0; j < temp.size(); j++){
+            answer[j] = temp.get(j);
+        }
+        } return answer;
+    }
+}
+```
+
+##### Explanation of the solution
+
+The code I wrote, like all code, had to take into account the order of execution. One of the conditions is "If stk has elements and the last element of stk is greater than or equal to arr[i], then remove the last element of stk from stk." In order to satisfy this condition, I had to think of a specific input/output test case that would require me to keep deleting elements of an array, and if I kept emptying the elements in the array, I would eventually add elements of arr to the empty array.
+
+Let's continue with the code: the isEmpty() function adds an element to the empty array with add(arr[i]). We used continue because we need to move on to the next index based on a later condition.
+Here's the part about deleting elements that I had trouble with. In the problem, the condition to add an element was pre-defined, but we implemented it by considering the order of execution. To explain, we used a while statement to delete the last element of temp if the value of arr[i] is greater than or equal to the value of arr[i]. If we simply delete it, the array may run out of size depending on the specific test case. This is because we keep deleting the last element, which can result in an empty array and an ArrayList with a negative index. To make it easier to understand, we can simply compare it to another test case: if the value of arr is [2, 3, 4, 2, 1], then the return will be [1] based on the condition in the problem. In that case, the flow of index would be i=0 [2], i=1 [2,3], i=2 [2,3,4], i=3 [2,3], [2], [],[2] i=4 [],[1] eventually returning [1]. As you can see from the flow, the special test case creates an empty array, which can be a problem if you're checking for the last element through size, or if you add the last element when it's empty, arr[i] = 1, or if the element you're comparing is also [1], you can get stuck in an infinite loop in the while, etc.
+
+The bottom line is that adding an element after the logic that simply removes it does not catch an exception, so to prevent the case of an empty array, we add the element when it is empty, force the while statement to exit, and use a break statement. In the following code, I wrote logic to traverse the loop with continue if the condition that needs to be removed is not met, i.e., if the last element in the array where the result is stored is less than arr[i], then add that element, otherwise continue. This was a problem that I approached simply and then had to think about exception handling in many test cases.
+Translated with www.DeepL.com/Translator (free version)
