@@ -113,4 +113,3 @@ In our example, a closure is a combination of a function defined inside the meth
 The variable scope is, of course, instance.
 
 This begs the question. Should we also utilize JS when applying generative patterns, and are there any good techniques? We'll cover that in the next installment.
-Translated with www.DeepL.com/Translator (free version)

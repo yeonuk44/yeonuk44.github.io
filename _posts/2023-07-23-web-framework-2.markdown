@@ -120,4 +120,3 @@ In the next post, I'll cover an example of using the above code with the web fra
 References.
 
 - [nodejs official documentation](https://nodejs.org/ko/docs/guides/anatomy-of-an-http-transaction)
-  Translated with www.DeepL.com/Translator (free version)

@@ -141,4 +141,3 @@ Note: This is from an Express perspective.
 - Too much flexibility: Because Express offers a lot of flexibility, developers have a lot of freedom to organize and implement their projects. This can make it difficult to maintain consistency in your code if you don't have a clear structure and guidelines.
 
 In my next post, I'll cover middleware, a key feature of web frameworks.
-Translated with www.DeepL.com/Translator (free version)
