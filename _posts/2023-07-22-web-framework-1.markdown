@@ -102,4 +102,3 @@ To explain the code in simple terms, it creates an HTTP server and returns Hello
 With our simple webserver, we can now access the server in our web browser with http://127.0.0.1:3000/ in the address bar.
 
 In the next post, we'll cover how to implement routing without express.
-Translated with www.DeepL.com/Translator (free version)

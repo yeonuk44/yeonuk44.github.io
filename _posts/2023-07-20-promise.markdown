@@ -108,4 +108,3 @@ You can use the then method to sequentially chain asynchronous actions and proce
 
 - The then method can also be used in a chain, which means that you can process multiple asynchronous tasks sequentially by calling the then method in succession. When used in a chain, the Promise object returned by each then method can be used to pass the result to the next then method.
 - The Promise object itself is asynchronous, but the Promise executor function in the post behaves synchronously.
-  Translated with www.DeepL.com/Translator (free version)

@@ -120,4 +120,3 @@ We then enter a loop to extract the index corresponding to the specified range o
 In this iteration, we store the number greater than k specified in queries into temp, which we declared earlier to be a temporary storage space.
 After storing all the values that satisfy the condition, since we had a condition to return -1 if none existed, we use the ArrayList.isEmpty() function to throw an exception to return -1 if the value is empty, and if the value exists, we write a loop that iterates over the number of numbers that satisfy all the conditions.
 We then determined the smallest number by storing that value in compare if it was less than compare, and then we simply stored the value in compare in result.
-Translated with www.DeepL.com/Translator (free version)

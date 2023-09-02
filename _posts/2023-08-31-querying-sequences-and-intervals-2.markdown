@@ -129,4 +129,3 @@ Finally, the value stored in compare is stored in result[i].
 At the end of the loop, the result array is completed and returned.
 
 In other words, this code does the job of finding values that fit a certain range and condition in the given array arr and storing them in the result array.
-Translated with www.DeepL.com/Translator (free version)

@@ -99,4 +99,3 @@ Before we get into the actual application, I was wondering where image compressi
 
 In practice, there may be times when client-side image compression is more appropriate, depending on the situation and requirements.
 Therefore, when deciding on a compression method, you should consider your project's goals, user experience, and resource constraints.
-Translated with www.DeepL.com/Translator (free version)

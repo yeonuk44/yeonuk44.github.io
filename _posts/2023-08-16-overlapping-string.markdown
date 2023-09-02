@@ -131,4 +131,4 @@ class Solution {
 }
 ```
 
-That's really short, and the code I wrote just truncated the string before and after to match the criteria in s and pasted the string to be changed. I'll have to utilize this function in my next test problem, thanks for the work. Translated with www.DeepL.com/Translator (free version)
+That's really short, and the code I wrote just truncated the string before and after to match the criteria in s and pasted the string to be changed. I'll have to utilize this function in my next test problem, thanks for the work.
