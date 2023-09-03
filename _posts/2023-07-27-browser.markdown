@@ -41,7 +41,7 @@ date: 2023-07-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About Browsers
+### This is an article about browsers.
 
 {:data-align="center"}
 

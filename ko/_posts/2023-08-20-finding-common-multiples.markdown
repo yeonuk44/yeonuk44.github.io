@@ -42,7 +42,7 @@ date: 2023-08-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 공배수를 구하는 것에 대하여(with.Java)
+### 공배수를 구하는 것에 대하여(with.Java) 알아본 글입니다.
 
 {:data-align="center"}
 

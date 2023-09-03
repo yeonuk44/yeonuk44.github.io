@@ -41,7 +41,7 @@ date: 2023-08-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-### The difference between an Array and a List (with.Java)
+### In this article, we learned about The difference between an Array and a List (with.Java)
 
 {:data-align="center"}
 

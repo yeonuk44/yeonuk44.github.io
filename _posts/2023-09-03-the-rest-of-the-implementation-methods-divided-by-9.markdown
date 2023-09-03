@@ -41,7 +41,7 @@ date: 2023-09-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-### For the rest of the implementation methods divided by 9 (with. Java)
+### In this article, we learned about For the rest of the implementation methods divided by 9 (with. Java)
 
 {:data-align="center"}
 

@@ -39,7 +39,7 @@ date: 2023-07-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Bundler에 대하여(2)
+### Bundler에 대해 학습하고 공유하는 글입니다.
 
 {:data-align="center"}
 

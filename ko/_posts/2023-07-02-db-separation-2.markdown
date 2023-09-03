@@ -40,7 +40,7 @@ date: 2023-07-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-### db separation에 대해서(2)
+### Db separation에 대한 글입니다.
 
 {:data-align="center"}
 

@@ -41,7 +41,7 @@ date: 2023-07-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Implementing hashtag functionality
+### I wrote a post on how to implement the hashtag feature.
 
 {:data-align="center"}
 

@@ -39,7 +39,7 @@ date: 2023-07-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-### What is a design pattern?
+### Learning and sharing about design patterns.
 
 {:data-align="center"}
 

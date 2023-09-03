@@ -3,7 +3,6 @@
 lng_pair: id_About_adding_specific_ports_of_an_equality_sequence
 title: Adding Specific Ports of an Equality Sequence (with.Java)
 
-
 # title: About browser
 
 # post specific
@@ -43,7 +42,7 @@ date: 2023-08-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Adding specific ports of an equality sequence (with.Java)
+### In this article, we learned about Adding specific ports of an equality sequence (with.Java)
 
 {:data-align="center"}
 

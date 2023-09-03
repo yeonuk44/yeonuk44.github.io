@@ -42,7 +42,7 @@ date: 2023-09-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to concatenate characters to create a string (with.Java)
+### In this article, we learned about How to concatenate characters to create a string (with.Java)
 
 {:data-align="center"}
 

@@ -42,7 +42,7 @@ date: 2023-08-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 두 수의 연산값 비교에 대하여(with.Java)
+### 두 수의 연산값 비교에 대하여(with.Java) 알아본 글입니다.
 
 {:data-align="center"}
 

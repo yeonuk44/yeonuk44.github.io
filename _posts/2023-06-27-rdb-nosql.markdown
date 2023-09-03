@@ -40,7 +40,7 @@ date: 2023-06-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-### The difference between RDB and NoSQL
+### This is an article about the difference between RDB and NoSQL.
 
 {:data-align="center"}
 

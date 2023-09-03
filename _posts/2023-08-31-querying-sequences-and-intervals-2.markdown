@@ -42,7 +42,7 @@ date: 2023-08-31 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Querying sequences and intervals 2 (with.Java)
+### In this article, we learned about Querying sequences and intervals 2 (with.Java)
 
 {:data-align="center"}
 

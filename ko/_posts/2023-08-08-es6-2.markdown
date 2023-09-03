@@ -41,7 +41,7 @@ date: 2023-08-08 09:00:00 +0900
 
 <!-- outline-start -->
 
-### ES6 문법에 대하여(Arrow Function)
+### ES6 문법에 대하여(Arrow Function) 알아본 글입니다.
 
 {:data-align="center"}
 

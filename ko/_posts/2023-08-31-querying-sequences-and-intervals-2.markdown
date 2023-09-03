@@ -42,7 +42,7 @@ date: 2023-08-31 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 수열과 구간 쿼리 2(with.Java)
+### 수열과 구간 쿼리(with.Java)에 대하여 알아본 글입니다.
 
 {:data-align="center"}
 

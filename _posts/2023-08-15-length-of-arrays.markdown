@@ -41,7 +41,7 @@ date: 2023-08-15 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About comparing the lengths of arrays (with.Java)
+### In this article, we learned about comparing the lengths of arrays (with.Java)
 
 {:data-align="center"}
 

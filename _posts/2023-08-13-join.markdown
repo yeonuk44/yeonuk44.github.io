@@ -41,7 +41,7 @@ date: 2023-08-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to convert an array of strings to a string (with.Java)
+### In this article, we learned how to convert an array of strings to a string (with.Java).
 
 {:data-align="center"}
 

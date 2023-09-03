@@ -42,7 +42,7 @@ date: 2023-08-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Flag에 따라 다른 값 반환하는 방법에 대하여(with.Java)
+### Flag에 따라 다른 값 반환하는 방법에 대하여(with.Java) 알아본 글입니다.
 
 {:data-align="center"}
 

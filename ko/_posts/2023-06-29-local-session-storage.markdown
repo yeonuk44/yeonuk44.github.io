@@ -40,7 +40,7 @@ date: 2023-06-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Local Storage와 Session Storage에 대하여
+### Local Storage와 Session Storage에 대한 글입니다.
 
 {:data-align="center"}
 

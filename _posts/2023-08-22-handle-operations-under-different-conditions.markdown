@@ -42,7 +42,7 @@ date: 2023-08-22 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to handle operations under different conditions (with.Java)
+### In this article, we learned about How to handle operations under different conditions (with.Java)
 
 {:data-align="center"}
 

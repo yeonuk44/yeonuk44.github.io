@@ -42,7 +42,7 @@ date: 2023-08-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to control a sequence with interval queries 1(with.Java)
+### In this article, we learned about How to control a sequence with interval queries 1(with.Java)
 
 {:data-align="center"}
 
