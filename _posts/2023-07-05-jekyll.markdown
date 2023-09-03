@@ -40,7 +40,7 @@ date: 2023-07-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Make your Jekyll project React-like
+### This is a post about how to use Jekyll projects like React.
 
 {:data-align="center"}
 

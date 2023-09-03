@@ -40,7 +40,7 @@ date: 2023-08-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About the difference between Scale-Out and Scale-Up
+### In this article, we learned about the difference between Scale-Out and Scale-Up
 
 {:data-align="center"}
 

@@ -42,7 +42,7 @@ date: 2023-08-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 등차수열의 특정한 항만 더하기(with.Java)
+### 등차수열의 특정한 항만 더하기(with.Java)에 대하여 알아본 글입니다.
 
 {:data-align="center"}
 

@@ -42,7 +42,7 @@ date: 2023-08-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to return different values based on sips (with.Java)
+### In this article, we learned about How to return different values based on sips (with.Java)
 
 {:data-align="center"}
 

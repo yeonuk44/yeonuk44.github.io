@@ -41,7 +41,7 @@ date: 2023-07-31 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About web sockets(3)
+### This is a post to learn and share about web sockets.
 
 {:data-align="center"}
 

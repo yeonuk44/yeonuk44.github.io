@@ -40,7 +40,7 @@ date: 2023-06-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-### What is the Fast API
+### What is the Fast API?
 
 {:data-align="center"}
 

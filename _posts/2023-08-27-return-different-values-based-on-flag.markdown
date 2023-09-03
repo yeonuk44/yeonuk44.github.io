@@ -42,7 +42,7 @@ date: 2023-08-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to return different values based on flags (with.Java)
+### In this article, we learned about How to return different values based on flags (with.Java)
 
 {:data-align="center"}
 

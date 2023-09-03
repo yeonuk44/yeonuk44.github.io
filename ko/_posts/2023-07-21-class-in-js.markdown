@@ -41,7 +41,7 @@ date: 2023-07-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-### JS에서 Class 사용에 대하여
+### JS에서 Class 사용에 대해 알아본 글입니다.
 
 {:data-align="center"}
 

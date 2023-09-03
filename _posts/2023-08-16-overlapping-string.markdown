@@ -41,7 +41,7 @@ date: 2023-08-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to overlap strings (with. Java)
+### In this article, we learned about How to overlap strings (with. Java)
 
 {:data-align="center"}
 

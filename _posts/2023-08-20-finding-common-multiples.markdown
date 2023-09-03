@@ -42,7 +42,7 @@ date: 2023-08-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About finding a common multiple (with.Java)
+### In this article, we learned about finding a common multiple (with.Java)
 
 {:data-align="center"}
 

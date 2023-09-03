@@ -41,7 +41,7 @@ date: 2023-08-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 조건 문자열을 구현하는 방법에 대하여(with.Java)
+### 조건 문자열을 구현하는 방법에 대하여(with.Java) 알아본 글입니다.
 
 {:data-align="center"}
 

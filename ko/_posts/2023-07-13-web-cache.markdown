@@ -41,7 +41,7 @@ date: 2023-07-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Web Cache에 대하여
+### Web Cache에 대해 알아본 글입니다.
 
 {:data-align="center"}
 

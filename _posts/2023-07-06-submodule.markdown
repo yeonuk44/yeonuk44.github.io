@@ -40,7 +40,7 @@ date: 2023-07-06 09:00:00 +0900
 
 <!-- outline-start -->
 
-### What is a submodule?
+### In this article, we've discussed what a submodule is.
 
 {:data-align="center"}
 

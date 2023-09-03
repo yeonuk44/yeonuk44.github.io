@@ -40,7 +40,7 @@ date: 2023-06-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-### This is a post about the Package Manager.(w. npm & yarn)
+### This is a post about the Package Manager.(with. npm & yarn)
 
 {:data-align="center"}
 

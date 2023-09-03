@@ -40,7 +40,7 @@ date: 2023-07-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About Web Frameworks (2)
+### This is a post about learning and sharing about web frameworks.
 
 {:data-align="center"}
 

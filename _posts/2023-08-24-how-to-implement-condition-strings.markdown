@@ -42,7 +42,7 @@ date: 2023-08-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to implement a condition string (with.Java)
+### In this article, we learned about How to implement a condition string (with.Java)
 
 {:data-align="center"}
 

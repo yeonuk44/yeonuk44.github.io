@@ -41,7 +41,7 @@ date: 2023-07-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Design Patterns, Generative Patterns (3)
+### This is an article about the generation pattern among design patterns.
 
 {:data-align="center"}
 

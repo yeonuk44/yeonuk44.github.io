@@ -40,7 +40,7 @@ date: 2023-07-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About db separation(2)
+### This is a post about Db separation.
 
 {:data-align="center"}
 

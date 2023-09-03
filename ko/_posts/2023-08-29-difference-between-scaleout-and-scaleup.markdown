@@ -41,7 +41,7 @@ date: 2023-08-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 스케일 아웃(Scale-Out)과 스케일 업(Scale-Up)의 차이에 대하여
+### 스케일 아웃(Scale-Out)과 스케일 업(Scale-Up)의 차이에 대하여 알아본 글입니다.
 
 {:data-align="center"}
 

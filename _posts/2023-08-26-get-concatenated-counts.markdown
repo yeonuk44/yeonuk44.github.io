@@ -42,7 +42,7 @@ date: 2023-08-26 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to get the number of concatenations, categorize by conditions, and get the number of concatenations (with.Java)
+### In this article, we learned about How to get the number of concatenations, categorize by conditions, and get the number of concatenations (with.Java)
 
 {:data-align="center"}
 

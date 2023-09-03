@@ -41,7 +41,7 @@ date: 2023-09-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 9로 나눈 나머지 구현 방법에 대하여(with. Java)
+### 9로 나눈 나머지 구현 방법에 대하여(with. Java) 알아본 글입니다.
 
 {:data-align="center"}
 

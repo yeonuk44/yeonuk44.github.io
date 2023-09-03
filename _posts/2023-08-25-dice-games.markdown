@@ -42,7 +42,7 @@ date: 2023-08-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About dice games (with.Java)
+### In this article, we learned about dice games (with.Java)
 
 {:data-align="center"}
 

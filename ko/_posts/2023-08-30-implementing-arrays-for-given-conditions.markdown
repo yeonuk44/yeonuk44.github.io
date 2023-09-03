@@ -42,7 +42,7 @@ date: 2023-08-30 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 주어진 조건에 맞게 배열 구현에 대하여(with.Java)
+### 주어진 조건에 맞게 배열 구현에 대하여(with.Java) 알아본 글입니다.
 
 {:data-align="center"}
 

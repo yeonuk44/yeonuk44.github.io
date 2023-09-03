@@ -41,7 +41,7 @@ date: 2023-07-26 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About cookies and sessions
+### This is an article about cookies and sessions.
 
 {:data-align="center"}
 

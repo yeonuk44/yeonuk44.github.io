@@ -42,7 +42,7 @@ date: 2023-08-30 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Implementing an array for a given condition (with.Java)
+### In this article, we learned about Implementing an array for a given condition (with.Java)
 
 {:data-align="center"}
 

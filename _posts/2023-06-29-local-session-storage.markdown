@@ -40,7 +40,7 @@ date: 2023-06-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About Local Storage and Session Storage
+### This post is about Local Storage and Session Storage.
 
 {:data-align="center"}
 

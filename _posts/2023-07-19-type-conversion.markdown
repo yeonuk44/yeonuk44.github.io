@@ -41,7 +41,7 @@ date: 2023-07-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About casts
+### This article has been about type conversion
 
 {:data-align="center"}
 

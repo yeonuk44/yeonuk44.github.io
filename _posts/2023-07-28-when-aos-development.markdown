@@ -41,7 +41,7 @@ date: 2023-07-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About choosing a language for AOS development
+### In this post, I discuss my language choices and share my process when developing AOS.
 
 {:data-align="center"}
 

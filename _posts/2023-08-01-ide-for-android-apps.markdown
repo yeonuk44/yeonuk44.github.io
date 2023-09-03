@@ -41,7 +41,7 @@ date: 2023-08-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About the Android Studio and IntelliJ IDEs
+### This article compares the benefits of Android Studio and IntelliJ IDEs.
 
 {:data-align="center"}
 

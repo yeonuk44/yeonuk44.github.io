@@ -40,7 +40,7 @@ date: 2023-06-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Package Manager에 대한 글입니다.(w. npm & yarn)
+### Package Manager에 대한 글입니다.(with. npm & yarn)
 
 {:data-align="center"}
 

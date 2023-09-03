@@ -41,7 +41,7 @@ date: 2023-08-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Array(배열)과 List(리스트)의 차이에 대하여(with.Java)
+### Array(배열)과 List(리스트)의 차이에 대하여(with.Java) 알아본 글입니다.
 
 {:data-align="center"}
 

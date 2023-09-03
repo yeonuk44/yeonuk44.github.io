@@ -42,7 +42,7 @@ date: 2023-08-17 09:00:00 +0900
 
 <!-- outline-start -->
 
-### For comparing two numbers (with.Java)
+### In this article, we learned about For comparing two numbers (with.Java)
 
 {:data-align="center"}
 

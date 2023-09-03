@@ -41,7 +41,7 @@ date: 2023-08-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 안드로이드스튜디오(Android Studio)와 인텔리제이(IntelliJ) IDE에 대하여
+### 안드로이드스튜디오(Android Studio)와 인텔리제이(IntelliJ) 각 IDE의 이점을 비교한 글입니다.
 
 {:data-align="center"}
 
