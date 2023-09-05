@@ -41,69 +41,49 @@ date: 2023-09-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-### We've covered implementing counting up (with.Java).
+### Implementing a count up (with.Java).
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
-문제에 대해 먼저 알아보겠습니다.
+We're going to learn by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
+Let's start with the problem.
 
-#### 문제
+#### Problem
 
-모든 자연수 x에 대해서 현재 값이 x이면 x가 짝수일 때는 2로 나누고, x가 홀수일 때는 3 \* x + 1로 바꾸는 계산을 계속해서 반복하면 언젠가는 반드시 x가 1이 되는지 묻는 문제를 콜라츠 문제라고 부릅니다.
-그리고 위 과정에서 거쳐간 모든 수를 기록한 수열을 콜라츠 수열이라고 부릅니다.
-계산 결과 1,000 보다 작거나 같은 수에 대해서는 전부 언젠가 1에 도달한다는 것이 알려져 있습니다.
-임의의 1,000 보다 작거나 같은 양의 정수 n이 주어질 때 초기값이 n인 콜라츠 수열을 return 하는 solution 함수를 완성해 주세요.
+Given the integers start_num and end_num, complete the solution function so that it returns a list containing the numbers from start_num to end_num in order.Example input/output
 
-##### 입출력 예시
+##### Example input and output
 
-n: 10
-result: [10, 5, 16, 8, 4, 2, 1]
+start_num: 3
+end_num: 10
+result: [3, 4, 5, 6, 7, 8, 9, 10]
 
-<!-- | i   | arr[i] | stk     |
+<!-- | i | arr[i] | stk |
 | --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 class Solution {
-    public int[] solution(int n) {
-        ArrayList<Integer> temp = new ArrayList<Integer>();
-        temp.add(n);
+    public List<Integer> solution(int start_num, int end_num) {
+        List<Integer> result = new ArrayList<>();
 
-        while(n != 1){
-            if(n % 2 == 0){
-                n = n / 2;
-            } else {
-                n = 3 * n + 1;
-            }
-            temp.add(n);
+        for (int i = start_num; i <= end_num; i++) {
+            result.add(i);
         }
 
-        int[] answer = new int[temp.size()];
-        for(int i = 0; i < temp.size(); i++){
-            answer[i] = temp.get(i);
-        }
-
-        return answer;
+        } return result;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-ArrayList<Integer> temp = new ArrayList<Integer>();: 정수를 저장할 ArrayList 객체 temp를 생성합니다.
-temp.add(n);: 초기 정수 n을 temp 리스트에 추가합니다. 이 리스트는 추측 과정의 모든 값을 저장할 예정입니다.
-while(n != 1): n이 1이 될 때까지 반복하는 루프를 시작합니다. Collatz 추측에 따라 n을 변환하고, n이 1이 되면 루프를 종료합니다.
-if(n % 2 == 0): n이 짝수인지 확인합니다. 짝수인 경우, n을 2로 나눠 홀수로 만듭니다.
-else { n = 3 \* n + 1; }: n이 홀수인 경우, n에 3을 곱하고 1을 더해 짝수로 만듭니다.
-temp.add(n);: 변환된 n 값을 temp 리스트에 추가합니다.
-int[] answer = new int[temp.size()];: temp 리스트의 크기에 맞는 정수 배열 answer를 생성합니다.
-for(int i = 0; i < temp.size(); i++){ answer[i] = temp.get(i); }: temp 리스트의 값을 배열 answer에 복사합니다.
-return answer;: Collatz 추측 결과가 저장된 배열 answer를 반환합니다.
+Iterates over the numbers from the starting number start_num to the ending number end_num, adding them to the result list set to the initial value of the ArrayList, and finally returns the list.
