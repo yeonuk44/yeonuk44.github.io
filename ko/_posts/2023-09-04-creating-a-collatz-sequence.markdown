@@ -41,7 +41,7 @@ date: 2023-09-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 콜라츠 수열 만들기(with.Java)
+### 콜라츠 수열 만들기(with.Java)에 대하여 알아본 글입니다.
 
 {:data-align="center"}
 
