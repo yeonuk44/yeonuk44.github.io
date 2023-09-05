@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Creating_A_Collatz_Sequence
-title: 콜라츠 수열 만들기(with.Java)
-# title: Creating a Collatz Sequence (with.Java)
+lng_pair: id_About_Implementing_Counting_Up
+title: About implementing counting up (with.Java)
+# title: About implementing counting up (with.Java)
 
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -17,7 +17,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2023-09-04 09:00:00 +0900
+date: 2023-09-05 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -41,7 +41,7 @@ date: 2023-09-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 콜라츠 수열 만들기(with.Java)에 대하여 알아본 글입니다.
+### We've covered implementing counting up (with.Java).
 
 {:data-align="center"}
 

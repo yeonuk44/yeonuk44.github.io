@@ -41,7 +41,7 @@ date: 2023-09-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Create a Collatz sequence (with.Java)
+### In this article, we learned how to create a Collatz sequence (with.Java).
 
 {:data-align="center"}
 
