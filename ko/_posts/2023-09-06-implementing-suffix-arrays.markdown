@@ -41,7 +41,7 @@ date: 2023-09-06 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 카운트 업 구현에 대하여(with.Java) 알아본 글입니다.
+### 접미사 배열 구현에 대하여(with.Java) 알아본 글입니다.
 
 {:data-align="center"}
 
@@ -52,13 +52,17 @@ date: 2023-09-06 09:00:00 +0900
 
 #### 문제
 
-정수 start_num와 end_num가 주어질 때, start_num부터 end_num까지의 숫자를 차례로 담은 리스트를 return하도록 solution 함수를 완성해주세요.입출력 예
+어떤 문자열에 대해서 접미사는 특정 인덱스부터 시작하는 문자열을 의미합니다.
+예를 들어, "banana"의 모든 접미사는 "banana", "anana", "nana", "ana", "na", "a"입니다.
+문자열 my_string이 매개변수로 주어질 때, my_string의 모든 접미사를 사전순으로 정렬한 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-start_num: 3
-end_num: 10
-result: [3, 4, 5, 6, 7, 8, 9, 10]
+my_string: "banana"
+result: ["a", "ana", "anana", "banana", "na", "nana"]
+
+즉, my_string는 "banana"로 모든 접미사는 문제의 설명과 같습니다.
+이를 사전순으로 정렬하면 "a", "ana", "anana", "banana", "na", "nana"이므로 ["a", "ana", "anana", "banana", "na", "nana"]를 return 합니다.
 
 <!-- | i   | arr[i] | stk     |
 | --- | ------ | ------- |
@@ -68,22 +72,25 @@ result: [3, 4, 5, 6, 7, 8, 9, 10]
 #### 문제에 대한 나의 풀이
 
 ```java
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 class Solution {
-    public List<Integer> solution(int start_num, int end_num) {
-        List<Integer> result = new ArrayList<>();
-
-        for (int i = start_num; i <= end_num; i++) {
-            result.add(i);
+    public String[] solution(String my_string) {
+        ArrayList<String> arr = new ArrayList<String>();
+        for(int i = 0; i < my_string.length(); i++){
+            arr.add(my_string.substring(i));
         }
-
-        return result;
+        Collections.sort(arr);
+        String[] answer = new String[arr.size()];
+        for(int j = 0; j < arr.size(); j++){
+            answer[j] = arr.get(j);
+        }
+        return answer;
     }
 }
 ```
 
 ##### 풀이 설명
 
-시작 숫자 start_num부터 종료 숫자 end_num까지의 숫자를 반복하여 ArrayList의 초기 값으로 설정된 result 리스트에 추가하고, 최종적으로 리스트를 반환합니다.
+모든 접미사를 배열에 저장하기 위해선 한 문자 씩 떼어내 배열에 저장하는 것입니다.
+이를 위해 substring()을 사용하여 반복문을 my_string.length()로 접미사 분리해야할 문자열의 길이만큼 순회하여 ArrayList에 삽입했습니다.
+이렇게만 해도 사실 모든 접미사는 구별이 끝났습니다. 그러나 요구되는 결과에는 모든 접미사를 사전편찬 순으로 정렬하길 바랬기에 Collections의 sort()를 통해 arr 안의 요소들을 정렬해줬습니다.

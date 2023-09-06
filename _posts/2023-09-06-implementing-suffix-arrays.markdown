@@ -41,49 +41,56 @@ date: 2023-09-06 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 카운트 업 구현에 대하여(with.Java) 알아본 글입니다.
+### Implementing a suffixed array (with.Java).
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
-문제에 대해 먼저 알아보겠습니다.
+We're going to learn by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
+Let's start with the problem.
 
-#### 문제
+#### Problem
 
-정수 start_num와 end_num가 주어질 때, start_num부터 end_num까지의 숫자를 차례로 담은 리스트를 return하도록 solution 함수를 완성해주세요.입출력 예
+For some strings, a suffix means a string starting at a certain index.
+For example, all suffixes for "banana" are "banana", "anana", "nana", "ana", "na", and "a".
+Given a string my_string as a parameter, write a solution function that returns an array of strings sorted alphabetically by all suffixes in my_string.
 
-##### 입출력 예시
+##### Example input and output
 
-start_num: 3
-end_num: 10
-result: [3, 4, 5, 6, 7, 8, 9, 10]
+my_string: "banana"
+result: ["a", "ana", "anana", "banana", "na", "nana"]
 
-<!-- | i   | arr[i] | stk     |
+In other words, my_string is "banana" and all suffixes are like the description in the question.
+Sorting it alphabetically would return ["a", "ana", "anana", "banana", "na", "nana"] because it is "a", "ana", "anana", "banana", "na", "nana".
+
+<!-- | i | arr[i] | stk |
 | --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 class Solution {
-    public List<Integer> solution(int start_num, int end_num) {
-        List<Integer> result = new ArrayList<>();
-
-        for (int i = start_num; i <= end_num; i++) {
-            result.add(i);
+    public String[] solution(String my_string) {
+        ArrayList<String> arr = new ArrayList<String>();
+        for(int i = 0; i < my_string.length(); i++){
+            arr.add(my_string.substring(i));
         }
-
-        return result;
+        Collections.sort(arr);
+        String[] answer = new String[arr.size()];
+        for(int j = 0; j < arr.size(); j++){
+            answer[j] = arr.get(j);
+        }
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### Explanation of the solution
 
-시작 숫자 start_num부터 종료 숫자 end_num까지의 숫자를 반복하여 ArrayList의 초기 값으로 설정된 result 리스트에 추가하고, 최종적으로 리스트를 반환합니다.
+The way to store all the suffixes in an array is to strip them off one character at a time and store them in an array.
+To do this, we used substring() to insert a loop into an ArrayList, iterating over the length of the string to be suffixed with my_string.length().
+This actually separated all the suffixes, but for the required result, I wanted them to be sorted in pre-edited order, so I used Collections' sort() to sort the elements in the array.
