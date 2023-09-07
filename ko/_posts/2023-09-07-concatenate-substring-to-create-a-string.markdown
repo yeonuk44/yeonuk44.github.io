@@ -41,28 +41,33 @@ date: 2023-09-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 접미사 배열 구현에 대하여(with.Java) 알아본 글입니다.
+### 부분 문자열 이어 붙여 문자열 만드는 방법에 대하여(with.Java) 알아본 글입니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+
 문제에 대해 먼저 알아보겠습니다.
 
 #### 문제
 
-어떤 문자열에 대해서 접미사는 특정 인덱스부터 시작하는 문자열을 의미합니다.
-예를 들어, "banana"의 모든 접미사는 "banana", "anana", "nana", "ana", "na", "a"입니다.
-문자열 my_string이 매개변수로 주어질 때, my_string의 모든 접미사를 사전순으로 정렬한 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
+길이가 같은 문자열 배열 my_strings와 이차원 정수 배열 parts가 매개변수로 주어집니다.
+
+parts[i]는 [s, e] 형태로, my_string[i]의 인덱스 s부터 인덱스 e까지의 부분 문자열을 의미합니다.
+
+각 my_strings의 원소의 parts에 해당하는 부분 문자열을 순서대로 이어 붙인 문자열을 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-my_string: "banana"
-result: ["a", "ana", "anana", "banana", "na", "nana"]
+my_string: ["progressive", "hamburger", "hammer", "ahocorasick"]
 
-즉, my_string는 "banana"로 모든 접미사는 문제의 설명과 같습니다.
-이를 사전순으로 정렬하면 "a", "ana", "anana", "banana", "na", "nana"이므로 ["a", "ana", "anana", "banana", "na", "nana"]를 return 합니다.
+queries: [[0, 4], [1, 2], [3, 5], [7, 7]]
+
+result: "programmers"
+
+예제를 풀어보면 각 부분 문자열을 순서대로 이어 붙인 문자열은 "programmers"입니다. 따라서 "programmers"를 return 합니다.
 
 <!-- | i   | arr[i] | stk     |
 | --- | ------ | ------- |
@@ -72,17 +77,11 @@ result: ["a", "ana", "anana", "banana", "na", "nana"]
 #### 문제에 대한 나의 풀이
 
 ```java
-import java.util.*;
 class Solution {
-    public String[] solution(String my_string) {
-        ArrayList<String> arr = new ArrayList<String>();
-        for(int i = 0; i < my_string.length(); i++){
-            arr.add(my_string.substring(i));
-        }
-        Collections.sort(arr);
-        String[] answer = new String[arr.size()];
-        for(int j = 0; j < arr.size(); j++){
-            answer[j] = arr.get(j);
+    public String solution(String[] my_strings, int[][] parts) {
+        String answer = "";
+        for(int i = 0; i < parts.length; i++){
+            answer += my_strings[i].substring(parts[i][0], parts[i][1]+1);
         }
         return answer;
     }
@@ -91,6 +90,10 @@ class Solution {
 
 ##### 풀이 설명
 
-모든 접미사를 배열에 저장하기 위해선 한 문자 씩 떼어내 배열에 저장하는 것입니다.
-이를 위해 substring()을 사용하여 반복문을 my_string.length()로 접미사 분리해야할 문자열의 길이만큼 순회하여 ArrayList에 삽입했습니다.
-이렇게만 해도 사실 모든 접미사는 구별이 끝났습니다. 그러나 요구되는 결과에는 모든 접미사를 사전편찬 순으로 정렬하길 바랬기에 Collections의 sort()를 통해 arr 안의 요소들을 정렬해줬습니다.
+로직대로 구현하기 위해 parts의 길이만큼 반복문을 순회하게 만든 뒤, String 타입의 answer에 my_strings의 문자열 요소를 substring 함수를 통해 저장합니다.
+
+substring()함수 속 인자에 parts[i][0], parts[i][1]+1를 삽입했는데 이는 substring은 startIndex부터 시작해서 endIndex의 바로 전까지 반환해줍니다.
+
+이는 간단한 수식으로 이해를 돕자면 startIndex <= 순회 번호 < endIndex 이기 때문입니다.
+
+문제에서 요구하는 index까지의 반환값을 얻기 위해선 +1 을 해줘야 <=가 되기 때문에 더해줬습니다.
