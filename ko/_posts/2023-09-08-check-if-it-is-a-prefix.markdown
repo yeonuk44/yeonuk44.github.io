@@ -41,7 +41,7 @@ date: 2023-09-08 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 부분 문자열 이어 붙여 문자열 만드는 방법에 대하여(with.Java) 알아본 글입니다.
+### 접두사인지 확인하는 방법에 대하여(with.Java) 알아본 글입니다.
 
 {:data-align="center"}
 
@@ -53,21 +53,19 @@ date: 2023-09-08 09:00:00 +0900
 
 #### 문제
 
-길이가 같은 문자열 배열 my_strings와 이차원 정수 배열 parts가 매개변수로 주어집니다.
+어떤 문자열에 대해서 접두사는 특정 인덱스까지의 문자열을 의미합니다. 예를 들어, "banana"의 모든 접두사는 "b", "ba", "ban", "bana", "banan", "banana"입니다.
 
-parts[i]는 [s, e] 형태로, my_string[i]의 인덱스 s부터 인덱스 e까지의 부분 문자열을 의미합니다.
-
-각 my_strings의 원소의 parts에 해당하는 부분 문자열을 순서대로 이어 붙인 문자열을 return 하는 solution 함수를 작성해 주세요.
+문자열 my_string과 is_prefix가 주어질 때, is_prefix가 my_string의 접두사라면 1을, 아니면 0을 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-my_string: ["progressive", "hamburger", "hammer", "ahocorasick"]
+my_string: "banana"
 
-queries: [[0, 4], [1, 2], [3, 5], [7, 7]]
+is_prefix: "ban"
 
-result: "programmers"
+result: 1
 
-예제를 풀어보면 각 부분 문자열을 순서대로 이어 붙인 문자열은 "programmers"입니다. 따라서 "programmers"를 return 합니다.
+즉, is_prefix가 my_string의 접두사이기 때문에 1을 return 합니다.
 
 <!-- | i   | arr[i] | stk     |
 | --- | ------ | ------- |
@@ -77,12 +75,16 @@ result: "programmers"
 #### 문제에 대한 나의 풀이
 
 ```java
+import java.util.*;
 class Solution {
-    public String solution(String[] my_strings, int[][] parts) {
-        String answer = "";
-        for(int i = 0; i < parts.length; i++){
-            answer += my_strings[i].substring(parts[i][0], parts[i][1]+1);
+    public int solution(String my_string, String is_prefix) {
+        int answer = 0;
+        ArrayList<String> arr = new ArrayList<String>();
+        for(int i = my_string.length(); i > 0; i--){
+            arr.add(my_string.substring(0,i));
         }
+
+        answer = arr.contains(is_prefix) ? 1 : 0;
         return answer;
     }
 }
@@ -90,10 +92,14 @@ class Solution {
 
 ##### 풀이 설명
 
-로직대로 구현하기 위해 parts의 길이만큼 반복문을 순회하게 만든 뒤, String 타입의 answer에 my_strings의 문자열 요소를 substring 함수를 통해 저장합니다.
+이전 글에서 접미사는 제일 마지막 문자가 포함되는 문자열을 하나 씩 만들어 배열에 저장하면 해결되었습니다. 이번엔 접두사에 관련된 문제입니다.
 
-substring()함수 속 인자에 parts[i][0], parts[i][1]+1를 삽입했는데 이는 substring은 startIndex부터 시작해서 endIndex의 바로 전까지 반환해줍니다.
+substing()을 다시 알아보면 param을 하나만 입력할 시 startIndex로 인식되어 버려 (startIndex, string length) 형식으로 값을 반환해줍니다.
 
-이는 간단한 수식으로 이해를 돕자면 startIndex <= 순회 번호 < endIndex 이기 때문입니다.
+이번엔 접두사를 만드는 문제이니 startIndex는 항상 0이여야 하며, 마지막 인덱스들이 하나 씩 감소되면 됩니다.
 
-문제에서 요구하는 index까지의 반환값을 얻기 위해선 +1 을 해줘야 <=가 되기 때문에 더해줬습니다.
+해당 로직에 맞춰 반복문을 순회하도록 초기 값을 my_string.length()로 하고, i 가 0이 되면 순회를 멈추게 하였습니다.
+
+그 이유는 substring(0,0)은 아무것도 반환하지 않게 됩니다. 따라서 0을 포함한채로 반복문이 순회된다면 빈 문자열이 arr에 포함되어 쓸데없는 메모리를 할당받게 됩니다.
+
+이어서 i를 1씩 감소 시키고 answer에 저장된 arr의 요소 중 is_prefix와 동일한 값이 있다면 1을 없다면 0을 반환하게 합니다.

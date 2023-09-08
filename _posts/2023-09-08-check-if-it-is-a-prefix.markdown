@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_About_Check_If_It_Is_A_Prefix
-title: 접두사인지 확인하기(with.Java)
+title: Check if it's a prefix (with.Java)
 # title: Check if it's a prefix (with.Java)
 
 # post specific
@@ -41,59 +41,65 @@ date: 2023-09-08 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 부분 문자열 이어 붙여 문자열 만드는 방법에 대하여(with.Java) 알아본 글입니다.
+### This article explains how to check if a prefix is a prefix (with.Java).
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to solve a coding test problem, reflect on the problem we solved, and learn about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
-#### 문제
+#### Problem
 
-길이가 같은 문자열 배열 my_strings와 이차원 정수 배열 parts가 매개변수로 주어집니다.
+For any string, a prefix means the string up to a certain index. For example, all prefixes for "banana" are "b", "ba", "ban", "bana", "banan", and "banana".
 
-parts[i]는 [s, e] 형태로, my_string[i]의 인덱스 s부터 인덱스 e까지의 부분 문자열을 의미합니다.
+Given a string my_string and is_prefix, write a solution function that returns 1 if is_prefix is a prefix of my_string and 0 otherwise.
 
-각 my_strings의 원소의 parts에 해당하는 부분 문자열을 순서대로 이어 붙인 문자열을 return 하는 solution 함수를 작성해 주세요.
+##### Example input and output
 
-##### 입출력 예시
+my_string: "banana"
 
-my_string: ["progressive", "hamburger", "hammer", "ahocorasick"]
+is_prefix: "ban"
 
-queries: [[0, 4], [1, 2], [3, 5], [7, 7]]
+result: 1
 
-result: "programmers"
+This returns 1 because is_prefix is the prefix of my_string.
 
-예제를 풀어보면 각 부분 문자열을 순서대로 이어 붙인 문자열은 "programmers"입니다. 따라서 "programmers"를 return 합니다.
-
-<!-- | i   | arr[i] | stk     |
+<!-- | i | arr[i] | stk |
 | --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
+import java.util.*;
 class Solution {
-    public String solution(String[] my_strings, int[][] parts) {
-        String answer = "";
-        for(int i = 0; i < parts.length; i++){
-            answer += my_strings[i].substring(parts[i][0], parts[i][1]+1);
+    public int solution(String my_string, String is_prefix) {
+        int answer = 0;
+        ArrayList<String> arr = new ArrayList<String>();
+        for(int i = my_string.length(); i > 0; i--){
+            arr.add(my_string.substring(0,i));
         }
+
+        } answer = arr.contains(is_prefix) ? 1 : 0;
         return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution Explained
 
-로직대로 구현하기 위해 parts의 길이만큼 반복문을 순회하게 만든 뒤, String 타입의 answer에 my_strings의 문자열 요소를 substring 함수를 통해 저장합니다.
+In the previous post, the suffix was solved by creating a string containing the last character one by one and storing it in an array. This time, the problem is with the prefix.
 
-substring()함수 속 인자에 parts[i][0], parts[i][1]+1를 삽입했는데 이는 substring은 startIndex부터 시작해서 endIndex의 바로 전까지 반환해줍니다.
+If we look at substing() again, we see that when we enter only one param, it is recognized as startIndex, and it returns a value of the form (startIndex, string length).
 
-이는 간단한 수식으로 이해를 돕자면 startIndex <= 순회 번호 < endIndex 이기 때문입니다.
+Since we're creating a prefix this time, the startIndex should always be 0, and the last indexes should be decremented by one.
 
-문제에서 요구하는 index까지의 반환값을 얻기 위해선 +1 을 해줘야 <=가 되기 때문에 더해줬습니다.
+To match that logic, we've set the initial value to my_string.length() to traverse the loop and stop traversal when i reaches zero.
+
+The reason for this is that substring(0,0) will return nothing, so if the loop is traversed with a zero in it, an empty string will be included in arr and allocated useless memory.
+
+We then decrement i by 1 and have it return 0 if any of the elements in arr stored in answer have the same value as is_prefix, and 1 if none.
