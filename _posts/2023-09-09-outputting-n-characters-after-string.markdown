@@ -41,65 +41,55 @@ date: 2023-09-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 접두사인지 확인하는 방법에 대하여(with.Java) 알아본 글입니다.
+### For outputting n characters after a string (with.Java)
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn as we go along by solving coding test problems, looking back at the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
-#### 문제
+#### Problem
 
-어떤 문자열에 대해서 접두사는 특정 인덱스까지의 문자열을 의미합니다. 예를 들어, "banana"의 모든 접두사는 "b", "ba", "ban", "bana", "banan", "banana"입니다.
+Given a string my_string and an integer n as parameters, write a solution function that returns a string of n characters after my_string.
 
-문자열 my_string과 is_prefix가 주어질 때, is_prefix가 my_string의 접두사라면 1을, 아니면 0을 return 하는 solution 함수를 작성해 주세요.
+##### Example input and output
 
-##### 입출력 예시
+my_string: "ProgrammerS123"
 
-my_string: "banana"
+n: 11
 
-is_prefix: "ban"
+result: "grammerS123"
 
-result: 1
+The last 11 characters in my_string are "grammerS123", so we return this string.
 
-즉, is_prefix가 my_string의 접두사이기 때문에 1을 return 합니다.
-
-<!-- | i   | arr[i] | stk     |
+<!-- | i | arr[i] | stk |
 | --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
-import java.util.*;
 class Solution {
-    public int solution(String my_string, String is_prefix) {
-        int answer = 0;
-        ArrayList<String> arr = new ArrayList<String>();
-        for(int i = my_string.length(); i > 0; i--){
-            arr.add(my_string.substring(0,i));
-        }
-
-        answer = arr.contains(is_prefix) ? 1 : 0;
+    public String solution(String my_string, int n) {
+        String answer = "";
+        answer = my_string.substring(my_string.length() - n);
         return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### Explanation of the solution
 
-이전 글에서 접미사는 제일 마지막 문자가 포함되는 문자열을 하나 씩 만들어 배열에 저장하면 해결되었습니다. 이번엔 접두사에 관련된 문제입니다.
+Since my_string is supplied as a string, we thought we could just truncate the trailing elements with substring and output them in the answer variable as my_string.substring(my_string.length() - n); for a total length of n, and output the trailing elements by index.
 
-substing()을 다시 알아보면 param을 하나만 입력할 시 startIndex로 인식되어 버려 (startIndex, string length) 형식으로 값을 반환해줍니다.
+This is possible because substring() returns a value for truncation.
 
-이번엔 접두사를 만드는 문제이니 startIndex는 항상 0이여야 하며, 마지막 인덱스들이 하나 씩 감소되면 됩니다.
+The reason we subtracted n from the full length is because if we just did substring(n), it would truncate the string from the 11th index of my_string when n is 11 because of the nature of substring, and we would get 123.
 
-해당 로직에 맞춰 반복문을 순회하도록 초기 값을 my_string.length()로 하고, i 가 0이 되면 순회를 멈추게 하였습니다.
+So if you do the opposite and insert the entire length of my_string minus n into the substring, you'll be left with just that value, and the trailing string will be truncated by the substring and returned.
 
-그 이유는 substring(0,0)은 아무것도 반환하지 않게 됩니다. 따라서 0을 포함한채로 반복문이 순회된다면 빈 문자열이 arr에 포함되어 쓸데없는 메모리를 할당받게 됩니다.
-
-이어서 i를 1씩 감소 시키고 answer에 저장된 arr의 요소 중 is_prefix와 동일한 값이 있다면 1을 없다면 0을 반환하게 합니다.
+In this case, we've implemented it so that the n characters after the string are output.

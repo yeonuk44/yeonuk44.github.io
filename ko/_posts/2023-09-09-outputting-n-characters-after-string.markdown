@@ -41,7 +41,7 @@ date: 2023-09-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 접두사인지 확인하는 방법에 대하여(with.Java) 알아본 글입니다.
+### 문자열 뒤의 n글자 출력에 대하여(with.Java)
 
 {:data-align="center"}
 
@@ -53,19 +53,17 @@ date: 2023-09-09 09:00:00 +0900
 
 #### 문제
 
-어떤 문자열에 대해서 접두사는 특정 인덱스까지의 문자열을 의미합니다. 예를 들어, "banana"의 모든 접두사는 "b", "ba", "ban", "bana", "banan", "banana"입니다.
-
-문자열 my_string과 is_prefix가 주어질 때, is_prefix가 my_string의 접두사라면 1을, 아니면 0을 return 하는 solution 함수를 작성해 주세요.
+문자열 my_string과 정수 n이 매개변수로 주어질 때, my_string의 뒤의 n글자로 이루어진 문자열을 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-my_string: "banana"
+my_string: "ProgrammerS123"
 
-is_prefix: "ban"
+n: 11
 
-result: 1
+result: "grammerS123"
 
-즉, is_prefix가 my_string의 접두사이기 때문에 1을 return 합니다.
+my_string에서 뒤의 11글자는 "grammerS123"이므로 이 문자열을 return 합니다.
 
 <!-- | i   | arr[i] | stk     |
 | --- | ------ | ------- |
@@ -75,16 +73,10 @@ result: 1
 #### 문제에 대한 나의 풀이
 
 ```java
-import java.util.*;
 class Solution {
-    public int solution(String my_string, String is_prefix) {
-        int answer = 0;
-        ArrayList<String> arr = new ArrayList<String>();
-        for(int i = my_string.length(); i > 0; i--){
-            arr.add(my_string.substring(0,i));
-        }
-
-        answer = arr.contains(is_prefix) ? 1 : 0;
+    public String solution(String my_string, int n) {
+        String answer = "";
+        answer = my_string.substring(my_string.length() - n);
         return answer;
     }
 }
@@ -92,14 +84,12 @@ class Solution {
 
 ##### 풀이 설명
 
-이전 글에서 접미사는 제일 마지막 문자가 포함되는 문자열을 하나 씩 만들어 배열에 저장하면 해결되었습니다. 이번엔 접두사에 관련된 문제입니다.
+my_string은 문자열로 제공되기 때문에 substring으로 뒷 요소를 잘라 출력하면 된다고 생각하여 answer 변수에 my_string.substring(my_string.length() - n);으로 전체 길이-n으로 뒷부분에서 index만큼 출력하였습니다.
 
-substing()을 다시 알아보면 param을 하나만 입력할 시 startIndex로 인식되어 버려 (startIndex, string length) 형식으로 값을 반환해줍니다.
+이게 가능한 것은 substring()은 자른 것에 대해 값을 반환해주기 때문입니다.
 
-이번엔 접두사를 만드는 문제이니 startIndex는 항상 0이여야 하며, 마지막 인덱스들이 하나 씩 감소되면 됩니다.
+전체 길이에서 n을 뺀 이유는 그냥 substring(n)을 할 경우 substring 특성상 n이 11일 때 my_string의 11번째 index부터 문자열을 자릅니다. 그러면 123이 출력될 것입니다.
 
-해당 로직에 맞춰 반복문을 순회하도록 초기 값을 my_string.length()로 하고, i 가 0이 되면 순회를 멈추게 하였습니다.
+그렇기 때문에 반대로 my_string의 전체 길이에서 n을 뺀 값을 substring에 삽입할 경우 그 값만큼만 문자열이 남고 뒷 문자열은 substring에 의해 잘려 반환됩니다.
 
-그 이유는 substring(0,0)은 아무것도 반환하지 않게 됩니다. 따라서 0을 포함한채로 반복문이 순회된다면 빈 문자열이 arr에 포함되어 쓸데없는 메모리를 할당받게 됩니다.
-
-이어서 i를 1씩 감소 시키고 answer에 저장된 arr의 요소 중 is_prefix와 동일한 값이 있다면 1을 없다면 0을 반환하게 합니다.
+이 케이스를 이용해 문자열 뒤의 n글자가 출력되도록 구현했습니다.
