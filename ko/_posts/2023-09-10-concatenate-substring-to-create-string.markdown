@@ -41,7 +41,7 @@ date: 2023-09-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 문자열 뒤의 n글자 출력에 대하여(with.Java)
+### 부분 문자열 이어 붙여 문자열 만드는 방법에 대하여(with.Java)
 
 {:data-align="center"}
 
@@ -53,17 +53,21 @@ date: 2023-09-10 09:00:00 +0900
 
 #### 문제
 
-문자열 my_string과 정수 n이 매개변수로 주어질 때, my_string의 뒤의 n글자로 이루어진 문자열을 return 하는 solution 함수를 작성해 주세요.
+길이가 같은 문자열 배열 my_strings와 이차원 정수 배열 parts가 매개변수로 주어집니다.
+
+parts[i]는 [s, e] 형태로, my_string[i]의 인덱스 s부터 인덱스 e까지의 부분 문자열을 의미합니다.
+
+각 my_strings의 원소의 parts에 해당하는 부분 문자열을 순서대로 이어 붙인 문자열을 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-my_string: "ProgrammerS123"
+my_string: ["progressive", "hamburger", "hammer", "ahocorasick"]
 
-n: 11
+queries: [[0, 4], [1, 2], [3, 5], [7, 7]]
 
-result: "grammerS123"
+result: "programmers"
 
-my_string에서 뒤의 11글자는 "grammerS123"이므로 이 문자열을 return 합니다.
+예제를 풀어보면 각 부분 문자열을 순서대로 이어 붙인 문자열은 "programmers"입니다. 따라서 "programmers"를 return 합니다.
 
 <!-- | i   | arr[i] | stk     |
 | --- | ------ | ------- |
@@ -74,9 +78,11 @@ my_string에서 뒤의 11글자는 "grammerS123"이므로 이 문자열을 retur
 
 ```java
 class Solution {
-    public String solution(String my_string, int n) {
+    public String solution(String[] my_strings, int[][] parts) {
         String answer = "";
-        answer = my_string.substring(my_string.length() - n);
+        for(int i = 0; i < parts.length; i++){
+            answer += my_strings[i].substring(parts[i][0], parts[i][1]+1);
+        }
         return answer;
     }
 }
@@ -84,12 +90,10 @@ class Solution {
 
 ##### 풀이 설명
 
-my_string은 문자열로 제공되기 때문에 substring으로 뒷 요소를 잘라 출력하면 된다고 생각하여 answer 변수에 my_string.substring(my_string.length() - n);으로 전체 길이-n으로 뒷부분에서 index만큼 출력하였습니다.
+로직대로 구현하기 위해 parts의 길이만큼 반복문을 순회하게 만든 뒤, String 타입의 answer에 my_strings의 문자열 요소를 substring 함수를 통해 저장합니다.
 
-이게 가능한 것은 substring()은 자른 것에 대해 값을 반환해주기 때문입니다.
+substring()함수 속 인자에 parts[i][0], parts[i][1]+1를 삽입했는데 이는 substring은 startIndex부터 시작해서 endIndex의 바로 전까지 반환해줍니다.
 
-전체 길이에서 n을 뺀 이유는 그냥 substring(n)을 할 경우 substring 특성상 n이 11일 때 my_string의 11번째 index부터 문자열을 자릅니다. 그러면 123이 출력될 것입니다.
+간단한 수식으로 이해를 돕자면 startIndex <= 순회 번호 < endIndex 이기 때문입니다.
 
-그렇기 때문에 반대로 my_string의 전체 길이에서 n을 뺀 값을 substring에 삽입할 경우 그 값만큼만 문자열이 남고 뒷 문자열은 substring에 의해 잘려 반환됩니다.
-
-이 케이스를 이용해 문자열 뒤의 n글자가 출력되도록 구현했습니다.
+문제에서 요구하는 index까지의 반환값을 얻기 위해선 +1 을 해줘야 <=가 되기 때문에 더해줬습니다.
