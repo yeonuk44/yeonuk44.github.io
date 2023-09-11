@@ -41,15 +41,15 @@ date: 2023-09-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-### For outputting n characters after a string (with.Java)
-
-{:data-align="center"}
-
-<!-- outline-end -->
+### In this article, we looked at printing n characters after a string (with.Java).
 
 We're going to learn as we go along by solving coding test problems, looking back at the problems we solved, and exploring other ways to solve them.
 
 Let's start with the problem.
+
+{:data-align="center"}
+
+<!-- outline-end -->
 
 #### Problem
 

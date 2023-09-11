@@ -41,15 +41,15 @@ date: 2023-09-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to concatenate partial strings to create a string (with.Java)
+### In this article, we learned how to concatenate partial strings to create a string (with.Java).
+
+We've been solving coding test problems, reflecting on the problems we've solved, and learning about other ways to solve them.
+
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
-
-We're going to learn by solving a coding test problem, doing a retrospective on the problem we solved, and looking at other ways to solve it.
-
-Let's start with the problem.
 
 #### Problem
 

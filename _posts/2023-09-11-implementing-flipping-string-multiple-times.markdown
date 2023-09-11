@@ -41,59 +41,165 @@ date: 2023-09-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 부분 문자열 이어 붙여 문자열 만드는 방법에 대하여(with.Java)
+### In this article, we learned how to implement Flip a String Multiple Times (with.Java).
+
+We've been solving coding test problems, reflecting on the problems we've solved, and learning about other ways to solve them.
+
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+#### Problem
 
-문제에 대해 먼저 알아보겠습니다.
+A string my_string and a two-dimensional array of integers queries are given as parameters.
 
-#### 문제
+The elements of queries are of the form [s, e], which means to flip my_string from index s to index e.
 
-길이가 같은 문자열 배열 my_strings와 이차원 정수 배열 parts가 매개변수로 주어집니다.
+Write a solution function to return the string after processing the commands in queries in order in my_string.
 
-parts[i]는 [s, e] 형태로, my_string[i]의 인덱스 s부터 인덱스 e까지의 부분 문자열을 의미합니다.
+##### Example input and output
 
-각 my_strings의 원소의 parts에 해당하는 부분 문자열을 순서대로 이어 붙인 문자열을 return 하는 solution 함수를 작성해 주세요.
+my_string: "rermgorpsam"
 
-##### 입출력 예시
-
-my_string: ["progressive", "hamburger", "hammer", "ahocorasick"]
-
-queries: [[0, 4], [1, 2], [3, 5], [7, 7]]
+queries: [[2, 3], [0, 7], [5, 9], [6, 10]]
 
 result: "programmers"
 
-예제를 풀어보면 각 부분 문자열을 순서대로 이어 붙인 문자열은 "programmers"입니다. 따라서 "programmers"를 return 합니다.
+If my_string is "rermgorpsam" and the given queries are processed in order, the result is
 
-<!-- | i   | arr[i] | stk     |
+| queries | my_string     |
+| ------- | ------------- |
+| [2, 3]  | "remrgorpsam" |
+| [0, 7]  | "progrmersam" |
+| [5, 9]  | "prograsremm" |
+| [6, 10] | "programmers" |
+
+So it returns "programmers".
+
+<!-- | i | arr[i] | stk |
 | --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
+import java.util.*;
+
 class Solution {
-    public String solution(String[] my_strings, int[][] parts) {
-        String answer = "";
-        for(int i = 0; i < parts.length; i++){
-            answer += my_strings[i].substring(parts[i][0], parts[i][1]+1);
+    public String solution(String my_string, int[][] queries) {
+        StringBuilder answer = new StringBuilder();
+        ArrayList<Character> arr = new ArrayList<Character>();
+
+        for(int k = 0; k < my_string.length(); k++) {
+            arr.add(my_string.charAt(k));
         }
-        return answer;
+
+        for(int i = 0; i < queries.length; i++) {
+            int startIndex = queries[i][0];
+            int endIndex = queries[i][1];
+            reverse(arr, startIndex, endIndex);
+        }
+
+        for (int l = 0; l < arr.size(); l++) {
+            answer.append(arr.get(l));
+        }
+
+        } return answer.toString();
+    }
+
+    private void reverse(ArrayList<Character> arr, int startIndex, int endIndex) {
+        while (startIndex < endIndex) {
+            char temp = arr.get(startIndex);
+            arr.set(startIndex, arr.get(endIndex));
+            arr.set(endIndex, temp);
+            startIndex++;
+            endIndex--;
+        }
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-로직대로 구현하기 위해 parts의 길이만큼 반복문을 순회하게 만든 뒤, String 타입의 answer에 my_strings의 문자열 요소를 substring 함수를 통해 저장합니다.
+Declare a variable, answer, for string synthesis via StringBuilder.
 
-substring()함수 속 인자에 parts[i][0], parts[i][1]+1를 삽입했는데 이는 substring은 startIndex부터 시작해서 endIndex의 바로 전까지 반환해줍니다.
+Then declare arr to control it as a Character type, and store my_string as a char in arr, character by character.
 
-간단한 수식으로 이해를 돕자면 startIndex <= 순회 번호 < endIndex 이기 때문입니다.
+We then execute the reverse function reverse(arr, startIndex, endIndex); passing in three arguments.
 
-문제에서 요구하는 index까지의 반환값을 얻기 위해선 +1 을 해줘야 <=가 되기 때문에 더해줬습니다.
+The reverse function will continue to insert values in the order of the array until startIndex is less than endIndex. To change the end and start values, we need a non-variable variable.
+
+We declare the non-variable temp to pre-assign the start value and insert that value at endIndex.
+
+To continue the computation, we increment startIndex by 1 and decrement endIndex by 1.
+
+We do this all at once to cut the number of iterations in half. It then inserts the elements of arr into answer, and outputs it.
+
+The logic is similar to mine, but there is some enlightening code out there that I'd like to review.
+
+#### Another solution
+
+```java
+class Solution {
+
+    char[] arr;
+
+    public String solution(String my_string, int[][] queries) {
+
+        arr = my_string.toCharArray();
+
+        for (int[] query : queries) {
+            reverse(query[0], query[1]);
+        }
+
+        } return new String(arr);
+    }
+
+    private void reverse(int s, int e) {
+        while (s < e) {
+            char temp = arr[s];
+            arr[s++] = arr[e];
+            arr[e--] = temp;
+        }
+    }
+}
+```
+
+##### Explanation of the solution
+
+This code is very similar in logic to my code. The main differences are the absence of arr in the parameters of the reverse function, void, and the increment and decrement operators on index in the array.
+
+Let's unpack this one by one: first of all, the reverse function doesn't have arr in its parameters, so why would it be available in another function? In this code, **arr is an instance variable of the class Solution.** These instance variables are accessible from all instance methods within the class, so the reverse method has direct access to arr.
+
+A new copy of an instance variable is created each time an object is created, and all instance methods of that object reference the same variable. Therefore, if you change the contents of arr in the reverse method, that change will also be reflected in the solution method.
+
+Because of this property, you can access and modify arr from within the reverse method without having to pass it as a parameter. This is a common pattern in object-oriented programming, allowing methods within a class to share and manipulate the same state.
+
+Next up is void. In Java, the void keyword is used when a particular method does not have a return value. In other words, if a method performs an action but does not return a value to the caller, you specify void as the return type in the method declaration.
+
+Methods that use void are often used when they perform some action or change the state of an object and don't need to return the **result to the caller.**
+
+Finally, we have the increment and decrement operators at the index positions in the array. Usually, we use increment and decrement operators by subtraction, but we don't often see increment and decrement operators at the index, so we did a little research.
+
+++x: first increments the value of the operand by 1, then proceeds with the operation.
+
+x++: perform the operation first, then increment the value of the operand by 1.
+
+x --x: decrement the value of the operand by one before proceeding with the operation.
+
+x--: Performs the operation first, then decrements the value of the operand by one.
+
+It's important to note that these operations can also be performed on arrays. Thanks for reading.
+
+###### Reference
+
+**What is a StringBuilder?**
+
+StringBuilder is a class that allows you to efficiently manipulate strings in Java. Normal string concatenation operations use String, an immutable object, which can be a performance disadvantage when many concatenation operations are required.
+
+The traditional string concatenation method creates a new String object each time a new string is added, which can result in significant overhead if many concatenations are required.
+
+StringBuilder, on the other hand, uses an internal buffer to manipulate strings, making string concatenation faster. Using StringBuilder can significantly improve the time complexity and space complexity of string manipulation operations.
