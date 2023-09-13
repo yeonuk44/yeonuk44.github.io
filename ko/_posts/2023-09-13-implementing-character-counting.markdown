@@ -41,7 +41,7 @@ date: 2023-09-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 문자열 여러 번 뒤집기 구현에 대하여(with.Java) 알아본 글입니다.
+### 문자 개수 세기 구현에 대하여(with.Java) 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -53,21 +53,21 @@ date: 2023-09-13 09:00:00 +0900
 
 #### 문제
 
-어떤 문자열에 대해서 접미사는 특정 인덱스부터 시작하는 문자열을 의미합니다.
+알파벳 대소문자로만 이루어진 문자열 my_string이 주어질 때
 
-예를 들어, "banana"의 모든 접미사는 "banana", "anana", "nana", "ana", "na", "a"입니다.
+my_string에서 'A'의 개수, my_string에서 'B'의 개수,..., my_string에서 'Z'의 개수, my_string에서 'a'의 개수, my_string에서 'b'의 개수,...
 
-문자열 my_string과 is_suffix가 주어질 때, is_suffix가 my_string의 접미사라면 1을, 아니면 0을 return 하는 solution 함수를 작성해 주세요.
+my_string에서 'z'의 개수를 순서대로 담은 길이 52의 정수 배열을 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-my_string: "banana"
+my_string: "Programmers"
 
-is_suffix: "ana"
+result: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0]
 
-result: 1
+my_string에서 'P'가 1개, 'a'가 1개, 'e'가 1개, 'g'가 1개, 'm'이 2개, 'o'가 1개, 'r'가 3개, 's'가 1개 있으므로
 
-즉, is_suffix가 my_string의 접미사이기 때문에 1을 return 합니다.
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0]를 return 합니다.
 
 <!-- | i   | arr[i] | stk     |
 | --- | ------ | ------- |
@@ -77,17 +77,19 @@ result: 1
 #### 문제에 대한 나의 풀이
 
 ```java
-import java.util.*;
 class Solution {
-    public int solution(String my_string, String is_suffix) {
-        int answer = 0;
-        ArrayList<String> arr = new ArrayList<String>();
+    public int[] solution(String my_string) {
+        int[] answer = new int[52];
+        for (int i = 0; i < my_string.length(); i++) {
+            char c = my_string.charAt(i);
 
-        for(int i = 0; i < my_string.length(); i++){
-            arr.add(my_string.substring(i));
+            if (c >= 'A' && c <= 'Z') {
+                answer[c - 'A']++;
+            } else if (c >= 'a' && c <= 'z') {
+                answer[26 + c - 'a']++;
+            }
         }
 
-        answer = arr.contains(is_suffix) ? 1 : 0;
         return answer;
     }
 }
@@ -95,10 +97,22 @@ class Solution {
 
 ##### 풀이 설명
 
-모든 접미사를 배열에 저장하기 위해선 한 문자 씩 떼어내 배열에 저장하는 것입니다.
+이 코드는 주어진 문자열 my_string 내의 알파벳 문자의 출현 빈도를 계산합니다.
 
-이를 위해 substring()을 사용하여 반복문을 my_string.length()로 접미사 분리해야할 문자열의 길이만큼 순회하여 ArrayList에 삽입했습니다.
+결과는 int[] 배열로 반환되며, 이 배열의 각 요소는 특정 알파벳 문자의 출현 횟수를 나타냅니다.
 
-이후 is_suffix의 문자열이 arr 요소에 포함된 접미사인지 확인이 필요합니다.
+answer 배열은 길이가 52인 정수 배열로, 알파벳의 대문자와 소문자에 대해 각각 카운트를 저장합니다.
 
-해당 확인을 ArrayList의 contains()를 통해 요소가 있는지 확인 후, 그 참과 거짓에 따라 answer에 값을 담아 출력합니다.
+인덱스 0부터 25까지는 대문자 'A'부터 'Z'까지의 출현 횟수를 저장합니다.
+
+인덱스 26부터 51까지는 소문자 'a'부터 'z'까지의 출현 횟수를 저장합니다.
+
+**코드의 작동 방식은 다음과 같습니다:**
+
+my_string의 길이만큼 반복하며 각 문자 c를 확인합니다.
+
+만약 c가 대문자라면, 'A'를 빼서 해당 대문자의 위치를 찾고, 그 위치의 카운트를 증가시킵니다. (answer[c - 'A']++)
+
+만약 c가 소문자라면, 'a'를 빼고 26을 더하여 해당 소문자의 위치를 찾고, 그 위치의 카운트를 증가시킵니다. (answer[26 + c - 'a']++)
+
+모든 문자에 대한 처리가 끝나면, answer 배열을 반환합니다. 이 배열은 문자열 내의 각 알파벳 문자의 출현 횟수를 나타냅니다.

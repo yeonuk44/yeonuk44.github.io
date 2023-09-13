@@ -41,64 +41,78 @@ date: 2023-09-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 문자열 여러 번 뒤집기 구현에 대하여(with.Java) 알아본 글입니다.
+In this article, we looked at implementing ### character counting (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll be solving a coding test problem, reflecting on the problem we solved, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-어떤 문자열에 대해서 접미사는 특정 인덱스부터 시작하는 문자열을 의미합니다.
+Given a string my_string that contains only alphabetical characters.
 
-예를 들어, "banana"의 모든 접미사는 "banana", "anana", "nana", "ana", "na", "a"입니다.
+count of 'A' in my_string, count of 'B' in my_string,..., count of 'Z' in my_string, count of 'a' in my_string, count of 'b' in my_string,...
 
-문자열 my_string과 is_suffix가 주어질 때, is_suffix가 my_string의 접미사라면 1을, 아니면 0을 return 하는 solution 함수를 작성해 주세요.
+Write a solution function that returns an array of integers of length 52 containing the number of occurrences of 'z' in my_string in order.
 
-##### 입출력 예시
+##### Example input and output
 
-my_string: "banana"
+my_string: "Programmers"
 
-is_suffix: "ana"
+result: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0]
 
-result: 1
+In my_string, there is one 'P', one 'a', one 'e', one 'g', two 'm', one 'o', three 'r', and one 's', so.
 
-즉, is_suffix가 my_string의 접미사이기 때문에 1을 return 합니다.
+returns [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0].
 
-<!-- | i   | arr[i] | stk     |
+<!-- | i | arr[i] | stk |
 | --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
-import java.util.*;
 class Solution {
-    public int solution(String my_string, String is_suffix) {
-        int answer = 0;
-        ArrayList<String> arr = new ArrayList<String>();
+    public int[] solution(String my_string) {
+        int[] answer = new int[52];
+        for (int i = 0; i < my_string.length(); i++) {
+            char c = my_string.charAt(i);
 
-        for(int i = 0; i < my_string.length(); i++){
-            arr.add(my_string.substring(i));
+            if (c >= 'A' && c <= 'Z') {
+                answer[c - 'A']++;
+            } else if (c >= 'a' && c <= 'z') {
+                answer[26 + c - 'a']++;
+            }
         }
 
-        answer = arr.contains(is_suffix) ? 1 : 0;
         return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-모든 접미사를 배열에 저장하기 위해선 한 문자 씩 떼어내 배열에 저장하는 것입니다.
+This code counts the frequency of occurrence of alphabetical characters within the given string my_string.
 
-이를 위해 substring()을 사용하여 반복문을 my_string.length()로 접미사 분리해야할 문자열의 길이만큼 순회하여 ArrayList에 삽입했습니다.
+The result is returned as an array of int[], where each element of the array represents the number of occurrences of a particular alphabetical character.
 
-이후 is_suffix의 문자열이 arr 요소에 포함된 접미사인지 확인이 필요합니다.
+The answer array is an integer array of length 52, storing counts for the uppercase and lowercase letters of the alphabet, respectively.
 
-해당 확인을 ArrayList의 contains()를 통해 요소가 있는지 확인 후, 그 참과 거짓에 따라 answer에 값을 담아 출력합니다.
+Indexes 0 through 25 store the number of occurrences of the uppercase letters 'A' through 'Z'.
+
+Indexes 26 through 51 store the number of occurrences of lowercase letters 'A' through 'Z'.
+
+**Here's how the code works:**
+
+Iterate over the length of my_string, checking for each letter c.
+
+If c is an uppercase letter, subtract 'A' to find the position of that uppercase letter, and increment the count at that position. (answer[c - 'A']++)
+
+If c is a lowercase letter, subtract 'a' and add 26 to find the corresponding lowercase letter and increment the count at that position. (answer[26 + c - 'a']++)
+
+When it has finished processing all the characters, it returns an array of answer. This array represents the number of occurrences of each letter of the alphabet in the string.
