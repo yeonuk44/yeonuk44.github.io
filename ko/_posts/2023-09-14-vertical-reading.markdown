@@ -41,7 +41,7 @@ date: 2023-09-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 문자 개수 세기 구현에 대하여(with.Java) 알아본 글입니다.
+### 세로 읽는 방법에 대하여(with.Java) 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -53,21 +53,31 @@ date: 2023-09-14 09:00:00 +0900
 
 #### 문제
 
-알파벳 대소문자로만 이루어진 문자열 my_string이 주어질 때
+문자열 my_string과 두 정수 m, c가 주어집니다.
 
-my_string에서 'A'의 개수, my_string에서 'B'의 개수,..., my_string에서 'Z'의 개수, my_string에서 'a'의 개수, my_string에서 'b'의 개수,...
-
-my_string에서 'z'의 개수를 순서대로 담은 길이 52의 정수 배열을 return 하는 solution 함수를 작성해 주세요.
+my_string을 한 줄에 m 글자씩 가로로 적었을 때 왼쪽부터 세로로 c번째 열에 적힌 글자들을 문자열로 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-my_string: "Programmers"
+my_string: "ihrhbakrfpndopljhygc"
 
-result: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0]
+m: 4
 
-my_string에서 'P'가 1개, 'a'가 1개, 'e'가 1개, 'g'가 1개, 'm'이 2개, 'o'가 1개, 'r'가 3개, 's'가 1개 있으므로
+c: 2
 
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0]를 return 합니다.
+result: "happy"
+
+my_string을 한 줄에 4 글자씩 쓰면 다음의 표와 같습니다.
+
+| 1열 | 2열 | 3열 | 4열 |
+| --- | --- | --- | --- |
+| i   | h   | r   | h   |
+| b   | a   | k   | r   |
+| f   | p   | n   | d   |
+| o   | p   | l   | j   |
+| h   | y   | g   | c   |
+
+2열에 적힌 글자를 세로로 읽으면 happy이므로 "happy"를 return 합니다.
 
 <!-- | i   | arr[i] | stk     |
 | --- | ------ | ------- |
@@ -78,41 +88,24 @@ my_string에서 'P'가 1개, 'a'가 1개, 'e'가 1개, 'g'가 1개, 'm'이 2개,
 
 ```java
 class Solution {
-    public int[] solution(String my_string) {
-        int[] answer = new int[52];
-        for (int i = 0; i < my_string.length(); i++) {
-            char c = my_string.charAt(i);
-
-            if (c >= 'A' && c <= 'Z') {
-                answer[c - 'A']++;
-            } else if (c >= 'a' && c <= 'z') {
-                answer[26 + c - 'a']++;
-            }
+    public String solution(String my_string, int m, int c) {
+        char[] arr = my_string.toCharArray();
+        char[] arr1 = new char[arr.length/m];
+        int j = 0;
+        for(int i = c-1; i < arr.length; i+=m){
+            arr1[j++] = arr[i];
         }
-
-        return answer;
+        return new String(arr1);
     }
 }
 ```
 
 ##### 풀이 설명
 
-이 코드는 주어진 문자열 my_string 내의 알파벳 문자의 출현 빈도를 계산합니다.
+행렬을 정립하기 위해 우리는 먼저 문자열 타입을 Char 타입으로 바꿔 배열로 저장할 필요가 있습니다.
 
-결과는 int[] 배열로 반환되며, 이 배열의 각 요소는 특정 알파벳 문자의 출현 횟수를 나타냅니다.
+이에 char[] 타입의 arr에 my_string을 toCharArray()를 통해 저장합니다.
 
-answer 배열은 길이가 52인 정수 배열로, 알파벳의 대문자와 소문자에 대해 각각 카운트를 저장합니다.
+이후 return 값을 저장할 arr1도 동일한 타입으로 지정 후, 배열의 크기는 arr의 길이에서 몇 열까지인지 알 수 있으면 됩니다.
 
-인덱스 0부터 25까지는 대문자 'A'부터 'Z'까지의 출현 횟수를 저장합니다.
-
-인덱스 26부터 51까지는 소문자 'a'부터 'z'까지의 출현 횟수를 저장합니다.
-
-**코드의 작동 방식은 다음과 같습니다:**
-
-my_string의 길이만큼 반복하며 각 문자 c를 확인합니다.
-
-만약 c가 대문자라면, 'A'를 빼서 해당 대문자의 위치를 찾고, 그 위치의 카운트를 증가시킵니다. (answer[c - 'A']++)
-
-만약 c가 소문자라면, 'a'를 빼고 26을 더하여 해당 소문자의 위치를 찾고, 그 위치의 카운트를 증가시킵니다. (answer[26 + c - 'a']++)
-
-모든 문자에 대한 처리가 끝나면, answer 배열을 반환합니다. 이 배열은 문자열 내의 각 알파벳 문자의 출현 횟수를 나타냅니다.
+따라서 나눈 다음 반복문을 선언하여 문제에서 요구하는 방식으로 조건을 설정하고 행렬에서 특정한 idx의 요소를 저장하여 반환했습니다.

@@ -41,78 +41,71 @@ date: 2023-09-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 문자 개수 세기 구현에 대하여(with.Java) 알아본 글입니다.
+### This is an article about how to read vertically (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We've been solving coding test problems, reflecting on the problems we've solved, and learning about other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-알파벳 대소문자로만 이루어진 문자열 my_string이 주어질 때
+You are given a string my_string and two integers m, c.
 
-my_string에서 'A'의 개수, my_string에서 'B'의 개수,..., my_string에서 'Z'의 개수, my_string에서 'a'의 개수, my_string에서 'b'의 개수,...
+Write a solution function that returns as a string the characters written in the cth column from the left when my_string is written horizontally with m characters per line.
 
-my_string에서 'z'의 개수를 순서대로 담은 길이 52의 정수 배열을 return 하는 solution 함수를 작성해 주세요.
+##### Example input and output
 
-##### 입출력 예시
+my_string: "ihrhbakrfpndopljhygc"
 
-my_string: "Programmers"
+m: 4
 
-result: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0]
+c: 2
 
-my_string에서 'P'가 1개, 'a'가 1개, 'e'가 1개, 'g'가 1개, 'm'이 2개, 'o'가 1개, 'r'가 3개, 's'가 1개 있으므로
+result: "happy"
 
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0]를 return 합니다.
+If you write my_string with 4 characters per line, the table looks like this
 
-<!-- | i   | arr[i] | stk     |
+| Column 1 | Column 2 | Column 3 | Column 4 |
+| --- | --- | --- | --- | --- | |
+| i | h | r | h |
+| b | a | k | r |
+| f | p | n | d |
+| o | p | l | j |
+| h | y | g | c |
+
+Return "happy" because the letter in column 2 reads happy when read vertically.
+
+<!-- | i | arr[i] | stk |
 | --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int[] solution(String my_string) {
-        int[] answer = new int[52];
-        for (int i = 0; i < my_string.length(); i++) {
-            char c = my_string.charAt(i);
-
-            if (c >= 'A' && c <= 'Z') {
-                answer[c - 'A']++;
-            } else if (c >= 'a' && c <= 'z') {
-                answer[26 + c - 'a']++;
-            }
+    public String solution(String my_string, int m, int c) {
+        char[] arr = my_string.toCharArray();
+        char[] arr1 = new char[arr.length/m];
+        int j = 0;
+        for(int i = c-1; i < arr.length; i+=m){
+            arr1[j++] = arr[i];
         }
-
-        return answer;
+        } return new String(arr1);
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution Explained
 
-이 코드는 주어진 문자열 my_string 내의 알파벳 문자의 출현 빈도를 계산합니다.
+To establish the matrix, we first need to convert the string type to Char type and store it as an array.
 
-결과는 int[] 배열로 반환되며, 이 배열의 각 요소는 특정 알파벳 문자의 출현 횟수를 나타냅니다.
+To do so, we store my_string in an array of type char[] with toCharArray().
 
-answer 배열은 길이가 52인 정수 배열로, 알파벳의 대문자와 소문자에 대해 각각 카운트를 저장합니다.
+After that, we need to make arr1 of the same type to store the return value, and the size of the array is how many columns from the length of arr.
 
-인덱스 0부터 25까지는 대문자 'A'부터 'Z'까지의 출현 횟수를 저장합니다.
-
-인덱스 26부터 51까지는 소문자 'a'부터 'z'까지의 출현 횟수를 저장합니다.
-
-**코드의 작동 방식은 다음과 같습니다:**
-
-my_string의 길이만큼 반복하며 각 문자 c를 확인합니다.
-
-만약 c가 대문자라면, 'A'를 빼서 해당 대문자의 위치를 찾고, 그 위치의 카운트를 증가시킵니다. (answer[c - 'A']++)
-
-만약 c가 소문자라면, 'a'를 빼고 26을 더하여 해당 소문자의 위치를 찾고, 그 위치의 카운트를 증가시킵니다. (answer[26 + c - 'a']++)
-
-모든 문자에 대한 처리가 끝나면, answer 배열을 반환합니다. 이 배열은 문자열 내의 각 알파벳 문자의 출현 횟수를 나타냅니다.
+So, I declared a divide-and-conquer loop to set the conditions the way the problem requires, and stored and returned the element with the specific IDX from the matrix.
