@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_About_Create_An_Array_1
-title: 배열 만들기1(with.Java)
+title: Create an array1 (with.Java)
 # title: Create an array1 (with.Java)
 
 # post specific
@@ -41,71 +41,57 @@ date: 2023-09-15 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 세로 읽는 방법에 대하여(with.Java) 알아본 글입니다.
+### Create an array1(with.Java)
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to solve a coding test problem, and we're going to do a retrospective on the problem we solved, as well as learn about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-문자열 my_string과 두 정수 m, c가 주어집니다.
+Given integers n and k, complete a solution function that returns an array that stores multiples of k in ascending order among the integers n > 1 and n < 1.
 
-my_string을 한 줄에 m 글자씩 가로로 적었을 때 왼쪽부터 세로로 c번째 열에 적힌 글자들을 문자열로 return 하는 solution 함수를 작성해 주세요.
+##### Example input and output
 
-##### 입출력 예시
+| n | k | result |
+| --- | --- | | ----------- |
+| 10 | 3 | [3, 6, 9] |
+| 15 | 5 | [5, 10, 15] |
 
-my_string: "ihrhbakrfpndopljhygc"
-
-m: 4
-
-c: 2
-
-result: "happy"
-
-my_string을 한 줄에 4 글자씩 쓰면 다음의 표와 같습니다.
-
-| 1열 | 2열 | 3열 | 4열 |
-| --- | --- | --- | --- |
-| i   | h   | r   | h   |
-| b   | a   | k   | r   |
-| f   | p   | n   | d   |
-| o   | p   | l   | j   |
-| h   | y   | g   | c   |
-
-2열에 적힌 글자를 세로로 읽으면 happy이므로 "happy"를 return 합니다.
-
-<!-- | i   | arr[i] | stk     |
+<!-- | i | arr[i] | stk |
 | --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public String solution(String my_string, int m, int c) {
-        char[] arr = my_string.toCharArray();
-        char[] arr1 = new char[arr.length/m];
+    public int[] solution(int n, int k) {
+        int[] answer = new int[n/k];
         int j = 0;
-        for(int i = c-1; i < arr.length; i+=m){
-            arr1[j++] = arr[i];
+        for(int i = 1; i <= n; i++){
+            if(i % k == 0) answer[j++] = i;
         }
-        return new String(arr1);
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### solution
 
-행렬을 정립하기 위해 우리는 먼저 문자열 타입을 Char 타입으로 바꿔 배열로 저장할 필요가 있습니다.
+int[] answer = new int[n/k];: Create an integer array answer of length n/k. This array will be used to store numbers that are multiples of k.
 
-이에 char[] 타입의 arr에 my_string을 toCharArray()를 통해 저장합니다.
+int j = 0;: Initialize the index variable j for storing numbers in the array answer.
 
-이후 return 값을 저장할 arr1도 동일한 타입으로 지정 후, 배열의 크기는 arr의 길이에서 몇 열까지인지 알 수 있으면 됩니다.
+for(int i = 1; i <= n; i++) {: Iterate over the numbers from 1 to n, examining them.
 
-따라서 나눈 다음 반복문을 선언하여 문제에서 요구하는 방식으로 조건을 설정하고 행렬에서 특정한 idx의 요소를 저장하여 반환했습니다.
+if(i % k == 0) answer[j++] = i;: Check if the current number i is a multiple of k. If i is a multiple of k, store its value in the array answer and increment j, ready to store it at the next index.
+
+return answer;: Returns the array answer, which finally holds the number that is a multiple of k.
+
+This code performs the simple task of finding multiples of k within a given range and storing them in an array. The returned array stores the multiples of k in ascending order.
