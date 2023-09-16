@@ -41,7 +41,7 @@ date: 2023-09-15 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Create an array1(with.Java)
+### This is an article about Create an array1(with.Java)
 
 We're going to solve a coding test problem, and we're going to do a retrospective on the problem we solved, as well as learn about other ways to solve it.
 

@@ -1,0 +1,94 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_QR_Code
+title: qr code(with.Java)
+# title: qr code(with.Java)
+
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2023-09-16 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+This is a post about ### qr code (with.Java).
+
+We'll be solving a coding test problem, doing a retrospective on the problem we solved, and learning about other ways to solve it.
+
+Let's start with the problem.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+#### Problem
+
+Given two integers q, r and a string code, write a solution function that returns a string concatenating the characters at each index in code divided by q with the remainder being r, in order from front to back.
+
+##### Example input and output
+
+| q   | r   | code               | result        |
+| --- | --- | ------------------ | ------------- |
+| 3   | 1   | "qjnwezgrpirldywt" | "jerry"       |
+| 1   | 0   | "programmers"      | "programmers" |
+
+<!-- | i | arr[i] | stk |
+| --- | ------ | ------- |
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
+
+#### My solution to the problem
+
+```java
+class Solution {
+    public String solution(int q, int r, String code) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < code.length(); i++){
+            if(i % q == r) sb.append(code.charAt(i));
+        }
+        } return sb.toString();
+    }
+}
+```
+
+##### Solution
+
+StringBuilder sb = new StringBuilder();: Create a StringBuilder object sb to build a new string.
+
+for(int i = 0; i < code.length(); i++) {: Iterate over the string code, checking each character.
+
+if(i % q == r) sb.append(code.charAt(i));: If the remainder of the current index i divided by q equals r, add the character at the current index to sb.
+
+return sb.toString();: Finally, convert the characters stored in sb to a string and return them.
+
+This code creates a new string by selecting the characters in the input string code where the remainder of q divided by r is in the same position as r. For example, if q is 3 and r is 1, it generates a new string by selecting characters whose indices in the string are multiples of 3: 1, 4, 7, 10, ... etc.
