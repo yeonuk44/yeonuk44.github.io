@@ -41,54 +41,69 @@ date: 2023-09-17 09:00:00 +0900
 
 <!-- outline-start -->
 
-### qr code(with.Java)에 대한 글입니다.
+### Clear characters, how to clear the index corresponding to a value existing in an array from a string (with.Java)
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-두 정수 q, r과 문자열 code가 주어질 때, code의 각 인덱스를 q로 나누었을 때 나머지가 r인 위치의 문자를 앞에서부터 순서대로 이어 붙인 문자열을 return 하는 solution 함수를 작성해 주세요.
+Given a string my_string and an array of integers indices, write a solution function that removes the characters from my_string corresponding to the elements in indices and returns the concatenated string.
 
-##### 입출력 예시
+##### Example input and output
 
-| q   | r   | code               | result        |
-| --- | --- | ------------------ | ------------- |
-| 3   | 1   | "qjnwezgrpirldywt" | "jerry"       |
-| 1   | 0   | "programmers"      | "programmers" |
+my_string: "apporoograpemmemprs"
 
-<!-- | i   | arr[i] | stk     |
+indices: [1, 16, 6, 15, 0, 10, 11, 3]
+
+result: "programmers"
+
+Clear the letters of the index in indices and concatenate them to get "programmers", so return that.
+
+<!-- | i | arr[i] | stk |
 | --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
+import java.util.*;
 class Solution {
-    public String solution(int q, int r, String code) {
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < code.length(); i++){
-            if(i % q == r) sb.append(code.charAt(i));
+    public String solution(String my_string, int[] indices) {
+        StringBuilder sb = new StringBuilder(my_string);
+        Arrays.sort(indices);
+        for(int i = indices.length - 1; i >= 0; i--){
+           sb.deleteCharAt(indices[i]);
         }
-        return sb.toString();
+        } return sb.toString();
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution.
 
-StringBuilder sb = new StringBuilder();: 새로운 문자열을 빌드하기 위한 StringBuilder 객체 sb를 생성합니다.
+This code deletes the character at the index corresponding to each element of the given integer array indices from the string my_string and returns the resulting string after deletion.
 
-for(int i = 0; i < code.length(); i++) {: 문자열 code를 반복하면서 각 문자를 검사합니다.
+It creates a StringBuilder object, sb, to copy the contents of the input string, my_string. StringBuilder is an efficient class for manipulating strings.
 
-if(i % q == r) sb.append(code.charAt(i));: 현재 인덱스 i를 q로 나눈 나머지가 r과 같다면, 현재 인덱스의 문자를 sb에 추가합니다.
+Use Arrays.sort(indices); to sort the array of indices in ascending order. This arranges the indices to be deleted in order of lowest to highest number.
 
-return sb.toString();: 최종적으로 sb에 저장된 문자들을 문자열로 변환하고 반환합니다.
+Use a loop to traverse from the last element to the first element of the indices array, that is, from high index to low index.
 
-이 코드는 입력 문자열 code에서 q로 나눈 나머지가 r과 같은 위치에 있는 문자들을 선택하여 새로운 문자열을 생성합니다. 예를 들어, q가 3이고 r이 1이면, 문자열의 인덱스가 1, 4, 7, 10, ... 등 3의 배수에서 문자를 선택하여 새로운 문자열을 생성합니다.
+Delete the character at the index corresponding to indices[i] from the StringBuilder object sb by calling sb.deleteCharAt(indices[i]);. You delete from the highest index first, so the position of the preceding index is not changed.
+
+After deleting the characters of all the indices, call sb.toString() to convert the contents of the StringBuilder object to a string and return it.
+
+This will return a string with the characters of the indices in the indices array in my_string deleted.
+
+###### What happens if you delete the string by index without sorting it?
+
+I gave a little hint in the commentary, but if the leading index is pre-deleted from the string, the array will be filled with the strings remaining at the deleted index, causing the elements to swap positions and not giving the desired result.
+
+So there you have it.
