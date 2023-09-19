@@ -41,75 +41,60 @@ date: 2023-09-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 문자열 뒤집기 구현에 대하여(with.Java)
+### Find the nearest 1, outputting the number fulfilling the condition through a given index (with.Java)
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to be solving a coding test problem, doing a retrospective on the problem we solved, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-문자열 my_string과 정수 s, e가 매개변수로 주어질 때, my_string에서 인덱스 s부터 인덱스 e까지를 뒤집은 문자열을 return 하는 solution 함수를 작성해 주세요.
+You are given an array of integers, arr. The elements of arr are either 1 or 0. Complete a solution function that, given an integer idx, finds and returns the smallest index in arr that is greater than idx and has a value of 1.
 
-##### 입출력 예시
+However, if there is no such index, return -1.
 
-| my_string         | s   | e   | result            |
-| ----------------- | --- | --- | ----------------- |
-| "Progra21Sremm3"  | 6   | 12  | "ProgrammerS123"  |
-| "Stanley1yelnatS" | 4   | 10  | "Stanley1yelnatS" |
+##### Example input and output
 
-<!-- | i   | arr[i] | stk     |
+my_string: [0, 0, 0, 0, 1]
+
+idx: 1
+
+result: 3
+
+The smallest index that is greater than 1 and has an element of 1 is 3. Therefore, it returns 3.
+
+<!-- | i | arr[i] | stk |
 | --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+| 0 | 1 | [] |
+| 1 | 4 | [1] | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    char[] arr;
-    public String solution(String my_string, int s, int e) {
-
-        arr = my_string.toCharArray();
-
-        reverse(s,e);
-        return new String(arr);
-    }
-
-    private void reverse(int startIdx, int endIdx){
-        while(startIdx < endIdx){
-            char temp = arr[startIdx];
-            arr[startIdx++] = arr[endIdx];
-            arr[endIdx--] = temp;
+    public int solution(int[] arr, int idx) {
+        for(int i = idx; i < arr.length; i++) {
+            if(arr[i] == 1) {
+                return i;
+            }
         }
+        return -1;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution Description
 
-char[] arr;: 문자열을 문자 배열로 변환하여 저장하기 위한 멤버 변수 arr을 선언합니다.
+This class defines a solution method that performs the following operations on a given array of integers arr and an integer idx:
 
-public String solution(String my_string, int s, int e) : solution 함수는 세 개의 매개변수를 받습니다. my_string은 원본 문자열, s는 뒤집을 부분의 시작 인덱스, e는 뒤집을 부분의 끝 인덱스를 나타냅니다.
+Performs a loop from idx to the end of arr. IDX is the starting index, which means that it starts at this position in ARR and traverses to the end of the array.
 
-arr = my_string.toCharArray();: 주어진 문자열 my_string을 toCharArray 메서드를 사용하여 문자 배열로 변환하고, 이를 arr에 저장합니다.
+Within the loop, we check to see if the value of arr[i] at the current index i is 1. If arr[i] is 1, return i and exit the method. This is equivalent to finding the first index above idx that has a value of 1.
 
-reverse(s, e);: reverse 메서드를 호출하여 부분 문자열을 뒤집습니다.
+If the iteration completes and no index with a value of 1 was found, return -1. This is true if, as required by the problem, there is no index in the array with a value of 1 that is greater than idx.
 
-private void reverse(int startIdx, int endIdx) : reverse 메서드는 문자 배열의 일부를 뒤집는 역할을 합니다. startIdx와 endIdx 사이의 문자를 뒤집습니다.
-
-while(startIdx < endIdx) : startIdx가 endIdx보다 작을 때까지 루프를 실행합니다.
-
-char temp = arr[startIdx];: 현재 startIdx 위치의 문자를 temp 변수에 임시로 저장합니다.
-
-arr[startIdx++] = arr[endIdx];: startIdx 위치의 문자를 endIdx 위치의 문자로 바꿉니다. 그리고 startIdx를 증가시켜 다음 문자로 이동합니다.
-
-arr[endIdx--] = temp;: endIdx 위치의 문자를 temp에 저장된 값으로 바꿉니다. 그리고 endIdx를 감소시켜 다음 문자로 이동합니다.
-
-return new String(arr);: 뒤집은 문자열을 다시 문자열로 변환하고 반환합니다.
-
-오늘도 좋은 하루 되세요!
+For example, if arr is [1, 1, 1, 1, 1, 0] and idx is 3, we would return 3 as the result because the first index with a value of 1 starting at idx is 3.
