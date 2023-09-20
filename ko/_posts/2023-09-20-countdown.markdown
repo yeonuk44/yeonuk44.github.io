@@ -41,7 +41,7 @@ date: 2023-09-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 가까운 1 찾기, 주어진 인덱스를 통해 조건에 부합하는 수를 출력하는 방법에 대하여(with.Java)
+### 카운트 다운(with.Java)
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -53,48 +53,61 @@ date: 2023-09-20 09:00:00 +0900
 
 #### 문제
 
-정수 배열 arr가 주어집니다. 이때 arr의 원소는 1 또는 0입니다. 정수 idx가 주어졌을 때, idx보다 크면서 배열의 값이 1인 가장 작은 인덱스를 찾아서 반환하는 solution 함수를 완성해 주세요.
-
-단, 만약 그러한 인덱스가 없다면 -1을 반환합니다.
+정수 start_num와 end_num가 주어질 때, start_num에서 end_num까지 1씩 감소하는 수들을 차례로 담은 리스트를 return하도록 solution 함수를 완성해주세요.
 
 ##### 입출력 예시
 
-my_string: [0, 0, 0, 1]
+| start_num | end_num | result                    |
+| --------- | ------- | ------------------------- |
+| 10        | 3       | [10, 9, 8, 7, 6, 5, 4, 3] |
 
-idx: 1
-
-result: 3
-
-1보다 크면서 원소가 1인 가장 작은 인덱스는 3입니다. 따라서 3을 return 합니다.
-
-<!-- | i   | arr[i] | stk     |
-| --- | ------ | ------- |
-| 0   | 1      | []      |
-| 1   | 4      | [1]     | -->
+<!-- | start_num | end_num | result |
+| --------- | ------- | ------ |
+| 10        | 3       | 0      | -->
 
 #### 문제에 대한 나의 풀이
 
 ```java
-class Solution {
-    public int solution(int[] arr, int idx) {
-        for(int i = idx; i < arr.length; i++) {
-            if(arr[i] == 1) {
-                return i;
-            }
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public static void main(String[] args) {
+        int start_num = 10;
+        int end_num = 5;
+        List<Integer> result = solution(start_num, end_num);
+        System.out.println(result);
+    }
+
+    public static List<Integer> solution(int start_num, int end_num) {
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = start_num; i >= end_num; i--) {
+            result.add(i);
         }
-        return -1;
+
+        return result;
     }
 }
+
 ```
 
 ##### 풀이 설명
 
-이 클래스는 주어진 정수 배열 arr와 정수 idx에 대해 다음과 같은 작업을 수행하는 solution 메서드를 정의하고 있습니다:
+int start_num = 10;과 int end_num = 5;: 시작 숫자 start_num은 10으로, 종료 숫자 end_num은 5로 초기화합니다.
 
-idx부터 arr의 끝까지 반복문을 수행합니다. idx는 시작 인덱스로, arr의 이 위치에서 시작하여 배열의 끝까지 검사합니다.
+List<Integer> result = solution(start_num, end_num);: solution 함수를 호출하여 시작 숫자부터 종료 숫자까지의 숫자들을 리스트에 저장한 후, 이를 result 변수에 할당합니다.
 
-반복문 내에서 현재 인덱스 i의 arr[i] 값이 1인지 확인합니다. 만약 arr[i]가 1이면, i를 반환하고 메서드를 종료합니다. 이는 idx 이상의 인덱스 중 값이 1인 첫 번째 인덱스를 찾는 것과 같습니다.
+System.out.println(result);: 리스트에 저장된 숫자들을 출력합니다.
 
-반복문이 완료되고 값이 1인 인덱스를 찾지 못한 경우, -1을 반환합니다. 이는 문제의 요구 사항대로 idx보다 크면서 배열의 값이 1인 인덱스가 없는 경우에 해당합니다.
+public static List<Integer> solution(int start_num, int end_num) : solution 함수는 시작 숫자 start_num과 종료 숫자 end_num을 입력으로 받아서, 시작 숫자부터 종료 숫자까지의 숫자들을 저장한 리스트를 반환합니다.
 
-예를 들어, arr이 [1, 1, 1, 1, 0]이고 idx가 3인 경우, idx부터 시작하여 값이 1인 첫 번째 인덱스는 3이므로 결과로 3을 반환합니다.
+List<Integer> result = new ArrayList<>();: 결과를 저장할 정수 리스트 result를 생성합니다.
+
+for (int i = start_num; i >= end_num; i--) : 시작 숫자부터 종료 숫자까지 감소하는 반복문을 실행합니다.
+
+result.add(i);: 각 숫자 i를 리스트 result에 추가합니다.
+
+return result;: 시작 숫자부터 종료 숫자까지의 숫자들이 저장된 리스트 result를 반환합니다.
+
+이 코드는 시작 숫자부터 종료 숫자까지의 숫자를 역순으로 리스트에 저장하고, 그 리스트를 출력합니다.
