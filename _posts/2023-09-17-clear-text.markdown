@@ -1,7 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_About_Clear_Text
-title: 글자 지우기, 배열에 존재하는 값에 해당하는 인덱스를 문자열에서 지우는 방법에 대하여(with.Java)
+title: Clearing characters, how to clear the index corresponding to a value present in an array from a string (with.Java)
+
 # title: Clearing characters, how to clear the index corresponding to a value present in an array from a string (with.Java)
 
 # post specific
