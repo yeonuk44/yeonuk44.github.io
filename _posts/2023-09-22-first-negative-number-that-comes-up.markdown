@@ -41,7 +41,7 @@ date: 2023-09-22 09:00:00 +0900
 
 <!-- outline-start -->
 
-### First negative number to appear (with.Java)
+### How to First negative number to appear (with.Java)
 
 coding test problem, we'll do a retrospective on the problem we solved and explore other ways to solve it.
 

@@ -41,7 +41,7 @@ date: 2023-09-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-### List Truncation, how to truncate and assign to an array for a given integer and list (with.Java)
+### About List Truncation (with.Java)
 
 We're going to solve a coding test problem, reflect on the problem we solved, and learn about other ways to solve it.
 

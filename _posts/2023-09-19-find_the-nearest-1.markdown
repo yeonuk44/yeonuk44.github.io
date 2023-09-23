@@ -41,7 +41,7 @@ date: 2023-09-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Find the nearest 1, outputting the number fulfilling the condition through a given index (with.Java)
+### About Find the nearest 1, outputting the number fulfilling the condition through a given index (with.Java)
 
 We're going to be solving a coding test problem, doing a retrospective on the problem we solved, and learning about other ways to solve it.
 

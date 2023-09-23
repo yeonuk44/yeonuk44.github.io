@@ -41,7 +41,7 @@ date: 2023-09-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 첫 번째로 나오는 음수(with.Java)
+### 배열 만들기 3 (with.Java)에 대하여
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -53,14 +53,17 @@ date: 2023-09-23 09:00:00 +0900
 
 #### 문제
 
-정수 리스트 num_list가 주어질 때, 첫 번째로 나오는 음수의 인덱스를 return하도록 solution 함수를 완성해주세요. 음수가 없다면 -1을 return합니다.
+정수 배열 arr와 2개의 구간이 담긴 배열 intervals가 주어집니다.
+
+intervals는 항상 [[a1, b1], [a2, b2]]의 꼴로 주어지며 각 구간은 닫힌 구간입니다. 닫힌 구간은 양 끝값과 그 사이의 값을 모두 포함하는 구간을 의미합니다.
+
+이때 배열 arr의 첫 번째 구간에 해당하는 배열과 두 번째 구간에 해당하는 배열을 앞뒤로 붙여 새로운 배열을 만들어 return 하는 solution 함수를 완성해 주세요.
 
 ##### 입출력 예시
 
-| num_list                    | result |
-| --------------------------- | ------ |
-| [12, 4, 15, 46, 38, -2, 15] | 5      |
-| [13, 22, 53, 24, 15, 6]     | -1     |
+| arr             | intervals        | result                   |
+| --------------- | ---------------- | ------------------------ |
+| [1, 2, 3, 4, 5] | [[1, 3], [0, 4]] | [2, 3, 4, 1, 2, 3, 4, 5] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -70,13 +73,32 @@ date: 2023-09-23 09:00:00 +0900
 
 ```java
 class Solution {
-    public int solution(int[] num_list) {
-        int answer = 0;
-        for(int i = 0; i < num_list.length; i++){
-            if(num_list[i] < 0){
-                answer = i;
-                break;
-            } else answer = -1;
+    public int[] solution(int[] arr, int[][] intervals) {
+        int[] answer;
+        int[] temp1;
+        int[] temp2;
+        int a1 = intervals[0][0];
+        int b1 = intervals[0][1];
+        int a2 = intervals[1][0];
+        int b2 = intervals[1][1];
+
+        temp1 = new int[b1 - a1 + 1];
+        for(int l = a1; l <= b1; l++) {
+            temp1[l - a1] = arr[l];
+        }
+
+        temp2 = new int[b2 - a2 + 1];
+        for(int l = a2; l <= b2; l++) {
+            temp2[l - a2] = arr[l];
+        }
+
+        answer = new int[temp1.length + temp2.length];
+        for(int i = 0; i < temp1.length; i++) {
+            answer[i] = temp1[i];
+        }
+        int e = 0;
+        for(int i = temp1.length; i < answer.length; i++) {
+            answer[i] = temp2[e++];
         }
         return answer;
     }
@@ -85,16 +107,22 @@ class Solution {
 
 ##### 풀이 설명
 
-int answer = 0;: 반환할 결과값을 저장할 변수 answer를 초기화합니다. answer가 0으로 초기화되어 있으며, 이는 음수 값이 발견되지 않았을 때의 기본값입니다.
+int[] answer;, int[] temp1;, int[] temp2;: 결과를 저장할 배열 answer와 두 개의 임시 배열 temp1 및 temp2를 선언합니다.
 
-for(int i = 0; i < num_list.length; i++): 배열 num_list를 반복하면서 각 요소를 검사합니다.
+int a1 = intervals[0][0];, int b1 = intervals[0][1];, int a2 = intervals[1][0];, int b2 = intervals[1][1];: 주어진 구간 intervals에서 첫 번째와 두 번째 구간의 시작과 끝을 추출합니다.
 
-if(num_list[i] < 0): 현재 요소가 음수인지 검사합니다.
+temp1 = new int[b1 - a1 + 1];: 첫 번째 구간의 크기에 맞는 temp1 배열을 생성합니다.
 
-answer = i;: 음수 값이 발견되면 현재 인덱스 i를 answer에 저장하고 반복문을 종료합니다.
+for(int l = a1; l <= b1; l++) {: 첫 번째 구간을 반복하며 해당 구간의 요소를 temp1 배열에 복사합니다.
 
-break;: 음수 값이 발견되면 반복문을 종료합니다.
+temp2 = new int[b2 - a2 + 1];: 두 번째 구간의 크기에 맞는 temp2 배열을 생성합니다.
 
-else answer = -1;: 음수 값이 발견되지 않으면 answer를 -1로 설정합니다. 이는 음수 값이 배열에 없을 때를 나타냅니다.
+for(int l = a2; l <= b2; l++) {: 두 번째 구간을 반복하며 해당 구간의 요소를 temp2 배열에 복사합니다.
 
-return answer;: 최종적으로 answer를 반환합니다. 이는 배열에서 첫 번째로 발견된 음수 값의 인덱스이거나, 음수 값이 없으면 -1이 반환됩니다.
+answer = new int[temp1.length + temp2.length];: 결과 배열 answer의 크기를 두 개의 임시 배열의 크기 합으로 설정합니다.
+
+첫 번째 구간(temp1)의 요소들을 answer 배열의 앞 부분에 복사합니다.
+
+두 번째 구간(temp2)의 요소들을 answer 배열의 첫 번째 구간 다음에 복사합니다.
+
+return answer;: 최종적으로 temp1과 temp2 구간의 요소들이 결합된 배열 answer를 반환합니다.

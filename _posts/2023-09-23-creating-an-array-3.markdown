@@ -41,60 +41,88 @@ date: 2023-09-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 첫 번째로 나오는 음수(with.Java)
+### About Creating Arrays 3 (with.Java)
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to take a look at solving a coding test problem, provide a retrospective on the problem we solved, and learn about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수 리스트 num_list가 주어질 때, 첫 번째로 나오는 음수의 인덱스를 return하도록 solution 함수를 완성해주세요. 음수가 없다면 -1을 return합니다.
+You are given an array arr of integers and an array intervals containing two intervals.
 
-##### 입출력 예시
+The intervals are always given in the order [[a1, b1], [a2, b2]] and each interval is a closed interval. A closed interval is one that contains both end values and the values in between.
 
-| num_list                    | result |
-| --------------------------- | ------ |
-| [12, 4, 15, 46, 38, -2, 15] | 5      |
-| [13, 22, 53, 24, 15, 6]     | -1     |
+Complete the solution function by concatenating the array corresponding to the first interval of the array arr and the array corresponding to the second interval to create a new array and return it.
+
+##### Example input and output
+
+| arr             | intervals        | result                   |
+| --------------- | ---------------- | ------------------------ |
+| [1, 2, 3, 4, 5] | [[1, 3], [0, 4]] | [2, 3, 4, 1, 2, 3, 4, 5] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int[] num_list) {
-        int answer = 0;
-        for(int i = 0; i < num_list.length; i++){
-            if(num_list[i] < 0){
-                answer = i;
-                break;
-            } else answer = -1;
+    public int[] solution(int[] arr, int[][] intervals) {
+        int[] answer;
+        int[] temp1;
+        int[] temp2;
+        int a1 = intervals[0][0];
+        int b1 = intervals[0][1];
+        int a2 = intervals[1][0];
+        int b2 = intervals[1][1];
+
+        temp1 = new int[b1 - a1 + 1];
+        for(int l = a1; l <= b1; l++) {
+            temp1[l - a1] = arr[l];
         }
-        return answer;
+
+        temp2 = new int[b2 - a2 + 1];
+        for(int l = a2; l <= b2; l++) {
+            temp2[l - a2] = arr[l];
+        }
+
+        } answer = new int[temp1.length + temp2.length];
+        for(int i = 0; i < temp1.length; i++) {
+            answer[i] = temp1[i];
+        }
+        int e = 0;
+        for(int i = temp1.length; i < answer.length; i++) {
+            answer[i] = temp2[e++];
+        }
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-int answer = 0;: 반환할 결과값을 저장할 변수 answer를 초기화합니다. answer가 0으로 초기화되어 있으며, 이는 음수 값이 발견되지 않았을 때의 기본값입니다.
+int[] answer;, int[] temp1;, int[] temp2;: Declare an array answer and two temporary arrays temp1 and temp2 to store the result.
 
-for(int i = 0; i < num_list.length; i++): 배열 num_list를 반복하면서 각 요소를 검사합니다.
+int a1 = intervals[0][0];, int b1 = intervals[0][1];, int a2 = intervals[1][0];, int b2 = intervals[1][1];: Extract the beginning and end of the first and second intervals from the given interval intervals.
 
-if(num_list[i] < 0): 현재 요소가 음수인지 검사합니다.
+temp1 = new int[b1 - a1 + 1];: Create a temp1 array that fits the size of the first interval.
 
-answer = i;: 음수 값이 발견되면 현재 인덱스 i를 answer에 저장하고 반복문을 종료합니다.
+for(int l = a1; l <= b1; l++) {: Iterate over the first interval, copying the elements of that interval into the temp1 array.
 
-break;: 음수 값이 발견되면 반복문을 종료합니다.
+temp2 = new int[b2 - a2 + 1];: Create a temp2 array the size of the second interval.
 
-else answer = -1;: 음수 값이 발견되지 않으면 answer를 -1로 설정합니다. 이는 음수 값이 배열에 없을 때를 나타냅니다.
+for(int l = a2; l <= b2; l++) {: Iterate over the second interval, copying the elements of that interval into the temp2 array.
 
-return answer;: 최종적으로 answer를 반환합니다. 이는 배열에서 첫 번째로 발견된 음수 값의 인덱스이거나, 음수 값이 없으면 -1이 반환됩니다.
+answer = new int[temp1.length + temp2.length];: Set the size of the resulting array answer to the sum of the sizes of the two temporary arrays.
+
+Copy the elements of the first interval (temp1) to the front of the answer array.
+
+Copy the elements of the second part (temp2) after the first part of the answer array.
+
+return answer;: Returns the array answer, which finally combines the elements of the temp1 and temp2 sections.
