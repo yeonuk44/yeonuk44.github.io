@@ -41,7 +41,7 @@ date: 2023-09-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 배열 만들기 3 (with.Java)에 대하여
+### 2의 영역을 찾는 방법에 대하여(with.Java)
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -53,17 +53,17 @@ date: 2023-09-24 09:00:00 +0900
 
 #### 문제
 
-정수 배열 arr와 2개의 구간이 담긴 배열 intervals가 주어집니다.
+정수 배열 arr가 주어집니다. 배열 안의 2가 모두 포함된 가장 작은 연속된 부분 배열을 return 하는 solution 함수를 완성해 주세요.
 
-intervals는 항상 [[a1, b1], [a2, b2]]의 꼴로 주어지며 각 구간은 닫힌 구간입니다. 닫힌 구간은 양 끝값과 그 사이의 값을 모두 포함하는 구간을 의미합니다.
-
-이때 배열 arr의 첫 번째 구간에 해당하는 배열과 두 번째 구간에 해당하는 배열을 앞뒤로 붙여 새로운 배열을 만들어 return 하는 solution 함수를 완성해 주세요.
+단, arr에 2가 없는 경우 [-1]을 return 합니다.
 
 ##### 입출력 예시
 
-| arr             | intervals        | result                   |
-| --------------- | ---------------- | ------------------------ |
-| [1, 2, 3, 4, 5] | [[1, 3], [0, 4]] | [2, 3, 4, 1, 2, 3, 4, 5] |
+arr: [1, 2, 1, 4, 5, 2, 9]
+
+result: [2, 1, 4, 5, 2]
+
+2가 있는 인덱스는 1번, 5번 인덱스뿐이므로 1번부터 5번 인덱스까지의 부분 배열인 [2, 1, 4, 5, 2]를 return 합니다.
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -72,34 +72,30 @@ intervals는 항상 [[a1, b1], [a2, b2]]의 꼴로 주어지며 각 구간은 �
 #### 문제에 대한 나의 풀이
 
 ```java
+import java.util.*;
 class Solution {
-    public int[] solution(int[] arr, int[][] intervals) {
-        int[] answer;
-        int[] temp1;
-        int[] temp2;
-        int a1 = intervals[0][0];
-        int b1 = intervals[0][1];
-        int a2 = intervals[1][0];
-        int b2 = intervals[1][1];
+    public int[] solution(int[] arr) {
+        int startIndex = -1;
+        int endIndex = -1;
 
-        temp1 = new int[b1 - a1 + 1];
-        for(int l = a1; l <= b1; l++) {
-            temp1[l - a1] = arr[l];
-        }
-
-        temp2 = new int[b2 - a2 + 1];
-        for(int l = a2; l <= b2; l++) {
-            temp2[l - a2] = arr[l];
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == 2) {
+                if (startIndex == -1) {
+                    startIndex = i;
+                }
+                endIndex = i;
+            }
         }
 
-        answer = new int[temp1.length + temp2.length];
-        for(int i = 0; i < temp1.length; i++) {
-            answer[i] = temp1[i];
+        if (startIndex == -1 || endIndex == -1) {
+            return new int[]{-1};
         }
-        int e = 0;
-        for(int i = temp1.length; i < answer.length; i++) {
-            answer[i] = temp2[e++];
+
+        int[] answer = new int[endIndex - startIndex + 1];
+        for (int j = 0; j < answer.length; j++) {
+            answer[j] = arr[startIndex + j];
         }
+
         return answer;
     }
 }
@@ -107,22 +103,22 @@ class Solution {
 
 ##### 풀이 설명
 
-int[] answer;, int[] temp1;, int[] temp2;: 결과를 저장할 배열 answer와 두 개의 임시 배열 temp1 및 temp2를 선언합니다.
+변수 초기화: startIndex와 endIndex는 각각 -1로 초기화됩니다. 이러한 값은 '2'가 아직 발견되지 않았음을 나타냅니다.
 
-int a1 = intervals[0][0];, int b1 = intervals[0][1];, int a2 = intervals[1][0];, int b2 = intervals[1][1];: 주어진 구간 intervals에서 첫 번째와 두 번째 구간의 시작과 끝을 추출합니다.
+'2'의 위치 찾기: 주어진 배열 arr을 순회하면서 '2'가 있는 위치를 찾습니다.
 
-temp1 = new int[b1 - a1 + 1];: 첫 번째 구간의 크기에 맞는 temp1 배열을 생성합니다.
+startIndex는 처음으로 발견된 '2'의 인덱스를 저장합니다.
 
-for(int l = a1; l <= b1; l++) {: 첫 번째 구간을 반복하며 해당 구간의 요소를 temp1 배열에 복사합니다.
+endIndex는 마지막으로 발견된 '2'의 인덱스를 저장합니다.
 
-temp2 = new int[b2 - a2 + 1];: 두 번째 구간의 크기에 맞는 temp2 배열을 생성합니다.
+즉, 반복문이 끝나면 startIndex와 endIndex는 배열 내 첫 번째 '2'와 마지막 '2'의 위치를 나타냅니다.
 
-for(int l = a2; l <= b2; l++) {: 두 번째 구간을 반복하며 해당 구간의 요소를 temp2 배열에 복사합니다.
+'2'가 없는 경우의 처리: startIndex나 endIndex가 -1인 경우, '2'가 없는 것으로 판단하고 [-1]을 반환합니다.
 
-answer = new int[temp1.length + temp2.length];: 결과 배열 answer의 크기를 두 개의 임시 배열의 크기 합으로 설정합니다.
+부분 배열 생성: startIndex와 endIndex 사이의 부분 배열을 생성합니다.
 
-첫 번째 구간(temp1)의 요소들을 answer 배열의 앞 부분에 복사합니다.
+answer 배열의 길이는 (endIndex - startIndex + 1)이며, 이를 통해 startIndex에서 endIndex까지의 원소를 포함하게 됩니다.
 
-두 번째 구간(temp2)의 요소들을 answer 배열의 첫 번째 구간 다음에 복사합니다.
+부분 배열의 각 원소는 원본 배열의 startIndex에서 시작하여 endIndex까지의 값을 복사합니다.
 
-return answer;: 최종적으로 temp1과 temp2 구간의 요소들이 결합된 배열 answer를 반환합니다.
+결과 반환: 만들어진 부분 배열 answer를 반환합니다. 이 배열은 arr에서 첫 번째 '2'와 마지막 '2' 사이의 모든 원소를 포함하고 있습니다.
