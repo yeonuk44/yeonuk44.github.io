@@ -41,7 +41,7 @@ date: 2023-09-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to find the area of 2 (with.Java)
+### In this article, How to find the area of 2 (with.Java)
 
 We're going to go through a series of coding test problems, looking back at the problems we solved and learning about other ways to solve them.
 

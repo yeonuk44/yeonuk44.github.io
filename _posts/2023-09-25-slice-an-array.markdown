@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Find_A_Region_Of_2
-title: 2의 영역을 찾는 방법에 대하여(with.Java)
-# title: How to find a region of 2 (with.Java)
+lng_pair: id_About_Slice_An_Array
+title: Slice an Array (with.Java)
+# title: Slice an Array (with.Java)
 
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -17,7 +17,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2023-09-24 09:00:00 +0900
+date: 2023-09-25 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -41,7 +41,7 @@ date: 2023-09-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 2의 영역을 찾는 방법에 대하여(with.Java) 알아본 글입니다.
+### 배열 조각하기, 주어진 arr를 query값을 통해 인덱스 홀짝을 판별하고 제어하는 방법에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 

@@ -41,7 +41,7 @@ date: 2023-09-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About Creating Arrays 3 (with.Java)
+### In this article, About Creating Arrays 3 (with.Java)
 
 We're going to take a look at solving a coding test problem, provide a retrospective on the problem we solved, and learn about other ways to solve it.
 

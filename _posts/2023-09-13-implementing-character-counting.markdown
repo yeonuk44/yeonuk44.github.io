@@ -41,7 +41,7 @@ date: 2023-09-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-In this article, we looked at implementing ### character counting (with.Java).
+### In this article, we looked at implementing character counting (with.Java).
 
 We'll be solving a coding test problem, reflecting on the problem we solved, and learning about other ways to solve it.
 

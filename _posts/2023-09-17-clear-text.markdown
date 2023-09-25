@@ -42,7 +42,7 @@ date: 2023-09-17 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Clear characters, how to clear the index corresponding to a value existing in an array from a string (with.Java)
+### In this article, Clear characters, how to clear the index corresponding to a value existing in an array from a string (with.Java)
 
 We're going to learn by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 

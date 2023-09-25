@@ -41,7 +41,7 @@ date: 2023-09-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-### How to Implementing string flipping (with.Java)
+### In this article, How to Implementing string flipping (with.Java)
 
 We're going to go through a series of coding test problems, providing a retrospective of the problems we solved, and exploring other ways to solve them.
 
