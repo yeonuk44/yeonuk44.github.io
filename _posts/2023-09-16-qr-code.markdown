@@ -41,7 +41,7 @@ date: 2023-09-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-This is a post about ### qr code (with.Java).
+### This is a post about qr code (with.Java).
 
 We'll be solving a coding test problem, doing a retrospective on the problem we solved, and learning about other ways to solve it.
 

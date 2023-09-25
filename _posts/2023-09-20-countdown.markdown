@@ -41,7 +41,7 @@ date: 2023-09-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About Countdown (with.Java)
+### In this article, About Countdown (with.Java)
 
 We're going to take a look at solving a coding test problem, provide a retrospective on the problem we solved, and explore other ways to solve it.
 

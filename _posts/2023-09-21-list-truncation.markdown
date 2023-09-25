@@ -41,7 +41,7 @@ date: 2023-09-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-### About List Truncation (with.Java)
+### In this article, About List Truncation (with.Java)
 
 We're going to solve a coding test problem, reflect on the problem we solved, and learn about other ways to solve it.
 
