@@ -41,84 +41,80 @@ date: 2023-09-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 배열 조각하기, 주어진 arr를 query값을 통해 인덱스 홀짝을 판별하고 제어하는 방법에 대하여 알아본 글입니다.
+### In this article, we learned how to slice an array, and how to determine and control the index siphoning of a given array by query value.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수 배열 arr가 주어집니다. 배열 안의 2가 모두 포함된 가장 작은 연속된 부분 배열을 return 하는 solution 함수를 완성해 주세요.
+You are given an array of integers, arr, and a query, query.
 
-단, arr에 2가 없는 경우 [-1]을 return 합니다.
+Repeat the following operations while traversing query.
 
-##### 입출력 예시
+At even indices, truncate and discard the trailing query[i] indices in arr, except for query[i].
 
-arr: [1, 2, 1, 4, 5, 2, 9]
+For odd indices, truncate and discard the portion of arr before query[i], excluding query[i] from arr.
 
-result: [2, 1, 4, 5, 2]
+After doing the above, complete the solution function to return a partial array of the remaining arr.
 
-2가 있는 인덱스는 1번, 5번 인덱스뿐이므로 1번부터 5번 인덱스까지의 부분 배열인 [2, 1, 4, 5, 2]를 return 합니다.
+##### Example input and output
+
+arr: [0, 1, 2, 3, 4, 5]
+
+query: [4,1,2]
+
+result: [1, 2, 3]
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 import java.util.*;
 class Solution {
-    public int[] solution(int[] arr) {
-        int startIndex = -1;
-        int endIndex = -1;
-
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == 2) {
-                if (startIndex == -1) {
-                    startIndex = i;
-                }
-                endIndex = i;
+    public int[] solution(int[] arr, int[] query) {
+        for(int i = 0; i < query.length; i++) {
+            if(i % 2 == 0) {
+                arr = Arrays.copyOfRange(arr, 0, query[i] + 1);
+            } else {
+                arr = Arrays.copyOfRange(arr, query[i], arr.length);
             }
         }
-
-        if (startIndex == -1 || endIndex == -1) {
-            return new int[]{-1};
-        }
-
-        int[] answer = new int[endIndex - startIndex + 1];
-        for (int j = 0; j < answer.length; j++) {
-            answer[j] = arr[startIndex + j];
-        }
-
-        return answer;
+        } return arr;
     }
 }
 ```
 
-##### 풀이 설명
+##### solution Description
 
-변수 초기화: startIndex와 endIndex는 각각 -1로 초기화됩니다. 이러한 값은 '2'가 아직 발견되지 않았음을 나타냅니다.
+The solution function takes two integer arrays, arr and query, as input. arr is the target array to manipulate, and query contains the index information to perform the manipulation.
 
-'2'의 위치 찾기: 주어진 배열 arr을 순회하면서 '2'가 있는 위치를 찾습니다.
+At the beginning of the function, loop the length of query and perform the following operations:
 
-startIndex는 처음으로 발견된 '2'의 인덱스를 저장합니다.
+For even indices: When the loop variable i is even, remove all subsequent elements from arr, including the query[i]th index. For example, if arr = [0, 1, 2, 3, 4, 5] and query[i] is 2, the result is [0, 1, 2].
 
-endIndex는 마지막으로 발견된 '2'의 인덱스를 저장합니다.
+For odd indices: When i is odd, leave the query[i]th index to the end of arr, and remove all elements before it. For example, if arr = [0, 1, 2, 3, 4, 5] and query[i] is 2, the result would be [2, 3, 4, 5].
 
-즉, 반복문이 끝나면 startIndex와 endIndex는 배열 내 첫 번째 '2'와 마지막 '2'의 위치를 나타냅니다.
+If you do this for every element in query, you'll end up with a partial array of the remaining arr.
 
-'2'가 없는 경우의 처리: startIndex나 endIndex가 -1인 경우, '2'가 없는 것으로 판단하고 [-1]을 반환합니다.
+Java's Arrays.copyOfRange method makes it easy to copy a specific range of an array, allowing you to perform the above operations efficiently.
 
-부분 배열 생성: startIndex와 endIndex 사이의 부분 배열을 생성합니다.
+###### See
 
-answer 배열의 길이는 (endIndex - startIndex + 1)이며, 이를 통해 startIndex에서 endIndex까지의 원소를 포함하게 됩니다.
+If the array in arr has a fixed size and you use Arrays.copyOfRange, the elements will be reduced. \*\*Will the size of the array decrease as well?
 
-부분 배열의 각 원소는 원본 배열의 startIndex에서 시작하여 endIndex까지의 값을 복사합니다.
+The Arrays.copyOfRange method creates a new array by extracting a specified range of elements from the original array. Therefore, the size of the new array created will match the length of the specified range.
 
-결과 반환: 만들어진 부분 배열 answer를 반환합니다. 이 배열은 arr에서 첫 번째 '2'와 마지막 '2' 사이의 모든 원소를 포함하고 있습니다.
+For example, calling Arrays.copyOfRange(arr, 0, 3) creates a new array by copying the elements from index 0 to index 2 of the original array arr. The size of the new array will therefore be 3.
+
+In this way, Arrays.copyOfRange makes it easy to extract the elements of a desired range and create a new array sized to fit that range. So in this problem, the size of arr will continue to fluctuate based on the elements in the query.
+
+Good luck.

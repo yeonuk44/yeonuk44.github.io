@@ -53,17 +53,23 @@ date: 2023-09-25 09:00:00 +0900
 
 #### 문제
 
-정수 배열 arr가 주어집니다. 배열 안의 2가 모두 포함된 가장 작은 연속된 부분 배열을 return 하는 solution 함수를 완성해 주세요.
+정수 배열 arr와 query가 주어집니다.
 
-단, arr에 2가 없는 경우 [-1]을 return 합니다.
+query를 순회하면서 다음 작업을 반복합니다.
+
+짝수 인덱스에서는 arr에서 query[i]번 인덱스를 제외하고 배열의 query[i]번 인덱스 뒷부분을 잘라서 버립니다.
+
+홀수 인덱스에서는 arr에서 query[i]번 인덱스는 제외하고 배열의 query[i]번 인덱스 앞부분을 잘라서 버립니다.
+
+위 작업을 마친 후 남은 arr의 부분 배열을 return 하는 solution 함수를 완성해 주세요.
 
 ##### 입출력 예시
 
-arr: [1, 2, 1, 4, 5, 2, 9]
+arr: [0, 1, 2, 3, 4, 5]
 
-result: [2, 1, 4, 5, 2]
+query: [4,1,2]
 
-2가 있는 인덱스는 1번, 5번 인덱스뿐이므로 1번부터 5번 인덱스까지의 부분 배열인 [2, 1, 4, 5, 2]를 return 합니다.
+result: [1, 2, 3]
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -74,51 +80,41 @@ result: [2, 1, 4, 5, 2]
 ```java
 import java.util.*;
 class Solution {
-    public int[] solution(int[] arr) {
-        int startIndex = -1;
-        int endIndex = -1;
-
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == 2) {
-                if (startIndex == -1) {
-                    startIndex = i;
-                }
-                endIndex = i;
+    public int[] solution(int[] arr, int[] query) {
+        for(int i = 0; i < query.length; i++) {
+            if(i % 2 == 0) {
+                arr = Arrays.copyOfRange(arr, 0, query[i] + 1);
+            } else {
+                arr = Arrays.copyOfRange(arr, query[i], arr.length);
             }
         }
-
-        if (startIndex == -1 || endIndex == -1) {
-            return new int[]{-1};
-        }
-
-        int[] answer = new int[endIndex - startIndex + 1];
-        for (int j = 0; j < answer.length; j++) {
-            answer[j] = arr[startIndex + j];
-        }
-
-        return answer;
+        return arr;
     }
 }
 ```
 
 ##### 풀이 설명
 
-변수 초기화: startIndex와 endIndex는 각각 -1로 초기화됩니다. 이러한 값은 '2'가 아직 발견되지 않았음을 나타냅니다.
+solution 함수는 두 개의 정수 배열 arr과 query를 입력 받습니다. arr는 조작할 대상 배열이며, query는 조작을 수행할 인덱스 정보를 담고 있습니다.
 
-'2'의 위치 찾기: 주어진 배열 arr을 순회하면서 '2'가 있는 위치를 찾습니다.
+함수의 시작 부분에서 query의 길이만큼 루프를 돌면서 다음과 같은 작업을 수행합니다:
 
-startIndex는 처음으로 발견된 '2'의 인덱스를 저장합니다.
+짝수 인덱스의 경우: 루프 변수 i가 짝수일 때는 query[i]번째 인덱스를 포함하여 이후의 모든 요소를 arr에서 제거합니다. 예를 들어 arr = [0, 1, 2, 3, 4, 5]이고 query[i]가 2라면, 결과는 [0, 1, 2]가 됩니다.
 
-endIndex는 마지막으로 발견된 '2'의 인덱스를 저장합니다.
+홀수 인덱스의 경우: i가 홀수일 때는 query[i]번째 인덱스부터 arr의 끝까지 남기고, 그 앞의 모든 요소를 제거합니다. 예를 들어 arr = [0, 1, 2, 3, 4, 5]이고 query[i]가 2라면, 결과는 [2, 3, 4, 5]가 됩니다.
 
-즉, 반복문이 끝나면 startIndex와 endIndex는 배열 내 첫 번째 '2'와 마지막 '2'의 위치를 나타냅니다.
+이렇게 query의 모든 요소에 대해 위 작업을 수행하면, 최종적으로 남은 arr의 부분 배열이 반환됩니다.
 
-'2'가 없는 경우의 처리: startIndex나 endIndex가 -1인 경우, '2'가 없는 것으로 판단하고 [-1]을 반환합니다.
+자바의 Arrays.copyOfRange 메서드를 사용하면 배열의 특정 범위를 쉽게 복사할 수 있어, 위 작업을 효율적으로 수행할 수 있습니다.
 
-부분 배열 생성: startIndex와 endIndex 사이의 부분 배열을 생성합니다.
+###### 참고
 
-answer 배열의 길이는 (endIndex - startIndex + 1)이며, 이를 통해 startIndex에서 endIndex까지의 원소를 포함하게 됩니다.
+arr의 배열의 크기는 정해져 있는데 Arrays.copyOfRange를 쓰면 요소가 줄어듭니다. **배열의 크기도 함께 줄어들까요?**
 
-부분 배열의 각 원소는 원본 배열의 startIndex에서 시작하여 endIndex까지의 값을 복사합니다.
+네, 맞습니다! Arrays.copyOfRange 메서드는 원본 배열에서 지정된 범위의 요소를 추출하여 새로운 배열을 생성합니다. 따라서 생성된 새로운 배열의 크기는 지정된 범위의 길이와 일치하게 됩니다.
 
-결과 반환: 만들어진 부분 배열 answer를 반환합니다. 이 배열은 arr에서 첫 번째 '2'와 마지막 '2' 사이의 모든 원소를 포함하고 있습니다.
+예를 들어, Arrays.copyOfRange(arr, 0, 3)를 호출하면 원본 배열 arr의 0번 인덱스부터 2번 인덱스까지의 요소를 복사하여 새로운 배열을 생성합니다. 따라서 새로운 배열의 크기는 3이 됩니다.
+
+이렇게 Arrays.copyOfRange를 사용하면 원하는 범위의 요소를 쉽게 추출하고, 해당 범위에 맞는 크기의 새로운 배열을 생성할 수 있습니다. 따라서 본 문제에서 arr의 크기는 query의 요소에 따라 계속 변동하게 됩니다.
+
+수고하셨습니다.
