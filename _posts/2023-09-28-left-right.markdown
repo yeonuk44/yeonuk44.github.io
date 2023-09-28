@@ -1,0 +1,98 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_Left_Right
+title: Left Right (with.Java)
+# title: Left Right (with.Java)
+
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2023-09-28 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+### 순서 바꾸기, 정수 리스트에 대해 인덱스 순서를 규칙에 맞게 변경하여 새로운 배열 만드는 방법에 대하여 알아본 글입니다.
+
+코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+
+문제에 대해 먼저 알아보겠습니다.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+#### 문제
+
+정수 리스트 num_list와 정수 n이 주어질 때, num_list를 n 번째 원소 이후의 원소들과 n 번째까지의 원소들로 나눠 n 번째 원소 이후의 원소들을 n 번째까지의 원소들 앞에 붙인 리스트를 return하도록 solution 함수를 완성해주세요.
+
+##### 입출력 예시
+
+| num_list        | n   | result          |
+| --------------- | --- | --------------- |
+| [2, 1, 6]       | 1   | [1, 6, 2]       |
+| [5, 2, 1, 7, 5] | 3   | [7, 5, 5, 2, 1] |
+
+<!-- | start_num | end_num | result |
+| --------- | ------- | ------ |
+| 10        | 3       | 0      | -->
+
+#### 문제에 대한 나의 풀이
+
+```java
+import java.lang.reflect.Array;
+class Solution {
+    public int[] solution(int[] num_list, int n) {
+        int[] answer = new int[num_list.length];
+        for(int i = n; i < num_list.length; i++){
+            answer[i - n] = num_list[i];
+        }
+        int k = 0;
+        for(int j = num_list.length - n; j < num_list.length; j++){
+            answer[j] = num_list[k++];
+        }
+        return answer;
+    }
+}
+```
+
+##### 풀이 설명
+
+int[] answer = new int[num_list.length];: 결과를 저장할 배열 answer를 생성합니다.
+
+이 배열의 크기는 num_list와 동일합니다.
+
+첫 번째 반복문(for(int i = n; i < num_list.length; i++) {): n부터 배열의 끝까지의 요소를 answer 배열의 앞 부분으로 복사합니다. 이로써 회전된 배열의 뒷 부분이 answer 배열의 앞 부분에 복사됩니다.
+
+두 번째 반복문(for(int j = num_list.length - n; j < num_list.length; j++) {): 회전된 배열의 앞 부분인 num_list.length - n부터 끝까지의 요소를 answer 배열의 뒷 부분에 복사합니다. 이로써 회전된 배열의 앞 부분이 answer 배열의 뒷 부분에 복사됩니다.
+
+return answer;: 최종적으로 회전된 배열을 저장한 answer 배열을 반환합니다.
