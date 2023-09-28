@@ -41,58 +41,96 @@ date: 2023-09-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 순서 바꾸기, 정수 리스트에 대해 인덱스 순서를 규칙에 맞게 변경하여 새로운 배열 만드는 방법에 대하여 알아본 글입니다.
+### This is a post about left-right (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll be solving coding test questions, reflecting on the problems we've solved, and learning about other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수 리스트 num_list와 정수 n이 주어질 때, num_list를 n 번째 원소 이후의 원소들과 n 번째까지의 원소들로 나눠 n 번째 원소 이후의 원소들을 n 번째까지의 원소들 앞에 붙인 리스트를 return하도록 solution 함수를 완성해주세요.
+A list of strings, str_list, contains a number of the four strings "u", "d", "l", and "r".
 
-##### 입출력 예시
+Complete the solution function to return an ordered list of strings to the left of "l" and "r" in str_list if "l" comes first, and an ordered list of strings to the right of "r" if "r" comes first.
 
-| num_list        | n   | result          |
-| --------------- | --- | --------------- |
-| [2, 1, 6]       | 1   | [1, 6, 2]       |
-| [5, 2, 1, 7, 5] | 3   | [7, 5, 5, 2, 1] |
+If there is no "l" or "r", return an empty list.
+
+##### Example input and output
+
+| str_list             | result     |
+| -------------------- | ---------- |
+| ["u", "u", "l", "r"] | ["u", "u"] |
+| ["l"]                | []         |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
-import java.lang.reflect.Array;
 class Solution {
-    public int[] solution(int[] num_list, int n) {
-        int[] answer = new int[num_list.length];
-        for(int i = n; i < num_list.length; i++){
-            answer[i - n] = num_list[i];
+    public String[] solution(String[] str_list) {
+        int lIndex = -1;
+        int rIndex = -1;
+
+        for (int i = 0; i < str_list.length; i++) {
+            if (str_list[i].equals("l")) {
+                lIndex = i;
+                break;
+            } else if (str_list[i].equals("r")) {
+                rIndex = i;
+                break;
+            }
         }
-        int k = 0;
-        for(int j = num_list.length - n; j < num_list.length; j++){
-            answer[j] = num_list[k++];
+        if (lIndex == -1 && rIndex == -1) {
+            return new String[0];
         }
-        return answer;
+
+        if (lIndex != -1) {
+            String[] answer = new String[lIndex];
+            for (int j = 0; j < lIndex; j++) {
+                answer[j] = str_list[j];
+            }
+            } return answer;
+        }
+        else {
+            String[] answer = new String[str_list.length - rIndex - 1];
+            for (int k = rIndex + 1; k < str_list.length; k++) {
+                answer[k - rIndex - 1] = str_list[k];
+            }
+            } return answer;
+        }
     }
 }
 ```
 
-##### 풀이 설명
+##### solution description
 
-int[] answer = new int[num_list.length];: 결과를 저장할 배열 answer를 생성합니다.
+int lIndex = -1;, int rIndex = -1;: Initialize the index of the "l" character and the index of the "r" character. The initial values are set to -1.
 
-이 배열의 크기는 num_list와 동일합니다.
+First iteration (for (int i = 0; i < str_list.length; i++) {): Loops through the array str_list, looking for the character "l" or "r". If an "l" is found, store its index in lIndex and exit the loop; if an "r" is found, store its index in rIndex and exit the loop.
 
-첫 번째 반복문(for(int i = n; i < num_list.length; i++) {): n부터 배열의 끝까지의 요소를 answer 배열의 앞 부분으로 복사합니다. 이로써 회전된 배열의 뒷 부분이 answer 배열의 앞 부분에 복사됩니다.
+if (lIndex == -1 && rIndex == -1) { return new String[0]; }: If neither "l" nor "r" is found, return an empty string array.
 
-두 번째 반복문(for(int j = num_list.length - n; j < num_list.length; j++) {): 회전된 배열의 앞 부분인 num_list.length - n부터 끝까지의 요소를 answer 배열의 뒷 부분에 복사합니다. 이로써 회전된 배열의 앞 부분이 answer 배열의 뒷 부분에 복사됩니다.
+if (lIndex != -1) { ... } else { ... }: Performs different logic depending on if either "l" or "r" was found.
 
-return answer;: 최종적으로 회전된 배열을 저장한 answer 배열을 반환합니다.
+If "l" is found:
+
+String[] answer = new String[lIndex];: Create an array answer to store the strings before the "l" character.
+
+Use a loop to copy the strings before the "l" character into the answer array.
+
+Return the answer array.
+
+If an "r" is found:
+
+String[] answer = new String[str_list.length - rIndex - 1];: Create an array answer to store the strings after the "r" character.
+
+Use a loop to copy the strings after the "r" character into the answer array.
+
+Return the answer array.
