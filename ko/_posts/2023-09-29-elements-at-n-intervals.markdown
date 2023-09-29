@@ -53,18 +53,15 @@ date: 2023-09-29 09:00:00 +0900
 
 #### 문제
 
-문자열 리스트 str_list에는 "u", "d", "l", "r" 네 개의 문자열이 여러 개 저장되어 있습니다.
-
-str_list에서 "l"과 "r" 중 먼저 나오는 문자열이 "l"이라면 해당 문자열을 기준으로 왼쪽에 있는 문자열들을 순서대로 담은 리스트를, 먼저 나오는 문자열이 "r"이라면 해당 문자열을 기준으로 오른쪽에 있는 문자열들을 순서대로 담은 리스트를 return하도록 solution 함수를 완성해주세요.
-
-"l"이나 "r"이 없다면 빈 리스트를 return합니다.
+정수 리스트 num_list와 정수 n이 주어질 때, num_list의 첫 번째 원소부터 마지막 원소까지 n개 간격으로 저장되어있는 원소들을 차례로 담은 리스트를 return하도록 solution 함수를 완성해주세요.
 
 ##### 입출력 예시
 
-| str_list             | result     |
-| -------------------- | ---------- |
-| ["u", "u", "l", "r"] | ["u", "u"] |
-| ["l"]                | []         |
+num_list: [4, 2, 6, 1, 7, 6]
+
+n: 2
+
+result: [4, 6, 7]
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -74,63 +71,62 @@ str_list에서 "l"과 "r" 중 먼저 나오는 문자열이 "l"이라면 해당 
 
 ```java
 class Solution {
-    public String[] solution(String[] str_list) {
-        int lIndex = -1;
-        int rIndex = -1;
+    public int[] solution(int[] num_list, int n) {
+        int answerLength = (int) Math.ceil((double) num_list.length / n);
+        int[] answer = new int[answerLength];
 
-        for (int i = 0; i < str_list.length; i++) {
-            if (str_list[i].equals("l")) {
-                lIndex = i;
-                break;
-            } else if (str_list[i].equals("r")) {
-                rIndex = i;
-                break;
-            }
-        }
-        if (lIndex == -1 && rIndex == -1) {
-            return new String[0];
+        for (int i = 0; i < num_list.length; i += n) {
+            int index = i / n;
+            answer[index] = num_list[i];
         }
 
-        if (lIndex != -1) {
-            String[] answer = new String[lIndex];
-            for (int j = 0; j < lIndex; j++) {
-                answer[j] = str_list[j];
-            }
-            return answer;
-        }
-        else {
-            String[] answer = new String[str_list.length - rIndex - 1];
-            for (int k = rIndex + 1; k < str_list.length; k++) {
-                answer[k - rIndex - 1] = str_list[k];
-            }
-            return answer;
-        }
+        return answer;
     }
 }
 ```
 
 ##### 풀이 설명
 
-int lIndex = -1;, int rIndex = -1;: "l" 문자의 인덱스와 "r" 문자의 인덱스를 초기화합니다. 초기값은 -1로 설정되어 있습니다.
+int answerLength = (int) Math.ceil((double) num_list.length / n);:
 
-첫 번째 반복문(for (int i = 0; i < str_list.length; i++) {): 배열 str_list를 반복하면서 "l" 또는 "r" 문자를 찾습니다. 만약 "l"을 찾으면 lIndex에 해당 인덱스를 저장하고 반복문을 종료하고, "r"을 찾으면 rIndex에 해당 인덱스를 저장하고 반복문을 종료합니다.
+이 부분에서는 새로운 배열 answer의 길이를 계산합니다.
 
-if (lIndex == -1 && rIndex == -1) { return new String[0]; }: "l"과 "r" 모두 찾지 못한 경우, 빈 문자열 배열을 반환합니다.
+num_list.length는 입력 배열 num_list의 길이를 나타냅니다.
 
-if (lIndex != -1) { ... } else { ... }: "l" 또는 "r" 중 하나를 찾은 경우에 따라 다른 로직을 수행합니다.
+n은 주어진 간격입니다.
 
-"l"을 찾은 경우:
+이를 나누고 올림 연산을 수행하여 나머지 원소들까지 빠짐없이 배열에 담을 수 있도록 길이를 설정합니다.
 
-String[] answer = new String[lIndex];: "l" 문자 이전의 문자열을 저장할 배열 answer를 생성합니다.
+int[] answer = new int[answerLength];:
 
-반복문을 사용하여 "l" 문자 이전의 문자열을 answer 배열에 복사합니다.
+계산된 answerLength를 기반으로 answer 배열을 생성합니다.
 
-answer 배열을 반환합니다.
+이 배열은 결과적으로 num_list에서 추출한 원소들을 담을 배열입니다.
 
-"r"을 찾은 경우:
+for (int i = 0; i < num_list.length; i += n) {:
 
-String[] answer = new String[str_list.length - rIndex - 1];: "r" 문자 이후의 문자열을 저장할 배열 answer를 생성합니다.
+이 부분은 반복문으로, 입력 배열 num_list를 탐색하면서 간격 n마다 원소를 추출합니다.
 
-반복문을 사용하여 "r" 문자 이후의 문자열을 answer 배열에 복사합니다.
+반복문을 시작하면서 i는 0부터 시작합니다.
 
-answer 배열을 반환합니다.
+int index = i / n;:
+
+원소를 answer 배열에 저장할 인덱스를 계산합니다.
+
+현재 i는 num_list의 인덱스를 나타내며, n 간격마다 저장해야 하므로 index를 계산합니다.
+
+index는 answer 배열에서의 인덱스를 나타냅니다.
+
+answer[index] = num_list[i];:
+
+계산된 index를 이용하여 num_list에서 추출한 원소를 answer 배열에 저장합니다.
+
+i 인덱스에 위치한 원소를 추출하여 answer 배열의 index 위치에 저장합니다.
+
+return answer;:
+
+반복문을 모두 실행한 뒤, answer 배열에는 num_list에서 간격 n마다 추출한 원소가 저장되어 있습니다.
+
+최종적으로 answer 배열을 반환하여 결과를 출력합니다.
+
+이 코드는 입력 배열 num_list에서 간격 n마다 원소를 추출하여 answer 배열에 저장하는 작업을 수행합니다. 이를 통해 answer 배열에는 입력 배열에서 원하는 간격으로 추출한 원소들이 순서대로 담겨있게 됩니다.열을 반환하는 기능을 수행합니다.

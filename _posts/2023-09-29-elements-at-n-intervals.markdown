@@ -41,96 +41,92 @@ date: 2023-09-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-### n개 간격의 원소들(with.Java)에 대하여 알아본 글입니다.
+### In this article, we looked at the elements of n intervals (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll be solving coding test problems, reflecting on the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-문자열 리스트 str_list에는 "u", "d", "l", "r" 네 개의 문자열이 여러 개 저장되어 있습니다.
+Given an integer list num_list and an integer n, complete the solution function so that it returns a list containing the elements stored in n intervals from the first element in num_list to the last element.
 
-str_list에서 "l"과 "r" 중 먼저 나오는 문자열이 "l"이라면 해당 문자열을 기준으로 왼쪽에 있는 문자열들을 순서대로 담은 리스트를, 먼저 나오는 문자열이 "r"이라면 해당 문자열을 기준으로 오른쪽에 있는 문자열들을 순서대로 담은 리스트를 return하도록 solution 함수를 완성해주세요.
+##### Example input and output
 
-"l"이나 "r"이 없다면 빈 리스트를 return합니다.
+num_list: [4, 2, 6, 1, 7, 6]
 
-##### 입출력 예시
+n: 2
 
-| str_list             | result     |
-| -------------------- | ---------- |
-| ["u", "u", "l", "r"] | ["u", "u"] |
-| ["l"]                | []         |
+result: [4, 6, 7]
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public String[] solution(String[] str_list) {
-        int lIndex = -1;
-        int rIndex = -1;
+    public int[] solution(int[] num_list, int n) {
+        int answerLength = (int) Math.ceil((double) num_list.length / n);
+        int[] answer = new int[answerLength];
 
-        for (int i = 0; i < str_list.length; i++) {
-            if (str_list[i].equals("l")) {
-                lIndex = i;
-                break;
-            } else if (str_list[i].equals("r")) {
-                rIndex = i;
-                break;
-            }
-        }
-        if (lIndex == -1 && rIndex == -1) {
-            return new String[0];
+        for (int i = 0; i < num_list.length; i += n) {
+            int index = i / n;
+            answer[index] = num_list[i];
         }
 
-        if (lIndex != -1) {
-            String[] answer = new String[lIndex];
-            for (int j = 0; j < lIndex; j++) {
-                answer[j] = str_list[j];
-            }
-            return answer;
-        }
-        else {
-            String[] answer = new String[str_list.length - rIndex - 1];
-            for (int k = rIndex + 1; k < str_list.length; k++) {
-                answer[k - rIndex - 1] = str_list[k];
-            }
-            return answer;
-        }
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### solution description
 
-int lIndex = -1;, int rIndex = -1;: "l" 문자의 인덱스와 "r" 문자의 인덱스를 초기화합니다. 초기값은 -1로 설정되어 있습니다.
+int answerLength = (int) Math.ceil((double) num_list.length / n);:
 
-첫 번째 반복문(for (int i = 0; i < str_list.length; i++) {): 배열 str_list를 반복하면서 "l" 또는 "r" 문자를 찾습니다. 만약 "l"을 찾으면 lIndex에 해당 인덱스를 저장하고 반복문을 종료하고, "r"을 찾으면 rIndex에 해당 인덱스를 저장하고 반복문을 종료합니다.
+This part calculates the length of the new array answer.
 
-if (lIndex == -1 && rIndex == -1) { return new String[0]; }: "l"과 "r" 모두 찾지 못한 경우, 빈 문자열 배열을 반환합니다.
+The num_list.length represents the length of the input array num_list.
 
-if (lIndex != -1) { ... } else { ... }: "l" 또는 "r" 중 하나를 찾은 경우에 따라 다른 로직을 수행합니다.
+n is the given interval.
 
-"l"을 찾은 경우:
+We divide it and perform a rounding operation to set the length so that we can fit all the remaining elements into the array.
 
-String[] answer = new String[lIndex];: "l" 문자 이전의 문자열을 저장할 배열 answer를 생성합니다.
+int[] answer = new int[answerLength];:
 
-반복문을 사용하여 "l" 문자 이전의 문자열을 answer 배열에 복사합니다.
+Create the answer array based on the calculated answerLength.
 
-answer 배열을 반환합니다.
+This is the array that will eventually hold the elements extracted from num_list.
 
-"r"을 찾은 경우:
+for (int i = 0; i < num_list.length; i += n) {:
 
-String[] answer = new String[str_list.length - rIndex - 1];: "r" 문자 이후의 문자열을 저장할 배열 answer를 생성합니다.
+This is the iteration part, which traverses the input array num_list, extracting elements at intervals n.
 
-반복문을 사용하여 "r" 문자 이후의 문자열을 answer 배열에 복사합니다.
+At the beginning of the iteration, i starts at 0.
 
-answer 배열을 반환합니다.
+int index = i / n;:
+
+Calculate the index at which to store the element into the answer array.
+
+Currently, i represents the index in num_list, which we need to store every n intervals, so we compute index.
+
+index represents the index in the answer array.
+
+answer[index] = num_list[i];:
+
+Store the elements extracted from num_list in the answer array using the calculated index.
+
+Extract the element located at index i and store it at position index in the answer array.
+
+return answer;:
+
+After executing all the iterations, the answer array contains the elements extracted from num_list at interval n.
+
+Finally, we print the result by returning the answer array.
+
+This code performs the task of extracting elements every interval n from the input array num_list and storing them in the answer array. This ensures that the ANSWER array contains the elements extracted from the input array at the desired interval in order.Performs the function of returning a column.
