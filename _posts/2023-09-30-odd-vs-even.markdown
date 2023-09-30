@@ -41,92 +41,72 @@ date: 2023-09-30 09:00:00 +0900
 
 <!-- outline-start -->
 
-### n개 간격의 원소들(with.Java)에 대하여 알아본 글입니다.
+### In this article, we learned about odd vs. even numbers (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수 리스트 num_list와 정수 n이 주어질 때, num_list의 첫 번째 원소부터 마지막 원소까지 n개 간격으로 저장되어있는 원소들을 차례로 담은 리스트를 return하도록 solution 함수를 완성해주세요.
+You are given a list of integers, num_list.
 
-##### 입출력 예시
+Complete the solution function so that it returns the greater of the sum of the odd-numbered elements and the sum of the even-numbered elements, where the first element is called element 1.
 
-num_list: [4, 2, 6, 1, 7, 6]
+If the two values are equal, return that value.
 
-n: 2
+##### Example input and output
 
-result: [4, 6, 7]
+| num_list           | result |
+| ------------------ | ------ |
+| [4, 2, 6, 1, 7, 6] | 17     |
+| [-1, 2, 5, 6, 3]   | 8      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int[] solution(int[] num_list, int n) {
-        int answerLength = (int) Math.ceil((double) num_list.length / n);
-        int[] answer = new int[answerLength];
-
-        for (int i = 0; i < num_list.length; i += n) {
-            int index = i / n;
-            answer[index] = num_list[i];
+    public int solution(int[] num_list) {
+        int answer = 0;
+        int oddSum = 0;
+        int evenSum = 0;
+        for(int i = 0; i < num_list.length; i++){
+            if(i % 2 == 0){
+                evenSum += num_list[i];
+            }else {
+                oddSum += num_list[i];
+            }
         }
-
+        } answer = evenSum >= oddSum ? evenSum : oddSum;
         return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### solution description
 
-int answerLength = (int) Math.ceil((double) num_list.length / n);:
+int answer = 0;: Initialize the variable answer to store the result.
 
-이 부분에서는 새로운 배열 answer의 길이를 계산합니다.
+int oddSum = 0;, int evenSum = 0;: Initialize variables oddSum and evenSum to sum the elements at even and odd indices.
 
-num_list.length는 입력 배열 num_list의 길이를 나타냅니다.
+for(int i = 0; i < num_list.length; i++) : Iterate over the input array num_list, examining each element.
 
-n은 주어진 간격입니다.
+if(i % 2 == 0) : If the current index i is an even number:
 
-이를 나누고 올림 연산을 수행하여 나머지 원소들까지 빠짐없이 배열에 담을 수 있도록 길이를 설정합니다.
+Add the current element value to evenSum.
 
-int[] answer = new int[answerLength];:
+else : If the current index i is odd:
 
-계산된 answerLength를 기반으로 answer 배열을 생성합니다.
+Add the current element value to oddSum.
 
-이 배열은 결과적으로 num_list에서 추출한 원소들을 담을 배열입니다.
+answer = evenSum >= oddSum ? evenSum : oddSum;: Compare the sum of the elements at the even index, evenSum, and the sum of the elements at the odd index, oddSum, and store the larger sum in answer.
 
-for (int i = 0; i < num_list.length; i += n) {:
-
-이 부분은 반복문으로, 입력 배열 num_list를 탐색하면서 간격 n마다 원소를 추출합니다.
-
-반복문을 시작하면서 i는 0부터 시작합니다.
-
-int index = i / n;:
-
-원소를 answer 배열에 저장할 인덱스를 계산합니다.
-
-현재 i는 num_list의 인덱스를 나타내며, n 간격마다 저장해야 하므로 index를 계산합니다.
-
-index는 answer 배열에서의 인덱스를 나타냅니다.
-
-answer[index] = num_list[i];:
-
-계산된 index를 이용하여 num_list에서 추출한 원소를 answer 배열에 저장합니다.
-
-i 인덱스에 위치한 원소를 추출하여 answer 배열의 index 위치에 저장합니다.
-
-return answer;:
-
-반복문을 모두 실행한 뒤, answer 배열에는 num_list에서 간격 n마다 추출한 원소가 저장되어 있습니다.
-
-최종적으로 answer 배열을 반환하여 결과를 출력합니다.
-
-이 코드는 입력 배열 num_list에서 간격 n마다 원소를 추출하여 answer 배열에 저장하는 작업을 수행합니다. 이를 통해 answer 배열에는 입력 배열에서 원하는 간격으로 추출한 원소들이 순서대로 담겨있게 됩니다.열을 반환하는 기능을 수행합니다.
+return answer;: Finally returns the larger of the two sums.
