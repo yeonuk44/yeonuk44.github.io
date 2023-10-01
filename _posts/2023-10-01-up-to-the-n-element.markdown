@@ -41,72 +41,51 @@ date: 2023-10-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 홀수 vs 짝수(with.Java)에 대하여 알아본 글입니다.
+### In this article, we've learned about the nth element (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수 리스트 num_list가 주어집니다.
+Given a list of integers num_list and an integer n, complete the solution function so that it returns a list containing all elements of num_list from the first element to the nth element.
 
-가장 첫 번째 원소를 1번 원소라고 할 때, 홀수 번째 원소들의 합과 짝수 번째 원소들의 합 중 큰 값을 return 하도록 solution 함수를 완성해주세요.
+##### Example input and output
 
-두 값이 같을 경우 그 값을 return합니다.
-
-##### 입출력 예시
-
-| num_list           | result |
-| ------------------ | ------ |
-| [4, 2, 6, 1, 7, 6] | 17     |
-| [-1, 2, 5, 6, 3]   | 8      |
+| num_list        | n   | result    |
+| --------------- | --- | --------- |
+| [2, 1, 6]       | 1   | [2]       |
+| [5, 2, 1, 7, 5] | 7   | [5, 2, 1] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int[] num_list) {
-        int answer = 0;
-        int oddSum = 0;
-        int evenSum = 0;
-        for(int i = 0; i < num_list.length; i++){
-            if(i % 2 == 0){
-                evenSum += num_list[i];
-            }else {
-                oddSum += num_list[i];
-            }
+    public int[] solution(int[] num_list, int n) {
+        int[] answer = new int[n];
+        for(int i = 0; i < n; i++){
+            answer[i] = num_list[i];
         }
-        answer = evenSum >= oddSum ? evenSum : oddSum;
-        return answer;
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### solution description
 
-int answer = 0;: 결과를 저장할 변수 answer를 초기화합니다.
+int[] answer = new int[n];: Create an integer array answer to store the result. The size of this array is set to n.
 
-int oddSum = 0;, int evenSum = 0;: 짝수 인덱스에 있는 요소들과 홀수 인덱스에 있는 요소들을 합산할 변수 oddSum과 evenSum을 초기화합니다.
+for(int i = 0; i < n; i++) : Extract n elements from the beginning of num_list using a loop.
 
-for(int i = 0; i < num_list.length; i++) : 입력 배열 num_list를 반복하면서 각 요소를 검사합니다.
+answer[i] = num_list[i];: copy the num_list element at the current index i to the same index in the answer array.
 
-if(i % 2 == 0) : 현재 인덱스 i가 짝수인 경우:
-
-evenSum에 현재 요소 값을 더합니다.
-
-else : 현재 인덱스 i가 홀수인 경우:
-
-oddSum에 현재 요소 값을 더합니다.
-
-answer = evenSum >= oddSum ? evenSum : oddSum;: 짝수 인덱스에 있는 요소들의 합 evenSum과 홀수 인덱스에 있는 요소들의 합 oddSum을 비교하여, 더 큰 합을 answer에 저장합니다.
-
-return answer;: 최종적으로 두 합 중 더 큰 값을 반환합니다.
+return answer;: Finally return the array answer with n elements from the beginning.
