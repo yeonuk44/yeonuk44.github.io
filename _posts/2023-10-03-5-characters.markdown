@@ -41,62 +41,59 @@ date: 2023-10-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 할 일 목록(with.Java)에 대하여 알아본 글입니다.
+### In this article, we've learned how to take a list of strings, break them up by 5 characters, collect the first character and output them to an array (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-오늘 해야 할 일이 담긴 문자열 배열 todo_list와 각각의 일을 지금 마쳤는지를 나타내는 boolean 배열 finished가 매개변수로 주어질 때, todo_list에서 아직 마치지 못한 일들을 순서대로 담은 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
+Complete the solution function so that, given a string list names containing the names of people in line to ride a ride that holds up to 5 people, it returns a list containing the names of the people standing at the front of the group of 5 people from the front.
 
-##### 입출력 예시
+Include the name of the person at the front even if the last group is not five people.
 
-| todo_list                                                  | finished                   | result                           |
-| ---------------------------------------------------------- | -------------------------- | -------------------------------- |
-| ["problemsolving", "practiceguitar", "swim", "studygraph"] | [true, false, true, false] | ["practiceguitar", "studygraph"] |
+##### Example input and output
+
+names: ["nami", "ahri", "jayce", "garen", "ivern", "vex", "jinx"]
+
+result: ["nami", "vex"]
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
-import java.util.*;
 class Solution {
-    public String[] solution(String[] todo_list, boolean[] finished) {
-        ArrayList<String> answer = new ArrayList<String>();
-
-        for(int i = 0; i < finished.length; i++){
-            if(finished[i] == false){
-                answer.add(todo_list[i]);
-            }
+    public String[] solution(String[] names) {
+        String[] answer = new String[(int)Math.ceil(names.length / 5.0)];
+        int count = 0;
+        for(int i = 0; i < names.length; i += 5){
+            answer[count++] = names[i];
         }
-        String[] result = new String[answer.size()];
-        for(int j = 0; j < answer.size(); j++){
-            result[j] = answer.get(j);
-        }
-        return result;
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-ArrayList<String> answer = new ArrayList<String>();: 아직 완료되지 않은 할 일 목록을 저장하기 위한 문자열 ArrayList answer를 생성합니다.
+The return type of the function is String[], and it takes an array of strings called names as an argument.
 
-for(int i = 0; i < finished.length; i++) : finished 배열을 반복하면서 각 할 일의 완료 여부를 검사합니다.
+The variable count is used to put the value in the answer array. Note that in Java, division between integers may not give the expected result because the result is returned as an integer and the decimal part is discarded.
 
-if(finished[i] == false) : 만약 현재 할 일이 완료되지 않았다면 (즉, finished[i]가 false이면), 해당 할 일을 answer ArrayList에 추가합니다.
+That's why when we count the number of groups, we need to divide by a real number to get the correct value, which is why we've rounded it up to 5.0.
 
-String[] result = new String[answer.size()];: answer ArrayList의 크기에 맞는 문자열 배열 result를 생성합니다.
+We process each group through a loop. The variable i represents the starting index of the current group, and the variable groupSize determines the size of the current group.
 
-for(int j = 0; j < answer.size(); j++) : answer ArrayList를 반복하면서 각 할 일을 result 배열에 복사합니다.
+We add the names of the people in the group to groupNames. Find the index of the actual people and get their names via i + j.
 
-return result;: 최종적으로 아직 완료되지 않은 할 일 목록이 담긴 result 배열을 반환합니다.
+Make each group's name into a single string and store it in the answer array. Remove leading and trailing spaces from the string and save it.
+
+Return the completed ANSWER array and provide it as the result of the function.

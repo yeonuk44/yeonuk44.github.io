@@ -41,7 +41,7 @@ date: 2023-10-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 할 일 목록(with.Java)에 대하여 알아본 글입니다.
+### 5명씩, 주어진 문자열 리스트를 5명씩 끊어서 제일 앞의 문자만 모아 배열로 출력하는 방법에 대하여(with.Java)에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -53,13 +53,15 @@ date: 2023-10-03 09:00:00 +0900
 
 #### 문제
 
-오늘 해야 할 일이 담긴 문자열 배열 todo_list와 각각의 일을 지금 마쳤는지를 나타내는 boolean 배열 finished가 매개변수로 주어질 때, todo_list에서 아직 마치지 못한 일들을 순서대로 담은 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
+최대 5명씩 탑승가능한 놀이기구를 타기 위해 줄을 서있는 사람들의 이름이 담긴 문자열 리스트 names가 주어질 때, 앞에서 부터 5명씩 묶은 그룹의 가장 앞에 서있는 사람들의 이름을 담은 리스트를 return하도록 solution 함수를 완성해주세요.
+
+마지막 그룹이 5명이 되지 않더라도 가장 앞에 있는 사람의 이름을 포함합니다.
 
 ##### 입출력 예시
 
-| todo_list                                                  | finished                   | result                           |
-| ---------------------------------------------------------- | -------------------------- | -------------------------------- |
-| ["problemsolving", "practiceguitar", "swim", "studygraph"] | [true, false, true, false] | ["practiceguitar", "studygraph"] |
+names: ["nami", "ahri", "jayce", "garen", "ivern", "vex", "jinx"]
+
+result: ["nami", "vex"]
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -68,35 +70,30 @@ date: 2023-10-03 09:00:00 +0900
 #### 문제에 대한 나의 풀이
 
 ```java
-import java.util.*;
 class Solution {
-    public String[] solution(String[] todo_list, boolean[] finished) {
-        ArrayList<String> answer = new ArrayList<String>();
-
-        for(int i = 0; i < finished.length; i++){
-            if(finished[i] == false){
-                answer.add(todo_list[i]);
-            }
+    public String[] solution(String[] names) {
+        String[] answer = new String[(int)Math.ceil(names.length / 5.0)];
+        int count = 0;
+        for(int i = 0; i < names.length; i += 5){
+            answer[count++] = names[i];
         }
-        String[] result = new String[answer.size()];
-        for(int j = 0; j < answer.size(); j++){
-            result[j] = answer.get(j);
-        }
-        return result;
+        return answer;
     }
 }
 ```
 
 ##### 풀이 설명
 
-ArrayList<String> answer = new ArrayList<String>();: 아직 완료되지 않은 할 일 목록을 저장하기 위한 문자열 ArrayList answer를 생성합니다.
+함수의 반환 타입은 String[]이며, names라는 문자열 배열을 인자로 받습니다.
 
-for(int i = 0; i < finished.length; i++) : finished 배열을 반복하면서 각 할 일의 완료 여부를 검사합니다.
+answer 배열을 생성하며, 그룹의 개수를 계산하여 배열 크기를 결정합니다. count 변수는 answer 배열에 값을 넣을 때 사용됩니다.주의할 점은 Java에서 정수끼리의 나눗셈은 결과가 정수로 반환되어 소수 부분이 버려지기 때문에, 예상과 다른 결과가 발생할 수 있습니다.
 
-if(finished[i] == false) : 만약 현재 할 일이 완료되지 않았다면 (즉, finished[i]가 false이면), 해당 할 일을 answer ArrayList에 추가합니다.
+그렇기 때문에 그룹의 개수를 계산할 때 실수형으로 나누어야 정확한 값을 얻을 수 있습니다. 때문에 5.0으로 올림처리를 해주었습니다.
 
-String[] result = new String[answer.size()];: answer ArrayList의 크기에 맞는 문자열 배열 result를 생성합니다.
+반복문을 통해 각 그룹을 처리합니다. i 변수는 현재 그룹의 시작 인덱스를 나타내고, groupSize 변수는 현재 그룹의 크기를 결정합니다.
 
-for(int j = 0; j < answer.size(); j++) : answer ArrayList를 반복하면서 각 할 일을 result 배열에 복사합니다.
+그룹에 속하는 사람들의 이름을 groupNames에 추가합니다. i + j를 통해 실제 인원들의 인덱스를 찾아서 이름을 가져옵니다.
 
-return result;: 최종적으로 아직 완료되지 않은 할 일 목록이 담긴 result 배열을 반환합니다.
+각 그룹의 이름을 하나의 문자열로 만들어 answer 배열에 저장합니다. 문자열의 앞뒤 공백을 제거한 후 저장합니다.
+
+완성된 answer 배열을 반환하여 함수의 결과로 제공합니다.
