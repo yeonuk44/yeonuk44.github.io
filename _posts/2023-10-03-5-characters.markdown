@@ -41,7 +41,7 @@ date: 2023-10-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-### In this article, we've learned how to take a list of strings, break them up by 5 characters, collect the first character and output them to an array (with.Java).
+### In this post, we've seen how to truncate a given list of strings by 5 characters and output the first character to an array.
 
 We'll do this by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 

@@ -41,59 +41,64 @@ date: 2023-10-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 5명씩, 주어진 문자열 리스트를 5명씩 끊어서 제일 앞의 문자만 모아 배열로 출력하는 방법에 대하여(with.Java)에 대하여 알아본 글입니다.
+### In this article, we learned about length-based operations (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn about it by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-최대 5명씩 탑승가능한 놀이기구를 타기 위해 줄을 서있는 사람들의 이름이 담긴 문자열 리스트 names가 주어질 때, 앞에서 부터 5명씩 묶은 그룹의 가장 앞에 서있는 사람들의 이름을 담은 리스트를 return하도록 solution 함수를 완성해주세요.
+Given a list num_list of integers, complete the solution function so that it returns the sum of all elements in the list if the length of the list is 11 or greater, or the product of all elements if the length of the list is 10 or less.
 
-마지막 그룹이 5명이 되지 않더라도 가장 앞에 있는 사람의 이름을 포함합니다.
+##### Example input and output
 
-##### 입출력 예시
-
-names: ["nami", "ahri", "jayce", "garen", "ivern", "vex", "jinx"]
-
-result: ["nami", "vex"]
+| num_list                                | result |
+| --------------------------------------- | ------ |
+| [3, 4, 5, 2, 5, 4, 6, 7, 3, 7, 2, 2, 1] | 51     |
+| [2, 3, 4, 5]                            | 120    |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public String[] solution(String[] names) {
-        String[] answer = new String[(int)Math.ceil(names.length / 5.0)];
-        int count = 0;
-        for(int i = 0; i < names.length; i += 5){
-            answer[count++] = names[i];
+    public int solution(int[] num_list) {
+        int answer = 1;
+        if(num_list.length > 10){
+            for(int i = 0; i < num_list.length; i++){
+                answer += num_list[i];
+            }
+            } answer = answer - 1;
+        }else {
+            for(int i = 0; i < num_list.length; i++){
+                answer = answer * num_list[i];
+            }
         }
-        return answer;
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### solution description
 
-함수의 반환 타입은 String[]이며, names라는 문자열 배열을 인자로 받습니다.
+int answer = 1;: Initialize the variable answer to store the result. The initial value is 1.
 
-answer 배열을 생성하며, 그룹의 개수를 계산하여 배열 크기를 결정합니다. count 변수는 answer 배열에 값을 넣을 때 사용됩니다.주의할 점은 Java에서 정수끼리의 나눗셈은 결과가 정수로 반환되어 소수 부분이 버려지기 때문에, 예상과 다른 결과가 발생할 수 있습니다.
+if(num_list.length > 10): If the length of the input array num_list is greater than 10:
 
-그렇기 때문에 그룹의 개수를 계산할 때 실수형으로 나누어야 정확한 값을 얻을 수 있습니다. 때문에 5.0으로 올림처리를 해주었습니다.
+Add the sum of all elements in the array to answer.
 
-반복문을 통해 각 그룹을 처리합니다. i 변수는 현재 그룹의 시작 인덱스를 나타내고, groupSize 변수는 현재 그룹의 크기를 결정합니다.
+Subtract 1 at the end to calculate the result.
 
-그룹에 속하는 사람들의 이름을 groupNames에 추가합니다. i + j를 통해 실제 인원들의 인덱스를 찾아서 이름을 가져옵니다.
+else: Otherwise (if the length of the array is 10 or less):
 
-각 그룹의 이름을 하나의 문자열로 만들어 answer 배열에 저장합니다. 문자열의 앞뒤 공백을 제거한 후 저장합니다.
+Store the result of multiplying all the elements in the array in answer.
 
-완성된 answer 배열을 반환하여 함수의 결과로 제공합니다.
+return answer;: Returns the calculated result.
