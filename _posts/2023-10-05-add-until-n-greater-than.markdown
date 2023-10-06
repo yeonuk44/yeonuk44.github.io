@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Length_Operations
-title: Length-based operations (with.Java)
-# title: Length-based operations (with.Java)
+lng_pair: id_About_Add_Until_n_Greater_Than
+title: Add until n is greater than (with.Java)
+# title: Add until n is greater than (with.Java)
 
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -17,7 +17,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2023-10-04 09:00:00 +0900
+date: 2023-10-05 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -41,9 +41,9 @@ date: 2023-10-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-### In this article, we learned about length-based operations (with.Java).
+### In this article, we learned how to add until n is greater than n (with.Java).
 
-We're going to learn about it by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
 Let's start with the problem
 
@@ -53,14 +53,16 @@ Let's start with the problem
 
 #### Problem
 
-Given a list num_list of integers, complete the solution function so that it returns the sum of all elements in the list if the length of the list is 11 or greater, or the product of all elements if the length of the list is 10 or less.
+An array of integers numbers and an integer n are given as parameters.
+
+Write a solution function that adds the elements of numbers one by one, starting at the front, and returns the sum of the elements added up to this point when the sum is greater than n.
 
 ##### Example input and output
 
-| num_list                                | result |
-| --------------------------------------- | ------ |
-| [3, 4, 5, 2, 5, 4, 6, 7, 3, 7, 2, 2, 1] | 51     |
-| [2, 3, 4, 5]                            | 120    |
+| numbers                  | n   | result |
+| ------------------------ | --- | ------ |
+| [34, 5, 71, 29, 100, 34] | 123 | 139    |
+| [58, 44, 27, 10, 100]    | 139 | 239    |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -70,17 +72,11 @@ Given a list num_list of integers, complete the solution function so that it ret
 
 ```java
 class Solution {
-    public int solution(int[] num_list) {
-        int answer = 1;
-        if(num_list.length > 10){
-            for(int i = 0; i < num_list.length; i++){
-                answer += num_list[i];
-            }
-            } answer = answer - 1;
-        }else {
-            for(int i = 0; i < num_list.length; i++){
-                answer = answer * num_list[i];
-            }
+    public int solution(int[] numbers, int n) {
+        int answer = 0;
+        for(int i = 0; i < numbers.length; i++){
+            answer += numbers[i];
+            if(answer > n) break;
         }
         } return answer;
     }
@@ -89,16 +85,12 @@ class Solution {
 
 ##### solution description
 
-int answer = 1;: Initialize the variable answer to store the result. The initial value is 1.
+int answer = 0; : Initialize the variable answer to store the result.
 
-if(num_list.length > 10): If the length of the input array num_list is greater than 10:
+for(int i = 0; i < numbers.length; i++) : Iterate over the input array numbers, examining each element.
 
-Add the sum of all elements in the array to answer.
+answer += numbers[i];: add the current element to answer. This will sequentially sum the elements of the array.
 
-Subtract 1 at the end to calculate the result.
+if(answer > n) break;: Terminates the loop if the sum exceeds n. In other words, stops summing the moment the sum exceeds n.
 
-else: Otherwise (if the length of the array is 10 or less):
-
-Store the result of multiplying all the elements in the array in answer.
-
-return answer;: Returns the calculated result.
+return answer;: Returns the final summed result, answer.
