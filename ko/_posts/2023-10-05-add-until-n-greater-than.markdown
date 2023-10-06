@@ -41,7 +41,7 @@ date: 2023-10-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 길이에 따른 연산(with.Java)에 대하여 알아본 글입니다.
+### n보다 커질 때까지 더하기(with.Java)에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -53,14 +53,16 @@ date: 2023-10-05 09:00:00 +0900
 
 #### 문제
 
-정수가 담긴 리스트 num_list가 주어질 때, 리스트의 길이가 11 이상이면 리스트에 있는 모든 원소의 합을 10 이하이면 모든 원소의 곱을 return하도록 solution 함수를 완성해주세요.
+정수 배열 numbers와 정수 n이 매개변수로 주어집니다.
+
+numbers의 원소를 앞에서부터 하나씩 더하다가 그 합이 n보다 커지는 순간 이때까지 더했던 원소들의 합을 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-| num_list                                | result |
-| --------------------------------------- | ------ |
-| [3, 4, 5, 2, 5, 4, 6, 7, 3, 7, 2, 2, 1] | 51     |
-| [2, 3, 4, 5]                            | 120    |
+| numbers                  | n   | result |
+| ------------------------ | --- | ------ |
+| [34, 5, 71, 29, 100, 34] | 123 | 139    |
+| [58, 44, 27, 10, 100]    | 139 | 239    |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -70,17 +72,11 @@ date: 2023-10-05 09:00:00 +0900
 
 ```java
 class Solution {
-    public int solution(int[] num_list) {
-        int answer = 1;
-        if(num_list.length > 10){
-            for(int i = 0; i < num_list.length; i++){
-                answer += num_list[i];
-            }
-            answer = answer - 1;
-        }else {
-            for(int i = 0; i < num_list.length; i++){
-                answer = answer * num_list[i];
-            }
+    public int solution(int[] numbers, int n) {
+        int answer = 0;
+        for(int i = 0; i < numbers.length; i++){
+            answer += numbers[i];
+            if(answer > n) break;
         }
         return answer;
     }
@@ -89,16 +85,12 @@ class Solution {
 
 ##### 풀이 설명
 
-int answer = 1;: 결과를 저장할 변수 answer를 초기화합니다. 초기값은 1입니다.
+int answer = 0;: 결과를 저장할 변수 answer를 초기화합니다.
 
-if(num_list.length > 10): 입력 배열 num_list의 길이가 10보다 큰 경우:
+for(int i = 0; i < numbers.length; i++) : 입력 배열 numbers를 반복하면서 각 요소를 검사합니다.
 
-배열의 모든 요소를 더한 값을 answer에 더합니다.
+answer += numbers[i];: 현재 요소를 answer에 더합니다. 이렇게 하면 배열의 요소들이 순차적으로 합산됩니다.
 
-마지막에 1을 빼서 결과를 계산합니다.
+if(answer > n) break;: 합이 n을 초과하면 반복문을 종료합니다. 즉, 합이 n을 초과하는 순간 합산을 멈춥니다.
 
-else: 그 외의 경우 (배열의 길이가 10 이하인 경우):
-
-배열의 모든 요소를 곱한 값을 answer에 저장합니다.
-
-return answer;: 계산된 결과를 반환합니다.
+return answer;: 최종적으로 합산된 결과 answer를 반환합니다.
