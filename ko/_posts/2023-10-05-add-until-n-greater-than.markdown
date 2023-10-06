@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Length_Operations
-title: Length-based operations (with.Java)
-# title: Length-based operations (with.Java)
+lng_pair: id_About_Add_Until_n_Greater_Than
+title: n보다 커질 때까지 더하기(with.Java)
+# title: Add until n is greater than (with.Java)
 
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -17,7 +17,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2023-10-04 09:00:00 +0900
+date: 2023-10-05 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -41,21 +41,21 @@ date: 2023-10-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-### In this article, we learned about length-based operations (with.Java).
+### 길이에 따른 연산(with.Java)에 대하여 알아본 글입니다.
 
-We're going to learn about it by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
+코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
-Let's start with the problem
+문제에 대해 먼저 알아보겠습니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### Problem
+#### 문제
 
-Given a list num_list of integers, complete the solution function so that it returns the sum of all elements in the list if the length of the list is 11 or greater, or the product of all elements if the length of the list is 10 or less.
+정수가 담긴 리스트 num_list가 주어질 때, 리스트의 길이가 11 이상이면 리스트에 있는 모든 원소의 합을 10 이하이면 모든 원소의 곱을 return하도록 solution 함수를 완성해주세요.
 
-##### Example input and output
+##### 입출력 예시
 
 | num_list                                | result |
 | --------------------------------------- | ------ |
@@ -64,9 +64,9 @@ Given a list num_list of integers, complete the solution function so that it ret
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10 | 3 | 0 | -->
+| 10        | 3       | 0      | -->
 
-#### My solution to the problem
+#### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
@@ -76,29 +76,29 @@ class Solution {
             for(int i = 0; i < num_list.length; i++){
                 answer += num_list[i];
             }
-            } answer = answer - 1;
+            answer = answer - 1;
         }else {
             for(int i = 0; i < num_list.length; i++){
                 answer = answer * num_list[i];
             }
         }
-        } return answer;
+        return answer;
     }
 }
 ```
 
-##### solution description
+##### 풀이 설명
 
-int answer = 1;: Initialize the variable answer to store the result. The initial value is 1.
+int answer = 1;: 결과를 저장할 변수 answer를 초기화합니다. 초기값은 1입니다.
 
-if(num_list.length > 10): If the length of the input array num_list is greater than 10:
+if(num_list.length > 10): 입력 배열 num_list의 길이가 10보다 큰 경우:
 
-Add the sum of all elements in the array to answer.
+배열의 모든 요소를 더한 값을 answer에 더합니다.
 
-Subtract 1 at the end to calculate the result.
+마지막에 1을 빼서 결과를 계산합니다.
 
-else: Otherwise (if the length of the array is 10 or less):
+else: 그 외의 경우 (배열의 길이가 10 이하인 경우):
 
-Store the result of multiplying all the elements in the array in answer.
+배열의 모든 요소를 곱한 값을 answer에 저장합니다.
 
-return answer;: Returns the calculated result.
+return answer;: 계산된 결과를 반환합니다.
