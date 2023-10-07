@@ -41,7 +41,7 @@ date: 2023-10-06 09:00:00 +0900
 
 <!-- outline-start -->
 
-### n보다 커질 때까지 더하기(with.Java)에 대하여 알아본 글입니다.
+### 수열과 구간 쿼리에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -53,16 +53,19 @@ date: 2023-10-06 09:00:00 +0900
 
 #### 문제
 
-정수 배열 numbers와 정수 n이 매개변수로 주어집니다.
+정수 배열 arr와 2차원 정수 배열 queries이 주어집니다.
 
-numbers의 원소를 앞에서부터 하나씩 더하다가 그 합이 n보다 커지는 순간 이때까지 더했던 원소들의 합을 return 하는 solution 함수를 작성해 주세요.
+queries의 원소는 각각 하나의 query를 나타내며, [s, e] 꼴입니다.
+
+각 query마다 순서대로 s ≤ i ≤ e인 모든 i에 대해 arr[i]에 1을 더합니다.
+
+위 규칙에 따라 queries를 처리한 이후의 arr를 return 하는 solution 함수를 완성해 주세요.
 
 ##### 입출력 예시
 
-| numbers                  | n   | result |
-| ------------------------ | --- | ------ |
-| [34, 5, 71, 29, 100, 34] | 123 | 139    |
-| [58, 44, 27, 10, 100]    | 139 | 239    |
+| arr             | queries                | result          |
+| --------------- | ---------------------- | --------------- |
+| [0, 1, 2, 3, 4] | [[0, 1],[1, 2],[2, 3]] | [1, 3, 4, 4, 4] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -72,11 +75,13 @@ numbers의 원소를 앞에서부터 하나씩 더하다가 그 합이 n보다 �
 
 ```java
 class Solution {
-    public int solution(int[] numbers, int n) {
-        int answer = 0;
-        for(int i = 0; i < numbers.length; i++){
-            answer += numbers[i];
-            if(answer > n) break;
+    public int[] solution(int[] arr, int[][] queries) {
+        int[] answer = arr;
+        int idx = 0;
+        for(int i = 0; i < queries.length; i++){
+            for(int j = queries[i][0]; j <= queries[i][1]; j++){
+                answer[j] += 1;
+            }
         }
         return answer;
     }
@@ -85,12 +90,16 @@ class Solution {
 
 ##### 풀이 설명
 
-int answer = 0;: 결과를 저장할 변수 answer를 초기화합니다.
+int[] answer = arr;: 결과 배열 answer를 arr로 초기화합니다. 이렇게 하면 answer는 arr과 같은 배열을 가리키게 됩니다.
 
-for(int i = 0; i < numbers.length; i++) : 입력 배열 numbers를 반복하면서 각 요소를 검사합니다.
+for(int i = 0; i < queries.length; i++) : queries 배열을 반복하면서 각 쿼리를 처리합니다.
 
-answer += numbers[i];: 현재 요소를 answer에 더합니다. 이렇게 하면 배열의 요소들이 순차적으로 합산됩니다.
+for(int j = queries[i][0]; j <= queries[i][1]; j++) : 각 쿼리에 대한 범위를 반복하면서 해당 범위 내의 answer 배열 요소를 1씩 증가시킵니다.
 
-if(answer > n) break;: 합이 n을 초과하면 반복문을 종료합니다. 즉, 합이 n을 초과하는 순간 합산을 멈춥니다.
+return answer;: 모든 쿼리를 처리한 후, 변경된 answer 배열을 반환합니다.
 
-return answer;: 최종적으로 합산된 결과 answer를 반환합니다.
+이 코드는 queries 배열에 있는 범위에 해당하는 arr의 요소를 1씩 증가시키는 작업을 수행합니다.
+
+하지만 주의할 점은 answer 배열이 arr 배열을 참조하므로, 이 작업은 arr 배열에도 영향을 미칩니다.
+
+따라서 arr 배열을 변경하지 않고 새로운 배열에 결과를 저장하려면 새로운 배열을 생성하고 그 배열을 변경해야 합니다.

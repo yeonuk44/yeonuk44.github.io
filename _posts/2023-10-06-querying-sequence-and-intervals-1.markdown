@@ -41,56 +41,65 @@ date: 2023-10-06 09:00:00 +0900
 
 <!-- outline-start -->
 
-### n보다 커질 때까지 더하기(with.Java)에 대하여 알아본 글입니다.
+### We've been learning about sequences and interval queries.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving coding test questions, reflecting on the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수 배열 numbers와 정수 n이 매개변수로 주어집니다.
+You are given an array of integers, arr, and a two-dimensional array of integers, queries.
 
-numbers의 원소를 앞에서부터 하나씩 더하다가 그 합이 n보다 커지는 순간 이때까지 더했던 원소들의 합을 return 하는 solution 함수를 작성해 주세요.
+The elements of queries, each representing one query, are of the form [s, e].
 
-##### 입출력 예시
+For each query, add 1 to arr[i] for all i such that s ≤ i ≤ e, in order.
 
-| numbers                  | n   | result |
-| ------------------------ | --- | ------ |
-| [34, 5, 71, 29, 100, 34] | 123 | 139    |
-| [58, 44, 27, 10, 100]    | 139 | 239    |
+Complete the solution function to return arr after processing the queries according to the above rules.
+
+##### Example input and output
+
+| arr             | queries                | result             |
+| --------------- | ---------------------- | ------------------ |
+| [0, 1, 2, 3, 4] | [[0, 1],[1, 2],[2, 3]] | [1, 3, 4, 4, 4, 4] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int[] numbers, int n) {
-        int answer = 0;
-        for(int i = 0; i < numbers.length; i++){
-            answer += numbers[i];
-            if(answer > n) break;
+    public int[] solution(int[] arr, int[][] queries) {
+        int[] answer = arr;
+        int idx = 0;
+        for(int i = 0; i < queries.length; i++){
+            for(int j = queries[i][0]; j <= queries[i][1]; j++){
+                answer[j] += 1;
+            }
         }
-        return answer;
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### solution description
 
-int answer = 0;: 결과를 저장할 변수 answer를 초기화합니다.
+int[] answer = arr;: Initialize the resulting array answer to arr. This way, answer will point to the same array as arr.
 
-for(int i = 0; i < numbers.length; i++) : 입력 배열 numbers를 반복하면서 각 요소를 검사합니다.
+for(int i = 0; i < queries.length; i++) : Iterate over the array queries, processing each query.
 
-answer += numbers[i];: 현재 요소를 answer에 더합니다. 이렇게 하면 배열의 요소들이 순차적으로 합산됩니다.
+for(int j = queries[i][0]; j <= queries[i][1]; j++) : Iterate over the range for each query, incrementing the elements of the answer array within that range by 1.
 
-if(answer > n) break;: 합이 n을 초과하면 반복문을 종료합니다. 즉, 합이 n을 초과하는 순간 합산을 멈춥니다.
+return answer;: After processing all the queries, return the changed answer array.
 
-return answer;: 최종적으로 합산된 결과 answer를 반환합니다.
+This code does the job of incrementing the elements of arr by 1 that correspond to the ranges in the queries array.
+
+But be careful, because the answer array references the arr array, this action also affects the arr array.
+
+So if you want to store the result in a new array without changing the arr array, you need to create a new array and make changes to it.
