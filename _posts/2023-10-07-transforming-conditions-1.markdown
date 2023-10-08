@@ -41,65 +41,69 @@ date: 2023-10-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 수열과 구간 쿼리에 대하여 알아본 글입니다.
+### In this article, we learned about converting a sequence to fit a condition.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수 배열 arr와 2차원 정수 배열 queries이 주어집니다.
+You are given an array of integers, arr.
 
-queries의 원소는 각각 하나의 query를 나타내며, [s, e] 꼴입니다.
+For each element in arr, divide by 2 if the value is an even number greater than or equal to 50, and multiply by 2 if it is an odd number less than or equal to 50.
 
-각 query마다 순서대로 s ≤ i ≤ e인 모든 i에 대해 arr[i]에 1을 더합니다.
+Complete the solution function to return the resulting array of integers.
 
-위 규칙에 따라 queries를 처리한 이후의 arr를 return 하는 solution 함수를 완성해 주세요.
+##### Example input and output
 
-##### 입출력 예시
-
-| arr             | queries                | result          |
-| --------------- | ---------------------- | --------------- |
-| [0, 1, 2, 3, 4] | [[0, 1],[1, 2],[2, 3]] | [1, 3, 4, 4, 4] |
+| arr                    | result                |
+| ---------------------- | --------------------- |
+| [1, 2, 3, 100, 99, 98] | [2, 2, 6, 50, 99, 49] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int[] solution(int[] arr, int[][] queries) {
-        int[] answer = arr;
-        int idx = 0;
-        for(int i = 0; i < queries.length; i++){
-            for(int j = queries[i][0]; j <= queries[i][1]; j++){
-                answer[j] += 1;
+    public int[] solution(int[] arr) {
+        int[] answer = new int[arr.length];
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] >= 50 && arr[i] % 2 == 0){
+                answer[i] = arr[i] / 2;
+            }else if(arr[i] < 50 && arr[i] % 2 != 0){
+                answer[i] = arr[i] * 2;
+            }else{
+                answer[i] = arr[i];
             }
         }
-        return answer;
-    }
+    } return answer;
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-int[] answer = arr;: 결과 배열 answer를 arr로 초기화합니다. 이렇게 하면 answer는 arr과 같은 배열을 가리키게 됩니다.
+int[] answer = new int[arr.length]; : Create an array answer with the same length as the input array arr to store the result.
 
-for(int i = 0; i < queries.length; i++) : queries 배열을 반복하면서 각 쿼리를 처리합니다.
+for(int i = 0; i < arr.length; i++) : Iterate over the input array arr, examining each element.
 
-for(int j = queries[i][0]; j <= queries[i][1]; j++) : 각 쿼리에 대한 범위를 반복하면서 해당 범위 내의 answer 배열 요소를 1씩 증가시킵니다.
+if(arr[i] >= 50 && arr[i] % 2 == 0) : If the current element is greater than or equal to 50 and is an even number:
 
-return answer;: 모든 쿼리를 처리한 후, 변경된 answer 배열을 반환합니다.
+Store the current element divided by 2 in the answer array.
 
-이 코드는 queries 배열에 있는 범위에 해당하는 arr의 요소를 1씩 증가시키는 작업을 수행합니다.
+else if(arr[i] < 50 && arr[i] % 2 != 0) : If the current element is less than 50 and odd:
 
-하지만 주의할 점은 answer 배열이 arr 배열을 참조하므로, 이 작업은 arr 배열에도 영향을 미칩니다.
+Store the value of the current element multiplied by 2 in the ANSWER array.
 
-따라서 arr 배열을 변경하지 않고 새로운 배열에 결과를 저장하려면 새로운 배열을 생성하고 그 배열을 변경해야 합니다.
+else : If the above two conditions are not satisfied (i.e., greater than 50 but not an even number, or less than 50 but not an odd number):
+
+Store the current element as it is in the answer array.
+
+return answer;: Returns the answer array with the operation finally completed.

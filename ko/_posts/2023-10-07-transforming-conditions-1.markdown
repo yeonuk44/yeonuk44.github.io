@@ -41,7 +41,7 @@ date: 2023-10-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 수열과 구간 쿼리에 대하여 알아본 글입니다.
+### 조건에 맞게 수열 변환하기에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -53,19 +53,17 @@ date: 2023-10-07 09:00:00 +0900
 
 #### 문제
 
-정수 배열 arr와 2차원 정수 배열 queries이 주어집니다.
+정수 배열 arr가 주어집니다.
 
-queries의 원소는 각각 하나의 query를 나타내며, [s, e] 꼴입니다.
+arr의 각 원소에 대해 값이 50보다 크거나 같은 짝수라면 2로 나누고, 50보다 작은 홀수라면 2를 곱합니다.
 
-각 query마다 순서대로 s ≤ i ≤ e인 모든 i에 대해 arr[i]에 1을 더합니다.
-
-위 규칙에 따라 queries를 처리한 이후의 arr를 return 하는 solution 함수를 완성해 주세요.
+그 결과인 정수 배열을 return 하는 solution 함수를 완성해 주세요.
 
 ##### 입출력 예시
 
-| arr             | queries                | result          |
-| --------------- | ---------------------- | --------------- |
-| [0, 1, 2, 3, 4] | [[0, 1],[1, 2],[2, 3]] | [1, 3, 4, 4, 4] |
+| arr                    | result                |
+| ---------------------- | --------------------- |
+| [1, 2, 3, 100, 99, 98] | [2, 2, 6, 50, 99, 49] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -75,12 +73,15 @@ queries의 원소는 각각 하나의 query를 나타내며, [s, e] 꼴입니다
 
 ```java
 class Solution {
-    public int[] solution(int[] arr, int[][] queries) {
-        int[] answer = arr;
-        int idx = 0;
-        for(int i = 0; i < queries.length; i++){
-            for(int j = queries[i][0]; j <= queries[i][1]; j++){
-                answer[j] += 1;
+    public int[] solution(int[] arr) {
+        int[] answer = new int[arr.length];
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] >= 50 && arr[i] % 2 == 0){
+                answer[i] = arr[i] / 2;
+            }else if(arr[i] < 50 && arr[i] % 2 != 0){
+                answer[i] = arr[i] * 2;
+            }else{
+                answer[i] = arr[i];
             }
         }
         return answer;
@@ -90,16 +91,20 @@ class Solution {
 
 ##### 풀이 설명
 
-int[] answer = arr;: 결과 배열 answer를 arr로 초기화합니다. 이렇게 하면 answer는 arr과 같은 배열을 가리키게 됩니다.
+int[] answer = new int[arr.length];: 결과를 저장할 배열 answer를 입력 배열 arr과 동일한 길이로 생성합니다.
 
-for(int i = 0; i < queries.length; i++) : queries 배열을 반복하면서 각 쿼리를 처리합니다.
+for(int i = 0; i < arr.length; i++) : 입력 배열 arr를 반복하면서 각 요소를 검사합니다.
 
-for(int j = queries[i][0]; j <= queries[i][1]; j++) : 각 쿼리에 대한 범위를 반복하면서 해당 범위 내의 answer 배열 요소를 1씩 증가시킵니다.
+if(arr[i] >= 50 && arr[i] % 2 == 0) : 현재 요소가 50 이상이면서 짝수인 경우:
 
-return answer;: 모든 쿼리를 처리한 후, 변경된 answer 배열을 반환합니다.
+현재 요소를 2로 나눈 값을 answer 배열에 저장합니다.
 
-이 코드는 queries 배열에 있는 범위에 해당하는 arr의 요소를 1씩 증가시키는 작업을 수행합니다.
+else if(arr[i] < 50 && arr[i] % 2 != 0) : 현재 요소가 50 미만이면서 홀수인 경우:
 
-하지만 주의할 점은 answer 배열이 arr 배열을 참조하므로, 이 작업은 arr 배열에도 영향을 미칩니다.
+현재 요소를 2배로 곱한 값을 answer 배열에 저장합니다.
 
-따라서 arr 배열을 변경하지 않고 새로운 배열에 결과를 저장하려면 새로운 배열을 생성하고 그 배열을 변경해야 합니다.
+else : 위의 두 조건을 만족하지 않는 경우 (즉, 50 이상이면서 짝수가 아니거나, 50 미만이면서 홀수가 아닌 경우):
+
+현재 요소를 그대로 answer 배열에 저장합니다.
+
+return answer;: 최종적으로 연산이 완료된 answer 배열을 반환합니다.
