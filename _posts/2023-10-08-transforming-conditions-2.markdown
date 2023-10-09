@@ -41,70 +41,116 @@ date: 2023-10-08 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 조건에 맞게 수열 변환하기에 대하여 알아본 글입니다.
+### In this article, we learned about converting a sequence to fit a condition.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수 배열 arr가 주어집니다.
+You are given an array of integers, arr.
 
-arr의 각 원소에 대해 값이 50보다 크거나 같은 짝수라면 2로 나누고, 50보다 작은 홀수라면 2를 곱합니다.
+For each element in arr, divide by 2 if the value is an even number greater than or equal to 50, multiply by 2 if it is an odd number less than 50, and add 1 again.
 
-그 결과인 정수 배열을 return 하는 solution 함수를 완성해 주세요.
+The array resulting from repeating these operations x times is denoted arr(x), and there will always be an x such that arr(x) = arr(x + 1).
 
-##### 입출력 예시
+Complete the solution function to return the smallest of these x's.
 
-| arr                    | result                |
-| ---------------------- | --------------------- |
-| [1, 2, 3, 100, 99, 98] | [2, 2, 6, 50, 99, 49] |
+Note that the "=" for the two arrays means that the two arrays are the same size, and that the elements at the same index are equal to each other.
+
+##### Example input and output
+
+| arr                    | result |
+| ---------------------- | ------ |
+| [1, 2, 3, 100, 99, 98] | 5      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
+import java.util.*;
 class Solution {
-    public int[] solution(int[] arr) {
-        int[] answer = new int[arr.length];
-        for(int i = 0; i < arr.length; i++){
-            if(arr[i] >= 50 && arr[i] % 2 == 0){
-                answer[i] = arr[i] / 2;
-            }else if(arr[i] < 50 && arr[i] % 2 != 0){
-                answer[i] = arr[i] * 2;
-            }else{
-                answer[i] = arr[i];
+    public int solution(int[] arr) {
+        int answer = 0;
+        int[] tempArr = new int[arr.length];
+        do {
+            for(int i = 0; i < arr.length; i++){
+            tempArr[i] = arr[i];
             }
-        }
-        return answer;
+            for(int i = 0; i < arr.length; i++){
+                if(arr[i] >= 50 && arr[i] % 2 == 0){
+                    arr[i] = arr[i] / 2;
+                } else if(arr[i] < 50 && arr[i] % 2 != 0){
+                    arr[i] = arr[i] * 2 + 1;
+                }
+            }
+            answer++;
+        } while(!Arrays.equals(tempArr, arr));
+        return answer - 1;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-int[] answer = new int[arr.length];: 결과를 저장할 배열 answer를 입력 배열 arr과 동일한 길이로 생성합니다.
+The answer variable stores the number of times the conversion process is repeated.
 
-for(int i = 0; i < arr.length; i++) : 입력 배열 arr를 반복하면서 각 요소를 검사합니다.
+The array tempArr is a temporary array for copying the current arr array value.
 
-if(arr[i] >= 50 && arr[i] % 2 == 0) : 현재 요소가 50 이상이면서 짝수인 경우:
+The do-while loop runs until tempArr and the arr array are not equal.
 
-현재 요소를 2로 나눈 값을 answer 배열에 저장합니다.
+The first for loop copies the values in the current arr array into the tempArr array.
 
-else if(arr[i] < 50 && arr[i] % 2 != 0) : 현재 요소가 50 미만이면서 홀수인 경우:
+The second for loop changes the arr array by performing an operation based on the condition for each element.
 
-현재 요소를 2배로 곱한 값을 answer 배열에 저장합니다.
+We record the number of iterations by incrementing answer.
 
-else : 위의 두 조건을 만족하지 않는 경우 (즉, 50 이상이면서 짝수가 아니거나, 50 미만이면서 홀수가 아닌 경우):
+Arrays.equals(tempArr, arr) compares the arrays tempArr and arr to see if they are equal. If they are not equal, the loop continues.
 
-현재 요소를 그대로 answer 배열에 저장합니다.
+When the loop ends, it returns answer - 1, which is the number of conversions.
 
-return answer;: 최종적으로 연산이 완료된 answer 배열을 반환합니다.
+As I was writing the code, I realized that I should be careful with references to arrays.
+
+Here's an example: ###### Be careful when copying arrays
+
+**Example**
+
+```java
+ int[] intArray1 = new int[] { 1, 2, 3 };
+  int[] intArray2 = new int[] { 1, 2, 3 };
+
+if(intArray1 == intArray2) {
+    System.out.println("The two arrays are equal.");
+  } else {
+    System.out.println("The two arrays are not equal.");
+  }
+}
+
+// return: The two arrays are not equal.
+```
+
+**Why?**
+
+The reason is that in Java, arrays are considered objects, and array variables are references that point to array objects.
+
+So when you use the == operator to compare array variables, you are actually comparing reference addresses.
+
+This is a rule that applies to all objects in Java, so arrays at different memory locations are always judged to be unequal when compared with the == operator, even if their contents are identical.
+
+This behavior is caused by Java's object comparison rules, which apply to all objects, not just arrays.
+
+To compare the contents of objects for equality, you must use the Arrays.equals() method or a method that compares the elements of the array directly.
+
+Other languages have mostly similar behaviors, although some languages may have subtle differences in these behaviors.
+
+However, since most comparisons of objects are based on reference addresses, the general principle will be similar: the value of a variable of a reference type is the address of the object in the Heap area, so the return result will be different because you are comparing the value of the address, not the value of the element.
+
+This applies not only to arrays, but also to types like strings that compare objects.
