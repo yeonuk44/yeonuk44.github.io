@@ -40,79 +40,63 @@ date: 2023-10-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 1로 만들기에 대하여 알아본 글입니다.
+### In this article, we learned about finding a string.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, doing a retrospective on the problem we solved, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수가 있을 때, 짝수라면 반으로 나누고, 홀수라면 1을 뺀 뒤 반으로 나누면, 마지막엔 1이 됩니다. 예를 들어 10이 있다면 다음과 같은 과정으로 1이 됩니다.
+You are given two alphabetical strings, myString and pat.
 
-10 / 2 = 5
+Complete a solution function that returns 1 if pat exists in any consecutive substring of myString, and 0 otherwise.
 
-(5 - 1) / 2 = 4
+Note that we do not distinguish between upper and lower case letters of the alphabet.
 
-4 / 2 = 2
+##### Example input and output
 
-2 / 2 = 1
-
-위와 같이 4번의 나누기 연산으로 1이 되었습니다.
-
-정수들이 담긴 리스트 num_list가 주어질 때, num_list의 모든 원소를 1로 만들기 위해서 필요한 나누기 연산의 횟수를 return하도록 solution 함수를 완성해주세요.
-
-##### 입출력 예시
-
-| num_list           | result |
-| ------------------ | ------ |
-| [12, 4, 15, 1, 14] | 11     |
+| myString  | pat     | return |
+| --------- | ------- | ------ |
+| "AbCdEfG" | "aBc"   | 1      |
+| "aaAA"    | "aaaaa" | 0      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int[] num_list) {
+    public int solution(String myString, String pat) {
         int answer = 0;
-        for(int i = 0; i < num_list.length; i++){
-            while(num_list[i] != 1){
-                if(num_list[i] % 2 == 0){
-                    num_list[i] = num_list[i] / 2;
-                } else{
-                    num_list[i] = (num_list[i] - 1) / 2;
-                }
-                answer++;
-            }
+        String lowerStr = myString.toLowerCase();
+        String lowerPat = pat.toLowerCase();
+        if(lowerStr.contains(lowerPat)){
+            answer = 1;
         }
-        return answer;
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution description
 
-int answer = 0;: 결과를 저장할 변수 answer를 초기화합니다. 초기값은 0입니다.
+int answer = 0;: Initialize the variable answer to store the result. The initial value is 0.
 
-for(int i = 0; i < num_list.length; i++) : 입력 배열 num_list를 반복하면서 각 요소를 검사합니다.
+String lowerStr = myString.toLowerCase();: Convert the input string myString to lowercase and store it in lowerStr. The reason for doing this is to make judgments case insensitive.
 
-while(num_list[i] != 1) : 현재 요소가 1이 아닌 경우, 다음 작업을 수행합니다.
+String lowerPat = pat.toLowerCase();: Convert the input string pat to lowercase as well and store it in lowerPat.
 
-if(num_list[i] % 2 == 0) : 현재 요소가 짝수인 경우:
+if(lowerStr.contains(lowerPat)) : If the string lowerStr contains the string lowerPat:
 
-현재 요소를 2로 나눕니다.
+Set answer to 1.
 
-else : 현재 요소가 홀수인 경우:
+return answer;: Returns answer representing the result.
 
-현재 요소에서 1을 빼고 2로 나눕니다.
-
-answer++;: 각 연산을 수행할 때마다 answer를 1씩 증가시킵니다. 이는 필요한 연산 횟수를 세는 역할을 합니다.
-
-return answer;: 각 요소에 대한 연산 횟수를 합산한 answer를 반환합니다.
+If lowerStr contains lowerPat, return 1; otherwise, return 0.
