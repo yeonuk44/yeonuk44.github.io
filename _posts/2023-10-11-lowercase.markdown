@@ -40,63 +40,47 @@ date: 2023-10-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 원하는 문자열 찾기에 대하여 알아본 글입니다.
+### In this article, we learned how to lowercase.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-알파벳으로 이루어진 문자열 myString과 pat이 주어집니다.
+You are given a string, myString, consisting of the alphabet.
 
-myString의 연속된 부분 문자열 중 pat이 존재하면 1을 그렇지 않으면 0을 return 하는 solution 함수를 완성해 주세요.
+Complete a solution function that converts all the alphabets to lowercase and returns it.
 
-단, 알파벳 대문자와 소문자는 구분하지 않습니다.
+##### Example input and output
 
-##### 입출력 예시
-
-| myString  | pat     | return |
-| --------- | ------- | ------ |
-| "AbCdEfG" | "aBc"   | 1      |
-| "aaAA"    | "aaaaa" | 0      |
+| myString  | return    |
+| --------- | --------- |
+| "aBcDeFg" | "abcdefg" |
+| "aaa"     | "aaa"     |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(String myString, String pat) {
-        int answer = 0;
-        String lowerStr = myString.toLowerCase();
-        String lowerPat = pat.toLowerCase();
-        if(lowerStr.contains(lowerPat)){
-            answer = 1;
-        }
-        return answer;
+    public String solution(String myString) {
+        return myString.toLowerCase();
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution description
 
-int answer = 0;: 결과를 저장할 변수 answer를 초기화합니다. 초기값은 0입니다.
+String solution(String myString) : Defines a function that takes a string as input.
 
-String lowerStr = myString.toLowerCase();: 입력 문자열 myString을 소문자로 변환하여 lowerStr에 저장합니다. 이렇게 하는 이유는 대소문자 구분 없이 판단하기 위함입니다.
+return myString.toLowerCase();: Returns the result of converting the string myString to lowercase.
 
-String lowerPat = pat.toLowerCase();: 입력 문자열 pat도 소문자로 변환하여 lowerPat에 저장합니다.
-
-if(lowerStr.contains(lowerPat)) : lowerStr 문자열에 lowerPat 문자열이 포함되어 있는 경우:
-
-answer를 1로 설정합니다.
-
-return answer;: 결과를 나타내는 answer를 반환합니다.
-
-만약 lowerStr에 lowerPat이 포함되어 있으면 1, 그렇지 않으면 0을 반환합니다.
+This code converts all the characters in the input string to lowercase and returns the result. This can be useful when you don't need to be case sensitive.

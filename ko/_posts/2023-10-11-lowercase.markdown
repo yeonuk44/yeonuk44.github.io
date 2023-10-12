@@ -40,7 +40,7 @@ date: 2023-10-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 원하는 문자열 찾기에 대하여 알아본 글입니다.
+### 소문자로 바꾸기에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,18 +52,16 @@ date: 2023-10-11 09:00:00 +0900
 
 #### 문제
 
-알파벳으로 이루어진 문자열 myString과 pat이 주어집니다.
+알파벳으로 이루어진 문자열 myString이 주어집니다.
 
-myString의 연속된 부분 문자열 중 pat이 존재하면 1을 그렇지 않으면 0을 return 하는 solution 함수를 완성해 주세요.
-
-단, 알파벳 대문자와 소문자는 구분하지 않습니다.
+모든 알파벳을 소문자로 변환하여 return 하는 solution 함수를 완성해 주세요.
 
 ##### 입출력 예시
 
-| myString  | pat     | return |
-| --------- | ------- | ------ |
-| "AbCdEfG" | "aBc"   | 1      |
-| "aaAA"    | "aaaaa" | 0      |
+| myString  | return    |
+| --------- | --------- |
+| "aBcDeFg" | "abcdefg" |
+| "aaa"     | "aaa"     |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -73,30 +71,16 @@ myString의 연속된 부분 문자열 중 pat이 존재하면 1을 그렇지 �
 
 ```java
 class Solution {
-    public int solution(String myString, String pat) {
-        int answer = 0;
-        String lowerStr = myString.toLowerCase();
-        String lowerPat = pat.toLowerCase();
-        if(lowerStr.contains(lowerPat)){
-            answer = 1;
-        }
-        return answer;
+    public String solution(String myString) {
+        return myString.toLowerCase();
     }
 }
 ```
 
 ##### 풀이 설명
 
-int answer = 0;: 결과를 저장할 변수 answer를 초기화합니다. 초기값은 0입니다.
+String solution(String myString) : 문자열을 입력으로 받는 함수를 정의합니다.
 
-String lowerStr = myString.toLowerCase();: 입력 문자열 myString을 소문자로 변환하여 lowerStr에 저장합니다. 이렇게 하는 이유는 대소문자 구분 없이 판단하기 위함입니다.
+return myString.toLowerCase();: myString 문자열을 소문자로 변환한 결과를 반환합니다.
 
-String lowerPat = pat.toLowerCase();: 입력 문자열 pat도 소문자로 변환하여 lowerPat에 저장합니다.
-
-if(lowerStr.contains(lowerPat)) : lowerStr 문자열에 lowerPat 문자열이 포함되어 있는 경우:
-
-answer를 1로 설정합니다.
-
-return answer;: 결과를 나타내는 answer를 반환합니다.
-
-만약 lowerStr에 lowerPat이 포함되어 있으면 1, 그렇지 않으면 0을 반환합니다.
+이 코드는 입력 문자열에 포함된 모든 문자를 소문자로 변환하고 그 결과를 반환합니다. 대소문자를 구분하지 않아야 하는 경우에 유용하게 사용될 수 있습니다.
