@@ -40,47 +40,61 @@ date: 2023-10-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 대문자로 바꾸기에 대하여 알아본 글입니다.
+### This is an article about emphasizing A.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to be solving coding test questions, reflecting on the problems we solved, and learning about other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-알파벳으로 이루어진 문자열 myString이 주어집니다.
+You are given a string myString.
 
-모든 알파벳을 대문자로 변환하여 return 하는 solution 함수를 완성해 주세요.
+Complete the solution function by converting all occurrences of the alphabet "a" in myString to "A" and all non-capitalized alphabets to lowercase alphabets and return.
 
-##### 입출력 예시
+##### Example input and output
 
-| myString  | result    |
-| --------- | --------- |
-| "aBcDeFg" | "ABCDEFG" |
-| "AAA"     | "AAA"     |
+| myString           | result             |
+| ------------------ | ------------------ |
+| "abstract algebra" | "AbstrAct AlgebrA" |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
     public String solution(String myString) {
-        return myString.toUpperCase();
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < myString.length(); i++) {
+            char currentChar = myString.charAt(i);
+            if (currentChar == 'a') {
+                result.append('A');
+            }else if(currentChar == 'A'){
+                result.append(currentChar);
+            }else if (Character.isUpperCase(currentChar)) {
+                result.append(Character.toLowerCase(currentChar));
+            }else {
+                result.append(currentChar);
+            }
+        }
+        } return result.toString();
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution Explained
 
-String solution(String myString) : 문자열을 입력으로 받는 함수를 정의합니다.
+The above code converts the string by traversing the given string character by character and checking for conditions.
 
-return myString.toUpperCase();: myString 문자열을 대문자로 변환한 결과를 반환합니다.
+If the character is 'A', it is kept as is, and if it is in the uppercase alphabet, it is converted to lowercase.
 
-이 코드는 간단한 작업을 수행합니다. 주어진 문자열 내의 모든 문자를 대문자로 변환하고 그 결과를 반환합니다.
+Other characters are kept intact.
+
+Considering the performance of string operations, it is implemented to use StringBuilder to construct the string.

@@ -40,7 +40,7 @@ date: 2023-10-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 대문자로 바꾸기에 대하여 알아본 글입니다.
+### A 강조하기에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,16 +52,15 @@ date: 2023-10-14 09:00:00 +0900
 
 #### 문제
 
-알파벳으로 이루어진 문자열 myString이 주어집니다.
+문자열 myString이 주어집니다.
 
-모든 알파벳을 대문자로 변환하여 return 하는 solution 함수를 완성해 주세요.
+myString에서 알파벳 "a"가 등장하면 전부 "A"로 변환하고, "A"가 아닌 모든 대문자 알파벳은 소문자 알파벳으로 변환하여 return 하는 solution 함수를 완성하세요.
 
 ##### 입출력 예시
 
-| myString  | result    |
-| --------- | --------- |
-| "aBcDeFg" | "ABCDEFG" |
-| "AAA"     | "AAA"     |
+| myString           | result             |
+| ------------------ | ------------------ |
+| "abstract algebra" | "AbstrAct AlgebrA" |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -72,15 +71,30 @@ date: 2023-10-14 09:00:00 +0900
 ```java
 class Solution {
     public String solution(String myString) {
-        return myString.toUpperCase();
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < myString.length(); i++) {
+            char currentChar = myString.charAt(i);
+            if (currentChar == 'a') {
+                result.append('A');
+            }else if(currentChar == 'A'){
+                result.append(currentChar);
+            }else if (Character.isUpperCase(currentChar)) {
+                result.append(Character.toLowerCase(currentChar));
+            }else {
+                result.append(currentChar);
+            }
+        }
+        return result.toString();
     }
 }
 ```
 
 ##### 풀이 설명
 
-String solution(String myString) : 문자열을 입력으로 받는 함수를 정의합니다.
+위 코드는 주어진 문자열을 한 글자씩 순회하며 조건을 확인하여 문자열을 변환합니다.
 
-return myString.toUpperCase();: myString 문자열을 대문자로 변환한 결과를 반환합니다.
+문자가 'A'일 경우에는 그대로 유지하고, 대문자 알파벳일 경우에는 소문자로 변환합니다.
 
-이 코드는 간단한 작업을 수행합니다. 주어진 문자열 내의 모든 문자를 대문자로 변환하고 그 결과를 반환합니다.
+그 외의 문자는 그대로 유지됩니다.
+
+문자열 연산 성능을 고려하여 StringBuilder를 사용하여 문자열을 구성하도록 구현되었습니다.
