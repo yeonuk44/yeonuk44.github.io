@@ -40,7 +40,7 @@ date: 2023-10-15 09:00:00 +0900
 
 <!-- outline-start -->
 
-### A 강조하기에 대하여 알아본 글입니다.
+### "ad" 제거하기에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,15 +52,16 @@ date: 2023-10-15 09:00:00 +0900
 
 #### 문제
 
-문자열 myString이 주어집니다.
+문자열 배열 strArr가 주어집니다.
 
-myString에서 알파벳 "a"가 등장하면 전부 "A"로 변환하고, "A"가 아닌 모든 대문자 알파벳은 소문자 알파벳으로 변환하여 return 하는 solution 함수를 완성하세요.
+배열 내의 문자열 중 "ad"라는 부분 문자열을 포함하고 있는 모든 문자열을 제거하고 남은 문자열을 순서를 유지하여 배열로 return 하는 solution 함수를 완성해 주세요.
 
 ##### 입출력 예시
 
-| myString           | result             |
-| ------------------ | ------------------ |
-| "abstract algebra" | "AbstrAct AlgebrA" |
+| strArr                        | result                        |
+| ----------------------------- | ----------------------------- |
+| ["and","notad","abcd"]        | ["and","abcd"]                |
+| ["there","are","no","a","ds"] | ["there","are","no","a","ds"] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -70,31 +71,43 @@ myString에서 알파벳 "a"가 등장하면 전부 "A"로 변환하고, "A"가 
 
 ```java
 class Solution {
-    public String solution(String myString) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < myString.length(); i++) {
-            char currentChar = myString.charAt(i);
-            if (currentChar == 'a') {
-                result.append('A');
-            }else if(currentChar == 'A'){
-                result.append(currentChar);
-            }else if (Character.isUpperCase(currentChar)) {
-                result.append(Character.toLowerCase(currentChar));
-            }else {
-                result.append(currentChar);
+    public String[] solution(String[] strArr) {
+        int count = 0;
+        String ad = "ad";
+        for (int i = 0; i < strArr.length; i++) {
+            if (!strArr[i].contains(ad)) {
+                count++;
             }
         }
-        return result.toString();
+        String[] answer = new String[count];
+        int index = 0;
+        for (int i = 0; i < strArr.length; i++) {
+            if (!strArr[i].contains(ad)) {
+                answer[index++] = strArr[i];
+            }
+        }
+
+        return answer;
     }
 }
 ```
 
 ##### 풀이 설명
 
-위 코드는 주어진 문자열을 한 글자씩 순회하며 조건을 확인하여 문자열을 변환합니다.
+public String[] solution(String[] strArr): 문자열 배열 strArr을 입력으로 받아 문제를 해결하는 함수입니다. 반환값으로 문자열 배열을 반환합니다.
 
-문자가 'A'일 경우에는 그대로 유지하고, 대문자 알파벳일 경우에는 소문자로 변환합니다.
+int count = 0;: 유효한 문자열의 개수를 저장하기 위한 변수 count를 초기화합니다.
 
-그 외의 문자는 그대로 유지됩니다.
+String ad = "ad";: "ad"라는 부분 문자열을 저장하는 변수입니다. 나중에 이 문자열을 포함하는지 검사할 때 사용됩니다.
 
-문자열 연산 성능을 고려하여 StringBuilder를 사용하여 문자열을 구성하도록 구현되었습니다.
+for (int i = 0; i < strArr.length; i++) { ... }: 주어진 문자열 배열 strArr의 각 문자열에 대해서 반복문을 실행합니다.
+
+if (!strArr[i].contains(ad)) { ... }: 현재 문자열이 "ad"를 포함하지 않는지 검사합니다. 포함하지 않는 경우 count 값을 증가시킵니다.
+
+String[] answer = new String[count];: 유효한 문자열의 개수에 맞게 크기가 결정된 answer 배열을 생성합니다.
+
+int index = 0;: answer 배열에 문자열을 저장할 때 사용될 인덱스 변수를 초기화합니다.
+
+두 번째 반복문에서 유효한 문자열을 answer 배열에 저장하는 작업을 수행합니다. 검사하여 "ad"를 포함하지 않는 경우에만 answer 배열에 저장하며, 인덱스 값을 증가시키면서 저장합니다.
+
+return answer;: 최종적으로 구성된 answer 배열을 반환합니다.

@@ -40,61 +40,74 @@ date: 2023-10-15 09:00:00 +0900
 
 <!-- outline-start -->
 
-### A 강조하기에 대하여 알아본 글입니다.
+### This is the article about removing "ad".
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, doing a retrospective on the problem we solved, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-문자열 myString이 주어집니다.
+You are given an array of strings, strArr.
 
-myString에서 알파벳 "a"가 등장하면 전부 "A"로 변환하고, "A"가 아닌 모든 대문자 알파벳은 소문자 알파벳으로 변환하여 return 하는 solution 함수를 완성하세요.
+Complete a solution function that removes all strings in the array that contain the substring "ad" and returns the remaining strings to the array in order.
 
-##### 입출력 예시
+##### Example input and output
 
-| myString           | result             |
-| ------------------ | ------------------ |
-| "abstract algebra" | "AbstrAct AlgebrA" |
+| strArr                        | result                        |
+| ----------------------------- | ----------------------------- |
+| ["and","notad","abcd"]        | ["and","abcd"]                |
+| ["there","are","no","a","ds"] | ["there","are","no","a","ds"] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public String solution(String myString) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < myString.length(); i++) {
-            char currentChar = myString.charAt(i);
-            if (currentChar == 'a') {
-                result.append('A');
-            }else if(currentChar == 'A'){
-                result.append(currentChar);
-            }else if (Character.isUpperCase(currentChar)) {
-                result.append(Character.toLowerCase(currentChar));
-            }else {
-                result.append(currentChar);
+    public String[] solution(String[] strArr) {
+        int count = 0;
+        String ad = "ad";
+        for (int i = 0; i < strArr.length; i++) {
+            if (!strArr[i].contains(ad)) {
+                count++;
             }
         }
-        return result.toString();
+        String[] answer = new String[count];
+        int index = 0;
+        for (int i = 0; i < strArr.length; i++) {
+            if (!strArr[i].contains(ad)) {
+                answer[index++] = strArr[i];
+            }
+        }
+
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### solution description
 
-위 코드는 주어진 문자열을 한 글자씩 순회하며 조건을 확인하여 문자열을 변환합니다.
+public String[] solution(String[] strArr): A function that takes an array of strings, strArr, as input and solves the problem. It returns an array of strings as the return value.
 
-문자가 'A'일 경우에는 그대로 유지하고, 대문자 알파벳일 경우에는 소문자로 변환합니다.
+int count = 0;: Initialize the variable count to store the number of valid strings.
 
-그 외의 문자는 그대로 유지됩니다.
+String ad = "ad";: A variable to store the substring "ad". It will be used later to check if the string contains this.
 
-문자열 연산 성능을 고려하여 StringBuilder를 사용하여 문자열을 구성하도록 구현되었습니다.
+for (int i = 0; i < strArr.length; i++) { ... }: Runs a loop for each string in the given array of strings, strArr.
+
+if (!strArr[i].contains(ad)) { ... }: Checks if the current string does not contain "ad". If it does not, increment the value of count.
+
+String[] answer = new String[count];: Create an answer array sized to fit the number of valid strings.
+
+int index = 0;: Initialize the index variable to be used when storing strings in the answer array.
+
+In the second iteration, perform the task of storing the valid strings into the answer array. It checks and saves it to the answer array only if it does not contain "ad", incrementing the index value as it does so.
+
+return answer;: Returns the answer array as finally constructed.
