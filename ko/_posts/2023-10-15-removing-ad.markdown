@@ -1,0 +1,100 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_Removing_ad
+title: "ad" 제거하기(with.Java)
+# title:  Removing "ad" (with.Java)
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2023-10-15 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+### A 강조하기에 대하여 알아본 글입니다.
+
+코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+
+문제에 대해 먼저 알아보겠습니다.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+#### 문제
+
+문자열 myString이 주어집니다.
+
+myString에서 알파벳 "a"가 등장하면 전부 "A"로 변환하고, "A"가 아닌 모든 대문자 알파벳은 소문자 알파벳으로 변환하여 return 하는 solution 함수를 완성하세요.
+
+##### 입출력 예시
+
+| myString           | result             |
+| ------------------ | ------------------ |
+| "abstract algebra" | "AbstrAct AlgebrA" |
+
+<!-- | start_num | end_num | result |
+| --------- | ------- | ------ |
+| 10        | 3       | 0      | -->
+
+#### 문제에 대한 나의 풀이
+
+```java
+class Solution {
+    public String solution(String myString) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < myString.length(); i++) {
+            char currentChar = myString.charAt(i);
+            if (currentChar == 'a') {
+                result.append('A');
+            }else if(currentChar == 'A'){
+                result.append(currentChar);
+            }else if (Character.isUpperCase(currentChar)) {
+                result.append(Character.toLowerCase(currentChar));
+            }else {
+                result.append(currentChar);
+            }
+        }
+        return result.toString();
+    }
+}
+```
+
+##### 풀이 설명
+
+위 코드는 주어진 문자열을 한 글자씩 순회하며 조건을 확인하여 문자열을 변환합니다.
+
+문자가 'A'일 경우에는 그대로 유지하고, 대문자 알파벳일 경우에는 소문자로 변환합니다.
+
+그 외의 문자는 그대로 유지됩니다.
+
+문자열 연산 성능을 고려하여 StringBuilder를 사용하여 문자열을 구성하도록 구현되었습니다.
