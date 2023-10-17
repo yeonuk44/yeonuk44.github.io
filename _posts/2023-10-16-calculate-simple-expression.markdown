@@ -40,74 +40,80 @@ date: 2023-10-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "ad" 제거하기에 대하여 알아본 글입니다.
+### In this article, we learned about calculating simple expressions.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-문자열 배열 strArr가 주어집니다.
+The string binomial is given as a parameter.
 
-배열 내의 문자열 중 "ad"라는 부분 문자열을 포함하고 있는 모든 문자열을 제거하고 남은 문자열을 순서를 유지하여 배열로 return 하는 solution 함수를 완성해 주세요.
+binomial is a binomial of the form "a op b", where a and b are non-negative integers, and op is one of '+', '-', or '\*'.
 
-##### 입출력 예시
+Write a solution function that returns an integer that computes the given expression.
 
-| strArr                        | result                        |
-| ----------------------------- | ----------------------------- |
-| ["and","notad","abcd"]        | ["and","abcd"]                |
-| ["there","are","no","a","ds"] | ["there","are","no","a","ds"] |
+##### Example input and output
+
+binomial: "43 + 12"
+
+result: 55
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public String[] solution(String[] strArr) {
-        int count = 0;
-        String ad = "ad";
-        for (int i = 0; i < strArr.length; i++) {
-            if (!strArr[i].contains(ad)) {
-                count++;
-            }
-        }
-        String[] answer = new String[count];
-        int index = 0;
-        for (int i = 0; i < strArr.length; i++) {
-            if (!strArr[i].contains(ad)) {
-                answer[index++] = strArr[i];
-            }
+    public int solution(String binomial) {
+        String[] parts = binomial.split(" ");
+
+        int a = Integer.parseInt(parts[0]);
+        int b = Integer.parseInt(parts[2]);
+
+        String op = parts[1];
+
+        int result = 0;
+        switch (op) {
+            case "+":
+                result = a + b;
+                break;
+            case "-":
+                result = a - b;
+                break;
+            case "*":
+                result = a * b;
+                break;
         }
 
-        return answer;
+        return result;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-public String[] solution(String[] strArr): 문자열 배열 strArr을 입력으로 받아 문제를 해결하는 함수입니다. 반환값으로 문자열 배열을 반환합니다.
+String[] parts = binomial.split(" ");: Splits the given binomial string based on whitespace and stores it in the parts array. This allows us to separate the operands and operators that are components of the binomial.
 
-int count = 0;: 유효한 문자열의 개수를 저장하기 위한 변수 count를 초기화합니다.
+int a = Integer.parseInt(parts[0]); and int b = Integer.parseInt(parts[2]);: convert the first and third elements of the parts array to integers and store them in the operands a and b. This extracts the numeric part of the binomial.
 
-String ad = "ad";: "ad"라는 부분 문자열을 저장하는 변수입니다. 나중에 이 문자열을 포함하는지 검사할 때 사용됩니다.
+String op = parts[1];: Stores the second element of the parts array in the operator string op. This operator will be one of "+", "-", or "\*".
 
-for (int i = 0; i < strArr.length; i++) { ... }: 주어진 문자열 배열 strArr의 각 문자열에 대해서 반복문을 실행합니다.
+int result = 0;: Initialize the variable result to store the result value.
 
-if (!strArr[i].contains(ad)) { ... }: 현재 문자열이 "ad"를 포함하지 않는지 검사합니다. 포함하지 않는 경우 count 값을 증가시킵니다.
+switch (op) { ... }: Performs an operation using the switch statement based on the value of op.
 
-String[] answer = new String[count];: 유효한 문자열의 개수에 맞게 크기가 결정된 answer 배열을 생성합니다.
+case "+": : Performs an addition operation and stores the result in result.
 
-int index = 0;: answer 배열에 문자열을 저장할 때 사용될 인덱스 변수를 초기화합니다.
+case "-": : Performs a subtraction operation and stores the result in result.
 
-두 번째 반복문에서 유효한 문자열을 answer 배열에 저장하는 작업을 수행합니다. 검사하여 "ad"를 포함하지 않는 경우에만 answer 배열에 저장하며, 인덱스 값을 증가시키면서 저장합니다.
+case "\*": : Performs a multiplication operation and stores the result in result.
 
-return answer;: 최종적으로 구성된 answer 배열을 반환합니다.
+return result;: Returns the calculated result.
