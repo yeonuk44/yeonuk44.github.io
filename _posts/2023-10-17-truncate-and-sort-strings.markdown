@@ -40,80 +40,90 @@ date: 2023-10-17 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 간단한 식 계산하기에 대하여 알아본 글입니다.
+### In this article, we learned how to cut and sort a string.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-문자열 binomial이 매개변수로 주어집니다.
+You are given a string myString.
 
-binomial은 "a op b" 형태의 이항식이고 a와 b는 음이 아닌 정수, op는 '+', '-', '\*' 중 하나입니다.
+Complete a solution function that truncates that string based on "x", creates an array, and returns the array sorted alphabetically.
 
-주어진 식을 계산한 정수를 return 하는 solution 함수를 작성해 주세요.
+However, do not put the empty string in the array to be returned.
 
-##### 입출력 예시
+##### Example input and output
 
-binomial: "43 + 12"
+myString: "axbxcxdx"
 
-result: 55
+result: ["a","b","c","d"]
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
+import java.util.*;
 class Solution {
-    public int solution(String binomial) {
-        String[] parts = binomial.split(" ");
+    public String[] solution(String myString) {
 
-        int a = Integer.parseInt(parts[0]);
-        int b = Integer.parseInt(parts[2]);
-
-        String op = parts[1];
-
-        int result = 0;
-        switch (op) {
-            case "+":
-                result = a + b;
-                break;
-            case "-":
-                result = a - b;
-                break;
-            case "*":
-                result = a * b;
-                break;
+        ArrayList<String> arr = new ArrayList<String>();
+        String str = "";
+        for(int i = 0; i < myString.length(); i++){
+            if(myString.charAt(i) == 'x'){
+                arr.add(str);
+                str = "";
+            }else{
+                str += myString.charAt(i);
+            }
         }
 
-        return result;
+        if (!str.isEmpty()) {
+            arr.add(str);
+        }
+
+        arr.removeIf(String::isEmpty);
+        Collections.sort(arr);
+
+        String[] answer = new String[arr.size()];
+        for(int j = 0; j < answer.length; j++){
+            answer[j] = arr.get(j);
+        }
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-String[] parts = binomial.split(" ");: 주어진 binomial 문자열을 공백을 기준으로 나누어서 parts 배열에 저장합니다. 이렇게 하면 이항식의 구성 요소인 피연산자와 연산자를 분리할 수 있습니다.
+ArrayList<String> arr = new ArrayList<String>();: Create arr, an ArrayList to store the substring.
 
-int a = Integer.parseInt(parts[0]);와 int b = Integer.parseInt(parts[2]);: parts 배열의 첫 번째 요소와 세 번째 요소를 정수로 변환하여 피연산자 a와 b에 저장합니다. 이렇게 하면 이항식에서 숫자 부분을 추출합니다.
+String str = "";: Creates an empty string, str, to store the current substring.
 
-String op = parts[1];: parts 배열의 두 번째 요소를 연산자 문자열 op에 저장합니다. 이 연산자는 "+", "-", 또는 "\*" 중 하나일 것입니다.
+for(int i = 0; i < myString.length(); i++) { ... }: Starts a loop that traverses the given string myString character by character.
 
-int result = 0;: 결과 값을 저장할 변수 result를 초기화합니다.
+if(myString.charAt(i) == 'x') { ... }: Checks to see if the current character is "x". If it is "x", add the substring str up to this point to the list arr and initialize str.
 
-switch (op) { ... }: op의 값을 기반으로 switch 문을 사용하여 연산을 수행합니다.
+Otherwise, append the current character to str.
 
-case "+": : 덧셈 연산을 수행하고 결과를 result에 저장합니다.
+Traverse the string through the loop, extracting the substring based on "x" and storing it in the arr list.
 
-case "-": : 뺄셈 연산을 수행하고 결과를 result에 저장합니다.
+if (!str.isEmpty()) { arr.add(str); }: For the final substring processing, if str is not empty, add it to the arr list.
 
-case "\*": : 곱셈 연산을 수행하고 결과를 result에 저장합니다.
+arr.removeIf(String::isEmpty);: Remove the empty string from the arr list using the removeIf method.
 
-return result;: 계산된 결과를 반환합니다.
+Collections.sort(arr);: Sort the arr list alphabetically.
+
+String[] answer = new String[arr.size()];: Create the result array answer based on the arr list with the length determined.
+
+for(int j = 0; j < answer.length; j++) { ... }: Copy the substring stored in the arr list to the answer array.
+
+The function ends and returns the answer array. This array contains the substring separated by "x", sorted alphabetically except for the empty string.
