@@ -40,90 +40,24 @@ date: 2023-10-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 문자열 잘라서 정렬하기에 대하여 알아본 글입니다.
+### This article explains why StringBuilders are efficient.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+When we solve coding test questions in Java or consult programming textbooks about programming in Java and string manipulation, the textbooks often cover StringBuilder and the benefits of string manipulation.
 
-문제에 대해 먼저 알아보겠습니다.
+In this article, we'll learn why they are efficient and use them.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Why should you use it?
 
-문자열 myString이 주어집니다.
+1. Variability: StringBuilder is a mutable object, which means that when you modify a string, you can modify the original string directly, rather than continually generating a new string. This makes string modification operations fast and memory efficient.
+2. Higher performance: When modifying a string, using StringBuilder doesn't cost you the cost of creating or copying a new string each time. Instead, it modifies the existing string directly, which provides faster performance.
+3. Memory efficiency: StringBuilder does not create or copy temporary objects for string manipulation, so it can use memory efficiently.
 
-"x"를 기준으로 해당 문자열을 잘라내 배열을 만든 후 사전순으로 정렬한 배열을 return 하는 solution 함수를 완성해 주세요.
+#### Conclusion
 
-단, 빈 문자열은 반환할 배열에 넣지 않습니다.
+When you need to dynamically manipulate strings, using StringBuilder can provide performance and memory usage benefits.
 
-##### 입출력 예시
-
-myString: "axbxcxdx"
-
-result: ["a","b","c","d"]
-
-<!-- | start_num | end_num | result |
-| --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
-
-#### 문제에 대한 나의 풀이
-
-```java
-import java.util.*;
-class Solution {
-    public String[] solution(String myString) {
-
-        ArrayList<String> arr = new ArrayList<String>();
-        String str = "";
-        for(int i = 0; i < myString.length(); i++){
-            if(myString.charAt(i) == 'x'){
-                arr.add(str);
-                str = "";
-            }else{
-                str += myString.charAt(i);
-            }
-        }
-
-        if (!str.isEmpty()) {
-            arr.add(str);
-        }
-
-        arr.removeIf(String::isEmpty);
-        Collections.sort(arr);
-
-        String[] answer = new String[arr.size()];
-        for(int j = 0; j < answer.length; j++){
-            answer[j] = arr.get(j);
-        }
-        return answer;
-    }
-}
-```
-
-##### 풀이 설명
-
-ArrayList<String> arr = new ArrayList<String>();: 부분 문자열을 저장할 ArrayList인 arr을 생성합니다.
-
-String str = "";: 현재 부분 문자열을 저장할 빈 문자열 str을 생성합니다.
-
-for(int i = 0; i < myString.length(); i++) { ... }: 주어진 문자열 myString을 한 글자씩 순회하는 반복문을 시작합니다.
-
-if(myString.charAt(i) == 'x') { ... }: 현재 문자가 "x"인지 확인합니다. 만약 "x"라면 현재까지의 부분 문자열 str을 arr 리스트에 추가하고 str을 초기화합니다.
-
-그렇지 않은 경우에는 str에 현재 문자를 추가합니다.
-
-반복문을 통해 문자열을 순회하면서 "x"를 기준으로 부분 문자열을 추출하고 arr 리스트에 저장합니다.
-
-if (!str.isEmpty()) { arr.add(str); }: 마지막 부분 문자열 처리를 위해, 만약 str이 비어 있지 않다면 이를 arr 리스트에 추가합니다.
-
-arr.removeIf(String::isEmpty);: 빈 문자열을 removeIf 메소드를 사용하여 arr 리스트에서 제거합니다.
-
-Collections.sort(arr);: arr 리스트를 사전순으로 정렬합니다.
-
-String[] answer = new String[arr.size()];: 길이가 결정된 arr 리스트를 기반으로 결과 배열 answer를 생성합니다.
-
-for(int j = 0; j < answer.length; j++) { ... }: arr 리스트에 저장된 부분 문자열을 answer 배열로 복사합니다.
-
-함수가 종료되고 answer 배열을 반환합니다. 이 배열에는 "x"를 기준으로 분리된 부분 문자열이 빈 문자열을 제외하고 사전순으로 정렬되어 있습니다.
+On the other hand, if string manipulation is infrequent, you can get away with using simple string concatenation (+ operator).
