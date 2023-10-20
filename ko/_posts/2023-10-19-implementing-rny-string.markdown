@@ -40,7 +40,7 @@ date: 2023-10-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 문자열 잘라서 정렬하기에 대하여 알아본 글입니다.
+### rny_string 구현하는 것에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,78 +52,45 @@ date: 2023-10-19 09:00:00 +0900
 
 #### 문제
 
-문자열 myString이 주어집니다.
+'m'과 "rn"이 모양이 비슷하게 생긴 점을 활용해 문자열에 장난을 하려고 합니다.
 
-"x"를 기준으로 해당 문자열을 잘라내 배열을 만든 후 사전순으로 정렬한 배열을 return 하는 solution 함수를 완성해 주세요.
-
-단, 빈 문자열은 반환할 배열에 넣지 않습니다.
+문자열 rny_string이 주어질 때, rny_string의 모든 'm'을 "rn"으로 바꾼 문자열을 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-myString: "axbxcxdx"
-
-result: ["a","b","c","d"]
-
-<!-- | start_num | end_num | result |
-| --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| rny_string    | result         |
+| ------------- | -------------- |
+| "masterpiece" | "rnasterpiece" |
+| "programmers" | "programmers"  |
+| "jerry"       | "jerry"        |
+| "burn"        | "burn"         |
 
 #### 문제에 대한 나의 풀이
 
 ```java
-import java.util.*;
 class Solution {
-    public String[] solution(String myString) {
-
-        ArrayList<String> arr = new ArrayList<String>();
-        String str = "";
-        for(int i = 0; i < myString.length(); i++){
-            if(myString.charAt(i) == 'x'){
-                arr.add(str);
-                str = "";
-            }else{
-                str += myString.charAt(i);
+    public String solution(String rny_string) {
+        StringBuilder answer = new StringBuilder(rny_string);
+        for(int i = 0; i < answer.length(); i++){
+            if(answer.charAt(i) == 'm'){
+                answer.replace(i,i,"rn");
             }
         }
-
-        if (!str.isEmpty()) {
-            arr.add(str);
-        }
-
-        arr.removeIf(String::isEmpty);
-        Collections.sort(arr);
-
-        String[] answer = new String[arr.size()];
-        for(int j = 0; j < answer.length; j++){
-            answer[j] = arr.get(j);
-        }
-        return answer;
+        return answer.toString();
     }
 }
 ```
 
 ##### 풀이 설명
 
-ArrayList<String> arr = new ArrayList<String>();: 부분 문자열을 저장할 ArrayList인 arr을 생성합니다.
+StringBuilder answer = new StringBuilder(rny_string);: 주어진 문자열 rny_string을 수정할 수 있는 StringBuilder 객체로 변환합니다. StringBuilder는 문자열을 효율적으로 수정하기 위한 클래스입니다.
 
-String str = "";: 현재 부분 문자열을 저장할 빈 문자열 str을 생성합니다.
+for(int i = 0; i < answer.length(); i++): 문자열을 한 글자씩 순회하는 루프를 시작합니다. 루프는 문자열의 길이만큼 반복됩니다.
 
-for(int i = 0; i < myString.length(); i++) { ... }: 주어진 문자열 myString을 한 글자씩 순회하는 반복문을 시작합니다.
+if(answer.charAt(i) == 'm'): 현재 인덱스 i의 문자가 'm'인지 확인합니다.
 
-if(myString.charAt(i) == 'x') { ... }: 현재 문자가 "x"인지 확인합니다. 만약 "x"라면 현재까지의 부분 문자열 str을 arr 리스트에 추가하고 str을 초기화합니다.
+answer.replace(i, i + 1, "rn");: 'm'을 "rn"으로 대체합니다. replace 메소드는 시작 인덱스 i와 끝 인덱스 i + 1 사이의 문자열을 "rn"으로 대체합니다.
 
-그렇지 않은 경우에는 str에 현재 문자를 추가합니다.
+return answer.toString();: StringBuilder 객체를 다시 문자열로 변환하여 결과를 반환합니다.
 
-반복문을 통해 문자열을 순회하면서 "x"를 기준으로 부분 문자열을 추출하고 arr 리스트에 저장합니다.
-
-if (!str.isEmpty()) { arr.add(str); }: 마지막 부분 문자열 처리를 위해, 만약 str이 비어 있지 않다면 이를 arr 리스트에 추가합니다.
-
-arr.removeIf(String::isEmpty);: 빈 문자열을 removeIf 메소드를 사용하여 arr 리스트에서 제거합니다.
-
-Collections.sort(arr);: arr 리스트를 사전순으로 정렬합니다.
-
-String[] answer = new String[arr.size()];: 길이가 결정된 arr 리스트를 기반으로 결과 배열 answer를 생성합니다.
-
-for(int j = 0; j < answer.length; j++) { ... }: arr 리스트에 저장된 부분 문자열을 answer 배열로 복사합니다.
-
-함수가 종료되고 answer 배열을 반환합니다. 이 배열에는 "x"를 기준으로 분리된 부분 문자열이 빈 문자열을 제외하고 사전순으로 정렬되어 있습니다.
+이렇게 구현된 코드는 입력된 문자열에서 'm' 문자를 모두 "rn"으로 대체하여 새로운 문자열을 생성하고 반환합니다. 문자열 수정에 StringBuilder를 사용하여 효율적으로 작업하고 있습니다.
