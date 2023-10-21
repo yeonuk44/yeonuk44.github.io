@@ -40,57 +40,81 @@ date: 2023-10-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-### rny_string 구현하는 것에 대하여 알아본 글입니다.
+### This is the second installment of our series on Space Separators.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn about it by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-'m'과 "rn"이 모양이 비슷하게 생긴 점을 활용해 문자열에 장난을 하려고 합니다.
+Write a solution function that, given a string my_string with words separated by at least one space as a parameter, returns an array of strings containing the words in my_string in order from front to back.
 
-문자열 rny_string이 주어질 때, rny_string의 모든 'm'을 "rn"으로 바꾼 문자열을 return 하는 solution 함수를 작성해 주세요.
+##### Example input and output
 
-##### 입출력 예시
+| my_string       | result               |
+| --------------- | -------------------- |
+| " i love you"   | ["i", "love", "you"] |
+| " programmers " | ["programmers"]      |
 
-| rny_string    | result         |
-| ------------- | -------------- |
-| "masterpiece" | "rnasterpiece" |
-| "programmers" | "programmers"  |
-| "jerry"       | "jerry"        |
-| "burn"        | "burn"         |
+In Example 1, my_string is " i love you" and when we split the word based on spaces, we have 3 words: "i", "love", and "you".
 
-#### 문제에 대한 나의 풀이
+Therefore, we return ["i", "love", "you"].
+
+In example 2, my_string is " programmers", which has only one word, "programmers".
+
+Therefore, return ["programmers"].
+
+#### My solution to the problem
 
 ```java
+import java.util.*;
+
 class Solution {
-    public String solution(String rny_string) {
-        StringBuilder answer = new StringBuilder(rny_string);
-        for(int i = 0; i < answer.length(); i++){
-            if(answer.charAt(i) == 'm'){
-                answer.replace(i,i,"rn");
-            }
-        }
-        return answer.toString();
+    public String[] solution(String my_string) {
+        String[] answer = my_string.split(" ");
+        List<String> list = new ArrayList<>(Arrays.asList(answer));
+        list.removeAll(Arrays.asList(""));
+        return list.toArray(new String[0]);
     }
 }
+
 ```
 
-##### 풀이 설명
+##### solution description
 
-StringBuilder answer = new StringBuilder(rny_string);: 주어진 문자열 rny_string을 수정할 수 있는 StringBuilder 객체로 변환합니다. StringBuilder는 문자열을 효율적으로 수정하기 위한 클래스입니다.
+public String[] solution(String my_string): A function that takes the string my_string as input and solves the problem. Returns an array of strings as the return value.
 
-for(int i = 0; i < answer.length(); i++): 문자열을 한 글자씩 순회하는 루프를 시작합니다. 루프는 문자열의 길이만큼 반복됩니다.
+String[] answer = my_string.split(" ");: code that takes the given string my_string, splits it based on whitespace, and creates a string array answer containing the words.
 
-if(answer.charAt(i) == 'm'): 현재 인덱스 i의 문자가 'm'인지 확인합니다.
+List<String> list = new ArrayList<>(Arrays.asList(answer));: Converts the array answer created above into a list and stores it in the list variable. This prepares us to manipulate the list and add/remove elements.
 
-answer.replace(i, i + 1, "rn");: 'm'을 "rn"으로 대체합니다. replace 메소드는 시작 인덱스 i와 끝 인덱스 i + 1 사이의 문자열을 "rn"으로 대체합니다.
+list.removeAll(Arrays.asList(""));: This code removes all empty strings from the list. Create a list containing empty strings using Arrays.asList("") and remove all elements belonging to this list from the list list.
 
-return answer.toString();: StringBuilder 객체를 다시 문자열로 변환하여 결과를 반환합니다.
+return list.toArray(new String[0]);: This code converts the elements stored in the list list to an array of Strings and returns them. Here, new String[0] is responsible for creating a new String array of size 0. This array will be copied and contain the elements stored in the list list.
 
-이렇게 구현된 코드는 입력된 문자열에서 'm' 문자를 모두 "rn"으로 대체하여 새로운 문자열을 생성하고 반환합니다. 문자열 수정에 StringBuilder를 사용하여 효율적으로 작업하고 있습니다.
+As a result, the code performs the task of separating the given string my_string by whitespace, removing the empty string, and returning the remaining words as an array of Strings.
+
+While writing the code, I thought that if I set the initial size of the array to 0, no elements would be inserted into the array, but it worked as intended.
+
+I'm also attaching what I realized.
+
+The reason the code works as intended, even though you specify an initial size of 0 for the array, is because of the way Java works with arrays.
+
+When an array is sized to zero, it doesn't actually create an array at all, but rather an array object of size zero.
+
+This array object doesn't have space to store any actual elements, but the array object itself will exist.
+
+In Java, arrays have a fixed size, so you must specify the size of the array when you create it.
+
+So new String[0] creates an array object of size 0, which doesn't have space to store elements, but the array object itself will exist.
+
+And the code list.toArray(new String[0]) returns this array object with the elements in it, which signals that we need a new array to hold the elements.
+
+Inside Java, this array object is copied to a new size and filled with elements.
+
+So even though you create an array object with an initial size of 0, when you return it with the elements in the list.toArray(new String[0]) code, a new resized array is actually created and filled with the elements.

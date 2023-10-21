@@ -40,7 +40,7 @@ date: 2023-10-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-### rny_string 구현하는 것에 대하여 알아본 글입니다.
+### 공백으로 구분하기 2에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,45 +52,69 @@ date: 2023-10-20 09:00:00 +0900
 
 #### 문제
 
-'m'과 "rn"이 모양이 비슷하게 생긴 점을 활용해 문자열에 장난을 하려고 합니다.
-
-문자열 rny_string이 주어질 때, rny_string의 모든 'm'을 "rn"으로 바꾼 문자열을 return 하는 solution 함수를 작성해 주세요.
+단어가 공백 한 개 이상으로 구분되어 있는 문자열 my_string이 매개변수로 주어질 때, my_string에 나온 단어를 앞에서부터 순서대로 담은 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-| rny_string    | result         |
-| ------------- | -------------- |
-| "masterpiece" | "rnasterpiece" |
-| "programmers" | "programmers"  |
-| "jerry"       | "jerry"        |
-| "burn"        | "burn"         |
+| my_string       | result               |
+| --------------- | -------------------- |
+| " i love you"   | ["i", "love", "you"] |
+| " programmers " | ["programmers"]      |
+
+예제 1번의 my_string은 " i love you"로 공백을 기준으로 단어를 나누면 "i", "love", "you" 3개의 단어가 있습니다.
+
+따라서 ["i", "love", "you"]를 return 합니다.
+
+예제 2번의 my_string은 " programmers "로 단어는 "programmers" 하나만 있습니다.
+
+따라서 ["programmers"]를 return 합니다.
 
 #### 문제에 대한 나의 풀이
 
 ```java
+import java.util.*;
+
 class Solution {
-    public String solution(String rny_string) {
-        StringBuilder answer = new StringBuilder(rny_string);
-        for(int i = 0; i < answer.length(); i++){
-            if(answer.charAt(i) == 'm'){
-                answer.replace(i,i,"rn");
-            }
-        }
-        return answer.toString();
+    public String[] solution(String my_string) {
+        String[] answer = my_string.split(" ");
+        List<String> list = new ArrayList<>(Arrays.asList(answer));
+        list.removeAll(Arrays.asList(""));
+        return list.toArray(new String[0]);
     }
 }
+
 ```
 
 ##### 풀이 설명
 
-StringBuilder answer = new StringBuilder(rny_string);: 주어진 문자열 rny_string을 수정할 수 있는 StringBuilder 객체로 변환합니다. StringBuilder는 문자열을 효율적으로 수정하기 위한 클래스입니다.
+public String[] solution(String my_string): 문자열 my_string을 입력으로 받아 문제를 해결하는 함수입니다. 반환값으로 문자열 배열을 반환합니다.
 
-for(int i = 0; i < answer.length(); i++): 문자열을 한 글자씩 순회하는 루프를 시작합니다. 루프는 문자열의 길이만큼 반복됩니다.
+String[] answer = my_string.split(" ");: 주어진 문자열 my_string을 공백을 기준으로 분리하여 단어들을 담은 문자열 배열 answer를 생성하는 코드입니다.
 
-if(answer.charAt(i) == 'm'): 현재 인덱스 i의 문자가 'm'인지 확인합니다.
+List<String> list = new ArrayList<>(Arrays.asList(answer));: 위에서 생성한 배열 answer를 리스트로 변환하여 list 변수에 저장합니다. 이를 통해 리스트를 조작하고 요소를 추가/제거할 수 있도록 준비합니다.
 
-answer.replace(i, i + 1, "rn");: 'm'을 "rn"으로 대체합니다. replace 메소드는 시작 인덱스 i와 끝 인덱스 i + 1 사이의 문자열을 "rn"으로 대체합니다.
+list.removeAll(Arrays.asList(""));: 빈 문자열을 리스트에서 모두 제거하는 코드입니다. Arrays.asList("")를 사용하여 빈 문자열을 담은 리스트를 생성하고, 이 리스트에 속한 모든 요소들을 리스트 list에서 제거합니다.
 
-return answer.toString();: StringBuilder 객체를 다시 문자열로 변환하여 결과를 반환합니다.
+return list.toArray(new String[0]);: 리스트 list에 저장된 요소들을 String 배열로 변환하여 반환하는 코드입니다. 여기서 new String[0]는 크기가 0인 새로운 String 배열을 생성하는 역할을 합니다. 이 배열에 리스트 list에 저장된 요소들이 복사되어 담기게 됩니다.
 
-이렇게 구현된 코드는 입력된 문자열에서 'm' 문자를 모두 "rn"으로 대체하여 새로운 문자열을 생성하고 반환합니다. 문자열 수정에 StringBuilder를 사용하여 효율적으로 작업하고 있습니다.
+결과적으로, 이 코드는 주어진 문자열 my_string을 공백을 기준으로 분리하여 빈 문자열을 제거한 뒤, 남은 단어들을 문자열 배열로 반환하는 작업을 수행합니다.
+
+코드를 작성하며, 배열의 초기 크기를 0으로 지정하면 배열에 요소가 삽입되지 않을거라고 생각했는데 의도대로 동작하였습니다.
+
+알게된 것도 첨부하겠습니다.
+
+배열의 초기 크기를 0으로 지정하더라도 코드가 의도한 대로 작동하는 이유는 Java의 배열과 관련된 동작 방식 때문입니다.
+
+배열의 크기가 0으로 지정되었다고 해서 실제로 배열이 아예 생성되지 않는 것이 아니라, 크기 0의 배열 객체가 생성되는 것입니다.
+
+이 배열 객체는 실제 요소를 저장할 수 있는 공간은 가지고 있지 않지만, 배열 객체 자체는 존재하게 됩니다.
+
+Java에서 배열은 고정된 크기를 가지므로, 배열의 크기를 생성할 때 지정해줘야 합니다.
+
+그래서 new String[0]는 크기가 0인 배열 객체를 생성하는 것이며, 이 배열 객체는 요소를 저장할 공간은 없지만 배열 객체 자체는 생성됩니다.
+
+그리고 list.toArray(new String[0]) 코드는 이 배열 객체에 요소들을 담아서 반환하는데, 이때 요소들이 들어갈 수 있는 새로운 배열이 필요하다는 신호를 줍니다.
+
+Java 내부에서 이 배열 객체를 새로운 크기로 복사하여 요소를 채워 넣게 됩니다.
+
+따라서 초기 크기가 0인 배열 객체를 생성하더라도, list.toArray(new String[0]) 코드를 통해 요소를 담아 반환하는 과정에서 실제로는 크기가 조정된 새로운 배열이 생성되어 요소들이 채워지게 됩니다.
