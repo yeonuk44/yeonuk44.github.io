@@ -40,7 +40,7 @@ date: 2023-10-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 공백으로 구분하기 2에 대하여 알아본 글입니다.
+### x 사이의 개수에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,69 +52,113 @@ date: 2023-10-21 09:00:00 +0900
 
 #### 문제
 
-단어가 공백 한 개 이상으로 구분되어 있는 문자열 my_string이 매개변수로 주어질 때, my_string에 나온 단어를 앞에서부터 순서대로 담은 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
+문자열 myString이 주어집니다.
+
+myString을 문자 "x"를 기준으로 나눴을 때 나눠진 문자열 각각의 길이를 순서대로 저장한 배열을 return 하는 solution 함수를 완성해 주세요.
 
 ##### 입출력 예시
 
-| my_string       | result               |
-| --------------- | -------------------- |
-| " i love you"   | ["i", "love", "you"] |
-| " programmers " | ["programmers"]      |
+"x"를 기준으로 문자열을 나누면 ["o", "oo", "o", "", "o", ""]가 됩니다.
 
-예제 1번의 my_string은 " i love you"로 공백을 기준으로 단어를 나누면 "i", "love", "you" 3개의 단어가 있습니다.
-
-따라서 ["i", "love", "you"]를 return 합니다.
-
-예제 2번의 my_string은 " programmers "로 단어는 "programmers" 하나만 있습니다.
-
-따라서 ["programmers"]를 return 합니다.
+각각의 길이로 배열을 만들면 [1, 2, 1, 0, 1, 0]입니다. 따라서 [1, 2, 1, 0, 1, 0]을 return 합니다.
 
 #### 문제에 대한 나의 풀이
 
 ```java
 import java.util.*;
-
 class Solution {
-    public String[] solution(String my_string) {
-        String[] answer = my_string.split(" ");
-        List<String> list = new ArrayList<>(Arrays.asList(answer));
-        list.removeAll(Arrays.asList(""));
-        return list.toArray(new String[0]);
+    public int[] solution(String myString) {
+        int[] answer;
+        char[] c = new char[myString.length()];
+        ArrayList<Integer> flag = new ArrayList<Integer>();
+        for(int i = 0; i < myString.length(); i++){
+            if(myString.charAt(i) == 'x'){
+                flag.add(i);
+            }
+        }
+
+        if(flag.get(flag.size() - 1) == myString.length() - 1 || flag.get(0) == 0){
+            answer = new int[flag.size() + 1];
+        } else {
+            answer = new int[flag.size()];
+        }
+
+        for(int i = 0; i < flag.size(); i++){
+            System.out.println(flag.get(i));
+            if(i == 0){
+                answer[i] = flag.get(i);
+            }else{
+                answer[i] = flag.get(i) - flag.get(i-1) - 1;
+            }
+        }
+        answer[answer.length - 1] = myString.length() - 1 - flag.get(flag.size() - 1);
+        return answer;
     }
 }
-
 ```
 
 ##### 풀이 설명
 
-public String[] solution(String my_string): 문자열 my_string을 입력으로 받아 문제를 해결하는 함수입니다. 반환값으로 문자열 배열을 반환합니다.
+처음에 위의 코드대로 테스트 문제를 해결하였으나 다른 테스트 케이스에선 통과하지 못했습니다. 통과하지 못한 이유에 대해선 아래와 같이 생각해보았습니다.
 
-String[] answer = my_string.split(" ");: 주어진 문자열 my_string을 공백을 기준으로 분리하여 단어들을 담은 문자열 배열 answer를 생성하는 코드입니다.
+- 주어진 문자열 myString에서 "x"를 기준으로 문자열을 나누고, 각 부분 문자열의 길이를 저장해야 합니다.
+- 코드에서는 "x"의 위치를 찾아 flag 리스트에 저장하고, 이를 기반으로 각 부분 문자열의 길이를 계산하려고 합니다. 하지만 코드에서 flag 리스트에 저장하는 위치는 "x" 문자의 위치가 아니라 "x"의 인덱스를 나타냅니다. 따라서 각 부분 문자열의 길이를 계산할 때 "x"의 위치와 인덱스 간에 차이가 발생하게 되어 예상치 못한 결과가 나타납니다.
+- 예를 들어, "oxooxoxxox" 문자열에서 "x"의 위치는 [1, 3, 5, 6, 8]입니다. 그러나 코드에서는 flag 리스트에는 이 위치가 아니라 "x"의 인덱스인 [1, 2, 4, 5, 7]가 저장됩니다.
+- 이로 인해 부분 문자열의 길이를 계산할 때, 인덱스 간의 차이를 구하므로 [1, 2, 1, 0, 2, 0]과 같이 예상치 못한 결과가 나타납니다.
 
-List<String> list = new ArrayList<>(Arrays.asList(answer));: 위에서 생성한 배열 answer를 리스트로 변환하여 list 변수에 저장합니다. 이를 통해 리스트를 조작하고 요소를 추가/제거할 수 있도록 준비합니다.
+즉, 문제를 해결하려면 "x"의 위치가 아니라 "x"를 기준으로 문자열을 나누고 각 부분 문자열의 길이를 계산해야 합니다.
 
-list.removeAll(Arrays.asList(""));: 빈 문자열을 리스트에서 모두 제거하는 코드입니다. Arrays.asList("")를 사용하여 빈 문자열을 담은 리스트를 생성하고, 이 리스트에 속한 모든 요소들을 리스트 list에서 제거합니다.
+아래는 자가 진단하고 새로 작성한 코드입니다.
 
-return list.toArray(new String[0]);: 리스트 list에 저장된 요소들을 String 배열로 변환하여 반환하는 코드입니다. 여기서 new String[0]는 크기가 0인 새로운 String 배열을 생성하는 역할을 합니다. 이 배열에 리스트 list에 저장된 요소들이 복사되어 담기게 됩니다.
+###### 새로 작성한 코드
 
-결과적으로, 이 코드는 주어진 문자열 my_string을 공백을 기준으로 분리하여 빈 문자열을 제거한 뒤, 남은 단어들을 문자열 배열로 반환하는 작업을 수행합니다.
+```java
+import java.util.*;
 
-코드를 작성하며, 배열의 초기 크기를 0으로 지정하면 배열에 요소가 삽입되지 않을거라고 생각했는데 의도대로 동작하였습니다.
+class Solution {
+    public int[] solution(String myString) {
+        ArrayList<Integer> lengths = new ArrayList<Integer>();
+        int length = 0;
 
-알게된 것도 첨부하겠습니다.
+        for (int i = 0; i < myString.length(); i++) {
+            if (myString.charAt(i) == 'x') {
+                lengths.add(length);
+                length = 0;
+            } else {
+                length++;
+            }
+        }
 
-배열의 초기 크기를 0으로 지정하더라도 코드가 의도한 대로 작동하는 이유는 Java의 배열과 관련된 동작 방식 때문입니다.
+        lengths.add(length); // 마지막 부분 문자열의 길이 추가
 
-배열의 크기가 0으로 지정되었다고 해서 실제로 배열이 아예 생성되지 않는 것이 아니라, 크기 0의 배열 객체가 생성되는 것입니다.
+        int[] answer = new int[lengths.size()];
+        for (int i = 0; i < lengths.size(); i++) {
+            answer[i] = lengths.get(i);
+        }
 
-이 배열 객체는 실제 요소를 저장할 수 있는 공간은 가지고 있지 않지만, 배열 객체 자체는 존재하게 됩니다.
+        return answer;
+    }
+}
+```
 
-Java에서 배열은 고정된 크기를 가지므로, 배열의 크기를 생성할 때 지정해줘야 합니다.
+###### 수정한 코드 풀이
 
-그래서 new String[0]는 크기가 0인 배열 객체를 생성하는 것이며, 이 배열 객체는 요소를 저장할 공간은 없지만 배열 객체 자체는 생성됩니다.
+ArrayList<Integer> lengths = new ArrayList<Integer>();: 부분 문자열의 길이를 저장할 리스트 lengths를 생성합니다.
 
-그리고 list.toArray(new String[0]) 코드는 이 배열 객체에 요소들을 담아서 반환하는데, 이때 요소들이 들어갈 수 있는 새로운 배열이 필요하다는 신호를 줍니다.
+int length = 0;: 현재 부분 문자열의 길이를 저장하는 변수 length를 초기화합니다.
 
-Java 내부에서 이 배열 객체를 새로운 크기로 복사하여 요소를 채워 넣게 됩니다.
+for (int i = 0; i < myString.length(); i++) { ... }: 주어진 문자열 myString을 한 글자씩 순회하는 반복문을 시작합니다.
 
-따라서 초기 크기가 0인 배열 객체를 생성하더라도, list.toArray(new String[0]) 코드를 통해 요소를 담아 반환하는 과정에서 실제로는 크기가 조정된 새로운 배열이 생성되어 요소들이 채워지게 됩니다.
+if (myString.charAt(i) == 'x') { ... }: 현재 문자가 "x"인지 확인합니다. 만약 "x"라면 현재까지의 부분 문자열의 길이를 lengths 리스트에 추가하고 length 변수를 0으로 초기화합니다.
+
+"x"가 아닌 문자열을 만나면 length 값을 1씩 증가시킵니다.
+
+반복문을 통해 문자열을 순회하면서 "x"를 기준으로 부분 문자열의 길이를 올바르게 계산하고 lengths 리스트에 저장합니다.
+
+lengths.add(length);: 마지막 부분 문자열의 길이를 lengths 리스트에 추가합니다.
+
+int[] answer = new int[lengths.size()];: 길이가 정해진 lengths 리스트를 기반으로 결과 배열 answer를 생성합니다.
+
+for (int i = 0; i < lengths.size(); i++) { ... }: lengths 리스트에 저장된 부분 문자열의 길이를 answer 배열에 복사합니다.
+
+함수가 종료되고 answer 배열을 반환합니다. 이 배열에는 "x"를 기준으로 나눈 각 부분 문자열의 길이가 순서대로 저장되어 있습니다.
