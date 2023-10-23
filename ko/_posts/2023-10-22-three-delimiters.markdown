@@ -40,7 +40,7 @@ date: 2023-10-22 09:00:00 +0900
 
 <!-- outline-start -->
 
-### x 사이의 개수에 대하여 알아본 글입니다.
+### 세 개의 구분자로 문자열을 나누는 방법에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,46 +52,44 @@ date: 2023-10-22 09:00:00 +0900
 
 #### 문제
 
-문자열 myString이 주어집니다.
+임의의 문자열이 주어졌을 때 문자 "a", "b", "c"를 구분자로 사용해 문자열을 나누고자 합니다.
 
-myString을 문자 "x"를 기준으로 나눴을 때 나눠진 문자열 각각의 길이를 순서대로 저장한 배열을 return 하는 solution 함수를 완성해 주세요.
+예를 들어 주어진 문자열이 "baconlettucetomato"라면 나눠진 문자열 목록은 ["onlettu", "etom", "to"] 가 됩니다.
+
+문자열 myStr이 주어졌을 때 위 예시와 같이 "a", "b", "c"를 사용해 나눠진 문자열을 순서대로 저장한 배열을 return 하는 solution 함수를 완성해 주세요.
+
+단, 두 구분자 사이에 다른 문자가 없을 경우에는 아무것도 저장하지 않으며, return할 배열이 빈 배열이라면 ["EMPTY"]를 return 합니다.
 
 ##### 입출력 예시
 
-"x"를 기준으로 문자열을 나누면 ["o", "oo", "o", "", "o", ""]가 됩니다.
-
-각각의 길이로 배열을 만들면 [1, 2, 1, 0, 1, 0]입니다. 따라서 [1, 2, 1, 0, 1, 0]을 return 합니다.
+| myStr                | result                    |
+| -------------------- | ------------------------- |
+| "baconlettucetomato" | ["onlettu", "etom", "to"] |
+| "abcd"               | ["d"]                     |
+| "cabab"              | ["EMPTY"]                 |
 
 #### 문제에 대한 나의 풀이
 
 ```java
-import java.util.*;
 class Solution {
-    public int[] solution(String myString) {
-        int[] answer;
-        char[] c = new char[myString.length()];
-        ArrayList<Integer> flag = new ArrayList<Integer>();
-        for(int i = 0; i < myString.length(); i++){
-            if(myString.charAt(i) == 'x'){
-                flag.add(i);
+    public String[] solution(String myStr) {
+        StringBuilder str = new StringBuilder("");
+        boolean insideWord = false;
+        for(int i = 0; i < myStr.length(); i++){
+            if(myStr.charAt(i) == 'a' || myStr.charAt(i) == 'b' || myStr.charAt(i) == 'c'){
+                if (insideWord) {
+                    str.append(' ');
+                    insideWord = false;
+                }
+            } else{
+                str.append(myStr.charAt(i));
+                insideWord = true;
             }
         }
-
-        if(flag.get(flag.size() - 1) == myString.length() - 1 || flag.get(0) == 0){
-            answer = new int[flag.size() + 1];
-        } else {
-            answer = new int[flag.size()];
+        if(str.length() == 0){
+            str.append("EMPTY");
         }
-
-        for(int i = 0; i < flag.size(); i++){
-            System.out.println(flag.get(i));
-            if(i == 0){
-                answer[i] = flag.get(i);
-            }else{
-                answer[i] = flag.get(i) - flag.get(i-1) - 1;
-            }
-        }
-        answer[answer.length - 1] = myString.length() - 1 - flag.get(flag.size() - 1);
+        String[] answer = str.toString().split(" ");
         return answer;
     }
 }
@@ -99,66 +97,14 @@ class Solution {
 
 ##### 풀이 설명
 
-처음에 위의 코드대로 테스트 문제를 해결하였으나 다른 테스트 케이스에선 통과하지 못했습니다. 통과하지 못한 이유에 대해선 아래와 같이 생각해보았습니다.
+주요 로직은 입력 문자열 myStr을 반복하여 각 문자를 검사하고, 'a', 'b', 'c' 문자를 만나면 해당 문자를 제거하고 단어를 분리하는 것입니다.
 
-- 주어진 문자열 myString에서 "x"를 기준으로 문자열을 나누고, 각 부분 문자열의 길이를 저장해야 합니다.
-- 코드에서는 "x"의 위치를 찾아 flag 리스트에 저장하고, 이를 기반으로 각 부분 문자열의 길이를 계산하려고 합니다. 하지만 코드에서 flag 리스트에 저장하는 위치는 "x" 문자의 위치가 아니라 "x"의 인덱스를 나타냅니다. 따라서 각 부분 문자열의 길이를 계산할 때 "x"의 위치와 인덱스 간에 차이가 발생하게 되어 예상치 못한 결과가 나타납니다.
-- 예를 들어, "oxooxoxxox" 문자열에서 "x"의 위치는 [1, 3, 5, 6, 8]입니다. 그러나 코드에서는 flag 리스트에는 이 위치가 아니라 "x"의 인덱스인 [1, 2, 4, 5, 7]가 저장됩니다.
-- 이로 인해 부분 문자열의 길이를 계산할 때, 인덱스 간의 차이를 구하므로 [1, 2, 1, 0, 2, 0]과 같이 예상치 못한 결과가 나타납니다.
+insideWord 변수를 사용하여 현재 단어 내부에 있는지 여부를 추적합니다.
 
-즉, 문제를 해결하려면 "x"의 위치가 아니라 "x"를 기준으로 문자열을 나누고 각 부분 문자열의 길이를 계산해야 합니다.
+StringBuilder 객체 str을 사용하여 문자열을 동적으로 빌드합니다.
 
-아래는 자가 진단하고 새로 작성한 코드입니다.
+StringBuilder 클래스의 append(char c) 메서드: 문자열 빌더에 문자를 추가합니다.
 
-###### 새로 작성한 코드
+StringBuilder 클래스의 toString() 메서드: StringBuilder 객체를 문자열로 변환합니다.
 
-```java
-import java.util.*;
-
-class Solution {
-    public int[] solution(String myString) {
-        ArrayList<Integer> lengths = new ArrayList<Integer>();
-        int length = 0;
-
-        for (int i = 0; i < myString.length(); i++) {
-            if (myString.charAt(i) == 'x') {
-                lengths.add(length);
-                length = 0;
-            } else {
-                length++;
-            }
-        }
-
-        lengths.add(length); // 마지막 부분 문자열의 길이 추가
-
-        int[] answer = new int[lengths.size()];
-        for (int i = 0; i < lengths.size(); i++) {
-            answer[i] = lengths.get(i);
-        }
-
-        return answer;
-    }
-}
-```
-
-###### 수정한 코드 풀이
-
-ArrayList<Integer> lengths = new ArrayList<Integer>();: 부분 문자열의 길이를 저장할 리스트 lengths를 생성합니다.
-
-int length = 0;: 현재 부분 문자열의 길이를 저장하는 변수 length를 초기화합니다.
-
-for (int i = 0; i < myString.length(); i++) { ... }: 주어진 문자열 myString을 한 글자씩 순회하는 반복문을 시작합니다.
-
-if (myString.charAt(i) == 'x') { ... }: 현재 문자가 "x"인지 확인합니다. 만약 "x"라면 현재까지의 부분 문자열의 길이를 lengths 리스트에 추가하고 length 변수를 0으로 초기화합니다.
-
-"x"가 아닌 문자열을 만나면 length 값을 1씩 증가시킵니다.
-
-반복문을 통해 문자열을 순회하면서 "x"를 기준으로 부분 문자열의 길이를 올바르게 계산하고 lengths 리스트에 저장합니다.
-
-lengths.add(length);: 마지막 부분 문자열의 길이를 lengths 리스트에 추가합니다.
-
-int[] answer = new int[lengths.size()];: 길이가 정해진 lengths 리스트를 기반으로 결과 배열 answer를 생성합니다.
-
-for (int i = 0; i < lengths.size(); i++) { ... }: lengths 리스트에 저장된 부분 문자열의 길이를 answer 배열에 복사합니다.
-
-함수가 종료되고 answer 배열을 반환합니다. 이 배열에는 "x"를 기준으로 나눈 각 부분 문자열의 길이가 순서대로 저장되어 있습니다.
+String 클래스의 split(String regex) 메서드: 문자열을 정규식 패턴 또는 구분자로 분할하고 문자열 배열로 반환합니다.
