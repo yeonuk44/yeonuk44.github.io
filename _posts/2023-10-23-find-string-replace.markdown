@@ -40,71 +40,96 @@ date: 2023-10-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 세 개의 구분자로 문자열을 나누는 방법에 대하여 알아본 글입니다.
+### In this article, we learned how to find the string substitution.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-임의의 문자열이 주어졌을 때 문자 "a", "b", "c"를 구분자로 사용해 문자열을 나누고자 합니다.
+You are given two strings, myString and pat, consisting of the letters "A" and "B".
 
-예를 들어 주어진 문자열이 "baconlettucetomato"라면 나눠진 문자열 목록은 ["onlettu", "etom", "to"] 가 됩니다.
+Complete a solution function that returns 1 if pat is a consecutive substring of the strings myString with "A" replaced by "B" and "B" replaced by "A" and 0 otherwise.
 
-문자열 myStr이 주어졌을 때 위 예시와 같이 "a", "b", "c"를 사용해 나눠진 문자열을 순서대로 저장한 배열을 return 하는 solution 함수를 완성해 주세요.
+##### Example input and output
 
-단, 두 구분자 사이에 다른 문자가 없을 경우에는 아무것도 저장하지 않으며, return할 배열이 빈 배열이라면 ["EMPTY"]를 return 합니다.
+myString: "ABBAA"
 
-##### 입출력 예시
+pat: "AABB"
 
-| myStr                | result                    |
-| -------------------- | ------------------------- |
-| "baconlettucetomato" | ["onlettu", "etom", "to"] |
-| "abcd"               | ["d"]                     |
-| "cabab"              | ["EMPTY"]                 |
+result: 1
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public String[] solution(String myStr) {
-        StringBuilder str = new StringBuilder("");
-        boolean insideWord = false;
-        for(int i = 0; i < myStr.length(); i++){
-            if(myStr.charAt(i) == 'a' || myStr.charAt(i) == 'b' || myStr.charAt(i) == 'c'){
-                if (insideWord) {
-                    str.append(' ');
-                    insideWord = false;
-                }
-            } else{
-                str.append(myStr.charAt(i));
-                insideWord = true;
+    public int solution(String myString, String pat) {
+        int answer = 0;
+        char[] ch = new char[myString.length()];
+        for(int i = 0; i < myString.length(); i++){
+            if(myString.charAt(i) == 'A'){
+                ch[i] = 'B';
+            }else{
+                ch[i] = 'A';
             }
         }
-        if(str.length() == 0){
-            str.append("EMPTY");
+        if(String.valueOf(ch).contains(pat)){
+            answer = 1;
         }
-        String[] answer = str.toString().split(" ");
-        return answer;
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### solution description
 
-주요 로직은 입력 문자열 myStr을 반복하여 각 문자를 검사하고, 'a', 'b', 'c' 문자를 만나면 해당 문자를 제거하고 단어를 분리하는 것입니다.
+public int solution(String myString, String pat):
 
-insideWord 변수를 사용하여 현재 단어 내부에 있는지 여부를 추적합니다.
+Begins the definition of the solution method. This method accepts two string arguments, myString and pat, and returns an integer result.
 
-StringBuilder 객체 str을 사용하여 문자열을 동적으로 빌드합니다.
+int answer = 0;:
 
-StringBuilder 클래스의 append(char c) 메서드: 문자열 빌더에 문자를 추가합니다.
+Declare a variable named answer and initialize it to 0. This variable will store the final result.
 
-StringBuilder 클래스의 toString() 메서드: StringBuilder 객체를 문자열로 변환합니다.
+char[] ch = new char[myString.length()];:
 
-String 클래스의 split(String regex) 메서드: 문자열을 정규식 패턴 또는 구분자로 분할하고 문자열 배열로 반환합니다.
+Declare an array of characters, ch, with a length equal to the length of myString. This array will be used to transform myString.
+
+for(int i = 0; i < myString.length(); i++):
+
+Traverse each character in myString using a for loop.
+
+if(myString.charAt(i) == 'A'){:
+
+Check if the character at the current index i is 'A'.
+
+ch[i] = 'B';:
+
+If it is 'A', convert the character to 'B' and store it in the ch array.
+
+}else:
+
+If not 'A',
+
+ch[i] = 'A';:
+
+Convert that character to 'A' and store it in the ch array.
+
+if(String.valueOf(ch).contains(pat)):
+
+Convert the ch array to a string, and check if the converted string contains the string pat.
+
+answer = 1;:
+
+If pat is contained in ch, set answer to 1.
+
+return answer;:
+
+Finally, return the value of answer.
+
+This code performs a simple string processing operation that converts myString to alternately 'A' and 'B' and then checks if it contains the string pat. The resulting value will be either 1 (contained) or 0 (not contained).
