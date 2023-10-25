@@ -40,7 +40,7 @@ date: 2023-10-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 문자열 바꿔서 찾는 방법에 대하여 알아본 글입니다.
+### 공백으로 구분하기 1에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,35 +52,21 @@ date: 2023-10-24 09:00:00 +0900
 
 #### 문제
 
-문자 "A"와 "B"로 이루어진 문자열 myString과 pat가 주어집니다.
-
-myString의 "A"를 "B"로, "B"를 "A"로 바꾼 문자열의 연속하는 부분 문자열 중 pat이 있으면 1을 아니면 0을 return 하는 solution 함수를 완성하세요.
+단어가 공백 한 개로 구분되어 있는 문자열 my_string이 매개변수로 주어질 때, my_string에 나온 단어를 앞에서부터 순서대로 담은 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-myString: "ABBAA"
-
-pat: "AABB"
-
-result: 1
+| my_string     | result               |
+| ------------- | -------------------- |
+| "i love you"  | ["i", "love", "you"] |
+| "programmers" | ["programmers"]      |
 
 #### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public int solution(String myString, String pat) {
-        int answer = 0;
-        char[] ch = new char[myString.length()];
-        for(int i = 0; i < myString.length(); i++){
-            if(myString.charAt(i) == 'A'){
-                ch[i] = 'B';
-            }else{
-                ch[i] = 'A';
-            }
-        }
-        if(String.valueOf(ch).contains(pat)){
-            answer = 1;
-        }
+    public String[] solution(String my_string) {
+        String[] answer = my_string.split(" ");
         return answer;
     }
 }
@@ -88,48 +74,4 @@ class Solution {
 
 ##### 풀이 설명
 
-public int solution(String myString, String pat):
-
-solution 메서드 정의 시작. 이 메서드는 두 개의 문자열 인수 myString과 pat을 받아들이고 정수형 결과를 반환합니다.
-
-int answer = 0;:
-
-answer라는 변수를 선언하고 0으로 초기화합니다. 이 변수는 최종 결과를 저장합니다.
-
-char[] ch = new char[myString.length()];:
-
-myString의 길이와 동일한 길이의 문자 배열 ch를 선언합니다. 이 배열은 myString을 변형하기 위해 사용됩니다.
-
-for(int i = 0; i < myString.length(); i++):
-
-for 루프를 사용하여 myString의 각 문자를 순회합니다.
-
-if(myString.charAt(i) == 'A'){:
-
-현재 인덱스 i의 문자가 'A'인지 확인합니다.
-
-ch[i] = 'B';:
-
-만약 'A'라면, 해당 문자를 'B'로 변환하여 ch 배열에 저장합니다.
-
-}else:
-
-'A'가 아니라면,
-
-ch[i] = 'A';:
-
-해당 문자를 'A'로 변환하여 ch 배열에 저장합니다.
-
-if(String.valueOf(ch).contains(pat)):
-
-ch 배열을 문자열로 변환하고, 변환된 문자열이 pat 문자열을 포함하는지 검사합니다.
-
-answer = 1;:
-
-만약 pat가 ch에 포함되면, answer를 1로 설정합니다.
-
-return answer;:
-
-최종적으로 answer 값을 반환합니다.
-
-이 코드는 myString을 'A'와 'B'로 번갈아가며 변환한 후에 pat 문자열이 포함되어 있는지 확인하는 간단한 문자열 처리 작업을 수행합니다. 결과 값은 1 (포함됨) 또는 0 (포함되지 않음) 중 하나일 것입니다.
+split 함수를 사용하여 문제의 조건에 맞춰 공백을 구분자로 문자열 배열에 순차적으로 저장하여 풀었습니다.
