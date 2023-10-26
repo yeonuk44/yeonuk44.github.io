@@ -40,38 +40,72 @@ date: 2023-10-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 공백으로 구분하기 1에 대하여 알아본 글입니다.
+### In this article, we learned how to add and delete to an empty array.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-단어가 공백 한 개로 구분되어 있는 문자열 my_string이 매개변수로 주어질 때, my_string에 나온 단어를 앞에서부터 순서대로 담은 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
+We have an empty array X that doesn't contain any elements.
 
-##### 입출력 예시
+Given an integer array arr and a boolean array flag of the same length as parameters, write a solution function that iterates over flag and, if flag[i] is true, adds arr[i] to the end of X arr[i] × 2 times; if flag[i] is false, removes the last arr[i] elements from X, and returns X. The solution function should return X.
 
-| my_string     | result               |
-| ------------- | -------------------- |
-| "i love you"  | ["i", "love", "you"] |
-| "programmers" | ["programmers"]      |
+##### Example input and output
 
-#### 문제에 대한 나의 풀이
+| arr             | flag                              | result                         |
+| --------------- | --------------------------------- | ------------------------------ |
+| [3, 2, 4, 1, 3] | [true, false, true, false, false] | [3, 3, 3, 3, 3, 4, 4, 4, 4, 4] |
+
+#### My solution to the problem
 
 ```java
+import java.util.*;
 class Solution {
-    public String[] solution(String my_string) {
-        String[] answer = my_string.split(" ");
-        return answer;
-    }
+    public int[] solution(int[] arr, boolean[] flag) {
+        ArrayList<Integer> answer = new ArrayList<>();
+        for(int i = 0; i < flag.length; i++){
+            if(flag[i]){
+                for(int j = 0; j < arr[i] * 2; j++){
+                    answer.add(arr[i]);
+                }
+            } else{
+                for(int j = 0; j < arr[i]; j++){
+                    answer.remove(answer.size() - 1);
+                }
+            }
+        }
+        int[] result = new int[answer.size()];
+        for(int i = 0; i < answer.size(); i++){
+            result[i] = answer.get(i);
+        }
+    } return result;
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-split 함수를 사용하여 문제의 조건에 맞춰 공백을 구분자로 문자열 배열에 순차적으로 저장하여 풀었습니다.
+ArrayList<Integer> answer = new ArrayList<>();: Create a list of integer arrays named answer. This list will be used to store the final result.
+
+for(int i = 0; i < flag.length; i++) : Starts a loop with the length of the flag array.
+
+if(flag[i]) : If flag[i] is true, perform the next action. This is the part that handles the case where it is true.
+
+for(int j = 0; j < arr[i] _ 2; j++) : Loops twice as long as arr[i]. This part adds the value of arr[i] to the answer list twice as many times as the current value of arr[i]. For example, if arr[i] is 3, it adds 3 to the answer list by 3 _ 2 = 6.
+
+else : If flag[i] is false, do the following. This is the part that handles the case of false.
+
+for(int j = 0; j < arr[i]; j++) : Repeat as many times as arr[i]. This part removes elements from the answer list by the current value of arr[i]. We use the remove method to remove elements one by one from the back.
+
+int[] result = new int[answer.size()];: Create an array of int result that fits the size of the answer list.
+
+for(int i = 0; i < answer.size(); i++) : Iterate over all the elements in the answer list and copy them to the result array.
+
+Finally, return the result array.
+
+This code is a function that manipulates the values in the arr array based on the values in the flag array, stores the results in the answer list, and finally converts them to the result array and returns them.
