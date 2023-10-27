@@ -40,73 +40,105 @@ date: 2023-10-26 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 빈 배열에 추가, 삭제하기에 대하여 알아본 글입니다.
+### In this article, we learned how to make the length of an array a power of two.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on how we solved it, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-아무 원소도 들어있지 않은 빈 배열 X가 있습니다.
+An array of integers, arr, is given as a parameter.
 
-길이가 같은 정수 배열 arr과 boolean 배열 flag가 매개변수로 주어질 때, flag를 차례대로 순회하며 flag[i]가 true라면 X의 뒤에 arr[i]를 arr[i] × 2 번 추가하고, flag[i]가 false라면 X에서 마지막 arr[i]개의 원소를 제거한 뒤 X를 return 하는 solution 함수를 작성해 주세요.
+You want to add integer zeros after arr so that the length of arr is an integer power of 2.
 
-##### 입출력 예시
+Write a solution function that returns an array with the minimum number of zeros appended to arr.
 
-| arr             | flag                              | result                   |
-| --------------- | --------------------------------- | ------------------------ |
-| [3, 2, 4, 1, 3] | [true, false, true, false, false] | [3, 3, 3, 3, 4, 4, 4, 4] |
+##### Example input and output
 
-#### 문제에 대한 나의 풀이
+| arr                | result                   |
+| ------------------ | ------------------------ |
+| [1, 2, 3, 4, 5, 6] | [1, 2, 3, 4, 5, 6, 0, 0] |
+| [58, 172, 746, 89] | [58, 172, 746, 89]       |
+
+#### My solution to the problem
 
 ```java
-import java.util.*;
 class Solution {
-    public int[] solution(int[] arr, boolean[] flag) {
-        ArrayList<Integer> answer = new ArrayList<>();
-        for(int i = 0; i < flag.length; i++){
-            if(flag[i]){
-                for(int j = 0; j < arr[i] * 2; j++){
-                    answer.add(arr[i]);
-                }
+    public int[] solution(int[] arr) {
+        int[] answer;
+        int idx = 1;
+        for(int i = 0; i < (int) Math.pow(2,10); i++){
+            if(arr.length == (int) Math.pow(2,i)){
+                idx = (int) Math.pow(2,i);
+                break;
             } else{
-                for(int j = 0; j < arr[i]; j++){
-                    answer.remove(answer.size() - 1);
+                if(arr.length < (int) Math.pow(2,i)){
+                    idx = (int) Math.pow(2,i);
+                    break;
                 }
             }
         }
-        int[] result = new int[answer.size()];
-        for(int i = 0; i < answer.size(); i++){
-            result[i] = answer.get(i);
+        answer = new int[idx];
+        for(int i = 0; i < answer.length; i++){
+            if(arr.length - 1 < i){
+                answer[i] = 0;
+            }else{
+                answer[i] = arr[i];
+            }
         }
-        return result;
-    }
+    } return answer;
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-ArrayList<Integer> answer = new ArrayList<>();: answer라는 정수 배열 리스트를 생성합니다. 이 리스트는 최종 결과를 저장하기 위해 사용됩니다.
+int idx = 1;: Declare an integer variable named idx and set its initial value to 1. This variable will be used to determine the size of the new array.
 
-for(int i = 0; i < flag.length; i++) : flag 배열의 길이만큼 루프를 시작합니다.
+for (int i = 0; i < (int) Math.pow(2, 10); i++) : Starts a for loop that sequentially examines values from 0 to 2^10 (1024). As the loop increments i, it compares it to the length of arr to find the appropriate array size.
 
-if(flag[i]) : flag[i]가 true인 경우, 다음 작업을 수행합니다. 이 경우는 true인 경우를 처리하는 부분입니다.
+if (arr.length == (int) Math.pow(2, i)) : If the power of 2 computed by the current value of i matches the length of arr, we have found the appropriate array size, so we set idx to that size and exit the loop.
 
-for(int j = 0; j < arr[i] _ 2; j++) : arr[i]의 두 배만큼 반복합니다. 이 부분은 현재 arr[i] 값의 두 배만큼 arr[i] 값을 answer 리스트에 추가합니다. 예를 들어, arr[i]가 3이면, 3 _ 2 = 6만큼 3을 answer 리스트에 추가합니다.
+else { if (arr.length < (int) Math.pow(2, i)) { idx = (int) Math.pow(2, i); break; } }: If the length of arr is less than the power of 2 computed by the current i, set idx to that size and exit the loop.
 
-else : flag[i]가 false인 경우, 다음 작업을 수행합니다. 이 경우는 false인 경우를 처리하는 부분입니다.
+answer = new int[idx];: Create a new array answer with size idx.
 
-for(int j = 0; j < arr[i]; j++) : arr[i]만큼 반복합니다. 이 부분은 현재 arr[i] 값만큼 answer 리스트에서 요소를 제거합니다. remove 메서드를 사용하여 뒤에서부터 요소를 하나씩 제거합니다.
+Copy the contents of the array arr into the new array answer, but initialize the portion that exceeds the length of arr to zero.
 
-int[] result = new int[answer.size()];: answer 리스트의 크기에 맞는 int 배열 result를 생성합니다.
+Return the array answer.
 
-for(int i = 0; i < answer.size(); i++) : answer 리스트의 모든 요소를 반복하여 result 배열에 복사합니다.
+The code above solves the problem, but it feels like it uses too many loops. Let's make the code more concise.
 
-마지막으로, result 배열을 반환합니다.
+###### Improved code
 
-이 코드는 flag 배열의 값에 따라 arr 배열의 값을 조작하고, 그 결과를 answer 리스트에 저장한 다음, 최종적으로 result 배열로 변환하여 반환하는 함수입니다.
+```java
+class Solution {
+    public int[] solution(int[] arr) {
+        int idx = 1;
+        while (idx < arr.length) {
+            idx *= 2;
+        }
+
+        int[] answer = new int[idx];
+        for (int i = 0; i < arr.length; i++) {
+            answer[i] = arr[i];
+        }
+    } return answer;
+}
+```
+
+###### Improved code commentary
+
+First code (using Math.pow):
+
+This code uses a for loop to calculate powers of 2, and compares this value to the length of arr to find the appropriate array size. Each time the loop is executed, the Math.pow function is called to calculate the value of the power of two.
+Second code (using a simple while loop):
+
+The second code uses a simple while loop to calculate the value of a power of 2. It calculates the idx variable by starting with an initial value of 1 and multiplying it by 2 until it is less than the length of the arr.
+The two codes provide functionally the same result, but the second code is more concise and efficient. The code is simpler because it uses a while loop to determine the size of the array without calling the Math.pow function. Also, the while loop is more efficient because it finds the size by repeatedly multiplying by 2 up to a certain array size.
+
+Therefore, the second code is the more preferred approach and achieves the same result more efficiently.
