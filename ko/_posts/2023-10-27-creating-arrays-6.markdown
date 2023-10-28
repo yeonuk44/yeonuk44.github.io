@@ -40,7 +40,7 @@ date: 2023-10-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 배열의 길이를 2의 거듭제곱으로 만들기에 대하여 알아본 글입니다.
+### 배열 만들기 6에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,45 +52,55 @@ date: 2023-10-27 09:00:00 +0900
 
 #### 문제
 
-정수 배열 arr이 매개변수로 주어집니다.
+0과 1로만 이루어진 정수 배열 arr가 주어집니다. arr를 이용해 새로운 배열 stk을 만드려고 합니다.
 
-arr의 길이가 2의 정수 거듭제곱이 되도록 arr 뒤에 정수 0을 추가하려고 합니다.
+i의 초기값을 0으로 설정하고 i가 arr의 길이보다 작으면 다음을 반복합니다.
 
-arr에 최소한의 개수로 0을 추가한 배열을 return 하는 solution 함수를 작성해 주세요.
+만약 stk이 빈 배열이라면 arr[i]를 stk에 추가하고 i에 1을 더합니다.
+
+stk에 원소가 있고, stk의 마지막 원소가 arr[i]와 같으면 stk의 마지막 원소를 stk에서 제거하고 i에 1을 더합니다.
+
+stk에 원소가 있는데 stk의 마지막 원소가 arr[i]와 다르면 stk의 맨 마지막에 arr[i]를 추가하고 i에 1을 더합니다.
+
+위 작업을 마친 후 만들어진 stk을 return 하는 solution 함수를 완성해 주세요.
+
+단, 만약 빈 배열을 return 해야한다면 [-1]을 return 합니다.
 
 ##### 입출력 예시
 
-| arr                | result                   |
-| ------------------ | ------------------------ |
-| [1, 2, 3, 4, 5, 6] | [1, 2, 3, 4, 5, 6, 0, 0] |
-| [58, 172, 746, 89] | [58, 172, 746, 89]       |
+| arr             | result          |
+| --------------- | --------------- |
+| [0, 1, 1, 1, 0] | [0, 1, 0]       |
+| [0, 1, 0, 1, 0] | [0, 1, 0, 1, 0] |
+| [0, 1, 1, 0]    | [-1]            |
 
 #### 문제에 대한 나의 풀이
 
 ```java
+import java.util.*;
 class Solution {
     public int[] solution(int[] arr) {
         int[] answer;
-        int idx = 1;
-        for(int i = 0; i < (int) Math.pow(2,10); i++){
-            if(arr.length == (int) Math.pow(2,i)){
-                idx = (int) Math.pow(2,i);
-                break;
-            } else{
-                if(arr.length < (int) Math.pow(2,i)){
-                    idx = (int) Math.pow(2,i);
-                    break;
-                }
+        ArrayList<Integer> stk = new ArrayList<>();
+        for(int i = 0; i < arr.length; i++){
+            if(stk.isEmpty()){
+                stk.add(arr[i]);
+            } else if(stk.get(stk.size() - 1) != arr[i]){
+                stk.add(arr[i]);
+            } else {
+                stk.remove(stk.size() - 1);
             }
         }
-        answer = new int[idx];
-        for(int i = 0; i < answer.length; i++){
-            if(arr.length - 1 < i){
-                answer[i] = 0;
-            }else{
-                answer[i] = arr[i];
+        if(stk.isEmpty()){
+            answer = new int[1];
+            answer[0] = -1;
+        }else {
+            answer = new int[stk.size()];
+            for(int i = 0; i < stk.size(); i++){
+                answer[i] = stk.get(i);
             }
         }
+
         return answer;
     }
 }
@@ -98,49 +108,31 @@ class Solution {
 
 ##### 풀이 설명
 
-int idx = 1;: idx라는 정수 변수를 선언하고 초기값을 1로 설정합니다. 이 변수는 새로운 배열의 크기를 결정하는 데 사용됩니다.
+int[] answer;: 결과 배열을 선언합니다.
 
-for (int i = 0; i < (int) Math.pow(2, 10); i++) : 0부터 2^10 (1024)까지의 값을 순차적으로 검사하는 for 루프를 시작합니다. 이 루프는 i를 증가시키면서 arr의 길이와 비교하여 적절한 배열 크기를 찾습니다.
+ArrayList<Integer> stk = new ArrayList<>();: stk라는 이름의 정수형 ArrayList를 생성합니다. 이 ArrayList는 중복된 요소를 제거하기 위한 임시 저장소 역할을 합니다.
 
-if (arr.length == (int) Math.pow(2, i)) : 현재 i값으로 계산한 2의 거듭제곱이 arr의 길이와 일치하면 적절한 배열 크기를 찾은 것이므로 idx를 해당 크기로 설정하고 루프를 종료합니다.
+for(int i = 0; i < arr.length; i++): 주어진 배열 arr을 순회합니다.
 
-else { if (arr.length < (int) Math.pow(2, i)) { idx = (int) Math.pow(2, i); break; } }: arr의 길이가 현재 i로 계산한 2의 거듭제곱보다 작으면 idx를 해당 크기로 설정하고 루프를 종료합니다.
+if(stk.isEmpty()): stk가 비어있는 경우, 현재 배열 요소를 추가합니다.
 
-answer = new int[idx];: idx 크기로 새로운 배열 answer를 생성합니다.
+stk.add(arr[i]);: stk에 현재 배열 요소 arr[i]를 추가합니다.
+else if(stk.get(stk.size() - 1) != arr[i]): stk가 비어있지 않고, 현재 배열 요소가 stk의 마지막 요소와 다를 경우, 현재 배열 요소를 추가합니다. 이는 중복을 제거하기 위한 조건입니다.
 
-배열 arr의 내용을 새로운 배열 answer로 복사하되, arr의 길이를 초과하는 부분은 0으로 초기화합니다.
+stk.add(arr[i]);: stk에 현재 배열 요소 arr[i]를 추가합니다.
+else: stk가 비어있지 않고, 현재 배열 요소가 stk의 마지막 요소와 동일한 경우, 중복된 요소이므로 stk의 마지막 요소를 제거합니다.
 
-answer 배열을 반환합니다.
+stk.remove(stk.size() - 1);: stk의 마지막 요소를 제거합니다.
+if(stk.isEmpty()): stk가 비어있으면 중복된 요소가 없는 것으로 처리됩니다.
 
-위의 코드처럼도 문제를 풀었지만 반복문을 너무 많이 사용하는 느낌이 있습니다. 코드를 더 간결하게 만들어보겠습니다.
+answer = new int[1];: 결과 배열을 크기 1로 초기화합니다.
 
-###### 개선된 코드
+answer[0] = -1;: 결과 배열의 유일한 요소를 -1로 설정합니다.
 
-```java
-class Solution {
-    public int[] solution(int[] arr) {
-        int idx = 1;
-        while (idx < arr.length) {
-            idx *= 2;
-        }
+그렇지 않은 경우, stk에 남아있는 요소가 중복되지 않은 요소입니다. 이를 answer 배열로 복사합니다.
 
-        int[] answer = new int[idx];
-        for (int i = 0; i < arr.length; i++) {
-            answer[i] = arr[i];
-        }
-        return answer;
-    }
-}
-```
+answer = new int[stk.size()];: 결과 배열을 stk의 크기와 동일한 크기로 초기화합니다.
 
-###### 개선된 코드 해설
+배열 복사를 위해 루프를 사용하여 stk의 요소를 answer로 복사합니다.
 
-첫 번째 코드 (Math.pow 사용):
-
-이 코드에서는 for 루프를 사용하여 2의 거듭제곱을 계산하고, 이 값과 arr의 길이를 비교하여 적절한 배열 크기를 찾습니다. 루프가 실행될 때마다 Math.pow 함수를 호출하여 2의 거듭제곱 값을 계산합니다.
-두 번째 코드 (단순 while 루프 사용):
-
-두 번째 코드에서는 while 루프를 사용하여 간단하게 2의 거듭제곱 값을 계산합니다. idx 변수는 초기값 1에서 시작하여 arr의 길이보다 작을 때까지 2를 곱하며 계산합니다.
-두 코드는 기능적으로는 동일한 결과를 제공하지만, 두 번째 코드가 더 간결하고 효율적입니다. Math.pow 함수 호출 없이 while 루프를 사용하여 배열 크기를 결정하므로 코드가 간단해집니다. 또한 while 루프를 사용하면 특정 배열 크기까지 2를 반복적으로 곱하는 방식으로 크기를 찾아내므로 더 효율적인 방법입니다.
-
-따라서 두 번째 코드가 더 선호되는 방식이며, 같은 결과를 더 효율적으로 얻을 수 있습니다.
+최종적으로 answer 배열을 반환합니다.
