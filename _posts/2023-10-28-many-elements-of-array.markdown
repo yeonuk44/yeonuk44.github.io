@@ -40,99 +40,64 @@ date: 2023-10-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 배열 만들기 6에 대하여 알아본 글입니다.
+### Add as many elements of an array (with.Java)
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to solve a coding test problem, provide a retrospective on the problem we solved, and learn about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-0과 1로만 이루어진 정수 배열 arr가 주어집니다. arr를 이용해 새로운 배열 stk을 만드려고 합니다.
+You have an empty array X that doesn't contain any elements.
 
-i의 초기값을 0으로 설정하고 i가 arr의 길이보다 작으면 다음을 반복합니다.
+Write a solution function that, given an array arr of positive integers as a parameter, iterates over the elements in arr, starting at the front of arr, and if an element is a, adds a to the end of X a number of times, and then returns the array X after iterating over the elements.
 
-만약 stk이 빈 배열이라면 arr[i]를 stk에 추가하고 i에 1을 더합니다.
+##### Example input and output
 
-stk에 원소가 있고, stk의 마지막 원소가 arr[i]와 같으면 stk의 마지막 원소를 stk에서 제거하고 i에 1을 더합니다.
+| arr       | result                                           |
+| --------- | ------------------------------------------------ |
+| [5, 1, 4] | [5, 5, 5, 5, 5, 5, 1, 4, 4, 4, 4]                |
+| [6, 6]    | [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6] |
+| [1]       | [1]                                              |
 
-stk에 원소가 있는데 stk의 마지막 원소가 arr[i]와 다르면 stk의 맨 마지막에 arr[i]를 추가하고 i에 1을 더합니다.
-
-위 작업을 마친 후 만들어진 stk을 return 하는 solution 함수를 완성해 주세요.
-
-단, 만약 빈 배열을 return 해야한다면 [-1]을 return 합니다.
-
-##### 입출력 예시
-
-| arr             | result          |
-| --------------- | --------------- |
-| [0, 1, 1, 1, 0] | [0, 1, 0]       |
-| [0, 1, 0, 1, 0] | [0, 1, 0, 1, 0] |
-| [0, 1, 1, 0]    | [-1]            |
-
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
-import java.util.*;
 class Solution {
     public int[] solution(int[] arr) {
-        int[] answer;
-        ArrayList<Integer> stk = new ArrayList<>();
+        int length = 0;
         for(int i = 0; i < arr.length; i++){
-            if(stk.isEmpty()){
-                stk.add(arr[i]);
-            } else if(stk.get(stk.size() - 1) != arr[i]){
-                stk.add(arr[i]);
-            } else {
-                stk.remove(stk.size() - 1);
+            length += arr[i];
+        }
+        int[] answer = new int[length];
+        int idx = 0;
+        for(int i = 0; i < arr.length; i++){
+            for(int j = 0; j < arr[i]; j++){
+                answer[idx++] = arr[i];
             }
         }
-        if(stk.isEmpty()){
-            answer = new int[1];
-            answer[0] = -1;
-        }else {
-            answer = new int[stk.size()];
-            for(int i = 0; i < stk.size(); i++){
-                answer[i] = stk.get(i);
-            }
-        }
-
-        return answer;
-    }
+    } return answer;
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-int[] answer;: 결과 배열을 선언합니다.
+The given code is a function that creates and returns a new array answer by duplicating each element in the integer array arr given as input by the value of that element. Let's briefly describe the code
 
-ArrayList<Integer> stk = new ArrayList<>();: stk라는 이름의 정수형 ArrayList를 생성합니다. 이 ArrayList는 중복된 요소를 제거하기 위한 임시 저장소 역할을 합니다.
+int length = 0;: Initialize the variable length to determine the length of the new array answer.
 
-for(int i = 0; i < arr.length; i++): 주어진 배열 arr을 순회합니다.
+First iteration (for(int i = 0; i < arr.length; i++)): Iterates over the input array arr, adding the value of each element and storing it in the length variable. This determines the total length of the answer array.
 
-if(stk.isEmpty()): stk가 비어있는 경우, 현재 배열 요소를 추가합니다.
+int[] answer = new int[length];: Create a new integer array answer with a length based on the length variable.
 
-stk.add(arr[i]);: stk에 현재 배열 요소 arr[i]를 추가합니다.
-else if(stk.get(stk.size() - 1) != arr[i]): stk가 비어있지 않고, 현재 배열 요소가 stk의 마지막 요소와 다를 경우, 현재 배열 요소를 추가합니다. 이는 중복을 제거하기 위한 조건입니다.
+int idx = 0;: Initialize the variable idx, which keeps track of the index at which to assign a value to the answer array.
 
-stk.add(arr[i]);: stk에 현재 배열 요소 arr[i]를 추가합니다.
-else: stk가 비어있지 않고, 현재 배열 요소가 stk의 마지막 요소와 동일한 경우, 중복된 요소이므로 stk의 마지막 요소를 제거합니다.
+The second iteration (for(int j = 0; j < arr[i]; j++) inside for(int i = 0; i < arr.length; i++)): iterates over the array arr again, iterating over each element's value (arr[i]) and duplicating that element into the array answer.
 
-stk.remove(stk.size() - 1);: stk의 마지막 요소를 제거합니다.
-if(stk.isEmpty()): stk가 비어있으면 중복된 요소가 없는 것으로 처리됩니다.
+This ensures that if an element has a value of 2, that element appears twice in the answer array.
 
-answer = new int[1];: 결과 배열을 크기 1로 초기화합니다.
-
-answer[0] = -1;: 결과 배열의 유일한 요소를 -1로 설정합니다.
-
-그렇지 않은 경우, stk에 남아있는 요소가 중복되지 않은 요소입니다. 이를 answer 배열로 복사합니다.
-
-answer = new int[stk.size()];: 결과 배열을 stk의 크기와 동일한 크기로 초기화합니다.
-
-배열 복사를 위해 루프를 사용하여 stk의 요소를 answer로 복사합니다.
-
-최종적으로 answer 배열을 반환합니다.
+return answer;: Returns the finalized answer array.
