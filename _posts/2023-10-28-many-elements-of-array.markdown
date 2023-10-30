@@ -40,7 +40,7 @@ date: 2023-10-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-### Add as many elements of an array (with.Java)
+### In this article, we learned how to add as many elements as an array.
 
 We're going to solve a coding test problem, provide a retrospective on the problem we solved, and learn about other ways to solve it.
 
