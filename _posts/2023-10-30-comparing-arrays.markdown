@@ -40,82 +40,80 @@ date: 2023-10-30 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 무작위로 K개의 수 뽑기에 대하여 알아본 글입니다.
+### We've learned about comparing arrays.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving a coding test problem, reflecting on the problem we solved, and learning about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-랜덤으로 서로 다른 k개의 수를 저장한 배열을 만드려고 합니다. 적절한 방법이 떠오르지 않기 때문에 일정한 범위 내에서 무작위로 수를 뽑은 후, 지금까지 나온적이 없는 수이면 배열 맨 뒤에 추가하는 방식으로 만들기로 합니다.
+In this problem, we define the case relationship between two arrays of integers as follows.
 
-이미 어떤 수가 무작위로 주어질지 알고 있다고 가정하고, 실제 만들어질 길이 k의 배열을 예상해봅시다.
+If the two arrays are different lengths, the longer one is greater.
 
-정수 배열 arr가 주어집니다. 문제에서의 무작위의 수는 arr에 저장된 순서대로 주어질 예정이라고 했을 때, 완성될 배열을 return 하는 solution 함수를 완성해 주세요.
+If the arrays are the same length, the sum of all the elements in each array is compared and the one that is larger is greater if they are different and equal if they are the same.
 
-단, 완성될 배열의 길이가 k보다 작으면 나머지 값을 전부 -1로 채워서 return 합니다.
+Given two integer arrays arr1 and arr2, write a solution function that returns -1 if arr2 is larger, 1 if arr1 is larger, and 0 if the two arrays are equal, for the case relationship of the arrays defined above.
 
-##### 입출력 예시
+##### Example input and output
 
-| arr                | k   | result         |
-| ------------------ | --- | -------------- |
-| [0, 1, 1, 2, 2, 3] | 3   | [0, 1, 2]      |
-| [0, 1, 1, 1, 1]    | 4   | [0, 1, -1, -1] |
+| arr1             | arr2               | result |
+| ---------------- | ------------------ | ------ |
+| [49, 13]         | [70, 11, 2]        | -1     |
+| [100, 17, 84, 1] | [55, 12, 65, 36]   | 1      |
+| [1, 2, 3, 4, 5]  | [3, 3, 3, 3, 3, 3] | 0      |
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
-import java.util.*;
 class Solution {
-    public int[] solution(int[] arr, int k) {
-        ArrayList<Integer> list = new ArrayList<>();
-        int[] answer = new int[k];
-        for(int i = 0; i < arr.length; i++){
-            if(!list.contains(arr[i])){
-                list.add(arr[i]);
-            }
-            if(list.size() == k){
+    public int[] solution(int[] arr) {
+        int[] answer;
+        int idx = 1;
+        for(int i = 0; i < (int) Math.pow(2,10); i++){
+            if(arr.length == (int) Math.pow(2,i)){
+                idx = (int) Math.pow(2,i);
                 break;
+            } else{
+                if(arr.length < (int) Math.pow(2,i)){
+                    idx = (int) Math.pow(2,i);
+                    break;
+                }
             }
         }
-        while (list.size() < k) {
-            list.add(-1);
+        answer = new int[idx];
+        for(int i = 0; i < answer.length; i++){
+            if(arr.length - 1 < i){
+                answer[i] = 0;
+            }else{
+                answer[i] = arr[i];
+            }
         }
-        for(int i = 0; i < k; i++){
-            answer[i] = list.get(i);
-        }
-        return answer;
-    }
+    } return answer;
 }
 ```
 
-##### 풀이 설명
+##### Solution Explanation
 
-ArrayList<Integer> list = new ArrayList<>();: Integer 타입의 요소를 저장하는 ArrayList를 생성합니다. 이 리스트는 중복을 제거하고 결과를 저장하는데 사용됩니다.
+First, compare the lengths of the two arrays arr1 and arr2. There are two cases: when they are the same length and when they are different.
 
-int[] answer = new int[k];: 결과를 저장할 배열 answer를 생성합니다. k의 크기로 초기화됩니다.
+If they are the same length, then we iterate over them and sum all the elements in each array.
 
-for(int i = 0; i < arr.length; i++): 입력 배열 arr을 반복하면서 중복을 제거하여 list에 추가하는 반복문을 시작합니다.
+The variable compare1 stores the sum of all the elements in arr1, and the variable compare2 stores the sum of all the elements in arr2.
 
-if(!list.contains(arr[i])): list에 arr[i]가 포함되어 있지 않다면 (즉, 중복되지 않는 경우),
+We now compare the size of the two sums by comparing compare1 and compare2.
 
-list.add(arr[i]);: list에 arr[i]를 추가합니다.
+If compare1 is greater than compare2, store 1 in answer.
 
-if(list.size() == k): list의 크기가 k와 같아지면 반복문을 종료합니다. 즉, 원하는 결과 크기에 도달하면 더 이상 중복을 제거하지 않습니다.
+If compare1 is less than compare2, store -1 in answer.
 
-while (list.size() < k): list의 크기가 k보다 작은 경우,
+If the two sums are equal, store 0 in answer.
 
-list.add(-1);: -1을 list에 추가하여 k의 크기에 도달하도록 합니다.
+If the lengths of the two arrays are different, it finds the one with the longer length and stores 1 or -1 in answer.
 
-for(int i = 0; i < k; i++): list의 요소를 배열 answer에 복사하는 반복문을 시작합니다.
-
-answer[i] = list.get(i);: list의 i번째 요소를 answer의 i번째 위치에 복사합니다.
-
-return answer;: 최종 결과인 answer 배열을 반환합니다.
-
-이 코드는 중복된 값을 제거하고, 필요에 따라 -1을 채워서 결과 배열을 만들어 반환합니다. 결과 배열의 크기는 k와 같거나 미만이며, 중복된 값은 하나만 포함됩니다.
+The code is a simple function that compares the two given arrays, considers their lengths and sums, and returns a result. The resulting value is stored in answer, which will be either 1, -1, or 0.
