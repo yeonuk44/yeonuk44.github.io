@@ -40,40 +40,40 @@ date: 2023-11-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-### HashMap에 대하여 알아본 글입니다.
+### This article introduces bubble sorting.
 
-코딩테스트를 준비하며, 자바의 유용한 도구가 있어 소개하고자 기록합니다.
+In preparation for a coding test, I've been studying algorithms, and in this article, I'd like to summarize the bubble sort.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 해시맵(HashMap)이란?
+#### What is bubble sort?
 
-해시맵(HashMap)은 키-값 쌍을 저장하고, 키를 기반으로 값을 검색하고 조작하는 자료구조입니다. Java에서는 java.util 패키지에 포함되어 있습니다.
+Bubble sorting is an algorithm that compares two adjacent elements, shifting smaller values to the left.
 
-#### 해시맵의 주요 특징
+#### Understanding Bubble Sort
 
-- 키-값 쌍 저장: 해시맵은 키와 값을 연결하여 데이터를 저장합니다. 키는 고유하며, 중복되지 않습니다.
-- 빠른 검색 속도: 해시맵은 키를 기반으로 값을 검색하므로 데이터를 빠르게 찾을 수 있습니다.
-- 순서가 없음: 해시맵은 데이터의 순서를 보장하지 않습니다. 따라서 데이터를 저장한 순서대로 검색되지 않습니다.
-- 키 중복 불가: 하나의 해시맵에는 동일한 키가 중복되어 저장될 수 없습니다. 중복된 키를 사용하면 기존 값이 대체됩니다.
-- 동기화 지원: 멀티스레드 환경에서 안전하게 사용하려면 Collections.synchronizedMap()을 사용하여 동기화된 해시맵을 만들 수 있습니다.
+Initial array: [5, 2, 9, 1, 5, 6]
 
-#### 해시맵에서 자주 사용하는 메서드 정리
+First pass: [2, 5, 1, 5, 6, 9].
 
-- put(key, value): 지정된 키와 값을 매핑하여 해시맵에 추가합니다. 만약 이미 같은 키가 존재한다면, 기존 값은 대체됩니다.
-- get(key): 주어진 키에 해당하는 값을 반환합니다. 키가 존재하지 않으면 null을 반환합니다.
-- containsKey(key): 지정된 키가 해시맵 내에 존재하는지 여부를 확인합니다. 존재하면 true를 반환하고, 그렇지 않으면 false를 반환합니다.
-- containsValue(value): 지정된 값이 해시맵 내에 존재하는지 여부를 확인합니다. 존재하면 true를 반환하고, 그렇지 않으면 false를 반환합니다.
-- remove(key): 지정된 키와 연결된 값을 해시맵에서 제거합니다.
-- size(): 해시맵에 저장된 키-값 쌍의 개수를 반환합니다.
-- isEmpty(): 해시맵이 비어 있는지 여부를 확인합니다. 비어 있으면 true를 반환하고, 그렇지 않으면 false를 반환합니다.
-- clear(): 해시맵 내의 모든 키-값 쌍을 제거하여 비웁니다.
-- keySet(): 해시맵의 모든 키를 포함하는 Set 컬렉션을 반환합니다. 이를 통해 모든 키에 접근할 수 있습니다.
-- values(): 해시맵의 모든 값을 포함하는 Collection을 반환합니다. 이를 통해 모든 값을 열거할 수 있습니다.
-- entrySet(): 해시맵의 키-값 쌍을 포함하는 Set 컬렉션을 반환합니다. 이를 통해 모든 키-값 쌍에 접근할 수 있습니다.
+- Compare and swap the first and second elements. The 5 is exchanged for the 2.
+- Next, compare and exchange the second and third elements. The 5 is exchanged for the 9.
+- This process continues until the largest element is moved to the far right.
+- At the end of this pass, the largest element is aligned to the far right.
 
-#### 정리
+Second pass: [2, 1, 5, 5, 6, 9].
 
-즉, 해시맵은 다양한 자바 컬렉션 프레임워크 클래스 중 하나로, 특히 데이터를 효과적으로 저장하고 검색해야 하는 상황에서 유용하게 사용됩니다.
+- Again, starting with the first, the first and second elements are compared and swapped. This time, the 2 and 5 are not exchanged.
+- Compare and exchange the second and third elements. The 5 and 1 are exchanged.
+- This process is repeated until the second largest element is sorted in front of the one from the far right.
+
+Final sorted array: [1, 2, 5, 5, 6, 9].
+
+- Repeat the above process, performing passes the length of the array.
+- In each pass, the largest value is moved to the far right, so the unaligned portion decreases as the passes progress.
+
+##### See
+
+This is how bubble sorting works, starting with the largest value in the array and moving it to the right in turn. The efficiency of this algorithm is poor, so it's not recommended for large arrays.
