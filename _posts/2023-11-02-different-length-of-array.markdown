@@ -40,81 +40,72 @@ date: 2023-11-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 배열 비교하기에 대하여 알아본 글입니다.
+### In this article, we learned about different operations based on the length of an array.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do this by solving coding test problems, reflecting on the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-이 문제에서 두 정수 배열의 대소관계를 다음과 같이 정의합니다.
+An array of integers arr and an integer n are given as parameters.
 
-두 배열의 길이가 다르다면, 배열의 길이가 긴 쪽이 더 큽니다.
+Write a solution function that returns an array of all even-indexed positions in arr plus n if the length of arr is odd, or an array of all odd-indexed positions in arr plus n if the length of arr is even.
 
-배열의 길이가 같다면 각 배열에 있는 모든 원소의 합을 비교하여 다르다면 더 큰 쪽이 크고, 같다면 같습니다.
+##### Example input and output
 
-두 정수 배열 arr1과 arr2가 주어질 때, 위에서 정의한 배열의 대소관계에 대하여 arr2가 크다면 -1, arr1이 크다면 1, 두 배열이 같다면 0을 return 하는 solution 함수를 작성해 주세요.
+| arr                    | n   | result                 |
+| ---------------------- | --- | ---------------------- |
+| [49, 12, 100, 276, 33] | 27  | [76, 12, 127, 276, 60] |
+| [444, 555, 666, 777]   | 100 | [444, 655, 666, 877]   |
 
-##### 입출력 예시
-
-| arr1             | arr2             | result |
-| ---------------- | ---------------- | ------ |
-| [49, 13]         | [70, 11, 2]      | -1     |
-| [100, 17, 84, 1] | [55, 12, 65, 36] | 1      |
-| [1, 2, 3, 4, 5]  | [3, 3, 3, 3, 3]  | 0      |
-
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int[] solution(int[] arr) {
-        int[] answer;
-        int idx = 1;
-        for(int i = 0; i < (int) Math.pow(2,10); i++){
-            if(arr.length == (int) Math.pow(2,i)){
-                idx = (int) Math.pow(2,i);
-                break;
-            } else{
-                if(arr.length < (int) Math.pow(2,i)){
-                    idx = (int) Math.pow(2,i);
-                    break;
+    public int[] solution(int[] arr, int n) {
+        if(arr.length % 2 != 0){
+            for(int i = 0; i < arr.length; i++){
+                if(i % 2 == 0){
+                    arr[i] += n;
+                }
+            }
+        } else {
+            for(int i = 0; i < arr.length; i++){
+                if(i % 2 != 0){
+                    arr[i] += n;
                 }
             }
         }
-        answer = new int[idx];
-        for(int i = 0; i < answer.length; i++){
-            if(arr.length - 1 < i){
-                answer[i] = 0;
-            }else{
-                answer[i] = arr[i];
-            }
-        }
-        return answer;
+        } return arr;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution Explained
 
-먼저, 두 배열 arr1과 arr2의 길이를 비교합니다. 길이가 같을 때와 길이가 다를 때로 나뉩니다.
+First, check whether the length of the array arr is odd or even.
 
-만약 두 배열의 길이가 같다면, 두 배열을 돌며 각 배열의 모든 요소를 합산합니다.
+Check if the length is odd with the condition arr.length % 2 != 0, and if it is even, execute the else block.
 
-compare1 변수에는 arr1의 모든 요소의 합을 저장하고, compare2 변수에는 arr2의 모든 요소의 합을 저장합니다.
+If the length is **odd**:
 
-이제 compare1과 compare2를 비교하여 두 합의 크기를 비교합니다.
+Use a for loop to traverse the array arr. The i variable represents the index in the array.
 
-만약 compare1이 compare2보다 크면, answer에 1을 저장합니다.
+The if(i % 2 == 0) condition checks to see if the current index i is an even position. If it is an even position, it adds the value of n to that element.
 
-만약 compare1이 compare2보다 작으면, answer에 -1을 저장합니다.
+If the length is **even**:
 
-두 합이 같다면, answer에 0을 저장합니다.
+In this case, we enter the else block, which traverses the array arr.
 
-만약 두 배열의 길이가 다르다면, 길이가 더 긴 배열을 찾아내어 answer에 1 또는 -1을 저장합니다.
+The if(i % 2 != 0) condition checks to see if the current index i is in an odd position. If it is an odd position, it adds the value of n to that element.
 
-코드는 주어진 두 배열을 비교하고, 두 배열의 길이와 합을 고려하여 결과를 반환하는 간단한 함수입니다. 결과 값은 answer에 저장되며, 1, -1, 또는 0 중 하나가 됩니다.
+Return the changed array arr.
+
+This function performs a simple operation that adds n to the elements in odd or even positions of the given array arr.
+
+The distinction between elements in odd and even positions is based on whether the array is odd or even in length, and the operation is performed accordingly.
