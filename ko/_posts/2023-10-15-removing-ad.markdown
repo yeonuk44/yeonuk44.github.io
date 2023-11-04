@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_About_Removing_ad
-title: "ad" 제거하기(with.Java)
+title: ad 문자 제거하기(with.Java)
 # title:  Removing "ad" (with.Java)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2023-10-15 10:00:00 +0900
+date: 2023-10-15 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -40,7 +40,7 @@ date: 2023-10-15 10:00:00 +0900
 
 <!-- outline-start -->
 
-### "ad" 제거하기에 대하여 알아본 글입니다.
+### ad 문자 제거하기에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
