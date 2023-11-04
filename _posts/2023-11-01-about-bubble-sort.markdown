@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_About_Bubble_Sort
-title: 버블 정렬(Bubble Sort)에 대하여
+title: Comparing Arrays (with.Java)
 # title: Comparing Arrays (with.Java)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
