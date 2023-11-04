@@ -40,72 +40,66 @@ date: 2023-11-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 배열의 길이에 따라 다른 연산하기에 대하여 알아본 글입니다.
+### We've learned about string concatenation.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn about it by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수 배열 arr과 정수 n이 매개변수로 주어집니다.
+You are given an array of strings, strArr.
 
-arr의 길이가 홀수라면 arr의 모든 짝수 인덱스 위치에 n을 더한 배열을, arr의 길이가 짝수라면 arr의 모든 홀수 인덱스 위치에 n을 더한 배열을 return 하는 solution 함수를 작성해 주세요.
+Complete a solution function that returns the size of the largest group when the elements of strArr are grouped into strings of the same length.
 
-##### 입출력 예시
+##### Example input and output
 
-| arr                    | n   | result                 |
-| ---------------------- | --- | ---------------------- |
-| [49, 12, 100, 276, 33] | 27  | [76, 12, 127, 276, 60] |
-| [444, 555, 666, 777]   | 100 | [444, 655, 666, 877]   |
+| strArr                    | result |
+| ------------------------- | ------ |
+| ["a","bc","d","efg","hi"] | 2      |
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
+import java.util.*;
+
 class Solution {
-    public int[] solution(int[] arr, int n) {
-        if(arr.length % 2 != 0){
-            for(int i = 0; i < arr.length; i++){
-                if(i % 2 == 0){
-                    arr[i] += n;
-                }
-            }
-        } else {
-            for(int i = 0; i < arr.length; i++){
-                if(i % 2 != 0){
-                    arr[i] += n;
-                }
+    public int solution(String[] strArr) {
+        int[] temp = new int[strArr.length];
+
+        for (int i = 0; i < strArr.length; i++) {
+            temp[i] = strArr[i].length();
+        }
+
+        Map<Integer, Integer> lengthCount = new HashMap<>();
+
+        for (int len : temp) {
+            lengthCount.put(len, lengthCount.getOrDefault(len, 0) + 1);
+        }
+
+        } int maxCount = 0;
+        for (int count : lengthCount.values()) {
+            if (count > maxCount) {
+                maxCount = count;
             }
         }
-        return arr;
-    }
+
+    return maxCount;
 }
 ```
 
-##### 풀이 설명
+##### Solution Description
 
-먼저, 배열 arr의 길이가 홀수인지 짝수인지를 확인합니다.
+Create a temp array: Create a temp array to store the length of each string in the string array strArr.
 
-arr.length % 2 != 0 조건으로 길이가 홀수인 경우를 확인하고, 짝수인 경우에는 else 블록을 실행합니다.
+Create a HashMap for grouping lengths: Create a HashMap named lengthCount. This hashmap stores the string length as a key and the number of strings of that length as a value.
 
-길이가 **홀수인** 경우:
+Grouping and counting through a loop: Iterate over the array of strings strArr, storing the length of each string in the array temp, while simultaneously checking if there is an entry in the lengthCount hashmap with length as a key, and if not, creating a new entry and initializing the value to 1. If it already exists, increment the value of that key by 1.
 
-for 루프를 사용하여 배열 arr을 순회합니다. i 변수는 배열의 인덱스를 나타냅니다.
+Calculate the maximum number of duplicates: Traverse all values (duplicates) in the lengthCount hashmap and find the maximum number of duplicates (maxCount).
 
-if(i % 2 == 0) 조건은 현재 인덱스 i가 짝수 위치인지 확인합니다. 짝수 위치일 경우 해당 원소에 n 값을 더합니다.
-
-길이가 **짝수인** 경우:
-
-이 경우는 else 블록으로 진입하며, 배열 arr을 순회합니다.
-
-if(i % 2 != 0) 조건은 현재 인덱스 i가 홀수 위치인지 확인합니다. 홀수 위치일 경우 해당 원소에 n 값을 더합니다.
-
-변경된 배열 arr을 반환합니다.
-
-이 함수는 주어진 배열 arr의 홀수 또는 짝수 위치의 원소들에 n을 더하는 간단한 연산을 수행합니다.
-
-홀수와 짝수 위치의 원소에 대한 구분은 배열의 길이가 홀수인지 짝수인지를 기준으로 하고, 그에 따라 연산이 수행됩니다.
+Return the maximum number of duplicates: Returns the maximum number of duplicates (maxCount).

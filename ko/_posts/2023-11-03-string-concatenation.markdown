@@ -40,7 +40,7 @@ date: 2023-11-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 배열의 길이에 따라 다른 연산하기에 대하여 알아본 글입니다.
+### 문자열 묶기에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,60 +52,55 @@ date: 2023-11-03 09:00:00 +0900
 
 #### 문제
 
-정수 배열 arr과 정수 n이 매개변수로 주어집니다.
+문자열 배열 strArr이 주어집니다.
 
-arr의 길이가 홀수라면 arr의 모든 짝수 인덱스 위치에 n을 더한 배열을, arr의 길이가 짝수라면 arr의 모든 홀수 인덱스 위치에 n을 더한 배열을 return 하는 solution 함수를 작성해 주세요.
+strArr의 원소들을 길이가 같은 문자열들끼리 그룹으로 묶었을 때 가장 개수가 많은 그룹의 크기를 return 하는 solution 함수를 완성해 주세요.
 
 ##### 입출력 예시
 
-| arr                    | n   | result                 |
-| ---------------------- | --- | ---------------------- |
-| [49, 12, 100, 276, 33] | 27  | [76, 12, 127, 276, 60] |
-| [444, 555, 666, 777]   | 100 | [444, 655, 666, 877]   |
+| strArr                    | result |
+| ------------------------- | ------ |
+| ["a","bc","d","efg","hi"] | 2      |
 
 #### 문제에 대한 나의 풀이
 
 ```java
+import java.util.*;
+
 class Solution {
-    public int[] solution(int[] arr, int n) {
-        if(arr.length % 2 != 0){
-            for(int i = 0; i < arr.length; i++){
-                if(i % 2 == 0){
-                    arr[i] += n;
-                }
-            }
-        } else {
-            for(int i = 0; i < arr.length; i++){
-                if(i % 2 != 0){
-                    arr[i] += n;
-                }
+    public int solution(String[] strArr) {
+        int[] temp = new int[strArr.length];
+
+        for (int i = 0; i < strArr.length; i++) {
+            temp[i] = strArr[i].length();
+        }
+
+        Map<Integer, Integer> lengthCount = new HashMap<>();
+
+        for (int len : temp) {
+            lengthCount.put(len, lengthCount.getOrDefault(len, 0) + 1);
+        }
+
+        int maxCount = 0;
+        for (int count : lengthCount.values()) {
+            if (count > maxCount) {
+                maxCount = count;
             }
         }
-        return arr;
+
+        return maxCount;
     }
 }
 ```
 
 ##### 풀이 설명
 
-먼저, 배열 arr의 길이가 홀수인지 짝수인지를 확인합니다.
+temp 배열 생성: 문자열 배열 strArr의 각 문자열의 길이를 저장하기 위한 temp 배열을 생성합니다.
 
-arr.length % 2 != 0 조건으로 길이가 홀수인 경우를 확인하고, 짝수인 경우에는 else 블록을 실행합니다.
+길이 그룹화를 위한 HashMap 생성: lengthCount라는 이름의 HashMap을 생성합니다. 이 해시맵은 문자열 길이를 키로 지정하고, 해당 길이의 문자열 개수를 값으로 저장합니다.
 
-길이가 **홀수인** 경우:
+반복문을 통한 그룹화 및 개수 계산: 문자열 배열 strArr을 반복하면서, 각 문자열의 길이를 temp 배열에 저장하고, 동시에 lengthCount 해시맵에 길이를 키로 가지는 엔트리가 있는지 확인하고, 없다면 새로운 엔트리를 생성하고 값을 1로 초기화합니다. 이미 존재하는 경우에는 해당 키의 값을 1 증가시킵니다.
 
-for 루프를 사용하여 배열 arr을 순회합니다. i 변수는 배열의 인덱스를 나타냅니다.
+최대 중복 횟수 계산: lengthCount 해시맵에서 모든 값(중복 횟수)을 순회하며, 최대 중복 횟수(maxCount)를 찾습니다.
 
-if(i % 2 == 0) 조건은 현재 인덱스 i가 짝수 위치인지 확인합니다. 짝수 위치일 경우 해당 원소에 n 값을 더합니다.
-
-길이가 **짝수인** 경우:
-
-이 경우는 else 블록으로 진입하며, 배열 arr을 순회합니다.
-
-if(i % 2 != 0) 조건은 현재 인덱스 i가 홀수 위치인지 확인합니다. 홀수 위치일 경우 해당 원소에 n 값을 더합니다.
-
-변경된 배열 arr을 반환합니다.
-
-이 함수는 주어진 배열 arr의 홀수 또는 짝수 위치의 원소들에 n을 더하는 간단한 연산을 수행합니다.
-
-홀수와 짝수 위치의 원소에 대한 구분은 배열의 길이가 홀수인지 짝수인지를 기준으로 하고, 그에 따라 연산이 수행됩니다.
+최대 중복 횟수 반환: 최대 중복 횟수(maxCount)를 반환합니다.
