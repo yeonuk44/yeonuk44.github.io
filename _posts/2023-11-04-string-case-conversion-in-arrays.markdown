@@ -40,67 +40,61 @@ date: 2023-11-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 문자열 묶기에 대하여 알아본 글입니다.
+### In this article, we learned how to convert a string case in an array.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We'll do so by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-문자열 배열 strArr이 주어집니다.
+You are given an array of strings, strArr.
 
-strArr의 원소들을 길이가 같은 문자열들끼리 그룹으로 묶었을 때 가장 개수가 많은 그룹의 크기를 return 하는 solution 함수를 완성해 주세요.
+Complete the solution function that returns the string at the odd-numbered index in the array with all characters uppercase and the string at the even-numbered index with all characters lowercase, given that all elements are alphabetic.
 
-##### 입출력 예시
+##### Example input and output
 
-| strArr                    | result |
-| ------------------------- | ------ |
-| ["a","bc","d","efg","hi"] | 2      |
+| strArr                    | result                    |
+| ------------------------- | ------------------------- |
+| ["AAA","BBB","CCC","DDD"] | ["aaa","BBB","ccc","DDD"] |
+| ["aBc","AbC"]             | ["abc","ABC"]             |
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
-import java.util.*;
-
 class Solution {
-    public int solution(String[] strArr) {
-        int[] temp = new int[strArr.length];
-
-        for (int i = 0; i < strArr.length; i++) {
-            temp[i] = strArr[i].length();
-        }
-
-        Map<Integer, Integer> lengthCount = new HashMap<>();
-
-        for (int len : temp) {
-            lengthCount.put(len, lengthCount.getOrDefault(len, 0) + 1);
-        }
-
-        int maxCount = 0;
-        for (int count : lengthCount.values()) {
-            if (count > maxCount) {
-                maxCount = count;
+    public String[] solution(String[] strArr) {
+        String[] answer = new String[strArr.length];
+        for(int i = 0; i < strArr.length; i++){
+            if(i % 2 == 0){
+                answer[i] = strArr[i].toLowerCase();
+            } else{
+                answer[i] = strArr[i].toUpperCase();
             }
         }
-
-        return maxCount;
+        } return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### solution description
 
-temp 배열 생성: 문자열 배열 strArr의 각 문자열의 길이를 저장하기 위한 temp 배열을 생성합니다.
+String[] answer = new String[strArr.length];: Create a string array answer to store the result. Create it with the same length as the input array.
 
-길이 그룹화를 위한 HashMap 생성: lengthCount라는 이름의 HashMap을 생성합니다. 이 해시맵은 문자열 길이를 키로 지정하고, 해당 길이의 문자열 개수를 값으로 저장합니다.
+for(int i = 0; i < strArr.length; i++) : Iterate over the input array strArr, examining each string.
 
-반복문을 통한 그룹화 및 개수 계산: 문자열 배열 strArr을 반복하면서, 각 문자열의 길이를 temp 배열에 저장하고, 동시에 lengthCount 해시맵에 길이를 키로 가지는 엔트리가 있는지 확인하고, 없다면 새로운 엔트리를 생성하고 값을 1로 초기화합니다. 이미 존재하는 경우에는 해당 키의 값을 1 증가시킵니다.
+if(i % 2 == 0) : If the current index i is an even number:
 
-최대 중복 횟수 계산: lengthCount 해시맵에서 모든 값(중복 횟수)을 순회하며, 최대 중복 횟수(maxCount)를 찾습니다.
+Convert the current string to lowercase and store it in the answer array.
 
-최대 중복 횟수 반환: 최대 중복 횟수(maxCount)를 반환합니다.
+else : If the current index i is odd:
+
+Convert the current string to uppercase and store it in the ANSWER array.
+
+return answer;: Returns the answer array with the conversion done for all strings.
+
+This code creates and returns a new array with the strings at even indices in the input array converted to lowercase and the strings at odd indices converted to uppercase.
