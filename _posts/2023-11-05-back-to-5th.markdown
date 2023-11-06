@@ -40,61 +40,60 @@ date: 2023-11-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 배열에서 문자열 대소문자 변환하기에 대하여 알아본 글입니다.
+### This is a post about the "Back to 5th" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to take a look at solving a coding test problem, reflect on the problem we solved, and learn about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-문자열 배열 strArr가 주어집니다.
+You are given a list num_list of integers.
 
-모든 원소가 알파벳으로만 이루어져 있을 때, 배열에서 홀수번째 인덱스의 문자열은 모든 문자를 대문자로, 짝수번째 인덱스의 문자열은 모든 문자를 소문자로 바꿔서 반환하는 solution 함수를 완성해 주세요.
+Complete the solution function so that it returns a list containing the five smallest numbers in num_list in ascending order.
 
-##### 입출력 예시
+##### Example input and output
 
-| strArr                    | result                    |
-| ------------------------- | ------------------------- |
-| ["AAA","BBB","CCC","DDD"] | ["aaa","BBB","ccc","DDD"] |
-| ["aBc","AbC"]             | ["abc","ABC"]             |
+| num_list                   | result             |
+| -------------------------- | ------------------ |
+| [12, 4, 15, 46, 38, 1, 14] | [1, 4, 12, 14, 15] |
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
+import java.util.*;
+
 class Solution {
-    public String[] solution(String[] strArr) {
-        String[] answer = new String[strArr.length];
-        for(int i = 0; i < strArr.length; i++){
-            if(i % 2 == 0){
-                answer[i] = strArr[i].toLowerCase();
-            } else{
-                answer[i] = strArr[i].toUpperCase();
-            }
+    public int[] solution(int[] num_list) {
+        Arrays.sort(num_list);
+        int[] answer = new int[5];
+        for(int i = 0; i < 5; i++){
+            answer[i] = num_list[i];
         }
-        return answer;
-    }
+    } return answer;
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-String[] answer = new String[strArr.length];: 결과를 저장할 문자열 배열 answer를 생성합니다. 입력 배열과 동일한 길이로 생성합니다.
+Arrays.sort(num_list);: Sorts the given array num_list in ascending order.
 
-for(int i = 0; i < strArr.length; i++) : 입력 배열 strArr를 반복하면서 각 문자열을 검사합니다.
+This sorts the numbers in the array from smallest to largest.
 
-if(i % 2 == 0) : 현재 인덱스 i가 짝수인 경우:
+int[] answer = new int[5];: Creates an integer array answer of size 5.
 
-현재 문자열을 소문자로 변환하여 answer 배열에 저장합니다.
+This array will be used to store the five smallest numbers among the sorted numbers.
 
-else : 현재 인덱스 i가 홀수인 경우:
+for(int i = 0; i < 5; i++) : Selects the first five numbers from the sorted array using a loop.
 
-현재 문자열을 대문자로 변환하여 answer 배열에 저장합니다.
+answer[i] = num_list[i];: Store the value of the current index i in the sorted array in the answer array.
 
-return answer;: 모든 문자열에 대한 변환이 완료된 answer 배열을 반환합니다.
+return answer;: Returns the answer array with the five smallest numbers finally stored.
 
-이 코드는 입력 배열의 짝수 인덱스에 있는 문자열을 소문자로 변환하고 홀수 인덱스에 있는 문자열을 대문자로 변환한 새로운 배열을 생성하여 반환합니다.
+This code selects the five smallest numbers from the given array of integers and returns them, preserving their order.
+
+Because it selects the first five numbers from a sorted array, the numbers returned are sorted in ascending order.
