@@ -40,57 +40,44 @@ date: 2023-11-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "뒤에서 5등 위로" 문제에 대하여 알아본 글입니다.
+### This is a post about the "integer partials" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn about it by solving coding test problems, reflecting on the problems we've solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수로 이루어진 리스트 num_list가 주어집니다.
+Complete the solution function so that, given a real number flo as a parameter, it returns the integer part of flo.
 
-num_list에서 가장 작은 5개의 수를 제외한 수들을 오름차순으로 담은 리스트를 return하도록 solution 함수를 완성해주세요.
+##### Example input and output
 
-##### 입출력 예시
+| flo   | result |
+| ----- | ------ |
+| 1.42  | 1      |
+| 69.32 | 69     |
 
-| num_list                               | result               |
-| -------------------------------------- | -------------------- |
-| [12, 4, 15, 46, 38, 1, 14, 56, 32, 10] | [15, 32, 38, 46, 56] |
-
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
-import java.util.*;
 class Solution {
-    public int[] solution(int[] num_list) {
-        int[] answer = new int[num_list.length - 5];
-        Arrays.sort(num_list);
-        int idx = 0;
-        for(int i = 5; i < num_list.length; i++){
-            answer[idx++] = num_list[i];
-        }
+    public int solution(double flo) {
+        int answer = (int) flo;
         return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution Explained
 
-int[] answer = new int[num_list.length - 5];: 기존 배열 num_list에서 앞에서 5개의 요소를 제외한 나머지 요소를 저장할 새로운 배열 answer를 생성합니다. 이 배열의 길이는 num_list.length - 5로 설정됩니다.
+To convert a float value to an int value, you must use explicit casting.
 
-Arrays.sort(num_list);: 입력 배열 num_list를 오름차순으로 정렬합니다. 정렬된 배열은 작은 값에서 큰 값으로 정렬됩니다.
+When converting from a float value to an int value, decimal values are discarded. In Java, we use (int) to perform the cast.
 
-int idx = 0;: 배열 answer에 값을 할당하기 위한 인덱스 변수 idx를 초기화합니다.
+See ######
 
-for(int i = 5; i < num_list.length; i++) : 입력 배열 num_list를 반복하면서, 인덱스 5부터 시작하여 끝까지 반복합니다. 이로써 앞에서 5개의 요소는 무시하고 5번째 이후의 요소를 선택합니다.
-
-answer[idx++] = num_list[i];: 현재 인덱스 i의 값을 새로운 배열 answer에 저장하고, 인덱스 idx를 증가시켜 다음 위치에 저장할 준비를 합니다.
-
-return answer;: 최종적으로 선택된 요소들로 이루어진 새로운 배열 answer를 반환합니다.
-
-이 코드는 입력 배열을 정렬하고, 앞에서 5개의 요소를 제외한 나머지 요소를 선택하여 새로운 배열로 반환합니다. 반환되는 배열에는 정렬된 배열의 6번째 이후의 요소들이 저장됩니다.
+Casting can cause data loss, so you should be careful. If you want to preserve decimal values, you should use rounding or other methods.
