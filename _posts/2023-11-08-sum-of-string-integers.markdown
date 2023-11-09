@@ -40,44 +40,54 @@ date: 2023-11-08 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "정수 부분" 문제에 대하여 알아본 글입니다.
+### This is the "sum of string integers" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn about it by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-실수 flo가 매개 변수로 주어질 때, flo의 정수 부분을 return하도록 solution 함수를 완성해주세요.
+Complete the solution function so that, given a string num_str of single-digit integers, it returns the sum of each digit.
 
-##### 입출력 예시
+##### Example input and output
 
-| flo   | result |
-| ----- | ------ |
-| 1.42  | 1      |
-| 69.32 | 69     |
+| num_str     | result |
+| ----------- | ------ |
+| "123456789" | 45     |
+| "1000000"   | 1      |
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(double flo) {
-        int answer = (int) flo;
-        return answer;
-    }
+    public int solution(String num_str) {
+        int answer = 0;
+        for(int i = 0; i < num_str.length(); i++){
+            answer += Integer.parseInt(String.valueOf(num_str.charAt(i)));
+        }
+    } return answer;
 }
 ```
 
-##### 풀이 설명
+##### solution description
 
-float 값을 int 값으로 변환하려면 명시적 형변환(Explicit Casting)을 사용해야 합니다.
+int answer = 0;: Initialize the variable answer to store the result. The initial value is 0.
 
-float 값에서 int 값으로 변환하면 소수점 이하의 값은 버려집니다. Java에서는 (int)를 사용하여 형변환을 수행합니다.
+for(int i = 0; i < num_str.length(); i++): Iterate over the input string num_str, checking each character.
 
-###### 참고
+num_str.charAt(i): Get the character located at the current index i.
 
-형변환은 데이터 손실이 발생할 수 있으므로 주의해야 합니다. 만약 소수점 이하의 값을 보존하고자 한다면, 반올림 또는 다른 방법을 사용해야 합니다.
+String.valueOf(...): Converts a character to a string.
+
+Integer.parseInt(...): Converts a string to an integer. Add the converted value to answer.
+
+return answer;: Returns the result of adding all the numbers contained in the string.
+
+This code adds all the numbers in the input string and returns the sum.
+
+It iterates through the string character by character, converting each character to an integer, adding them together, and finally returning the sum of the additions.
