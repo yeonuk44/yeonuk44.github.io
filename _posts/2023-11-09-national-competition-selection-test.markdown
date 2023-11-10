@@ -40,53 +40,112 @@ date: 2023-11-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "문자열 정수의 합" 문제에 대하여 알아본 글입니다.
+### This is an article about the "National Competition Selection Test" questions.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to go through the coding test problem, provide a retrospective on how we solved it, and explore other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the question.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-한 자리 정수로 이루어진 문자열 num_str이 주어질 때, 각 자리수의 합을 return하도록 solution 함수를 완성해주세요.
+You've taken a nationals selection test to select 3 students out of n students ranked 0 through n - 1.
 
-##### 입출력 예시
+You need to select three students with the highest scores, but some students are unable to participate in the national competition due to personal reasons, so you decide to select the three students with the highest scores among those who are able to participate.
 
-| num_str     | result |
-| ----------- | ------ |
-| "123456789" | 45     |
-| "1000000"   | 1      |
+You are given an integer array RANK containing each student's rank on the selection test and a boolean array ATTENDANCE containing whether they can participate in the national competition.
 
-#### 문제에 대한 나의 풀이
+Please write a solution function that returns 10000 × A + 100 × B + C, given the numbers of students selected for the national competition, in order of their rank, as A, B, and C, respectively.
+
+##### Example input and output
+
+| rank                  | attendance                                     | result |
+| --------------------- | ---------------------------------------------- | ------ |
+| [3, 7, 2, 5, 4, 6, 1] | [false, true, true, true, true, false, false]  | 20403  |
+| [1, 2, 3]             | [true, true, true]                             | 102    |
+| [6, 1, 5, 2, 3, 4]    | [true, false, true, false, false, false, true] | 50200  |
+
+#### My solution to the problem
 
 ```java
+import java.util.Arrays;
+
 class Solution {
-    public int solution(String num_str) {
+    public int solution(int[] rank, boolean[] attendance) {
         int answer = 0;
-        for(int i = 0; i < num_str.length(); i++){
-            answer += Integer.parseInt(String.valueOf(num_str.charAt(i)));
+        int length = rank.length;
+        int[][] students = new int[length][2];
+
+        for (int i = 0; i < length; i++) {
+            students[i][0] = rank[i];
+            students[i][1] = attendance[i] ? 1 : 0;
         }
-        return answer;
-    }
+
+        Arrays.sort(students, (a, b) -> Integer.compare(a[0], b[0]));
+
+        int count = 0;
+        int[] selected = new int[3];
+
+        for (int i = 0; i < length; i++) {
+            if (count == 3) {
+                break;
+            }
+            if (students[i][1] == 1) {
+                selected[count++] = students[i][0];
+
+            }
+
+        }
+
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (rank[i] == selected[j]) {
+                    switch (j) {
+                        case 0:
+                            answer += 10000 * i;
+                            break;
+                        case 1:
+                            answer += 100 * i;
+                            break;
+                        case 2:
+                            answer += i;
+                            break;
+                        default:
+                            Break;
+                    }
+                }
+            }
+        }
+
+    } return answer;
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-int answer = 0;: 결과를 저장할 변수 answer를 초기화합니다. 초기값은 0입니다.
+int length = rank.length;: Store the length of the input array in the length variable.
 
-for(int i = 0; i < num_str.length(); i++): 입력 문자열 num_str을 반복하면서 각 문자를 검사합니다.
+int[][] students = new int[length][2];: Create a two-dimensional array students to store the rank and attendance of each student.
 
-num_str.charAt(i): 현재 인덱스 i에 위치한 문자를 가져옵니다.
+Each row in the array represents a student, with the first column storing the equality number and the second column storing the attendance status.
 
-String.valueOf(...): 문자를 문자열로 변환합니다.
+Arrays.sort(students, (a, b) -> Integer.compare(a[0], b[0]));: Sorts the students in ascending order by their grade.
 
-Integer.parseInt(...): 문자열을 정수로 변환합니다. 이렇게 변환한 값을 answer에 더합니다.
+This sorts the students from the lowest to the highest.
 
-return answer;: 문자열에 포함된 숫자들을 모두 더한 결과를 반환합니다.
+int count = 0;, int[] selected = new int[3];: Initialize the variable count and the array selected for selecting the top three students with the highest sums.
 
-이 코드는 입력 문자열에 포함된 숫자를 모두 더하여 그 합을 반환합니다. 문자열을 문자 단위로 반복하면서 각 문자를 정수로 변환하여 더하고, 최종적으로 더한 합을 반환합니다.
+Go through the loop to select the top 3 students with the highest equality scores. Select the students present from the students array and store the equality scores in the selected array.
+
+Once again, through a loop, calculate the score based on the students' equal numbers.
+
+The top three students are given weights of 10,000, 100, and 1, from first to third, which we use to calculate each student's score.
+
+Add each student's score to the variable answer, and finally return the answer value.
+
+The code does the work of sorting the students based on their grade and attendance and calculating their score by weighting the top three students.
+
+The score returned is determined by each student's grade and attendance.
