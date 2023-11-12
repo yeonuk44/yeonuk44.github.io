@@ -40,38 +40,59 @@ date: 2023-11-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "문자열을 정수로 변환하기" 문제에 대하여 알아본 글입니다.
+### This is a recap of the "Find the longest substring ending in a specific string" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to look at it as a coding test problem, provide a retrospective on how we solved it, and explore other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-숫자로만 이루어진 문자열 n_str이 주어질 때, n_str을 정수로 변환하여 return하도록 solution 함수를 완성해주세요.
+You are given the strings myString and pat.
 
-##### 입출력 예시
+Complete a solution function that finds and returns the longest substring of myString that ends in pat.
 
-| n_str  | result |
-| ------ | ------ |
-| "10"   | 10     |
-| "8542" | 8542   |
+##### Example input and output
 
-#### 문제에 대한 나의 풀이
+| myString   | pat  | result     |
+| ---------- | ---- | ---------- |
+| "AbCdEFG"  | "dE" | "AbCdE"    |
+| "AAAAaaaa" | "a"  | "AAAAaaaa" |
+
+#### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(String n_str) {
-        int answer = Integer.parseInt(n_str);
-        return answer;
-    }
-}
+    public String solution(String myString, String pat) {
+        StringBuilder answer = new StringBuilder();
+        StringBuilder answer1 = new StringBuilder();
+        for(int i = 0; i < myString.length(); i++){
+            answer.append(myString.charAt(i));
+        }
+        } int count = answer.lastIndexOf(pat);
+        answer1.append(answer.substring(0,count));
+        for(int j = 0; j < pat.length(); j++){
+            answer1.append(pat.charAt(j));
+        }
+} return answer1.toString();
 ```
 
-##### 풀이 설명
+##### Solution
 
-Integer.parseInt() 함수를 사용하여 문자열을 정수로 반환하였습니다.
+StringBuilder answer = new StringBuilder(); and StringBuilder answer1 = new StringBuilder();: Create two StringBuilder objects answer and answer1. These objects help us manipulate strings efficiently.
+
+for(int i = 0; i < myString.length(); i++): Iterate over the input string myString, adding each character to answer. This ensures that answer contains the contents of myString.
+
+int count = answer.lastIndexOf(pat);: Find the last occurrence of the string pat in the answer string and store it in count.
+
+answer1.append(answer.substring(0, count)): Add the substring from the answer string to the last occurrence of the pat string to answer1. This substring is the string before the pat.
+
+for(int j = 0; j < pat.length(); j++): Add each character of the pat string to answer1.
+
+return answer1.toString();: Convert the final assembled answer1 string to a string and return it.
+
+This code finds the last occurrence of pat in the input string myString, replaces that part of the string with pat, and returns it.

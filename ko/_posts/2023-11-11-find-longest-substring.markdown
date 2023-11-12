@@ -40,7 +40,7 @@ date: 2023-11-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "문자열을 정수로 변환하기" 문제에 대하여 알아본 글입니다.
+### "특정 문자열로 끝나는 가장 긴 부분 문자열 찾기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,26 +52,49 @@ date: 2023-11-11 09:00:00 +0900
 
 #### 문제
 
-숫자로만 이루어진 문자열 n_str이 주어질 때, n_str을 정수로 변환하여 return하도록 solution 함수를 완성해주세요.
+문자열 myString과 pat가 주어집니다.
+
+myString의 부분 문자열중 pat로 끝나는 가장 긴 부분 문자열을 찾아서 return 하는 solution 함수를 완성해 주세요.
 
 ##### 입출력 예시
 
-| n_str  | result |
-| ------ | ------ |
-| "10"   | 10     |
-| "8542" | 8542   |
+| myString   | pat  | result     |
+| ---------- | ---- | ---------- |
+| "AbCdEFG"  | "dE" | "AbCdE"    |
+| "AAAAaaaa" | "a"  | "AAAAaaaa" |
 
 #### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public int solution(String n_str) {
-        int answer = Integer.parseInt(n_str);
-        return answer;
+    public String solution(String myString, String pat) {
+        StringBuilder answer = new StringBuilder();
+        StringBuilder answer1 = new StringBuilder();
+        for(int i = 0; i < myString.length(); i++){
+            answer.append(myString.charAt(i));
+        }
+        int count = answer.lastIndexOf(pat);
+        answer1.append(answer.substring(0,count));
+        for(int j = 0; j < pat.length(); j++){
+            answer1.append(pat.charAt(j));
+        }
+        return answer1.toString();
     }
 }
 ```
 
 ##### 풀이 설명
 
-Integer.parseInt() 함수를 사용하여 문자열을 정수로 반환하였습니다.
+StringBuilder answer = new StringBuilder(); 및 StringBuilder answer1 = new StringBuilder();: 두 개의 StringBuilder 객체 answer와 answer1을 생성합니다. 이 객체들은 문자열을 효율적으로 조작할 수 있도록 도와줍니다.
+
+for(int i = 0; i < myString.length(); i++): 입력 문자열 myString을 반복하면서 각 문자를 answer에 추가합니다. 이렇게 하면 answer에는 myString의 내용이 그대로 들어가게 됩니다.
+
+int count = answer.lastIndexOf(pat);: answer 문자열에서 pat 문자열의 마지막 등장 위치를 찾아서 count에 저장합니다.
+
+answer1.append(answer.substring(0, count)): answer 문자열에서 pat 문자열의 마지막 등장 위치까지의 부분 문자열을 answer1에 추가합니다. 이 부분은 pat 이전의 문자열입니다.
+
+for(int j = 0; j < pat.length(); j++): pat 문자열의 각 문자를 answer1에 추가합니다.
+
+return answer1.toString();: 최종적으로 조합된 answer1 문자열을 문자열로 변환하여 반환합니다.
+
+이 코드는 입력 문자열 myString에서 마지막으로 등장하는 pat을 찾아서 해당 부분을 pat으로 대체한 문자열을 생성하고 반환합니다.
