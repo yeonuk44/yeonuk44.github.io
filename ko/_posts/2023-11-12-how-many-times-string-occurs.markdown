@@ -40,7 +40,7 @@ date: 2023-11-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "특정 문자열로 끝나는 가장 긴 부분 문자열 찾기" 문제에 대하여 알아본 글입니다.
+### "문자열이 몇 번 등장하는지 세기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,49 +52,47 @@ date: 2023-11-12 09:00:00 +0900
 
 #### 문제
 
-문자열 myString과 pat가 주어집니다.
+문자열 myString과 pat이 주어집니다.
 
-myString의 부분 문자열중 pat로 끝나는 가장 긴 부분 문자열을 찾아서 return 하는 solution 함수를 완성해 주세요.
+myString에서 pat이 등장하는 횟수를 return 하는 solution 함수를 완성해 주세요.
 
 ##### 입출력 예시
 
-| myString   | pat  | result     |
-| ---------- | ---- | ---------- |
-| "AbCdEFG"  | "dE" | "AbCdE"    |
-| "AAAAaaaa" | "a"  | "AAAAaaaa" |
+| myString | pat   | result |
+| -------- | ----- | ------ |
+| "banana" | "ana" | 2      |
 
 #### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public String solution(String myString, String pat) {
-        StringBuilder answer = new StringBuilder();
-        StringBuilder answer1 = new StringBuilder();
-        for(int i = 0; i < myString.length(); i++){
-            answer.append(myString.charAt(i));
+    public int solution(String myString, String pat) {
+        int answer = 0;
+        for(int i = pat.length() - 1; i < myString.length(); i++){
+            String str = myString.substring(0, i + 1);
+            if(str.endsWith(pat)){
+                answer++;
+            }
         }
-        int count = answer.lastIndexOf(pat);
-        answer1.append(answer.substring(0,count));
-        for(int j = 0; j < pat.length(); j++){
-            answer1.append(pat.charAt(j));
-        }
-        return answer1.toString();
+        return answer;
     }
 }
 ```
 
 ##### 풀이 설명
 
-StringBuilder answer = new StringBuilder(); 및 StringBuilder answer1 = new StringBuilder();: 두 개의 StringBuilder 객체 answer와 answer1을 생성합니다. 이 객체들은 문자열을 효율적으로 조작할 수 있도록 도와줍니다.
+public int solution(String myString, String pat): 두 개의 문자열 파라미터 myString과 pat을 입력으로 받아서 문제를 해결하는 함수입니다. 결과로 정수형 값을 반환합니다.
 
-for(int i = 0; i < myString.length(); i++): 입력 문자열 myString을 반복하면서 각 문자를 answer에 추가합니다. 이렇게 하면 answer에는 myString의 내용이 그대로 들어가게 됩니다.
+int answer = 0;: 부분 문자열의 개수를 저장하기 위한 변수 answer를 초기화합니다.
 
-int count = answer.lastIndexOf(pat);: answer 문자열에서 pat 문자열의 마지막 등장 위치를 찾아서 count에 저장합니다.
+for(int i = pat.length(); i < myString.length(); i++) { ... }: 주어진 문자열 myString의 각 문자에 대해서 반복문을 실행합니다. 시작 위치는 pat의 길이부터 시작합니다.
 
-answer1.append(answer.substring(0, count)): answer 문자열에서 pat 문자열의 마지막 등장 위치까지의 부분 문자열을 answer1에 추가합니다. 이 부분은 pat 이전의 문자열입니다.
+String str = myString.substring(0, i + 1);: 현재 위치까지의 부분 문자열을 생성합니다. substring 메소드를 사용하여 시작 인덱스 0부터 현재 인덱스 i까지의 부분 문자열을 생성합니다.
 
-for(int j = 0; j < pat.length(); j++): pat 문자열의 각 문자를 answer1에 추가합니다.
+if(str.endsWith(pat)) { ... }: 생성한 부분 문자열 str이 주어진 문자열 pat로 끝나는지 검사합니다.
 
-return answer1.toString();: 최종적으로 조합된 answer1 문자열을 문자열로 변환하여 반환합니다.
+answer++;: 만약 부분 문자열이 pat로 끝난다면 answer 값을 1 증가시킵니다.
 
-이 코드는 입력 문자열 myString에서 마지막으로 등장하는 pat을 찾아서 해당 부분을 pat으로 대체한 문자열을 생성하고 반환합니다.
+return answer;: 최종적으로 찾은 부분 문자열의 개수인 answer 값을 반환합니다.
+
+이 코드는 주어진 문자열 myString의 부분 문자열 중에서 pat로 끝나는 부분 문자열의 개수를 세는 작업을 수행합니다. 코드는 문제를 정확하게 해결하고 있으며, endsWith 메소드를 통해 문자열의 끝 부분이 주어진 패턴과 일치하는지 검사합니다.
