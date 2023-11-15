@@ -40,7 +40,7 @@ date: 2023-11-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "0 떼기" 문제에 대하여 알아본 글입니다.
+### "두 수의 합" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,21 +52,26 @@ date: 2023-11-14 09:00:00 +0900
 
 #### 문제
 
-정수로 이루어진 문자열 n_str이 주어질 때, n_str의 가장 왼쪽에 처음으로 등장하는 0들을 뗀 문자열을 return하도록 solution 함수를 완성해주세요.
+0 이상의 두 정수가 문자열 a, b로 주어질 때, a + b의 값을 문자열로 return 하는 solution 함수를 작성해 주세요.
 
 ##### 입출력 예시
 
-| n_str    | result   |
-| -------- | -------- |
-| "0010"   | "10"     |
-| "854020" | "854020" |
+| a                      | b                       | result                  |
+| ---------------------- | ----------------------- | ----------------------- |
+| "582"                  | "734"                   | "1316"                  |
+| "18446744073709551615" | "287346502836570928366" | "305793246910280479981" |
+| "0"                    | "0"                     | "0"                     |
 
 #### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public String solution(String n_str) {
-        String answer = String.valueOf(Integer.parseInt(n_str));
+    public String solution(String a, String b) {
+        String answer = "";
+        int intA = Integer.parseInt(a);
+        int intB = Integer.parseInt(b);
+        int sum = intA + intB;
+        answer = String.valueOf(sum);
         return answer;
     }
 }
@@ -74,6 +79,50 @@ class Solution {
 
 ##### 풀이 설명
 
-문자열로 구성된 n_str의 왼쪽에 처음 등장하는 0을 제거하기 위해 문자열에서 정수형으로 변환했습니다.
+처음엔 Integer 데이터 타입으로 변환하여 더하고 다시 문자열로 변환하여 반환하는 코드를 작성했으나 Testcase 2번의 18446744073709551615 해당 정수가 너무 큰 수이기에 통과하지 않았습니다.
 
-이후 다시 정수형을 문자열로 변환하여 반환했습니다.
+이후 Integer 데이터 타입의 2배의 크기를 가진 long을 사용하여 문제를 풀었습니다.
+
+#### long을 활용한 풀이
+
+```java
+class Solution {
+    public String solution(String a, String b) {
+        String answer = "";
+        long longA = Long.parseLong(a);
+        long longB = Long.parseLong(b);
+        long sum = longA + longB;
+        answer = String.valueOf(sum);
+        return answer;
+    }
+}
+```
+
+그러나 long 데이터 타입을 사용해도 Testcase 2번의 18446744073709551615을 통과할 수 없었습니다.
+
+너무 큰 수이기 때문입니다.
+
+이에 BigInteger 클래스를 사용해 아주 큰 정수 값을 처리했습니다.
+
+#### BigInteger를 활용한 풀이
+
+```java
+import java.math.BigInteger;
+
+public class Solution {
+    public String solution(String a, String b) {
+        String answer = "";
+        BigInteger bigA = new BigInteger(a);
+        BigInteger bigB = new BigInteger(b);
+        BigInteger sum = bigA.add(bigB);
+        answer = sum.toString();
+        return answer;
+    }
+}
+```
+
+위 코드에서는 입력된 두 문자열을 BigInteger 객체로 변환하고, add 메서드를 사용하여 더합니다.
+
+그런 다음 toString 메서드를 사용하여 결과를 문자열로 변환하여 반환합니다.
+
+이렇게 하면 아주 큰 정수 값을 정확하게 처리할 수 있습니다.

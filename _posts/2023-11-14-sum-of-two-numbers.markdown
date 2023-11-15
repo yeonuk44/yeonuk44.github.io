@@ -40,40 +40,89 @@ date: 2023-11-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "0 떼기" 문제에 대하여 알아본 글입니다.
+### This is a post about the "sum of two numbers" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn about it by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-정수로 이루어진 문자열 n_str이 주어질 때, n_str의 가장 왼쪽에 처음으로 등장하는 0들을 뗀 문자열을 return하도록 solution 함수를 완성해주세요.
+Write a solution function that returns the value of a + b as a string, given two integers greater than or equal to 0.
 
-##### 입출력 예시
+##### Example input and output
 
-| n_str    | result   |
-| -------- | -------- |
-| "0010"   | "10"     |
-| "854020" | "854020" |
+| a                      | b                       | result                  |
+| ---------------------- | ----------------------- | ----------------------- | --- |
+| "582"                  | "734"                   | "1316"                  |
+| "18446744073709551615" | "287346502836570928366" | "305793246910280479981" |
+| "0"                    | "0"                     | "0"                     | "0" |
 
-#### 문제에 대한 나의 풀이
+My solution to the problem ####
 
 ```java
 class Solution {
-    public String solution(String n_str) {
-        String answer = String.valueOf(Integer.parseInt(n_str));
+    public String solution(String a, String b) {
+        String answer = "";
+        int intA = Integer.parseInt(a);
+        int intB = Integer.parseInt(b);
+        int sum = intA + intB;
+        answer = String.valueOf(sum);
         return answer;
     }
 }
 ```
 
-##### 풀이 설명
+Explaining the solution to #####
 
-문자열로 구성된 n_str의 왼쪽에 처음 등장하는 0을 제거하기 위해 문자열에서 정수형으로 변환했습니다.
+Initially, you wrote code that converted to the Integer data type, added it, converted it back to a string, and returned it, but the 18446744073709551615 in Testcase 2 did not pass because the integer was too large.
 
-이후 다시 정수형을 문자열로 변환하여 반환했습니다.
+I then solved the problem using long, which is twice the size of the Integer data type.
+
+#### solved using longs
+
+```java
+class Solution {
+    public String solution(String a, String b) {
+        String answer = "";
+        long longA = Long.parseLong(a);
+        long longB = Long.parseLong(b);
+        long sum = longA + longB;
+        answer = String.valueOf(sum);
+        return answer;
+    }
+}
+```
+
+However, even with the long data type, we were unable to pass 18446744073709551615 in Testcase 2.
+
+It's too big a number.
+
+So we used the BigInteger class to handle very large integer values.
+
+#### Solving with BigInteger
+
+```java
+import java.math.BigInteger;
+
+public class Solution {
+    public String solution(String a, String b) {
+        String answer = "";
+        BigInteger bigA = new BigInteger(a);
+        BigInteger bigB = new BigInteger(b);
+        BigInteger sum = bigA.add(bigB);
+        answer = sum.toString();
+        return answer;
+    }
+}
+```
+
+The above code converts the two input strings to BigInteger objects and adds them using the add method.
+
+It then uses the toString method to convert the result to a string and returns it.
+
+This allows us to accurately handle very large integer values.
