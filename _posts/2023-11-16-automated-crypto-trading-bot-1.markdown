@@ -40,38 +40,58 @@ date: 2023-11-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "문자열로 변환" 문제에 대하여 알아본 글입니다.
+### This is an article about "Implementing an automated cryptocurrency trading bot (series)".
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+Nowadays, the value of cryptocurrencies is steadily increasing.
 
-문제에 대해 먼저 알아보겠습니다.
+In a bull market, it is necessary to trade according to your own trading technique.
+
+In this series, we're going to create a trading bot that will automatically trade based on the logic written in the code without you having to keep an eye on it.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Preparation
 
-정수 n이 주어질 때, n을 문자열로 변환하여 return하도록 solution 함수를 완성해주세요.
+- An Ubit account
+- Your IP address (for security reasons, you will need a specific IP address to run the trading bot from)
 
-##### 입출력 예시
+#### Content
 
-| n    | result |
-| ---- | ------ |
-| 123  | "123"  |
-| 2573 | "2573" |
+In order to use the information provided by any exchange, not just Ubit, you need to be aware of the existence of the Open API provided by that exchange.
 
-#### 문제에 대한 나의 풀이
+Since we are using Javascript in this article, we will use npm, the project manager for Node.js.
 
-```java
-class Solution {
-    public String solution(int n) {
-        String answer = String.valueOf(n);
-        return answer;
-    }
-}
+1. First, go to the Open API section of the Help Center on the official Ubit website. (See: https://upbit.com/service_center/open_api_guide)
+   After logging in and using the Open API, click Issue Open API Key to get an Open API key. At this point, check the scope of the technology you want to use in your trading bot.
+   I checked all of them.
+2. Create a project.
+   Create a folder and install Node.js through the terminal.
+   On Windows, you can download the installer from the official website (reference: https://nodejs.org/en), and on Mac, you can brew install node through Homebrew.
+   Once Node.js is installed, use npm, Node's package manager, to set up the initial project.
+
+```javascript
+npm init -y // This is a quick way to set it up.
 ```
 
-##### 풀이 설명
+3. Install the library for using the OpenAPI.
 
-정수형 데이터타입을 문자열 데이터타입으로 변환해주는 String.valueOf 함수를 사용하여 값을 answer에 반환해주었습니다.
+```javascript
+npm install request jsonwebtoken
+```
+
+4. Create an index.js file in your project and import the "Get full account" API usage example from the Uberbit Dev Center (see: https://docs.upbit.com/reference/%EC%A0%84%EC%B2%B4-%EA%B3%84%EC%A2%8C-%EC%A1%B0%ED%9A%8C)
+   Imported code
+
+```javascript
+const access_key = process.env.UPBIT_OPEN_API_ACCESS_KEY;
+const secret_key = process.env.UPBIT_OPEN_API_SECRET_KEY;
+const server_url = process.env.UPBIT_OPEN_API_SERVER_URL;
+```
+
+#### Finalizing
+
+As shown above, you need to enter the access_key, secret_key, and server_url as you received the Open API Key, respectively, but since I plan to share the project on GitHub, I added the dotenv library to the dependencies to manage the key as an .env file.
+
+If you manage like me, you need to add a command to your gitignore file to exclude .env from changes. If you enter the key above and type $node index.js, it should run fine.
