@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Automated_Crypto_Trading_Bot_1
-title: 자동 암호화폐 매매 봇 구현 1(with.Upbit Open API)
+lng_pair: id_About_Automated_Crypto_Trading_Bot_2
+title: Automated crypto trading bot implementation 2 (with.Upbit Open API)
 # title: Automated crypto trading bot implementation 1 (with.Upbit Open API)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2023-11-16 09:00:00 +0900
+date: 2023-11-17 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -40,13 +40,15 @@ date: 2023-11-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "자동 암호화폐 매매 봇 구현 1(시리즈)"에 대한 글입니다.
+### "자동 암호화폐 매매 봇 구현 2(시리즈)"에 대한 글입니다.
 
 요즘 암호화폐의 가치가 꾸준히 상승장으로 이어지고 있습니다.
 
 상승장에선 각자의 매매기법에 따라 트레이딩을 진행할 필요가 있습니다.
 
 이번 시리즈에선 내가 계속 보지 않아도 코드에 작성된 로직에 따라 자동으로 매매를 진행해주는 트레이딩 봇을 만들어보겠습니다.
+
+이전 글에선 준비하는 과정 및 프로젝트 세팅까지 진행하였으니 이번 글에선 매매를 직접 진행해보겠습니다.(참고: https://github.com/yeonuk44/Trading-Bot)
 
 {:data-align="center"}
 

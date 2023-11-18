@@ -40,7 +40,7 @@ date: 2023-11-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-### This is an article about "Implementing an automated cryptocurrency trading bot (series)".
+### This is an article about "Implementing an automated cryptocurrency trading bot 1(series)".
 
 Nowadays, the value of cryptocurrencies is steadily increasing.
 
