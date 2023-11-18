@@ -40,7 +40,7 @@ date: 2023-11-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-### This is an article about "Implementing an automated cryptocurrency trading bot (series)".
+## This is an article about "Implementing an automated cryptocurrency trading bot 1(series)".
 
 Nowadays, the value of cryptocurrencies is steadily increasing.
 
@@ -52,12 +52,12 @@ In this series, we're going to create a trading bot that will automatically trad
 
 <!-- outline-end -->
 
-#### Preparation
+### Preparation
 
 - An Ubit account
 - Your IP address (for security reasons, you will need a specific IP address to run the trading bot from)
 
-#### Content
+### Content
 
 In order to use the information provided by any exchange, not just Ubit, you need to be aware of the existence of the Open API provided by that exchange.
 

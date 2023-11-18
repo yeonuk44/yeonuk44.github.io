@@ -40,7 +40,7 @@ date: 2023-11-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "자동 암호화폐 매매 봇 구현(시리즈)"에 대한 글입니다.
+## "자동 암호화폐 매매 봇 구현 1(시리즈)"에 대한 글입니다.
 
 요즘 암호화폐의 가치가 꾸준히 상승장으로 이어지고 있습니다.
 
@@ -52,12 +52,12 @@ date: 2023-11-16 09:00:00 +0900
 
 <!-- outline-end -->
 
-#### 준비물
+### 준비물
 
 - 업비트 계정
 - 본인의 IP 주소(보안 상 트레이딩 봇을 실행시킬 특정 IP 주소가 필요합니다)
 
-#### 내용
+### 내용
 
 업비트 뿐만 아니라 거래소에서 제공하는 정보를 사용하기 위해선 해당 거래소에서 제공하는 Open API가 존재하는지 알고 있어야 합니다.
 
@@ -90,7 +90,7 @@ const secret_key = process.env.UPBIT_OPEN_API_SECRET_KEY;
 const server_url = process.env.UPBIT_OPEN_API_SERVER_URL;
 ```
 
-#### 마무리
+### 마무리
 
 위와 같이 access_key, secret_key, server_url를 각각 Open API Key 발급받은 대로 입력해주어야 하는데 저의 경우 깃허브에 해당 프로젝트를 올려서 공유할 예정이기에 dependencies에 dotenv 라이브러리를 추가하여 .env 파일로 Key를 관리하고 있습니다.
 
