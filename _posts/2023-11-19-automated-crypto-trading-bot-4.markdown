@@ -40,137 +40,82 @@ date: 2023-11-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "자동 암호화폐 매매 봇 구현 4(시리즈)"에 대한 글입니다.
+## This post is about "Implementing an automated cryptocurrency trading bot 4 (series)".
 
-요즘 암호화폐의 가치가 꾸준히 상승장으로 이어지고 있습니다.
+Nowadays, the value of cryptocurrencies is steadily increasing.
 
-상승장에선 각자의 매매기법에 따라 트레이딩을 진행할 필요가 있습니다.
+In a bull market, it is necessary to trade according to your own trading technique.
 
-이번 시리즈에선 내가 계속 보지 않아도 코드에 작성된 로직에 따라 자동으로 매매를 진행해주는 트레이딩 봇을 만들어보겠습니다.
+In this series, we will create a trading bot that will automatically execute trades based on the logic written in the code without me having to keep an eye on it.
 
-이전 글에선 매매를 직접 수행하였으니 이번 글에선 볼린저밴드와 같은 투자 기법을 구현하기 위해 캔들 정보를 가져오고 값을 구하는 것을 진행해보겠습니다.(참고: https://github.com/yeonuk44/Trading-Bot)
+In the previous article, we learned how to get candle information and get values. In this article, we will learn what Bollinger Bands are and implement this technical indicator in code.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 캔들 정보 조회 API
+### Introduction to Bollinger Bands
 
-Upbit의 캔들 정보 조회 API는 특정 마켓의 캔들 정보를 가져올 수 있습니다. 이를 통해 트렌드 분석, 기술적 분석 등 다양한 목적으로 활용할 수 있습니다.
+Bollinger Bands is a technical analysis tool developed by John Bollinger and is a popular tool used to identify trends, volatility, and potential reversal points in financial markets.
 
-나의 코드
+It consists of three bands, the middle band is a simple moving average and the upper and lower bands are calculated based on the standard deviation from the middle band.
 
-getDailyCandlesInfo 함수
+### Understanding Bollinger Bands
+
+1. the middle band
+   - The middle band is a simple moving average (SMA) and represents the average price over a certain period of time.
+2. upper and lower bands
+   - Upper Band: Calculated as the middle band plus twice the standard deviation.
+   - Bottom band: Calculated as the middle band minus twice the standard deviation.
+   - These bands provide a dynamic range centered on the middle band, expanding during periods of high volatility and contracting during periods of low volatility.
+
+### Implementing technical indicators on charts in code
 
 ```javascript
-function getDailyCandlesInfo() {
-  // API 요청 옵션 설정
-  const options = {
-    method: "GET",
-    url: "https://api.upbit.com/v1/candles/days?count=30&market=KRW-BTC",
-    headers: { accept: "application/json" },
+function bb(tradePrices) {
+  const period = 20;
+  const movingAverages = [];
+
+  // calculate moving averages
+  for (let i = 0; i <= tradePrices.length - period; i++) {
+    const average =
+      tradePrices.slice(i, i + period).reduce((sum, price) => sum + price, 0) /
+      period;
+    movingAverages.push(average);
+  }
+
+  // calculate the standard deviation
+  const standardDeviation = Math.sqrt(
+    movingAverages.reduce(
+      (sum, avg) => sum + Math.pow(avg - movingAverages[0], 2),
+      0
+    ) / period
+  );
+
+  // Compute the Bollinger bands
+  const upperBand = movingAverages[0] + 2 * standardDeviation;
+  const middleBand = movingAverages[0];
+  const lowerBand = movingAverages[0] - 2 * standardDeviation;
+
+  // Save the result as an object
+  const bollingerBands = {
+    "Upper bands": upperBand,
+    "Middle Band": middleBand,
+    "lower band": lowerBand,
   };
 
-  // API 요청 및 응답 처리
-  return new Promise((resolve, reject) => {
-    request(options, (error, response, body) => {
-      if (error) {
-        reject(error);
-      } else {
-        try {
-          // JSON 파싱
-          const responseBody = JSON.parse(body);
-
-          // 캔들의 거래 가격만 추출
-          const tradePrices = responseBody.map((candle) => candle.trade_price);
-
-          // 기술적 분석(Bollinger Bands)을 통한 값 계산
-          const dailyBBValue = technicalBollingerBand.bb(tradePrices);
-
-          // 결과 반환
-          resolve(dailyBBValue);
-        } catch (parseError) {
-          reject(parseError);
-        }
-      }
-    });
-  });
+  return bollingerBands;
 }
+
+module.exports = {
+  bb,
+};
 ```
 
-상기의 코드는 KRW-BTC 마켓의 일별 캔들의 정보를 QS을 통해 요청하고 받아와 JSON형식으로 파싱하여 원하는 캔들의 종가 가격만을 추출하였습니다.
+In this implementation:
 
-다음 글에서 사용될 Bollinger Bands의 함수에 삽입해 트레이딩의 기술적 분석 근거를 산출했습니다.
+The movingAverages array stores the calculated moving averages.
 
-다음은 트레이딩을 위한 1분당 캔들 정보를 구하는 코드입니다.
+The standard deviation is calculated based on the moving averages.
 
-getMinuteCandleInfo 함수
-
-```javascript
-function getMinuteCandleInfo() {
-  // API 요청 옵션 설정
-  const options = {
-    method: "GET",
-    url: "https://api.upbit.com/v1/candles/minutes/1?market=KRW-BTC&count=1",
-    headers: { accept: "application/json" },
-  };
-
-  // API 요청 및 응답 처리
-  return new Promise((resolve, reject) => {
-    request(options, (error, response, body) => {
-      if (error) {
-        reject(error);
-      } else {
-        try {
-          // JSON 파싱
-          const responseBody = JSON.parse(body);
-
-          // 캔들의 거래 가격만 추출
-          const tradePrices = responseBody.map((candle) => candle.trade_price);
-
-          // 결과 반환
-          resolve(tradePrices);
-        } catch (parseError) {
-          reject(parseError);
-        }
-      }
-    });
-  });
-}
-```
-
-위와 같이 작성된 코드를 사용하는 예시도 가져왔습니다.
-
-사용 예시
-
-```javascript
-const { getDailyCandlesInfo, getMinuteCandleInfo } = require("./path/to/api");
-
-// 일봉 캔들 정보 조회
-getDailyCandlesInfo()
-  .then((dailyBBValue) => {
-    console.log("일봉 Bollinger Bands 값:", dailyBBValue);
-  })
-  .catch((error) => {
-    console.error("일봉 캔들 정보 조회 실패:", error);
-  });
-
-// 1분봉 캔들 정보 조회
-getMinuteCandleInfo()
-  .then((tradePrices) => {
-    console.log("1분봉 거래 가격:", tradePrices);
-  })
-  .catch((error) => {
-    console.error("1분봉 캔들 정보 조회 실패:", error);
-  });
-```
-
-### 마무리
-
-Upbit의 캔들 정보 조회 API를 활용하면 시장 동향을 파악하고 기술적 분석을 수행하는 데 도움이 됩니다.
-
-위의 함수들을 활용하여 캔들 정보를 가져오고, 필요에 따라 분석하여 투자 결정에 활용할 수 있습니다.
-
-다음 글에선 볼린저밴드와 같은 기술적 분석 지표를 알고리즘을 통해 구현하고 더 나아가 주기적인 API 콜로 투자기법을 적용한 트레이딩 봇을 구현해보도록 하겠습니다.
-
-고생하셨습니다.
+The upper and lower bands are determined using the standard deviation.
