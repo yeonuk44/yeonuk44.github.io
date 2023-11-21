@@ -40,84 +40,117 @@ date: 2023-11-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "자동 암호화폐 매매 봇 구현 4(시리즈)"에 대한 글입니다.
+## This post is about "Implementing an automated cryptocurrency trading bot 5 (series)".
 
-요즘 암호화폐의 가치가 꾸준히 상승장으로 이어지고 있습니다.
+Nowadays, the value of cryptocurrencies is steadily increasing.
 
-상승장에선 각자의 매매기법에 따라 트레이딩을 진행할 필요가 있습니다.
+In a bull market, it is necessary to trade according to your own trading technique.
 
-이번 시리즈에선 내가 계속 보지 않아도 코드에 작성된 로직에 따라 자동으로 매매를 진행해주는 트레이딩 봇을 만들어보겠습니다.
+In this series, we're going to create a trading bot that will automatically trade according to the logic written in the code without you having to keep an eye on it.
 
-이전 글에선 Bollinger Bands가 무엇인지 알아보고 해당 기술적 지표를 코드를 통해 직접 구현하였습니다. 이번 글에선 작성된 코드들에 대해 단계별 가이드를 준비했습니다.
+In the previous article, we learned what Bollinger Bands are and implemented this technical indicator directly in code. In this article, we will provide a step-by-step guide to the written code.
 
-(참고: https://github.com/yeonuk44/Trading-Bot)
+(Reference: https://github.com/yeonuk44/Trading-Bot)
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### Bollinger Bands 소개
-
-볼린저 밴드는 존 볼린저(John Bollinger)가 개발한 기술적 분석 도구로, 금융 시장에서 추세, 변동성 및 잠재적인 반전 지점을 식별하는 데 사용되는 인기 있는 도구입니다.
-
-이는 상중하 3개의 밴드로 구성되어 있으며, 중간 밴드는 단순 이동 평균이며 상단 및 하단 밴드는 중간 밴드에서의 표준 편차를 기반으로 계산됩니다.
-
-### Bollinger Bands 이해하기
-
-1. 중간 밴드
-   - 중간 밴드는 단순 이동 평균(SMA)으로서 특정 기간 동안의 평균 가격을 나타냅니다.
-2. 상단 및 하단 밴드
-   - 상단 밴드: 중간 밴드와 표준 편차의 두 배를 더한 값으로 계산됩니다.
-   - 하단 밴드: 중간 밴드에서 표준 편차의 두 배를 뺀 값으로 계산됩니다.
-   - 이러한 밴드들은 중간 밴드를 중심으로 동적인 범위를 제공하며, 고변동성 기간에는 확장되고 저변동성 기간에는 축소됩니다.
-
-### 차트의 기술적 지표를 코드로 구현하기
+### Install required modules
 
 ```javascript
-function bb(tradePrices) {
-  const period = 20;
-  const movingAverages = [];
-
-  // 이동 평균 계산
-  for (let i = 0; i <= tradePrices.length - period; i++) {
-    const average =
-      tradePrices.slice(i, i + period).reduce((sum, price) => sum + price, 0) /
-      period;
-    movingAverages.push(average);
-  }
-
-  // 표준 편차 계산
-  const standardDeviation = Math.sqrt(
-    movingAverages.reduce(
-      (sum, avg) => sum + Math.pow(avg - movingAverages[0], 2),
-      0
-    ) / period
-  );
-
-  // 볼린저 밴드 계산
-  const upperBand = movingAverages[0] + 2 * standardDeviation;
-  const middleBand = movingAverages[0];
-  const lowerBand = movingAverages[0] - 2 * standardDeviation;
-
-  // 결과를 객체로 저장
-  const bollingerBands = {
-    "상단 밴드": upperBand,
-    "중간 밴드": middleBand,
-    "하단 밴드": lowerBand,
-  };
-
-  return bollingerBands;
-}
-
-module.exports = {
-  bb,
-};
+npm install request
+npm install uuid
+npm install crypto
+npm install jsonwebtoken
+npm install querystring
+npm install dotenv
 ```
 
-이 구현에서:
+### Set API key and secret
 
-movingAverages 배열은 계산된 이동 평균을 저장합니다.
+To use the Upbit Open API, get an API key and secret from the Upbit Developer Center and save it in an .env file.
 
-표준 편차는 이동 평균을 기반으로 계산됩니다.
+```javasciprt
+UPBIT_OPEN_API_ACCESS_KEY=your_access_key
+UPBIT_OPEN_API_SECRET_KEY=your_secret_key
+upbit_open_api_server_url=https://api.upbit.com
+```
 
-상단 및 하단 밴드는 표준 편차를 사용하여 결정됩니다.
+### Load required files and modules
+
+```javascript
+const request = require("request");
+const uuidv4 = require("uuid/v4");
+const crypto = require("crypto");
+const sign = require("jsonwebtoken").sign;
+const queryEncode = require("querystring").encode;
+const dotenv = require("dotenv");
+const accountsInfo = require("./apis/assets");
+const orderCryptocurrency = require("./apis/order");
+const getCandlesInfo = require("./apis/ticker");
+
+dotenv.config();
+```
+
+### Implement the necessary functions
+
+findKRW and findBTC: Functions to find the indices of KRW and BTC.
+
+fetchData: Main function to collect data and execute the trading strategy
+
+Please refer to the attached code repository in the outline of this article.
+
+```javascript
+async function findKRW() {
+  // ...
+}
+
+async function findBTC() {
+  // ...
+}
+
+async function fetchData() {
+  try {
+    // ...
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+fetchData();
+```
+
+### Make periodic API calls and execute the trading strategy
+
+```javascript
+const minuteInterval = setInterval(async () => {
+  // ...
+}, 60000);
+```
+
+### Implementing a trading strategy
+
+This example uses a simple trading strategy using Bollinger Bands.
+
+```javascript
+if (minuteCandlePrice <= lowerBand * 1.05) {
+  // Buy order logic
+} else if (minuteCandlePrice >= upperBand * 0.95) {
+  // Sell order logic
+}
+```
+
+If you've been following my series on automated cryptocurrency trading bots, you'll know which technical indicators I've utilized.
+
+### Complementary and additional tasks
+
+To extend this project, you can consider the following tasks
+
+Optimize the strategy: The current strategy was implemented simply, but you can implement more complex strategies to maximize your profits.
+
+### Finalizing
+
+With these steps, you should be able to develop an automated trading bot while increasing your understanding of JavaScript and cryptocurrency trading.
+
+If you have any gaps, feel free to contact us by email and we will get back to you.
