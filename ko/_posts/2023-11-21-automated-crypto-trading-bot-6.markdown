@@ -40,7 +40,7 @@ date: 2023-11-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "자동 암호화폐 매매 봇 구현 5(시리즈)"에 대한 글입니다.
+## "자동 암호화폐 매매 봇 구현 6(시리즈)"에 대한 글입니다.
 
 요즘 암호화폐의 가치가 꾸준히 상승장으로 이어지고 있습니다.
 
@@ -48,7 +48,9 @@ date: 2023-11-21 09:00:00 +0900
 
 이번 시리즈에선 내가 계속 보지 않아도 코드에 작성된 로직에 따라 자동으로 매매를 진행해주는 트레이딩 봇을 만들어보겠습니다.
 
-이전 글에선 Bollinger Bands가 무엇인지 알아보고 해당 기술적 지표를 코드를 통해 직접 구현하였습니다. 이번 글에선 작성된 코드들에 대해 단계별 가이드를 준비했습니다.
+이전 글에선 작성된 코드들에 대해 단계별 가이드를 준비했습니다.
+
+이번 글에선 더 많은 암호화폐를 거래하기 위해 마켓의 정보를 조회하고 그 결과 값을 json 파일에 내보내는 것까지 진행해보겠습니다.
 
 (참고: https://github.com/yeonuk44/Trading-Bot)
 
@@ -56,101 +58,109 @@ date: 2023-11-21 09:00:00 +0900
 
 <!-- outline-end -->
 
-### 필수 모듈 설치
-
-```javascript
-npm install request
-npm install uuid
-npm install crypto
-npm install jsonwebtoken
-npm install querystring
-npm install dotenv
-```
-
-### API 키 및 시크릿 설정
-
-Upbit Open API를 사용하기 위해 Upbit 개발자 센터에서 API 키와 시크릿을 발급받아 .env 파일에 저장하세요.
-
-```javasciprt
-UPBIT_OPEN_API_ACCESS_KEY=your_access_key
-UPBIT_OPEN_API_SECRET_KEY=your_secret_key
-UPBIT_OPEN_API_SERVER_URL=https://api.upbit.com
-```
-
-### 필수 파일 및 모듈 로드
+### 마켓 코드 조회
 
 ```javascript
 const request = require("request");
-const uuidv4 = require("uuid/v4");
-const crypto = require("crypto");
-const sign = require("jsonwebtoken").sign;
-const queryEncode = require("querystring").encode;
-const dotenv = require("dotenv");
-const accountsInfo = require("./apis/assets");
-const orderCryptocurrency = require("./apis/order");
-const getCandlesInfo = require("./apis/ticker");
 
-dotenv.config();
+const options = {
+  method: "GET",
+  url: "https://api.upbit.com/v1/market/all?isDetails=false",
+  headers: { accept: "application/json" },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
 ```
 
-### 필요한 함수 구현
+이렇게만 해도 불러와집니다.
 
-findKRW 및 findBTC: KRW 및 BTC의 인덱스를 찾는 함수
+그러나 저는 모듈화를 사용해 필요할 때만 사용되길 원하기 때문에 새롭게 market.js를 만들고 해당 함수를 내보낼 수 있는 형태로 만들고자 합니다.
 
-fetchData: 데이터를 수집하고 매매 전략을 실행하는 메인 함수
-
-해당 글의 개요의 첨부된 코드 저장소를 참고 부탁드립니다.
+### 나의 마켓코드 조회
 
 ```javascript
-async function findKRW() {
-  // ...
+// market.js
+const request = require("request");
+
+function getMarketsInfo() {
+  const options = {
+    method: "GET",
+    url: "https://api.upbit.com/v1/market/all?isDetails=false",
+    headers: { accept: "application/json" },
+  };
+
+  return new Promise((resolve, reject) => {
+    request(options, (error, response, body) => {
+      if (error) {
+        reject(error);
+      } else {
+        try {
+          const responseBody = JSON.parse(body);
+          resolve(responseBody);
+        } catch (parseError) {
+          reject(parseError);
+        }
+      }
+    });
+  });
 }
 
-async function findBTC() {
-  // ...
-}
-
-async function fetchData() {
-  try {
-    // ...
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-fetchData();
+module.exports = {
+  getMarketsInfo,
+};
 ```
 
-### 주기적인 API 호출 및 매매 전략 실행
+이렇게 하면 해당 함수가 호출될 때 responseBody에서 선언한 대로 json의 형태로 결과를 출력해줍니다.
+
+더 나아가 저는 json으로 파일을 생성해서 결과값을 내보내길 바라기에 이에 맞는 코드 수정을 해보겠습니다.
+
+### JSON 파일 생성 코드
 
 ```javascript
-const minuteInterval = setInterval(async () => {
-  // ...
-}, 60000);
-```
+const fs = require("fs");
+const request = require("request");
 
-### 매매 전략 구현
+function getMarketsInfo() {
+  const options = {
+    method: "GET",
+    url: "https://api.upbit.com/v1/market/all?isDetails=false",
+    headers: { accept: "application/json" },
+  };
 
-이 예제에서는 볼린저 밴드를 이용한 간단한 매매 전략을 사용합니다.
+  return new Promise((resolve, reject) => {
+    request(options, (error, response, body) => {
+      if (error) {
+        reject(error);
+      } else {
+        try {
+          const responseBody = JSON.parse(body);
 
-```javascript
-if (minuteCandlePrice <= lowerBand * 1.05) {
-  // 매수 주문 로직
-} else if (minuteCandlePrice >= upperBand * 0.95) {
-  // 매도 주문 로직
+          // JSON 파일 생성
+          fs.writeFileSync(
+            "marketsInfo.json",
+            JSON.stringify(responseBody, null, 2)
+          );
+
+          resolve(responseBody);
+        } catch (parseError) {
+          reject(parseError);
+        }
+      }
+    });
+  });
 }
+
+module.exports = {
+  getMarketsInfo,
+};
 ```
-
-제가 작성한 자동 암호화폐 매매 봇 시리즈물을 정독하셨다면 어떤 투자 기술 지표를 활용했는지 알 수 있습니다.
-
-### 보완 및 추가 작업
-
-이 프로젝트를 확장하려면 다음과 같은 작업을 고려할 수 있습니다.
-
-전략 최적화: 현재 전략은 간단하게 구현되었지만, 더 복잡한 전략을 구현하여 수익을 극대화할 수 있습니다.
 
 ### 마무리
 
-이러한 단계를 참고하여 자동 매매 봇을 개발하면서 JavaScript 및 암호화폐 거래에 대한 이해를 높일 수 있을 것입니다.
+Node.js의 fs 모듈을 이용하면 간단하게 파일 시스템을 다룰 수 있습니다. JSON 파일 생성 외에도 읽기, 업데이트, 삭제 등 다양한 작업을 수행할 수 있으니 필요한 기능에 맞게 활용해보세요.
 
-부족한 부분은 이메일로 연락주시면 답변을 드리겠습니다.
+이상으로 Node.js에서 파일 시스템을 다루는 간단한 예제를 살펴보았습니다. 참고가 되셨기를 바랍니다.
