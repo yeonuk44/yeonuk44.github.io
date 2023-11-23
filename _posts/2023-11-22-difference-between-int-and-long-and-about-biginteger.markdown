@@ -40,64 +40,64 @@ date: 2023-11-22 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "int와 long의 차이 그리고 BigInteger에 대하여" 문제에 대하여 알아본 글입니다.
+## "Difference between int and long and about BigInteger" problem.
 
-코딩테스트의 문제를 풀며 접했던 데이터 타입에 대해 개략적으로 알고 있었던 정보를 꽤 상세하게 알아볼 수 있었습니다.
+I was able to learn quite a bit more about the data types that I had come across while solving the questions in the coding test.
 
-이에 이 글을 통해 공유하고자합니다.
+I'd like to share it with you in this post.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### int와 long 데이터타입의 공통점
+### What do the int and long datatypes have in common?
 
-long과 int는 Java에서 정수 값을 저장하는 데 사용되는 데이터 타입입니다.
+Long and int are data types used to store integer values in Java.
 
-#### int와 long 데이터타입의 차이점
+#### Differences between int and long datatypes
 
-1. 범위 (Range):
+1. range (Range):
 
-   - int: 32비트 정수를 나타냅니다. 부호 있는 정수로 약 -2,147,483,648부터 2,147,483,647까지의 범위를 가집니다.
-   - long: 64비트 정수를 나타냅니다. 부호 있는 정수로 약 -9,223,372,036,854,775,808부터 9,223,372,036,854,775,807까지의 범위를 가집니다. 이 범위는 int의 범위보다 훨씬 큽니다.
+   - INT: Represents a 32-bit integer. It is a signed integer and has a range of approximately -2,147,483,648 to 2,147,483,647.
+   - Long: Represents a 64-bit integer. It is a signed integer and ranges from approximately -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807. This range is much larger than the range for int.
 
-2. 메모리 사용 (Memory Usage):
+2. Memory Usage:
 
-   - int는 4바이트(32비트)의 메모리를 사용합니다.
-   - long은 8바이트(64비트)의 메모리를 사용합니다. 따라서 long 변수는 두 배의 메모리를 차지합니다.
+   - INT uses 4 bytes (32 bits) of memory.
+   - A long uses 8 bytes (64 bits) of memory. Therefore, a long variable takes up twice as much memory.
 
-3. 사용 사례:
+3. Use Cases:
 
-   - int는 대부분의 상황에서 충분히 사용됩니다. 예를 들어, 배열 인덱스, 반복 변수, 계산 결과 등에 사용됩니다.
-   - long은 매우 큰 정수 값을 다루거나 정밀도가 높은 계산이 필요한 경우에 사용됩니다. 시간을 나타내거나 대용량 데이터베이스의 식별자를 다루는 데에도 사용됩니다.
+   - Int is sufficiently used in most situations. For example, they are used for array indices, iterated variables, and calculation results.
+   - LONGs are used when you're dealing with very large integer values or need to perform calculations with high precision. They are also used to represent time or to deal with identifiers in large databases.
 
-#### 요약
+#### Summary
 
-int는 일반적인 정수 연산에 사용되고, 대부분의 상황에서 충분합니다. 그러나 매우 큰 정수 값을 다뤄야하거나 정밀한 계산이 필요한 경우 long을 사용할 수 있습니다.
+Int is used for common integer operations and is sufficient in most situations. However, if you need to deal with very large integer values or need to perform precise calculations, you can use long.
 
-만약 long데이터 타입으로도 처리되지 않는 64비트를 초과하는 정수의 값은 어떻게 다루면 좋을까요. 이때 사용되는 것이 BigInteger 클래스입니다.
+But what if we want to deal with integer values larger than 64 bits that are not handled by the long data type? This is where the BigInteger class comes in.
 
-##### long과 BigInteger의 공통점
+### What do long and BigInteger have in common?
 
-long과 BigInteger는 모두 정수를 다루는 자료형입니다.
+Both long and BigInteger are data types that deal with integers.
 
-##### long과 BigInteger의 차이점
+### Differences between long and BigInteger
 
-1. 크기 한계:
+1. size limitations:
 
-   - long: long은 64비트 부호 있는 정수 자료형으로, 대부분의 상황에서 충분한 범위를 가지고 있습니다. 최소값은 -9,223,372,036,854,775,808이고 최대값은 9,223,372,036,854,775,807입니다. 이 범위 내의 정수만 다룰 수 있습니다.
-   - BigInteger: BigInteger는 정밀도 제한이 없는 임의 정밀도 정수를 나타냅니다. 즉, 어떤 크기의 정수도 다룰 수 있으며 제한이 없습니다. 따라서 아주 큰 정수나 정밀도가 필요한 경우에 사용됩니다.
+   - LONG: LONG is a 64-bit signed integer data type, which has a sufficient range for most situations. The minimum value is -9,223,372,036,854,775,808 and the maximum is 9,223,372,036,854,775,807. It can only handle integers within this range.
+   - BigInteger: BigInteger represents an arbitrary precision integer with no precision limit. This means that it can handle integers of any size, there is no limit. Therefore, it is used when very large integers or precision is required.
 
-2. 정확성:
+2. exact:
 
-   - long: long은 정밀도가 제한되어 있어 큰 정수나 아주 작은 소수를 정확하게 나타낼 수 없을 때 정확성 문제가 발생할 수 있습니다.
-   - BigInteger: BigInteger는 정밀도가 제한되어 있지 않으므로 아주 큰 정수나 정밀한 연산을 정확하게 수행할 수 있습니다.
+   - LONG: LONG has a limited precision, which can cause accuracy issues when it can't accurately represent very large integers or very small decimals.
+   - BigInteger: BigInteger has unbounded precision, so it can accurately perform very large integers or precise operations.
 
-3. 사용법:
+3. Usage
 
-   - long: long은 기본 자료형으로, 기본 연산자를 사용하여 일반적인 정수 연산을 수행할 수 있습니다.
-   - BigInteger: BigInteger는 객체이므로 연산을 수행할 때에는 메서드 호출을 통해 이루어집니다. BigInteger 객체를 생성하고, add, subtract, multiply, divide 등의 메서드를 사용하여 연산을 수행합니다.
+   - long: long is the default data type, and you can perform common integer operations using the default operators.
+   - BigInteger: BigInteger is an object, so operations are performed through method calls. You create a BigInteger object and perform operations on it using methods such as add, subtract, multiply, and divide.
 
-###### 요약
+#### Summary
 
-long은 대부분의 경우 충분한 정밀도를 제공하며, BigInteger는 아주 크거나 정확한 정수가 필요한 경우에 사용됩니다. 개발 중에 필요한 상황에 맞게 적절한 자료형을 선택해야 합니다.
+Long provides sufficient precision in most cases, and BigInteger is used when you need a very large or exact integer. During development, you should choose the appropriate type based on your needs.
