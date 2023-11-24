@@ -40,44 +40,80 @@ date: 2023-11-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-### "정수 부분" 문제에 대하여 알아본 글입니다.
+### This is a recap of the "Delete elements of an array" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving the coding test problem, reflecting on how we solved it, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+#### Problem
 
-실수 flo가 매개 변수로 주어질 때, flo의 정수 부분을 return하도록 solution 함수를 완성해주세요.
+We have an array of integers, arr and delete_list.
 
-##### 입출력 예시
+Write a solution function that deletes all of the elements in delete_list from arr and returns an array with the remaining elements in the same order as they were in arr.
 
-| flo   | result |
-| ----- | ------ |
-| 1.42  | 1      |
-| 69.32 | 69     |
+##### Example input and output
 
-#### 문제에 대한 나의 풀이
+| arr                       | delete_list                 | result                 |
+| ------------------------- | --------------------------- | ---------------------- |
+| [293, 1000, 395, 678, 94] | [94, 777, 104, 1000, 1, 12] | [293, 395, 678]        |
+| [110, 66, 439, 785, 1]    | [377, 823, 119, 43]         | [110, 66, 439, 785, 1] |
+
+#### My solution to the problem
 
 ```java
+import java.util.ArrayList;
 class Solution {
-    public int solution(double flo) {
-        int answer = (int) flo;
+    public int[] solution(int[] arr, int[] delete_list) {
+        ArrayList<Integer> arrList = new ArrayList<Integer>();
+        int count = 0;
+        for(int ele1: arr){
+            for(int ele2: delete_list){
+                if(ele1 == ele2){
+                    count++;
+                }
+            }
+            if(count == 0){
+                arrList.add(ele1);
+            }
+            } count = 0;
+
+        int[] answer = new int[arrList.size()];
+
+        for(int i = 0; i < arrList.size(); i++){
+            answer[i] = arrList.get(i);
+        }
         return answer;
     }
 }
 ```
 
-##### 풀이 설명
+##### Solution
 
-float 값을 int 값으로 변환하려면 명시적 형변환(Explicit Casting)을 사용해야 합니다.
+ArrayList<Integer> arrList = new ArrayList<Integer>();: Creates an ArrayList arrList to store the integers. This list will be used to store all the elements except the ones to be deleted.
 
-float 값에서 int 값으로 변환하면 소수점 이하의 값은 버려집니다. Java에서는 (int)를 사용하여 형변환을 수행합니다.
+int count = 0;: Initialize the variable count, which will store the number of elements that match the element to be deleted.
 
-###### 참고
+for(int ele1 : arr) : Iterates over the input array arr, examining each element.
 
-형변환은 데이터 손실이 발생할 수 있으므로 주의해야 합니다. 만약 소수점 이하의 값을 보존하고자 한다면, 반올림 또는 다른 방법을 사용해야 합니다.
+for(int ele2 : delete_list) : Iterate over the list to delete, delete_list, examining each element.
+
+if(ele1 == ele2) : If the current ele1 and ele2 match:
+
+Increment count.
+if(count == 0) : If count is 0 (i.e., ele1 is not in delete_list):
+
+Add ele1 to arrList.
+count = 0;: initialize count to prepare for examining the next ele1 element.
+
+int[] answer = new int[arrList.size()];: Create an array answer with size equal to the size of arrList.
+
+for(int i = 0; i < arrList.size(); i++) : copy the elements of arrList into the array answer.
+
+return answer;: Returns an array answer consisting of the elements not included in the list delete_list to be deleted.
+
+This code collects the elements not included in the list to delete delete_list from the input array arr, creates a new array with them, and returns it.
