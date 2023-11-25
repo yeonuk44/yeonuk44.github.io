@@ -40,7 +40,7 @@ date: 2023-11-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-### This is a recap of the "Delete elements of an array" problem.
+## This is a recap of the "Delete elements of an array" problem.
 
 We're going to learn by solving the coding test problem, reflecting on how we solved it, and exploring other ways to solve it.
 
@@ -50,20 +50,20 @@ Let's start with the problem
 
 <!-- outline-end -->
 
-#### Problem
+### Problem
 
 We have an array of integers, arr and delete_list.
 
 Write a solution function that deletes all of the elements in delete_list from arr and returns an array with the remaining elements in the same order as they were in arr.
 
-##### Example input and output
+#### Example input and output
 
 | arr                       | delete_list                 | result                 |
 | ------------------------- | --------------------------- | ---------------------- |
 | [293, 1000, 395, 678, 94] | [94, 777, 104, 1000, 1, 12] | [293, 395, 678]        |
 | [110, 66, 439, 785, 1]    | [377, 823, 119, 43]         | [110, 66, 439, 785, 1] |
 
-#### My solution to the problem
+### My solution to the problem
 
 ```java
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ class Solution {
 }
 ```
 
-##### Solution
+#### Solution
 
 ArrayList<Integer> arrList = new ArrayList<Integer>();: Creates an ArrayList arrList to store the integers. This list will be used to store all the elements except the ones to be deleted.
 
