@@ -40,53 +40,52 @@ date: 2023-11-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "부분 문자열인지 확인하기" 문제에 대하여 알아본 글입니다.
+## This is a post about the "tail string" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn about it by solving coding test problems, reflecting on the problems we've solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### The Problem
 
-부분 문자열이란 문자열에서 연속된 일부분에 해당하는 문자열을 의미합니다.
+Given a list of strings, the string that combines all the strings in order is called the tail string.
 
-예를 들어, 문자열 "ana", "ban", "anana", "banana", "n"는 모두 문자열 "banana"의 부분 문자열이지만, "aaa", "bnana", "wxyz"는 모두 "banana"의 부분 문자열이 아닙니다.
+When creating the tail string, you want to exclude strings that contain a specific string.
 
-문자열 my_string과 target이 매개변수로 주어질 때, target이 문자열 my_string의 부분 문자열이라면 1을, 아니라면 0을 return 하는 solution 함수를 작성해 주세요.
+For example, if you have a list of strings ["abc", "def", "ghi"] and you create a tail string that excludes strings containing the string "ef", you get "abcghi".
 
-#### 입출력 예시
+Given a list of strings str_list and a string ex that you want to exclude, complete the solution function so that it returns a tail string created by excluding strings containing ex from str_list.
 
-| my_string | target | result |
-| --------- | ------ | ------ |
-| "banana"  | "ana"  | 1      |
-| "banana"  | "wxyz" | 0      |
+#### Example input and output
 
-### 문제에 대한 나의 풀이
+| str_list              | ex   | result   |
+| --------------------- | ---- | -------- |
+| ["abc", "def", "ghi"] | "ef" | "abcghi" |
+| ["abc", "bbc", "cbc"] | "c"  | ""       |
+
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int solution(String my_string, String target) {
-        int answer = 0;
-        if(my_string.contains(target)){
-            answer = 1;
+    public String solution(String[] str_list, String ex) {
+        String answer = "";
+        for(String temp: str_list){
+            answer += temp.contains(ex) ? "" : temp;
         }
-        return answer;
-    }
+    } return answer;
 }
 ```
 
-#### 풀이 설명
+#### solution description
 
-문자열의 포함 여부를 확인하는 contains 메서드는 Java의 String 클래스에 내장되어 있습니다.
+String answer = "";: Initialize an empty string answer to store the result.
 
-my_string에 부분문자열로 target이 포함되어 있으면 answer에 1을 할당하는 것으로 문자를 풀었습니다.
+for(String temp : str_list) : Iterate over the array of strings str_list, examining each string temp.
 
-#### 참고
+answer += temp.contains(ex) ? "" : temp;: if the current string temp contains ex, add an empty string; otherwise, add the string temp to answer.
 
-contains 메서드는 대소문자를 구분하므로 주의해야 합니다.
-
-만약 대소문자를 무시하고 포함 여부를 확인하려면 문자열을 모두 소문자나 대문자로 변환한 후에 확인하면 됩니다.
+return answer;: Return answer, the result of concatenating the strings in str_list that do not contain ex.
