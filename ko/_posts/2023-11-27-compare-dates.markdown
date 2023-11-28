@@ -40,7 +40,7 @@ date: 2023-11-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "정수 찾기" 문제에 대하여 알아본 글입니다.
+## "날짜 비교하기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,24 +52,30 @@ date: 2023-11-27 09:00:00 +0900
 
 ### 문제
 
-정수 리스트 num_list와 찾으려는 정수 n이 주어질 때, num_list안에 n이 있으면 1을 없으면 0을 return하도록 solution 함수를 완성해주세요.
+정수 배열 date1과 date2가 주어집니다.
+
+두 배열은 각각 날짜를 나타내며 [year, month, day] 꼴로 주어집니다. 각 배열에서 year는 연도를, month는 월을, day는 날짜를 나타냅니다.
+
+만약 date1이 date2보다 앞서는 날짜라면 1을, 아니면 0을 return 하는 solution 함수를 완성해 주세요.
 
 #### 입출력 예시
 
-| num_list            | n   | result |
-| ------------------- | --- | ------ |
-| [1, 2, 3, 4, 5]     | 3   | 1      |
-| [15, 98, 23, 2, 15] | 20  | 0      |
+| date1          | date2          | result |
+| -------------- | -------------- | ------ |
+| [2021, 12, 28] | [2021, 12, 29] | 1      |
+| [1024, 10, 24] | [1024, 10, 24] | 0      |
 
 ### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public int solution(int[] num_list, int n) {
+    public int solution(int[] date1, int[] date2) {
         int answer = 0;
-        for(int temp: num_list){
-            if(temp == n){
+        for(int i = 2; i >= 0; i--){
+            if(date1[i] < date2[i]){
                 answer = 1;
+            }else if(date1[i] > date2[i]){
+                answer = 0;
             }
         }
         return answer;
@@ -81,10 +87,14 @@ class Solution {
 
 int answer = 0;: 결과를 저장할 정수형 변수 answer를 초기화합니다. 초기값은 0입니다.
 
-for(int temp : num_list) : 정수 배열 num_list를 반복하면서 각 요소 temp를 검사합니다.
+for(int i = 2; i >= 0; i--) : 2부터 시작하여 0까지 반복하는 루프를 사용하여 각 날짜 필드 (년, 월, 일)를 비교합니다. 루프는 년부터 시작하고, 년, 월, 일 순서로 비교합니다.
 
-if(temp == n) : 현재 요소 temp가 입력으로 받은 n과 같은 경우:
+if(date1[i] < date2[i]) : 현재 필드에서 date1 값이 date2 값보다 작은 경우:
 
-answer를 1로 설정합니다.
+answer를 1로 설정합니다. 이는 date1이 date2보다 이전인 경우를 나타냅니다
+.
+else if(date1[i] > date2[i]) : 현재 필드에서 date1 값이 date2 값보다 큰 경우:
 
-return answer;: 판단 결과를 나타내는 answer 값을 반환합니다.
+answer를 0으로 설정합니다. 이는 date1이 date2보다 이후인 경우를 나타냅니다.
+
+return answer;: 날짜를 비교한 결과를 나타내는 answer 값을 반환합니다.

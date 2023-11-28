@@ -40,51 +40,60 @@ date: 2023-11-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "정수 찾기" 문제에 대하여 알아본 글입니다.
+## This is the "Compare Dates" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving coding test problems, reflecting on the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-정수 리스트 num_list와 찾으려는 정수 n이 주어질 때, num_list안에 n이 있으면 1을 없으면 0을 return하도록 solution 함수를 완성해주세요.
+You are given two integer arrays date1 and date2.
 
-#### 입출력 예시
+Each of the two arrays represents a date and is given in the form [year, month, day], where year represents the year, month represents the month, and day represents the day.
 
-| num_list            | n   | result |
-| ------------------- | --- | ------ |
-| [1, 2, 3, 4, 5]     | 3   | 1      |
-| [15, 98, 23, 2, 15] | 20  | 0      |
+Complete the solution function to return 1 if date1 is earlier than date2, or 0 otherwise.
 
-### 문제에 대한 나의 풀이
+#### Example input and output
+
+| date1          | date2          | result |
+| -------------- | -------------- | ------ |
+| [2021, 12, 28] | [2021, 12, 29] | 1      |
+| [1024, 10, 24] | [1024, 10, 24] | 0      |
+
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int solution(int[] num_list, int n) {
+    public int solution(int[] date1, int[] date2) {
         int answer = 0;
-        for(int temp: num_list){
-            if(temp == n){
+        for(int i = 2; i >= 0; i--){
+            if(date1[i] < date2[i]){
                 answer = 1;
+            }else if(date1[i] > date2[i]){
+                answer = 0;
             }
         }
-        return answer;
-    }
+    } return answer;
 }
 ```
 
-#### 풀이 설명
+#### solution description
 
-int answer = 0;: 결과를 저장할 정수형 변수 answer를 초기화합니다. 초기값은 0입니다.
+int answer = 0;: Initialize an integer variable, answer, to store the result. The initial value is 0.
 
-for(int temp : num_list) : 정수 배열 num_list를 반복하면서 각 요소 temp를 검사합니다.
+for(int i = 2; i >= 0; i--) : Compares each date field (year, month, day) using a loop starting at 2 and iterating down to 0. The loop starts with the year and compares in the following order: year, month, day.
 
-if(temp == n) : 현재 요소 temp가 입력으로 받은 n과 같은 경우:
+if(date1[i] < date2[i]): If the value of date1 is less than the value of date2 in the current field:
 
-answer를 1로 설정합니다.
+Set answer to 1. This indicates when date1 is earlier than date2
+.
+else if(date1[i] > date2[i]) : If the value of date1 is greater than the value of date2 in the current field:
 
-return answer;: 판단 결과를 나타내는 answer 값을 반환합니다.
+Set answer to 0. This indicates when date1 is later than date2.
+
+return answer;: Returns the value of answer, which represents the result of comparing the dates.
