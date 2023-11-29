@@ -40,61 +40,77 @@ date: 2023-11-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "날짜 비교하기" 문제에 대하여 알아본 글입니다.
+## This is the "Enlarge Picture" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving coding test problems, reflecting on the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-정수 배열 date1과 date2가 주어집니다.
+You have a rectangular-shaped picture file, which is made up of 1 × 1 square-sized pixels.
 
-두 배열은 각각 날짜를 나타내며 [year, month, day] 꼴로 주어집니다. 각 배열에서 year는 연도를, month는 월을, day는 날짜를 나타냅니다.
+Given a string array picture representing this picture file and an integer k as parameters, write a solution function that returns a string array that represents the picture file stretched k times horizontally and vertically.
 
-만약 date1이 date2보다 앞서는 날짜라면 1을, 아니면 0을 return 하는 solution 함수를 완성해 주세요.
+#### Example input and output
 
-#### 입출력 예시
+| picture               | k   | result                                                                                                                             |
+| --------------------- | --- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| ["x.x", ".x.", "x.x"] | 3   | ["xxx...xxx", "xxx...xxx", "xxx...xxx", "...xxx...", "...xxx...", "...xxx...", "xxx...xxx", "xxx...xxx", "xxx...xxx", "xxx...xxx"] |
 
-| date1          | date2          | result |
-| -------------- | -------------- | ------ |
-| [2021, 12, 28] | [2021, 12, 29] | 1      |
-| [1024, 10, 24] | [1024, 10, 24] | 0      |
-
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int solution(int[] date1, int[] date2) {
-        int answer = 0;
-        for(int i = 2; i >= 0; i--){
-            if(date1[i] < date2[i]){
-                answer = 1;
-            }else if(date1[i] > date2[i]){
-                answer = 0;
+    public String[] solution(String[] picture, int k) {
+        int rows = picture.length;
+        int cols = picture[0].length();
+
+        String[] answer = new String[rows * k];
+
+        StringBuilder tempStr = new StringBuilder();
+        int count = 0;
+
+        for (String str : picture) {
+            for (int i = 0; i < str.length(); i++) {
+                char ch = str.charAt(i);
+                for (int j = 0; j < k; j++) {
+                    tempStr.append(ch);
+                }
             }
-        }
-        return answer;
+
+            for (int j = 0; j < k; j++) {
+                answer[count++] = tempStr.toString();
+            }
+
+        } tempStr.setLength(0);
     }
-}
+
+} return answer;
 ```
 
-#### 풀이 설명
+#### solution description
 
-int answer = 0;: 결과를 저장할 정수형 변수 answer를 초기화합니다. 초기값은 0입니다.
+int rows = picture.length; and int cols = picture[0].length();: Count the number of rows and columns in the given picture array.
 
-for(int i = 2; i >= 0; i--) : 2부터 시작하여 0까지 반복하는 루프를 사용하여 각 날짜 필드 (년, 월, 일)를 비교합니다. 루프는 년부터 시작하고, 년, 월, 일 순서로 비교합니다.
+String[] answer = new String[rows * k];: Create a new string array answer to store the result. The size of the array will be rows \* k.
 
-if(date1[i] < date2[i]) : 현재 필드에서 date1 값이 date2 값보다 작은 경우:
+StringBuilder tempStr = new StringBuilder();: Create a StringBuilder object tempStr to store the temporary string.
 
-answer를 1로 설정합니다. 이는 date1이 date2보다 이전인 경우를 나타냅니다
-.
-else if(date1[i] > date2[i]) : 현재 필드에서 date1 값이 date2 값보다 큰 경우:
+int count = 0;: Initialize the variable count to keep track of the index of the result array answer.
 
-answer를 0으로 설정합니다. 이는 date1이 date2보다 이후인 경우를 나타냅니다.
+for (String str : picture) : Iterates over each string str in the given array of pictures.
 
-return answer;: 날짜를 비교한 결과를 나타내는 answer 값을 반환합니다.
+for (int i = 0; i < str.length(); i++) : Iterating over each character of the string str:
+
+Get the character ch.
+Repeat that character ch k times and add it to tempStr.
+for (int j = 0; j < k; j++) : Repeat the string tempStr k times and add it to the answer array.
+
+tempStr.setLength(0);: Empty the temporary string tempStr.
+
+return answer;: Returns the newly created string array answer.

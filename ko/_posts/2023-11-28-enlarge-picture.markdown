@@ -40,7 +40,7 @@ date: 2023-11-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "날짜 비교하기" 문제에 대하여 알아본 글입니다.
+## "그림 확대" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,32 +52,44 @@ date: 2023-11-28 09:00:00 +0900
 
 ### 문제
 
-정수 배열 date1과 date2가 주어집니다.
+직사각형 형태의 그림 파일이 있고, 이 그림 파일은 1 × 1 크기의 정사각형 크기의 픽셀로 이루어져 있습니다.
 
-두 배열은 각각 날짜를 나타내며 [year, month, day] 꼴로 주어집니다. 각 배열에서 year는 연도를, month는 월을, day는 날짜를 나타냅니다.
-
-만약 date1이 date2보다 앞서는 날짜라면 1을, 아니면 0을 return 하는 solution 함수를 완성해 주세요.
+이 그림 파일을 나타낸 문자열 배열 picture과 정수 k가 매개변수로 주어질 때, 이 그림 파일을 가로 세로로 k배 늘린 그림 파일을 나타내도록 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
 
 #### 입출력 예시
 
-| date1          | date2          | result |
-| -------------- | -------------- | ------ |
-| [2021, 12, 28] | [2021, 12, 29] | 1      |
-| [1024, 10, 24] | [1024, 10, 24] | 0      |
+| picture               | k   | result                                                                                                                |
+| --------------------- | --- | --------------------------------------------------------------------------------------------------------------------- |
+| ["x.x", ".x.", "x.x"] | 3   | ["xxx...xxx", "xxx...xxx", "xxx...xxx", "...xxx...", "...xxx...", "...xxx...", "xxx...xxx", "xxx...xxx", "xxx...xxx"] |
 
 ### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public int solution(int[] date1, int[] date2) {
-        int answer = 0;
-        for(int i = 2; i >= 0; i--){
-            if(date1[i] < date2[i]){
-                answer = 1;
-            }else if(date1[i] > date2[i]){
-                answer = 0;
+    public String[] solution(String[] picture, int k) {
+        int rows = picture.length;
+        int cols = picture[0].length();
+
+        String[] answer = new String[rows * k];
+
+        StringBuilder tempStr = new StringBuilder();
+        int count = 0;
+
+        for (String str : picture) {
+            for (int i = 0; i < str.length(); i++) {
+                char ch = str.charAt(i);
+                for (int j = 0; j < k; j++) {
+                    tempStr.append(ch);
+                }
             }
+
+            for (int j = 0; j < k; j++) {
+                answer[count++] = tempStr.toString();
+            }
+
+            tempStr.setLength(0);
         }
+
         return answer;
     }
 }
@@ -85,16 +97,22 @@ class Solution {
 
 #### 풀이 설명
 
-int answer = 0;: 결과를 저장할 정수형 변수 answer를 초기화합니다. 초기값은 0입니다.
+int rows = picture.length;와 int cols = picture[0].length();: 주어진 picture 배열의 행과 열 수를 계산합니다.
 
-for(int i = 2; i >= 0; i--) : 2부터 시작하여 0까지 반복하는 루프를 사용하여 각 날짜 필드 (년, 월, 일)를 비교합니다. 루프는 년부터 시작하고, 년, 월, 일 순서로 비교합니다.
+String[] answer = new String[rows * k];: 결과를 저장할 새로운 문자열 배열 answer를 생성합니다. 배열의 크기는 rows \* k가 됩니다.
 
-if(date1[i] < date2[i]) : 현재 필드에서 date1 값이 date2 값보다 작은 경우:
+StringBuilder tempStr = new StringBuilder();: 임시 문자열을 저장하기 위한 StringBuilder 객체 tempStr을 생성합니다.
 
-answer를 1로 설정합니다. 이는 date1이 date2보다 이전인 경우를 나타냅니다
-.
-else if(date1[i] > date2[i]) : 현재 필드에서 date1 값이 date2 값보다 큰 경우:
+int count = 0;: 결과 배열 answer의 인덱스를 추적하기 위한 변수 count를 초기화합니다.
 
-answer를 0으로 설정합니다. 이는 date1이 date2보다 이후인 경우를 나타냅니다.
+for (String str : picture) : 주어진 picture 배열의 각 문자열 str에 대해 반복합니다.
 
-return answer;: 날짜를 비교한 결과를 나타내는 answer 값을 반환합니다.
+for (int i = 0; i < str.length(); i++) : 각 문자열 str의 문자를 반복하면서:
+
+문자 ch를 가져옵니다.
+해당 문자 ch를 k번 반복하여 tempStr에 추가합니다.
+for (int j = 0; j < k; j++) : 문자열 tempStr을 k번 반복하여 answer 배열에 추가합니다.
+
+tempStr.setLength(0);: 임시 문자열 tempStr을 비워줍니다.
+
+return answer;: 새로 생성된 문자열 배열 answer를 반환합니다.
