@@ -40,79 +40,87 @@ date: 2023-11-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "그림 확대" 문제에 대하여 알아본 글입니다.
+## This is a post about the "coffee errand" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to take a look at solving a coding test problem, reflect on how we solved it, and learn about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### The problem
 
-직사각형 형태의 그림 파일이 있고, 이 그림 파일은 1 × 1 크기의 정사각형 크기의 픽셀로 이루어져 있습니다.
+Cheolsoo, the youngest member of the team, wants to buy coffee for his teammates at a café that only serves Americano and café latte.
 
-이 그림 파일을 나타낸 문자열 배열 picture과 정수 k가 매개변수로 주어질 때, 이 그림 파일을 가로 세로로 k배 늘린 그림 파일을 나타내도록 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
+The prices of an Americano and a café latte are 4500 and 5000 won, respectively, whether cold or hot.
 
-#### 입출력 예시
+Each team member is asked to write down a menu of what they would like to drink, and it is decided that those who write down only the menu will get a cold one, and those who write down "anything" will get a cold Americano.
 
-| picture               | k   | result                                                                                                                |
-| --------------------- | --- | --------------------------------------------------------------------------------------------------------------------- |
-| ["x.x", ".x.", "x.x"] | 3   | ["xxx...xxx", "xxx...xxx", "xxx...xxx", "...xxx...", "...xxx...", "...xxx...", "xxx...xxx", "xxx...xxx", "xxx...xxx"] |
+Write a solution function that returns the amount of money to be paid at the cafe given the menu written by each employee as a string array order.
 
-### 문제에 대한 나의 풀이
+Only the following elements of order are allowed, and their meanings are given below.
+
+Meaning of elements in order
+
+"iceamericano", "americanoice" Cold Americano
+
+"hotamericano", "americanohot" Hot Americano
+
+"icecafelatte", "cafelatteice" Cold cafe latte
+
+"hotcafelatte", "cafelattehot" hot cafe latte
+
+"americano" Americano
+
+"cafelatte" cafe latte
+
+"anything" anything
+
+#### Example input and output
+
+| order                                                     | result |
+| --------------------------------------------------------- | ------ |
+| ["cafelatte", "americanoice", "hotcafelatte", "anything"] | 19000  |
+| ["americanoice", "americano", "iceamericano"]             | 13500  |
+
+My solution to the ### problem
 
 ```java
 class Solution {
-    public String[] solution(String[] picture, int k) {
-        int rows = picture.length;
-        int cols = picture[0].length();
-
-        String[] answer = new String[rows * k];
-
-        StringBuilder tempStr = new StringBuilder();
-        int count = 0;
-
-        for (String str : picture) {
-            for (int i = 0; i < str.length(); i++) {
-                char ch = str.charAt(i);
-                for (int j = 0; j < k; j++) {
-                    tempStr.append(ch);
-                }
+    public int solution(String[] order) {
+        int answer = 0;
+        for(String temp: order){
+            if(temp.contains("americano")){
+                answer += 4500;
+            } else if(temp.contains("cafelatte")){
+                answer += 5000;
+            } else {
+                answer += 4500;
             }
-
-            for (int j = 0; j < k; j++) {
-                answer[count++] = tempStr.toString();
-            }
-
-            tempStr.setLength(0);
         }
-
         return answer;
     }
 }
 ```
 
-#### 풀이 설명
+#### solution description
 
-int rows = picture.length;와 int cols = picture[0].length();: 주어진 picture 배열의 행과 열 수를 계산합니다.
+int answer = 0; : Initialize an integer variable answer to store the result.
 
-String[] answer = new String[rows * k];: 결과를 저장할 새로운 문자열 배열 answer를 생성합니다. 배열의 크기는 rows \* k가 됩니다.
+for(String temp : order) : Iterates over the string array order, examining each order temp.
 
-StringBuilder tempStr = new StringBuilder();: 임시 문자열을 저장하기 위한 StringBuilder 객체 tempStr을 생성합니다.
+if(temp.contains("americano")) : If the order contains the string "americano":
 
-int count = 0;: 결과 배열 answer의 인덱스를 추적하기 위한 변수 count를 초기화합니다.
+Add 4500 to the price.
 
-for (String str : picture) : 주어진 picture 배열의 각 문자열 str에 대해 반복합니다.
+else if(temp.contains("cafelatte")) : if the order contains the string "cafelatte":
 
-for (int i = 0; i < str.length(); i++) : 각 문자열 str의 문자를 반복하면서:
+Add 5000 to the price.
 
-문자 ch를 가져옵니다.
-해당 문자 ch를 k번 반복하여 tempStr에 추가합니다.
-for (int j = 0; j < k; j++) : 문자열 tempStr을 k번 반복하여 answer 배열에 추가합니다.
+else : Otherwise (if it's any other drink):
 
-tempStr.setLength(0);: 임시 문자열 tempStr을 비워줍니다.
+Add 4500 to the price.
 
-return answer;: 새로 생성된 문자열 배열 answer를 반환합니다.
+return answer;: return answer after calculating the price for all orders.

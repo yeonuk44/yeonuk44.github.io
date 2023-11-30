@@ -40,7 +40,7 @@ date: 2023-11-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "그림 확대" 문제에 대하여 알아본 글입니다.
+## "커피 심부름" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,44 +52,54 @@ date: 2023-11-29 09:00:00 +0900
 
 ### 문제
 
-직사각형 형태의 그림 파일이 있고, 이 그림 파일은 1 × 1 크기의 정사각형 크기의 픽셀로 이루어져 있습니다.
+팀의 막내인 철수는 아메리카노와 카페 라테만 판매하는 카페에서 팀원들의 커피를 사려고 합니다.
 
-이 그림 파일을 나타낸 문자열 배열 picture과 정수 k가 매개변수로 주어질 때, 이 그림 파일을 가로 세로로 k배 늘린 그림 파일을 나타내도록 문자열 배열을 return 하는 solution 함수를 작성해 주세요.
+아메리카노와 카페 라테의 가격은 차가운 것과 뜨거운 것 상관없이 각각 4500, 5000원입니다.
+
+각 팀원에게 마실 메뉴를 적어달라고 하였고, 그 중에서 메뉴만 적은 팀원의 것은 차가운 것으로 통일하고 "아무거나"를 적은 팀원의 것은 차가운 아메리카노로 통일하기로 하였습니다.
+
+각 직원이 적은 메뉴가 문자열 배열 order로 주어질 때, 카페에서 결제하게 될 금액을 return 하는 solution 함수를 작성해주세요.
+
+order의 원소는 아래의 것들만 들어오고, 각각의 의미는 다음과 같습니다.
+
+order의 원소 의미
+
+"iceamericano", "americanoice" 차가운 아메리카노
+
+"hotamericano", "americanohot" 따뜻한 아메리카노
+
+"icecafelatte", "cafelatteice" 차가운 카페 라테
+
+"hotcafelatte", "cafelattehot" 따뜻한 카페 라테
+
+"americano" 아메리카노
+
+"cafelatte" 카페 라테
+
+"anything" 아무거나
 
 #### 입출력 예시
 
-| picture               | k   | result                                                                                                                |
-| --------------------- | --- | --------------------------------------------------------------------------------------------------------------------- |
-| ["x.x", ".x.", "x.x"] | 3   | ["xxx...xxx", "xxx...xxx", "xxx...xxx", "...xxx...", "...xxx...", "...xxx...", "xxx...xxx", "xxx...xxx", "xxx...xxx"] |
+| order                                                     | result |
+| --------------------------------------------------------- | ------ |
+| ["cafelatte", "americanoice", "hotcafelatte", "anything"] | 19000  |
+| ["americanoice", "americano", "iceamericano"]             | 13500  |
 
 ### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public String[] solution(String[] picture, int k) {
-        int rows = picture.length;
-        int cols = picture[0].length();
-
-        String[] answer = new String[rows * k];
-
-        StringBuilder tempStr = new StringBuilder();
-        int count = 0;
-
-        for (String str : picture) {
-            for (int i = 0; i < str.length(); i++) {
-                char ch = str.charAt(i);
-                for (int j = 0; j < k; j++) {
-                    tempStr.append(ch);
-                }
+    public int solution(String[] order) {
+        int answer = 0;
+        for(String temp: order){
+            if(temp.contains("americano")){
+                answer += 4500;
+            } else if(temp.contains("cafelatte")){
+                answer += 5000;
+            } else {
+                answer += 4500;
             }
-
-            for (int j = 0; j < k; j++) {
-                answer[count++] = tempStr.toString();
-            }
-
-            tempStr.setLength(0);
         }
-
         return answer;
     }
 }
@@ -97,22 +107,20 @@ class Solution {
 
 #### 풀이 설명
 
-int rows = picture.length;와 int cols = picture[0].length();: 주어진 picture 배열의 행과 열 수를 계산합니다.
+int answer = 0;: 결과를 저장할 정수형 변수 answer를 초기화합니다.
 
-String[] answer = new String[rows * k];: 결과를 저장할 새로운 문자열 배열 answer를 생성합니다. 배열의 크기는 rows \* k가 됩니다.
+for(String temp : order) : 문자열 배열 order를 반복하면서 각 주문 temp를 검사합니다.
 
-StringBuilder tempStr = new StringBuilder();: 임시 문자열을 저장하기 위한 StringBuilder 객체 tempStr을 생성합니다.
+if(temp.contains("americano")) : 만약 주문에 "americano"라는 문자열이 포함되어 있다면:
 
-int count = 0;: 결과 배열 answer의 인덱스를 추적하기 위한 변수 count를 초기화합니다.
+가격을 4500 추가합니다.
 
-for (String str : picture) : 주어진 picture 배열의 각 문자열 str에 대해 반복합니다.
+else if(temp.contains("cafelatte")) : 만약 주문에 "cafelatte"라는 문자열이 포함되어 있다면:
 
-for (int i = 0; i < str.length(); i++) : 각 문자열 str의 문자를 반복하면서:
+가격을 5000 추가합니다.
 
-문자 ch를 가져옵니다.
-해당 문자 ch를 k번 반복하여 tempStr에 추가합니다.
-for (int j = 0; j < k; j++) : 문자열 tempStr을 k번 반복하여 answer 배열에 추가합니다.
+else : 그 외의 경우 (다른 음료인 경우):
 
-tempStr.setLength(0);: 임시 문자열 tempStr을 비워줍니다.
+가격을 4500 추가합니다.
 
-return answer;: 새로 생성된 문자열 배열 answer를 반환합니다.
+return answer;: 모든 주문에 대한 가격을 계산한 후에 answer를 반환합니다.
