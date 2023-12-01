@@ -40,87 +40,80 @@ date: 2023-11-30 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "커피 심부름" 문제에 대하여 알아본 글입니다.
+## This is a recap of the "Dice Game 1" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving coding test problems, reflecting on the problems we've solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-팀의 막내인 철수는 아메리카노와 카페 라테만 판매하는 카페에서 팀원들의 커피를 사려고 합니다.
+You have two dice with the numbers 1 through 6 written on them. Let's call the numbers that come up when the two dice are rolled A and B, respectively.
 
-아메리카노와 카페 라테의 가격은 차가운 것과 뜨거운 것 상관없이 각각 4500, 5000원입니다.
+If both A and B are odd, you get a score of A2 + B2.
 
-각 팀원에게 마실 메뉴를 적어달라고 하였고, 그 중에서 메뉴만 적은 팀원의 것은 차가운 것으로 통일하고 "아무거나"를 적은 팀원의 것은 차가운 아메리카노로 통일하기로 하였습니다.
+If only one of A and B is odd, you get 2 × (A + B) points.
 
-각 직원이 적은 메뉴가 문자열 배열 order로 주어질 때, 카페에서 결제하게 될 금액을 return 하는 solution 함수를 작성해주세요.
+If neither a nor b is odd, you get |a - b| points.
 
-order의 원소는 아래의 것들만 들어오고, 각각의 의미는 다음과 같습니다.
+Write a solution function that returns the number of points you get, given two integers a and b as parameters.
 
-order의 원소 의미
+#### Example input and output
 
-"iceamericano", "americanoice" 차가운 아메리카노
+| a | b | result |
+| --- | --- | | ------ |
+| 3 | 5 | 34 |
+| 6 | 1 | 14 |
+| 2 | 4 | 2 |
 
-"hotamericano", "americanohot" 따뜻한 아메리카노
-
-"icecafelatte", "cafelatteice" 차가운 카페 라테
-
-"hotcafelatte", "cafelattehot" 따뜻한 카페 라테
-
-"americano" 아메리카노
-
-"cafelatte" 카페 라테
-
-"anything" 아무거나
-
-#### 입출력 예시
-
-| order                                                     | result |
-| --------------------------------------------------------- | ------ |
-| ["cafelatte", "americanoice", "hotcafelatte", "anything"] | 19000  |
-| ["americanoice", "americano", "iceamericano"]             | 13500  |
-
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int solution(String[] order) {
+    public int solution(int a, int b) {
         int answer = 0;
-        for(String temp: order){
-            if(temp.contains("americano")){
-                answer += 4500;
-            } else if(temp.contains("cafelatte")){
-                answer += 5000;
-            } else {
-                answer += 4500;
-            }
+        int oddA = a % 2;
+        int oddB = b % 2;
+        if(oddA != 0 && oddB != 0){
+            answer = (int)(Math.pow(a, 2) + Math.pow(b, 2));
+        }else if(oddA == 0 && oddB == 0){
+            answer = Math.abs(a - b);
+        }else{
+            answer = 2 * (a + b);
         }
         return answer;
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution explanation
 
-int answer = 0;: 결과를 저장할 정수형 변수 answer를 초기화합니다.
+If both a and b are odd, add the squares of the two numbers.
 
-for(String temp : order) : 문자열 배열 order를 반복하면서 각 주문 temp를 검사합니다.
+If both a and b are even, return the difference between the two numbers as the absolute value.
 
-if(temp.contains("americano")) : 만약 주문에 "americano"라는 문자열이 포함되어 있다면:
+Otherwise, add the two numbers and multiply the result by 2.
 
-가격을 4500 추가합니다.
+Here's the code in a nutshell
 
-else if(temp.contains("cafelatte")) : 만약 주문에 "cafelatte"라는 문자열이 포함되어 있다면:
+int answer = 0;: Initialize an integer variable, answer, to store the result.
 
-가격을 5000 추가합니다.
+int oddA = a % 2; and int oddB = b % 2;: Use the remainder operation to determine if a and b are odd or even, and store it in the oddA and oddB variables. If they are odd, the remainder will be 1, and if they are even, the remainder will be 0.
 
-else : 그 외의 경우 (다른 음료인 경우):
+if(oddA != 0 && oddB != 0) : If both a and b are odd:
 
-가격을 4500 추가합니다.
+Store the sum of the squares of a and b in answer.
 
-return answer;: 모든 주문에 대한 가격을 계산한 후에 answer를 반환합니다.
+else if(oddA == 0 && oddB == 0) : If a and b are both even:
+
+Find the difference between a and b, take the absolute value, and store it in answer.
+
+else : Otherwise (when one is odd and one is even):
+
+Adds a and b, then multiplies the result by 2 and stores it in answer.
+
+return answer;: Returns the calculated result.
