@@ -40,49 +40,63 @@ date: 2023-12-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "부분 문자열 2" 문제에 대하여 알아본 글입니다.
+## This is a recap of the "Special two-dimensional array 1" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn about it by solving coding test problems, reflecting on the problems we've solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-어떤 문자열 A가 다른 문자열 B안에 속하면 A를 B의 부분 문자열이라고 합니다.
+Write a solution function that, given an integer n as a parameter, returns a two-dimensional array arr of size n × n that looks like this
 
-예를 들어 문자열 "abc"는 문자열 "aabcc"의 부분 문자열입니다.
+The value of arr[i][j] (0 ≤ i, j < n) is 1 if i = j and 0 otherwise.
 
-문자열 str1과 str2가 주어질 때, str1이 str2의 부분 문자열이라면 1을 부분 문자열이 아니라면 0을 return하도록 solution 함수를 완성해주세요.
+#### Example input and output
 
-#### 입출력 예시
+| n   | result                                                                                                                            |
+| --- | --------------------------------------------------------------------------------------------------------------------------------- |
+| 3   | [[1, 0, 0], [0, 1, 0], [0, 0, 1]]                                                                                                 |
+| 6   | [[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1]] |
+| 1   | [[1]]                                                                                                                             |
 
-| str1  | str2     | result |
-| ----- | -------- | ------ |
-| "abc" | "aabcc"  | 1      |
-| "tbt" | "tbbttb" | 0      |
-
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int solution(String str1, String str2) {
-        int answer;
-        answer = str2.contains(str1) ? 1 : 0 ;
-        return answer;
-    }
+    public int[][] solution(int n) {
+        int[][] answer = new int[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(i == j){
+                    answer[i][j] = 1;
+                }else {
+                    answer[i][j] = 0;
+                }
+            }
+        }
+    } return answer;
 }
 ```
 
-#### 풀이 설명
+#### Solution
 
-int answer;: 결과를 저장할 정수형 변수 answer를 선언합니다.
+int[][] answer = new int[n][n];: create a two-dimensional array answer of size n x n.
 
-answer = str2.contains(str1) ? 1 : 0;: str2.contains(str1)를 통해 str1이 str2에 포함되는지 여부를 판단합니다.
+for(int i = 0; i < n; i++) : Iterate through the rows of the array, with the value of i representing the current row.
 
-만약 포함되면 1을, 포함되지 않으면 0을 answer에 대입합니다.
+for(int j = 0; j < n; j++) : Iterates through the columns of the array, with the value of j representing the current column.
 
-return answer;: 판단 결과를 나타내는 answer 값을 반환합니다.
+if(i == j) : if the current row and column have the same index (main diagonal element):
+
+Store 1 in the array element at that position.
+
+else : Otherwise (non-major diagonal element):
+
+Store a 0 in the array element at that position.
+
+return answer;: Returns a two-dimensional array answer initialized with the unit matrix.
