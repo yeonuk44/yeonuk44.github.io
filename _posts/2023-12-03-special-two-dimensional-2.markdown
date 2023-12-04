@@ -40,64 +40,61 @@ date: 2023-12-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "특별한 이차원 배열 1" 문제에 대하여 알아본 글입니다.
+## This is the "Special Two-Dimensional Array 2" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn about it by solving a coding test problem, reflecting on the problem we solved, and exploring other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-정수 n이 매개변수로 주어질 때, 다음과 같은 n × n 크기의 이차원 배열 arr를 return 하는 solution 함수를 작성해 주세요.
+Given a two-dimensional array arr of size n × n as a parameter, write a solution function that returns 1 if arr satisfies the following and 0 otherwise.
 
-arr[i][j] (0 ≤ i, j < n)의 값은 i = j라면 1, 아니라면 0입니다.
+arr[i][j] = arr[j][i] for any integer i, j such that 0 ≤ i, j < n.
 
-#### 입출력 예시
+#### Example input and output
 
-| n   | result                                                                                                                   |
-| --- | ------------------------------------------------------------------------------------------------------------------------ |
-| 3   | [[1, 0, 0], [0, 1, 0], [0, 0, 1]]                                                                                        |
-| 6   | [[1, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1]] |
-| 1   | [[1]]                                                                                                                    |
+| arr                                                                               | result |
+| --------------------------------------------------------------------------------- | ------ |
+| [[5, 192, 33], [192, 72, 95], [33, 95, 999]]                                      | 1      |
+| [[19, 498, 258, 587], [63, 93, 7, 754], [258, 7, 1000, 723], [587, 754, 723, 81]] | 0      |
 
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int[][] solution(int n) {
-        int[][] answer = new int[n][n];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                if(i == j){
-                    answer[i][j] = 1;
-                }else {
-                    answer[i][j] = 0;
+    public int solution(int[][] arr) {
+        int answer = 0;
+        for(int i = 0; i < arr.length - 1; i++){
+            for(int j = 0; j < arr.length; j++){
+                if(arr[i][j] != arr[j][i]){
+                    return answer;
                 }
             }
         }
+        answer = 1;
         return answer;
     }
 }
+
 ```
 
-#### 풀이 설명
+#### Solution
 
-int[][] answer = new int[n][n];: n x n 크기의 2차원 배열 answer를 생성합니다.
+int answer = 0; : Initialize the variable answer to store the resulting value.
 
-for(int i = 0; i < n; i++) : 배열의 행을 반복하면서 i값은 현재 행을 나타냅니다.
+for(int i = 0; i < arr.length - 1; i++) : Iterates over the two-dimensional array, checking only the top half relative to the main diagonal. (arr.length is the size of the array.)
 
-for(int j = 0; j < n; j++) : 배열의 열을 반복하면서 j값은 현재 열을 나타냅니다.
+for(int j = 0; j < arr.length; j++) : Checks for symmetry by comparing the elements for the current row i and column j with the elements for column i and row j.
 
-if(i == j) : 만약 현재 행과 열의 인덱스가 같다면 (주대각선 요소):
+if(arr[i][j] != arr[j][i]) : if the current element and the element at the symmetric position are different (if not symmetric):
 
-해당 위치의 배열 요소에 1을 저장합니다.
+Set answer to 0, and exit the function.
 
-else : 그 외의 경우 (주대각선 요소가 아닌 경우):
+answer = 1;: if all elements are symmetric, set answer to 1.
 
-해당 위치의 배열 요소에 0을 저장합니다.
-
-return answer;: 단위 행렬로 초기화된 2차원 배열 answer를 반환합니다.
+return answer;: Return the result, the value of answer.
