@@ -40,61 +40,62 @@ date: 2023-12-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "특별한 이차원 배열 2" 문제에 대하여 알아본 글입니다.
+## This is a recap of the "Convert a sequence to match a condition 3" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving coding test problems, reflecting on the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-n × n 크기의 이차원 배열 arr이 매개변수로 주어질 때, arr이 다음을 만족하면 1을 아니라면 0을 return 하는 solution 함수를 작성해 주세요.
+Given an array of integers arr and a natural number k.
 
-0 ≤ i, j < n인 정수 i, j에 대하여 arr[i][j] = arr[j][i]
+If k is odd, multiply every element in arr by k. If k is even, add k to every element in arr.
 
-#### 입출력 예시
+Complete a solution function that returns arr after these transformations.
 
-| arr                                                                               | result |
-| --------------------------------------------------------------------------------- | ------ |
-| [[5, 192, 33], [192, 72, 95], [33, 95, 999]]                                      | 1      |
-| [[19, 498, 258, 587], [63, 93, 7, 754], [258, 7, 1000, 723], [587, 754, 723, 81]] | 0      |
+#### Example input and output
 
-### 문제에 대한 나의 풀이
+| arr                    | k   | result                   |
+| ---------------------- | --- | ------------------------ |
+| [1, 2, 3, 100, 99, 98] | 3   | [3, 6, 9, 300, 297, 294] |
+| [1, 2, 3, 100, 99, 98] | 2   | [3, 4, 5, 102, 101, 100] |
+
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int solution(int[][] arr) {
-        int answer = 0;
-        for(int i = 0; i < arr.length - 1; i++){
-            for(int j = 0; j < arr.length; j++){
-                if(arr[i][j] != arr[j][i]){
-                    return answer;
-                }
+    public int[] solution(int[] arr, int k) {
+        if(k % 2 == 0){
+            for(int i = 0; i < arr.length; i++){
+                arr[i] += k;
+            }
+        }else{
+            for(int i = 0; i < arr.length; i++){
+                arr[i] = arr[i] * k;
             }
         }
-        answer = 1;
-        return answer;
+        } return arr;
     }
 }
-
 ```
 
-#### 풀이 설명
+#### Solution Explanation
 
-int answer = 0;: 결과 값을 저장할 변수 answer를 초기화합니다.
+if(k % 2 == 0) : if k is an even number:
 
-for(int i = 0; i < arr.length - 1; i++) : 2차원 배열을 반복하며 주대각선을 기준으로 위쪽 절반만 확인합니다. (arr.length는 배열의 크기입니다.)
+Add k to each element of the array arr.
 
-for(int j = 0; j < arr.length; j++) : 현재 행 i와 열 j에 대한 원소와 열 i와 행 j에 대한 원소를 비교하여 대칭 여부를 확인합니다.
+else : Otherwise (i.e., if k is odd):
 
-if(arr[i][j] != arr[j][i]) : 만약 현재 원소와 대칭 위치의 원소가 다르다면 (대칭이 아닌 경우):
+Multiply each element of the array arr by k.
 
-answer를 0으로 설정하고, 함수를 종료합니다.
+return arr;: Returns the changed array arr.
 
-answer = 1;: 모든 원소가 대칭인 경우, answer를 1로 설정합니다.
+This code converts the elements of the array differently depending on whether k is odd or not.
 
-return answer;: 결과인 answer 값을 반환합니다.
+If k is even, it adds k to each element; if k is odd, it multiplies each element by k and returns it.
