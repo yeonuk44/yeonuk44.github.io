@@ -40,7 +40,7 @@ date: 2023-12-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "조건에 맞게 수열 변환하기 3" 문제에 대하여 알아본 글입니다.
+## "정수를 나선형으로 배치하기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,50 +52,72 @@ date: 2023-12-05 09:00:00 +0900
 
 ### 문제
 
-정수 배열 arr와 자연수 k가 주어집니다.
+양의 정수 n이 매개변수로 주어집니다.
 
-만약 k가 홀수라면 arr의 모든 원소에 k를 곱하고, k가 짝수라면 arr의 모든 원소에 k를 더합니다.
-
-이러한 변환을 마친 후의 arr를 return 하는 solution 함수를 완성해 주세요.
+n × n 배열에 1부터 n2 까지 정수를 인덱스 [0][0]부터 시계방향 나선형으로 배치한 이차원 배열을 return 하는 solution 함수를 작성해 주세요.
 
 #### 입출력 예시
 
-| arr                    | k   | result                   |
-| ---------------------- | --- | ------------------------ |
-| [1, 2, 3, 100, 99, 98] | 3   | [3, 6, 9, 300, 297, 294] |
-| [1, 2, 3, 100, 99, 98] | 2   | [3, 4, 5, 102, 101, 100] |
+| n   | result                                                                                                |
+| --- | ----------------------------------------------------------------------------------------------------- |
+| 4   | [[1, 2, 3, 4], [12, 13, 14, 5], [11, 16, 15, 6], [10, 9, 8, 7]]                                       |
+| 5   | [[1, 2, 3, 4, 5], [16, 17, 18, 19, 6], [15, 24, 25, 20, 7], [14, 23, 22, 21, 8], [13, 12, 11, 10, 9]] |
 
 ### 문제에 대한 나의 풀이
 
 ```java
-class Solution {
-    public int[] solution(int[] arr, int k) {
-        if(k % 2 == 0){
-            for(int i = 0; i < arr.length; i++){
-                arr[i] += k;
+public class Solution {
+    public int[][] solution(int n) {
+        int[][] result = new int[n][n];
+
+        int num = 1;
+        int rowStart = 0, rowEnd = n - 1;
+        int colStart = 0, colEnd = n - 1;
+
+        while (num <= n * n) {
+            for (int i = colStart; i <= colEnd; i++) {
+                result[rowStart][i] = num++;
             }
-        }else{
-            for(int i = 0; i < arr.length; i++){
-                arr[i] = arr[i] * k;
+            rowStart++;
+            for (int i = rowStart; i <= rowEnd; i++) {
+                result[i][colEnd] = num++;
             }
+            colEnd--;
+            for (int i = colEnd; i >= colStart; i--) {
+                result[rowEnd][i] = num++;
+            }
+            rowEnd--;
+            for (int i = rowEnd; i >= rowStart; i--) {
+                result[i][colStart] = num++;
+            }
+            colStart++;
         }
-        return arr;
+
+        return result;
     }
 }
 ```
 
 #### 풀이 설명
 
-if(k % 2 == 0) : 만약 k가 짝수인 경우:
+int[][] result = new int[n][n];: n x n 크기의 2차원 배열 result를 생성합니다.
 
-배열 arr의 각 요소에 k를 더합니다.
+int num = 1;: 숫자를 초기화합니다.
 
-else : 그 외의 경우 (즉, k가 홀수인 경우):
+int rowStart = 0, rowEnd = n - 1;와 int colStart = 0, colEnd = n - 1;: 행과 열의 시작과 끝 인덱스를 초기화합니다.
 
-배열 arr의 각 요소를 k와 곱합니다.
+while (num <= n \* n) : 숫자 num이 n x n보다 작거나 같은 동안 반복합니다.
 
-return arr;: 변경된 배열 arr을 반환합니다.
+for (int i = colStart; i <= colEnd; i++) : 현재 행렬의 윗 행에서 좌에서 우로 이동하며 숫자를 채웁니다.
 
-이 코드는 k의 홀짝 여부에 따라 배열의 요소를 다르게 변환합니다.
+result[rowStart][i]에 num을 저장하고 num을 증가시킵니다.
 
-k가 짝수이면 각 요소에 k를 더하고, k가 홀수이면 각 요소를 k와 곱하여 반환합니다.
+rowStart++;: 윗 행을 다 채우고 나면 다음 행으로 이동합니다.
+
+이제 오른쪽 열에서 위에서 아래로 이동하며 숫자를 채우고, 그 다음 왼쪽 행에서 우측에서 좌측으로 이동하며 숫자를 채우고, 아랫 행에서 위에서 아래로 이동하며 숫자를 채웁니다.
+
+각 단계에서 num이 1씩 증가하고 행과 열의 시작과 끝 인덱스가 조절됩니다.
+
+return result;: 모든 요소가 숫자로 채워진 2차원 배열 result를 반환합니다.
+
+이 코드는 효율적인 스파이럴 패턴을 사용하여 2차원 배열을 생성하고 1부터 n x n까지의 숫자로 채웁니다.

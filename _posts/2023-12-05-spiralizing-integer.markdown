@@ -40,62 +40,82 @@ date: 2023-12-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "조건에 맞게 수열 변환하기 3" 문제에 대하여 알아본 글입니다.
+## This is a recap of the "Arrange integers in a spiral" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving coding test problems, reflecting on the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-정수 배열 arr와 자연수 k가 주어집니다.
+A positive integer n is given as a parameter.
 
-만약 k가 홀수라면 arr의 모든 원소에 k를 곱하고, k가 짝수라면 arr의 모든 원소에 k를 더합니다.
+Write a solution function that returns a two-dimensional array containing the integers 1 through n2 in an n × n array, placed in a clockwise spiral from index [0][0].
 
-이러한 변환을 마친 후의 arr를 return 하는 solution 함수를 완성해 주세요.
+#### Example input and output
 
-#### 입출력 예시
+| n   | result                                                                                                |
+| --- | ----------------------------------------------------------------------------------------------------- | --- |
+| 4   | [[1, 2, 3, 4], [12, 13, 14, 5], [11, 16, 15, 6], [10, 9, 8, 7]]                                       |
+| 5   | [[1, 2, 3, 4, 5], [16, 17, 18, 19, 6], [15, 24, 25, 20, 7], [14, 23, 22, 21, 8], [13, 12, 11, 10, 9]] | }   |
 
-| arr                    | k   | result                   |
-| ---------------------- | --- | ------------------------ |
-| [1, 2, 3, 100, 99, 98] | 3   | [3, 6, 9, 300, 297, 294] |
-| [1, 2, 3, 100, 99, 98] | 2   | [3, 4, 5, 102, 101, 100] |
-
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
-class Solution {
-    public int[] solution(int[] arr, int k) {
-        if(k % 2 == 0){
-            for(int i = 0; i < arr.length; i++){
-                arr[i] += k;
+public class Solution {
+    public int[][] solution(int n) {
+        int[][] result = new int[n][n];
+
+        int num = 1;
+        int rowStart = 0, rowEnd = n - 1;
+        int colStart = 0, colEnd = n - 1;
+
+        while (num <= n * n) {
+            for (int i = colStart; i <= colEnd; i++) {
+                result[rowStart][i] = num++;
             }
-        }else{
-            for(int i = 0; i < arr.length; i++){
-                arr[i] = arr[i] * k;
+            rowStart++;
+            for (int i = rowStart; i <= rowEnd; i++) {
+                result[i][colEnd] = num++;
             }
-        }
-        return arr;
+            colEnd--;
+            for (int i = colEnd; i >= colStart; i--) {
+                result[rowEnd][i] = num++;
+            }
+            rowEnd--;
+            for (int i = rowEnd; i >= rowStart; i--) {
+                result[i][colStart] = num++;
+            }
+            } colStart++;
     }
-}
+
+} return result;
 ```
 
-#### 풀이 설명
+#### solution
 
-if(k % 2 == 0) : 만약 k가 짝수인 경우:
+int[][] result = new int[n][n];: Create a two-dimensional array result of size n x n.
 
-배열 arr의 각 요소에 k를 더합니다.
+int num = 1;: Initialize the number.
 
-else : 그 외의 경우 (즉, k가 홀수인 경우):
+int rowStart = 0, rowEnd = n - 1; and int colStart = 0, colEnd = n - 1;: Initialize the start and end indices of the rows and columns.
 
-배열 arr의 각 요소를 k와 곱합니다.
+while (num <= n \* n): iterates while the number num is less than or equal to n x n.
 
-return arr;: 변경된 배열 arr을 반환합니다.
+for (int i = colStart; i <= colEnd; i++) : Fills in the numbers in the top row of the current matrix, moving from left to right.
 
-이 코드는 k의 홀짝 여부에 따라 배열의 요소를 다르게 변환합니다.
+Store num in result[rowStart][i] and increment num.
 
-k가 짝수이면 각 요소에 k를 더하고, k가 홀수이면 각 요소를 k와 곱하여 반환합니다.
+rowStart++;: After filling the top row, move to the next row.
+
+Now fill the numbers in the right column, moving from top to bottom, then the left row, moving from right to left, then the bottom row, moving from top to bottom.
+
+At each step, num is incremented by 1 and the start and end indices of the rows and columns are adjusted.
+
+return result;: Returns a two-dimensional array result with all elements filled with numbers.
+
+This code uses an efficient spiral pattern to create a two-dimensional array and populate it with numbers from 1 to n x n.
