@@ -40,7 +40,7 @@ date: 2023-12-06 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "정수를 나선형으로 배치하기" 문제에 대하여 알아본 글입니다.
+## "l로 만들기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,72 +52,41 @@ date: 2023-12-06 09:00:00 +0900
 
 ### 문제
 
-양의 정수 n이 매개변수로 주어집니다.
+알파벳 소문자로 이루어진 문자열 myString이 주어집니다.
 
-n × n 배열에 1부터 n2 까지 정수를 인덱스 [0][0]부터 시계방향 나선형으로 배치한 이차원 배열을 return 하는 solution 함수를 작성해 주세요.
+알파벳 순서에서 "l"보다 앞서는 모든 문자를 "l"로 바꾼 문자열을 return 하는 solution 함수를 완성해 주세요.
 
 #### 입출력 예시
 
-| n   | result                                                                                                |
-| --- | ----------------------------------------------------------------------------------------------------- |
-| 4   | [[1, 2, 3, 4], [12, 13, 14, 5], [11, 16, 15, 6], [10, 9, 8, 7]]                                       |
-| 5   | [[1, 2, 3, 4, 5], [16, 17, 18, 19, 6], [15, 24, 25, 20, 7], [14, 23, 22, 21, 8], [13, 12, 11, 10, 9]] |
+| myString     | result       |
+| ------------ | ------------ |
+| "abcdevwxyz" | "lllllvwxyz" |
+| "jjnnllkkmm" | "llnnllllmm" |
 
 ### 문제에 대한 나의 풀이
 
 ```java
-public class Solution {
-    public int[][] solution(int n) {
-        int[][] result = new int[n][n];
-
-        int num = 1;
-        int rowStart = 0, rowEnd = n - 1;
-        int colStart = 0, colEnd = n - 1;
-
-        while (num <= n * n) {
-            for (int i = colStart; i <= colEnd; i++) {
-                result[rowStart][i] = num++;
+class Solution {
+    public static String solution(String myString) {
+        char[] charArray = myString.toCharArray();
+        for (int i = 0; i < charArray.length; i++) {
+            if (charArray[i] < 'l') {
+                charArray[i] = 'l';
             }
-            rowStart++;
-            for (int i = rowStart; i <= rowEnd; i++) {
-                result[i][colEnd] = num++;
-            }
-            colEnd--;
-            for (int i = colEnd; i >= colStart; i--) {
-                result[rowEnd][i] = num++;
-            }
-            rowEnd--;
-            for (int i = rowEnd; i >= rowStart; i--) {
-                result[i][colStart] = num++;
-            }
-            colStart++;
         }
-
-        return result;
+        return new String(charArray);
     }
 }
 ```
 
 #### 풀이 설명
 
-int[][] result = new int[n][n];: n x n 크기의 2차원 배열 result를 생성합니다.
+char[] charArray = myString.toCharArray();: 입력 문자열 myString을 문자 배열 charArray로 변환합니다. 이렇게 하면 문자열을 문자 단위로 접근할 수 있습니다.
 
-int num = 1;: 숫자를 초기화합니다.
+for (int i = 0; i < charArray.length; i++) : 문자 배열 charArray를 반복하면서 각 문자에 대한 작업을 수행합니다.
 
-int rowStart = 0, rowEnd = n - 1;와 int colStart = 0, colEnd = n - 1;: 행과 열의 시작과 끝 인덱스를 초기화합니다.
+if (charArray[i] < 'l') : 만약 현재 문자가 'l'보다 사전적 순서로 앞에 있는 문자라면:
 
-while (num <= n \* n) : 숫자 num이 n x n보다 작거나 같은 동안 반복합니다.
+해당 문자를 'l'로 대체합니다.
 
-for (int i = colStart; i <= colEnd; i++) : 현재 행렬의 윗 행에서 좌에서 우로 이동하며 숫자를 채웁니다.
-
-result[rowStart][i]에 num을 저장하고 num을 증가시킵니다.
-
-rowStart++;: 윗 행을 다 채우고 나면 다음 행으로 이동합니다.
-
-이제 오른쪽 열에서 위에서 아래로 이동하며 숫자를 채우고, 그 다음 왼쪽 행에서 우측에서 좌측으로 이동하며 숫자를 채우고, 아랫 행에서 위에서 아래로 이동하며 숫자를 채웁니다.
-
-각 단계에서 num이 1씩 증가하고 행과 열의 시작과 끝 인덱스가 조절됩니다.
-
-return result;: 모든 요소가 숫자로 채워진 2차원 배열 result를 반환합니다.
-
-이 코드는 효율적인 스파이럴 패턴을 사용하여 2차원 배열을 생성하고 1부터 n x n까지의 숫자로 채웁니다.
+return new String(charArray);: 변경된 문자 배열 charArray를 다시 문자열로 변환하고 반환합니다.
