@@ -52,41 +52,64 @@ date: 2023-12-09 09:00:00 +0900
 
 ### 문제
 
-알파벳 소문자로 이루어진 문자열 myString이 주어집니다.
+이차원 정수 배열 arr이 매개변수로 주어집니다.
 
-알파벳 순서에서 "l"보다 앞서는 모든 문자를 "l"로 바꾼 문자열을 return 하는 solution 함수를 완성해 주세요.
+arr의 행의 수가 더 많다면 열의 수가 행의 수와 같아지도록 각 행의 끝에 0을 추가하고, 열의 수가 더 많다면 행의 수가 열의 수와 같아지도록 각 열의 끝에 0을 추가한 이차원 배열을 return 하는 solution 함수를 작성해 주세요.
 
 #### 입출력 예시
 
-| myString     | result       |
-| ------------ | ------------ |
-| "abcdevwxyz" | "lllllvwxyz" |
-| "jjnnllkkmm" | "llnnllllmm" |
+| arr                                                              | result                                                                       |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [[572, 22, 37], [287, 726, 384], [85, 137, 292], [487, 13, 876]] | [[572, 22, 37, 0], [287, 726, 384, 0], [85, 137, 292, 0], [487, 13, 876, 0]] |
 
 ### 문제에 대한 나의 풀이
 
 ```java
+import java.util.*;
 class Solution {
-    public static String solution(String myString) {
-        char[] charArray = myString.toCharArray();
-        for (int i = 0; i < charArray.length; i++) {
-            if (charArray[i] < 'l') {
-                charArray[i] = 'l';
+    public int[][] solution(int[][] arr) {
+        int numRows = arr.length;
+        int numCols = arr[0].length;
+
+        if (numRows < numCols) {
+            int[][] result = new int[numCols][numCols];
+            for (int i = 0; i < numRows; i++) {
+                result[i] = Arrays.copyOf(arr[i], numCols);
             }
+            for (int i = numRows; i < numCols; i++) {
+                result[i] = new int[numCols];
+            }
+            return result;
         }
-        return new String(charArray);
+        else if (numCols < numRows) {
+            int[][] result = new int[numRows][numRows];
+            for (int i = 0; i < numRows; i++) {
+                result[i] = Arrays.copyOf(arr[i], numRows);
+            }
+            return result;
+        }
+
+        return arr;
     }
 }
 ```
 
 #### 풀이 설명
 
-char[] charArray = myString.toCharArray();: 입력 문자열 myString을 문자 배열 charArray로 변환합니다. 이렇게 하면 문자열을 문자 단위로 접근할 수 있습니다.
+int numRows = arr.length;와 int numCols = arr[0].length;: 배열의 행과 열 수를 계산합니다.
 
-for (int i = 0; i < charArray.length; i++) : 문자 배열 charArray를 반복하면서 각 문자에 대한 작업을 수행합니다.
+if (numRows < numCols) : 만약 행 수가 열 수보다 작은 경우 (행이 더 적은 경우):
 
-if (charArray[i] < 'l') : 만약 현재 문자가 'l'보다 사전적 순서로 앞에 있는 문자라면:
+int[][] result = new int[numCols][numCols];: 새로운 정사각형 배열 result를 생성합니다.
 
-해당 문자를 'l'로 대체합니다.
+for (int i = 0; i < numRows; i++) : 기존 배열의 행을 복사합니다. 배열 arr의 행을 result의 행으로 복사하며, 남는 열은 0으로 초기화됩니다.
 
-return new String(charArray);: 변경된 문자 배열 charArray를 다시 문자열로 변환하고 반환합니다.
+for (int i = numRows; i < numCols; i++) : 남은 열에 대해서는 새로운 배열을 생성하여 초기화합니다.
+
+else if (numCols < numRows) : 만약 열 수가 행 수보다 작은 경우 (열이 더 적은 경우):
+
+int[][] result = new int[numRows][numRows];: 새로운 정사각형 배열 result를 생성합니다.
+
+for (int i = 0; i < numRows; i++) : 기존 배열의 행을 복사합니다. 배열 arr의 행을 result의 행으로 복사합니다.
+
+return arr;: 만약 arr이 이미 정사각형 모양이라면, 원래 배열 arr을 그대로 반환합니다.

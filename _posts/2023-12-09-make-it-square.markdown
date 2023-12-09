@@ -40,53 +40,72 @@ date: 2023-12-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "정사각형으로 만들기" 문제에 대하여 알아본 글입니다.
+## This is the "Make it square" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving coding test problems, reflecting on the problems we've solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-알파벳 소문자로 이루어진 문자열 myString이 주어집니다.
+A two-dimensional array of integers, arr, is given as a parameter.
 
-알파벳 순서에서 "l"보다 앞서는 모든 문자를 "l"로 바꾼 문자열을 return 하는 solution 함수를 완성해 주세요.
+Write a solution function that returns a two-dimensional array with zeros added to the end of each row so that the number of columns equals the number of rows if arr has more rows, and zeros added to the end of each column so that the number of columns equals the number of rows if arr has more columns.
 
-#### 입출력 예시
+#### Example input and output
 
-| myString     | result       |
-| ------------ | ------------ |
-| "abcdevwxyz" | "lllllvwxyz" |
-| "jjnnllkkmm" | "llnnllllmm" |
+| arr                                                              | result                                                                       |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [[572, 22, 37], [287, 726, 384], [85, 137, 292], [487, 13, 876]] | [[572, 22, 37, 0], [287, 726, 384, 0], [85, 137, 292, 0], [487, 13, 876, 0]] |
 
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
+import java.util.*;
 class Solution {
-    public static String solution(String myString) {
-        char[] charArray = myString.toCharArray();
-        for (int i = 0; i < charArray.length; i++) {
-            if (charArray[i] < 'l') {
-                charArray[i] = 'l';
+    public int[][] solution(int[][] arr) {
+        int numRows = arr.length;
+        int numCols = arr[0].length;
+
+        if (numRows < numCols) {
+            int[][] result = new int[numCols][numCols];
+            for (int i = 0; i < numRows; i++) {
+                result[i] = Arrays.copyOf(arr[i], numCols);
             }
+            for (int i = numRows; i < numCols; i++) {
+                result[i] = new int[numCols];
+            }
+            } return result;
         }
-        return new String(charArray);
-    }
-}
+        else if (numCols < numRows) {
+            int[][] result = new int[numRows][numRows];
+            for (int i = 0; i < numRows; i++) {
+                result[i] = Arrays.copyOf(arr[i], numRows);
+            }
+    } return result;
+}return arr;
 ```
 
-#### 풀이 설명
+#### Solution Explanation
 
-char[] charArray = myString.toCharArray();: 입력 문자열 myString을 문자 배열 charArray로 변환합니다. 이렇게 하면 문자열을 문자 단위로 접근할 수 있습니다.
+int numRows = arr.length; and int numCols = arr[0].length;: count the number of rows and columns in the array.
 
-for (int i = 0; i < charArray.length; i++) : 문자 배열 charArray를 반복하면서 각 문자에 대한 작업을 수행합니다.
+if (numRows < numCols): if the number of rows is less than the number of columns (if there are fewer rows):
 
-if (charArray[i] < 'l') : 만약 현재 문자가 'l'보다 사전적 순서로 앞에 있는 문자라면:
+int[][] result = new int[numCols][numCols];: create a new square array result.
 
-해당 문자를 'l'로 대체합니다.
+for (int i = 0; i < numRows; i++) : Copy the rows of the existing array. The rows of the array arr are copied to the rows of result, and the remaining columns are initialized to zero.
 
-return new String(charArray);: 변경된 문자 배열 charArray를 다시 문자열로 변환하고 반환합니다.
+for (int i = numRows; i < numCols; i++) : Create and initialize a new array for the remaining columns.
+
+else if (numCols < numRows) : if the number of columns is less than the number of rows (if there are fewer columns):
+
+int[][] result = new int[numRows][numRows];: create a new square array result.
+
+for (int i = 0; i < numRows; i++) : Copy the rows of the existing array. Copy the rows of the array arr into the rows of result.
+
+return arr;: If arr is already square, return the original array arr as it is. Translated with www.DeepL.com/Translator (free version)
