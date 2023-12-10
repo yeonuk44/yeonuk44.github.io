@@ -40,7 +40,7 @@ date: 2023-12-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "정사각형으로 만들기" 문제에 대하여 알아본 글입니다.
+## "이차원 배열 대각선 순회하기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,64 +52,45 @@ date: 2023-12-10 09:00:00 +0900
 
 ### 문제
 
-이차원 정수 배열 arr이 매개변수로 주어집니다.
+2차원 정수 배열 board와 정수 k가 주어집니다.
 
-arr의 행의 수가 더 많다면 열의 수가 행의 수와 같아지도록 각 행의 끝에 0을 추가하고, 열의 수가 더 많다면 행의 수가 열의 수와 같아지도록 각 열의 끝에 0을 추가한 이차원 배열을 return 하는 solution 함수를 작성해 주세요.
+i + j <= k를 만족하는 모든 (i, j)에 대한 board[i][j]의 합을 return 하는 solution 함수를 완성해 주세요.
 
 #### 입출력 예시
 
-| arr                                                              | result                                                                       |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [[572, 22, 37], [287, 726, 384], [85, 137, 292], [487, 13, 876]] | [[572, 22, 37, 0], [287, 726, 384, 0], [85, 137, 292, 0], [487, 13, 876, 0]] |
+| board                                     | k   | result |
+| ----------------------------------------- | --- | ------ |
+| [[0, 1, 2],[1, 2, 3],[2, 3, 4],[3, 4, 5]] | 2   | 8      |
 
 ### 문제에 대한 나의 풀이
 
 ```java
-import java.util.*;
 class Solution {
-    public int[][] solution(int[][] arr) {
-        int numRows = arr.length;
-        int numCols = arr[0].length;
-
-        if (numRows < numCols) {
-            int[][] result = new int[numCols][numCols];
-            for (int i = 0; i < numRows; i++) {
-                result[i] = Arrays.copyOf(arr[i], numCols);
+    public int solution(int[][] board, int k) {
+        int answer = 0;
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[i].length; j++){
+                if(i + j <= k){
+                    answer += board[i][j];
+                }
             }
-            for (int i = numRows; i < numCols; i++) {
-                result[i] = new int[numCols];
-            }
-            return result;
         }
-        else if (numCols < numRows) {
-            int[][] result = new int[numRows][numRows];
-            for (int i = 0; i < numRows; i++) {
-                result[i] = Arrays.copyOf(arr[i], numRows);
-            }
-            return result;
-        }
-
-        return arr;
+        return answer;
     }
 }
+
 ```
 
 #### 풀이 설명
 
-int numRows = arr.length;와 int numCols = arr[0].length;: 배열의 행과 열 수를 계산합니다.
+int answer = 0;: 결과 값을 저장할 변수 answer를 초기화합니다.
 
-if (numRows < numCols) : 만약 행 수가 열 수보다 작은 경우 (행이 더 적은 경우):
+중첩된 반복문을 사용하여 2차원 배열 board를 순회합니다. 외부 반복문은 행 (i), 내부 반복문은 열 (j)를 나타냅니다.
 
-int[][] result = new int[numCols][numCols];: 새로운 정사각형 배열 result를 생성합니다.
+if(i + j <= k) : 현재 행과 열의 합인 i + j가 k 이하인 경우:
 
-for (int i = 0; i < numRows; i++) : 기존 배열의 행을 복사합니다. 배열 arr의 행을 result의 행으로 복사하며, 남는 열은 0으로 초기화됩니다.
+answer에 현재 위치의 원소 board[i][j]를 더합니다.
 
-for (int i = numRows; i < numCols; i++) : 남은 열에 대해서는 새로운 배열을 생성하여 초기화합니다.
+모든 원소를 확인한 후 answer 값을 반환합니다.
 
-else if (numCols < numRows) : 만약 열 수가 행 수보다 작은 경우 (열이 더 적은 경우):
-
-int[][] result = new int[numRows][numRows];: 새로운 정사각형 배열 result를 생성합니다.
-
-for (int i = 0; i < numRows; i++) : 기존 배열의 행을 복사합니다. 배열 arr의 행을 result의 행으로 복사합니다.
-
-return arr;: 만약 arr이 이미 정사각형 모양이라면, 원래 배열 arr을 그대로 반환합니다.
+이 코드는 주어진 조건에 따라 2차원 배열에서 특정 조건을 만족하는 원소들의 합을 계산하는 알고리즘을 구현합니다.
