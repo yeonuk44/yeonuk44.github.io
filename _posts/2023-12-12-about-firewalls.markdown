@@ -40,31 +40,49 @@ date: 2023-12-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "엑세스 회선에 대하여" 문제에 대하여 알아본 글입니다.
+## This article is about the "About Firewalls" issue.
 
-네트워크 공부를 하며 알게된 개념에 대해 정리한 글입니다.
+This article summarizes the concepts I learned while studying networking.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 개념
+### Concepts
 
-"엑세스 회선"은 컴퓨터 네트워크에서 사용되는 용어로, 네트워크 서비스 또는 인터넷 서비스를 이용하기 위해 사용되는 물리적인 연결을 가리킵니다.
+A firewall is a device or software used to monitor and control network traffic on a computer network to maintain security.
 
-이것은 일반적으로 데이터를 전송하거나 네트워크에 액세스하기 위한 경로나 매체를 의미합니다.
+Firewalls serve to protect networks and computer systems from illegal access, hacking, viruses, spyware, and other malicious activity.
 
-### 엑세스 회선의 형태
+### Roles
 
-1. DSL (Digital Subscriber Line): 주로 가정용 브로드밴드 인터넷 서비스에 사용되며, 전화선을 통해 인터넷에 연결됩니다.
-2. 전용 회선 (Dedicated Line): 기업이나 조직에서 더 높은 대역폭을 필요로 할 때 사용되며, 인터넷 연결과 전화 통신을 위한 전용 회선이 있습니다.
-3. 광섬유 회선 (Fiber Optic Line): 광섬유 케이블을 통해 데이터를 전송하며, 빠른 속도와 대역폭을 제공합니다.
-4. 이더넷 회선 (Ethernet Line): 주로 로컬 네트워크 (LAN)에서 사용되며, 컴퓨터나 네트워크 장치를 네트워크에 연결하는 데 사용됩니다.
+1. Packet filtering: A firewall examines data packets (small pieces of data sent across a network) to determine which way the received data should be allowed or blocked based on the rules of what is allowed. These rules are related to port numbers, IP addresses, protocols, etc.
+2. Stateful tracking: Some firewalls track the state of network connections to ensure that data packets are from allowed connections. This is used to further enhance security.
+3. Application layer inspection: Advanced firewalls can analyze the contents of data packets to detect and block the behavior of specific applications.
+4. Malware and spyware blocking: Firewalls can detect and block viruses, worms, Trojans, spyware, and other malicious code.
+5. Virtual private network (VPN) support: Some firewalls support VPN connections for secure remote access.
+6. Security logging and monitoring: Firewalls record network activity in logs and allow security administrators to monitor what is happening on the network.
 
-### 정리
+There are some attacks that firewalls can't stop. Let's learn more.
 
-엑세스 회선은 일반적으로 인터넷 서비스 제공업체 (ISP)나 통신 회사를 통해 제공됩니다.
+#### How firewalls don't stop attacks
 
-이 회선을 통해 개인이나 기업은 인터넷, 전화 통화, 데이터 전송 등 다양한 네트워크 서비스에 접속할 수 있습니다.
+Firewalls primarily filter and allow or block traffic by examining the packet headers of network traffic (the packet's origin, destination IP address, port number, etc.).
 
-프로바이더에 접속하는 부분의 회선이라 할 수 있습니다.
+However, firewalls typically do not deeply analyze the content of the communication data itself.
+
+Because of this, they may not be able to stop attacks in the following cases.
+
+#### Types of attacks they won't stop
+
+1. Encrypted traffic: Firewalls let encrypted traffic (such as HTTPS) through because they don't understand the content of the traffic. The data inside the encrypted traffic is not decrypted by the firewall, and an attacker can hide malicious activity through encrypted communication.
+2. Zero-Day Attacks: Firewalls use known attack signatures to inspect traffic, but in the case of a new or zero-day attack, the firewall may not detect it. This is when an attacker exploits a previously unknown vulnerability.
+3. Confusion with legitimate data: Firewalls attempt to detect malicious behavior by examining patterns in traffic, but sometimes it is difficult to distinguish between legitimate and malicious data. For example, malicious code may be hidden as part of a data file.
+4. Human social engineering: Firewalls have difficulty monitoring people's communications or detecting social engineering attacks (attacks that trick users). These attacks rely primarily on human interaction and are difficult for firewalls to prevent.
+5. Complex malware: Firewalls can be effective at detecting simple malware, but advanced malware can bypass or evade firewalls.
+
+### Conclusion
+
+Firewalls play an important role in securing your network, but they don't provide complete security.
+
+Therefore, it is common to use them in conjunction with other security solutions to protect your network and systems.
