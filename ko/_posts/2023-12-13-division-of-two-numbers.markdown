@@ -40,7 +40,7 @@ date: 2023-12-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "l로 만들기" 문제에 대하여 알아본 글입니다.
+## "두 수의 나눗셈" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,41 +52,37 @@ date: 2023-12-13 09:00:00 +0900
 
 ### 문제
 
-알파벳 소문자로 이루어진 문자열 myString이 주어집니다.
-
-알파벳 순서에서 "l"보다 앞서는 모든 문자를 "l"로 바꾼 문자열을 return 하는 solution 함수를 완성해 주세요.
+수 num1과 num2가 매개변수로 주어질 때, num1을 num2로 나눈 값에 1,000을 곱한 후 정수 부분을 return 하도록 soltuion 함수를 완성해주세요.
 
 #### 입출력 예시
 
-| myString     | result       |
-| ------------ | ------------ |
-| "abcdevwxyz" | "lllllvwxyz" |
-| "jjnnllkkmm" | "llnnllllmm" |
+| num1 | num2 | result |
+| ---- | ---- | ------ |
+| 7    | 3    | 2333   |
+| 3    | 2    | 1500   |
+| 1    | 6    | 62     |
 
 ### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public static String solution(String myString) {
-        char[] charArray = myString.toCharArray();
-        for (int i = 0; i < charArray.length; i++) {
-            if (charArray[i] < 'l') {
-                charArray[i] = 'l';
-            }
-        }
-        return new String(charArray);
+    public int solution(int num1, int num2) {
+        int answer = 0;
+        double result = ((double)num1 / num2) * 1000;
+        answer = (int) result;
+        return answer;
     }
 }
 ```
 
 #### 풀이 설명
 
-char[] charArray = myString.toCharArray();: 입력 문자열 myString을 문자 배열 charArray로 변환합니다. 이렇게 하면 문자열을 문자 단위로 접근할 수 있습니다.
+int answer = 0;: 결과 값을 저장할 변수 answer를 초기화합니다.
 
-for (int i = 0; i < charArray.length; i++) : 문자 배열 charArray를 반복하면서 각 문자에 대한 작업을 수행합니다.
+(double)num1 / num2: 먼저 num1을 double로 형변환하고, num2로 나눠서 두 수의 비율을 계산합니다. 이렇게 하는 이유는 나눗셈 결과를 실수로 얻기 위함입니다.
 
-if (charArray[i] < 'l') : 만약 현재 문자가 'l'보다 사전적 순서로 앞에 있는 문자라면:
+- 1000: 계산된 비율에 1000을 곱하여 백분율을 천 배로 확장합니다.
 
-해당 문자를 'l'로 대체합니다.
+(int) result: 계산된 결과를 정수로 형변환하여 answer에 저장합니다.
 
-return new String(charArray);: 변경된 문자 배열 charArray를 다시 문자열로 변환하고 반환합니다.
+return answer;: 계산된 결과를 반환합니다.

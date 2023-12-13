@@ -40,53 +40,49 @@ date: 2023-12-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "l로 만들기" 문제에 대하여 알아본 글입니다.
+## This is a post about the "division of two numbers" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to solve a coding test problem, reflect on the problem we solved, and learn about other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-알파벳 소문자로 이루어진 문자열 myString이 주어집니다.
+Given the numbers num1 and num2 as parameters, complete the soltuion function so that it returns the integer part of num1 divided by num2 multiplied by 1,000.
 
-알파벳 순서에서 "l"보다 앞서는 모든 문자를 "l"로 바꾼 문자열을 return 하는 solution 함수를 완성해 주세요.
+#### Example input and output
 
-#### 입출력 예시
+| num1 | num2 | result |
+| ---- | ---- | ------ |
+| 7    | 3    | 2333   |
+| 3    | 2    | 1500   |
+| 1    | 6    | 62     |
 
-| myString     | result       |
-| ------------ | ------------ |
-| "abcdevwxyz" | "lllllvwxyz" |
-| "jjnnllkkmm" | "llnnllllmm" |
-
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
 class Solution {
-    public static String solution(String myString) {
-        char[] charArray = myString.toCharArray();
-        for (int i = 0; i < charArray.length; i++) {
-            if (charArray[i] < 'l') {
-                charArray[i] = 'l';
-            }
-        }
-        return new String(charArray);
+    public int solution(int num1, int num2) {
+        int answer = 0;
+        double result = ((double)num1 / num2) * 1000;
+        answer = (int) result;
+        return answer;
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution
 
-char[] charArray = myString.toCharArray();: 입력 문자열 myString을 문자 배열 charArray로 변환합니다. 이렇게 하면 문자열을 문자 단위로 접근할 수 있습니다.
+int answer = 0;: Initialize the variable answer to store the resulting value.
 
-for (int i = 0; i < charArray.length; i++) : 문자 배열 charArray를 반복하면서 각 문자에 대한 작업을 수행합니다.
+(double)num1 / num2: We first cast num1 to a double, then divide by num2 to calculate the ratio of the two numbers. The reason for doing this is to get the result of the division as a real number.
 
-if (charArray[i] < 'l') : 만약 현재 문자가 'l'보다 사전적 순서로 앞에 있는 문자라면:
+- 1000: Multiplies the calculated ratio by 1000 to scale the percentage to a thousand times.
 
-해당 문자를 'l'로 대체합니다.
+(int) result: Cast the calculated result to an integer and store it in answer.
 
-return new String(charArray);: 변경된 문자 배열 charArray를 다시 문자열로 변환하고 반환합니다.
+return answer;: Returns the calculated result.
