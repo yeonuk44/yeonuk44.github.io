@@ -40,49 +40,65 @@ date: 2023-12-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "두 수의 나눗셈" 문제에 대하여 알아본 글입니다.
+## This is the "Addition of Fractions" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn about it by solving coding test problems, reflecting on the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-수 num1과 num2가 매개변수로 주어질 때, num1을 num2로 나눈 값에 1,000을 곱한 후 정수 부분을 return 하도록 soltuion 함수를 완성해주세요.
+You are given the parameters numer1, denom1, the numerator and denominator of the first fraction, and numer2, denom2, the numerator and denominator of the second fraction.
 
-#### 입출력 예시
+Complete the solution function so that it returns an array containing the numerators and denominators in order when the two fractions are added and represented as an expected fraction.
 
-| num1 | num2 | result |
-| ---- | ---- | ------ |
-| 7    | 3    | 2333   |
-| 3    | 2    | 1500   |
-| 1    | 6    | 62     |
+#### Example input and output
 
-### 문제에 대한 나의 풀이
+| numer1 | denom1 | numer2 | denom2 | result  |
+| ------ | ------ | ------ | ------ | ------- |
+| 1      | 2      | 3      | 4      | [5, 4]  |
+| 9      | 2      | 1      | 3      | [29, 6] |
+
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int solution(int num1, int num2) {
-        int answer = 0;
-        double result = ((double)num1 / num2) * 1000;
-        answer = (int) result;
-        return answer;
+    public int[] solution(int numer1, int denom1, int numer2, int denom2) {
+        int newNumer = numer1 * denom2 + numer2 * denom1;
+        int newDenom = denom1 * denom2;
+        int gcd = findGCD(newNumer, newDenom);
+        newNumer /= gcd;
+        newDenom /= gcd;
+
+        int[] result = {newNumer, newDenom};
+        return result;
     }
+    public int findGCD(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+    } return Math.abs(a);
 }
 ```
 
-#### 풀이 설명
+#### Solution Explanation
 
-int answer = 0;: 결과 값을 저장할 변수 answer를 초기화합니다.
+int newNumer = numer1 _ denom2 + numer2 _ denom1;: Computes a new numerator, newNumer, by adding the numerators of the two given fractions.
 
-(double)num1 / num2: 먼저 num1을 double로 형변환하고, num2로 나눠서 두 수의 비율을 계산합니다. 이렇게 하는 이유는 나눗셈 결과를 실수로 얻기 위함입니다.
+int newDenom = denom1 \* denom2;: Computes a new denominator newDenom by multiplying the denominators of the two given fractions.
 
-- 1000: 계산된 비율에 1000을 곱하여 백분율을 천 배로 확장합니다.
+int gcd = findGCD(newNumer, newDenom);: Call the findGCD function to find the greatest common divisor (gcd) of newNumer and newDenom.
 
-(int) result: 계산된 결과를 정수로 형변환하여 answer에 저장합니다.
+newNumer /= gcd; and newDenom /= gcd;: Divide newNumer and newDenom by the greatest common divisor to get the expected fraction.
 
-return answer;: 계산된 결과를 반환합니다.
+int[] result = {newNumer, newDenom};: Put the expected fractions, newNumer and newDenom, into an array and store them in the result array.
+
+return result;: Returns the calculated result, the expected fraction.
+
+The findGCD function uses Euclidean arithmetic to compute the greatest common divisor of two numbers. The code performs simple fraction operations, adding the two fractions and normalizing the result to the common denominator.
