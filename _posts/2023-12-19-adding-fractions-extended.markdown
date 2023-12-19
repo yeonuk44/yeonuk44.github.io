@@ -40,66 +40,114 @@ date: 2023-12-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "분수의 덧셈" 문제에 대하여 알아본 글입니다.
+## We've been working on the "Addition of Fractions" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We've been working on the addition of fractions problem, and we've had some time to organize what we've learned.
 
-문제에 대해 먼저 알아보겠습니다.
+I'd like to share my thoughts with you.
+
+Let's look at the code that solved the addition of fractions in Java.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
-
-첫 번째 분수의 분자와 분모를 뜻하는 numer1, denom1, 두 번째 분수의 분자와 분모를 뜻하는 numer2, denom2가 매개변수로 주어집니다.
-
-두 분수를 더한 값을 기약 분수로 나타냈을 때 분자와 분모를 순서대로 담은 배열을 return 하도록 solution 함수를 완성해보세요.
-
-#### 입출력 예시
-
-| numer1 | denom1 | numer2 | denom2 | result  |
-| ------ | ------ | ------ | ------ | ------- |
-| 1      | 2      | 3      | 4      | [5, 4]  |
-| 9      | 2      | 1      | 3      | [29, 6] |
-
-### 문제에 대한 나의 풀이
+### Java-solved code
 
 ```java
 class Solution {
     public int[] solution(int numer1, int denom1, int numer2, int denom2) {
+        // Add the numerator and denominator.
         int newNumer = numer1 * denom2 + numer2 * denom1;
         int newDenom = denom1 * denom2;
+
+        // Find the greatest common divisor.
         int gcd = findGCD(newNumer, newDenom);
+
+        // Divide the numerator and denominator by the greatest common divisor to get the expected fraction.
         newNumer /= gcd;
         newDenom /= gcd;
 
         int[] result = {newNumer, newDenom};
         return result;
     }
+
+    // Function to compute the greatest common divisor
     public int findGCD(int a, int b) {
         while (b != 0) {
             int temp = b;
             b = a % b;
             a = temp;
         }
-        return Math.abs(a);
-    }
+    } return Math.abs(a);
 }
 ```
 
-#### 풀이 설명
+### How to add fractions
 
-int newNumer = numer1 _ denom2 + numer2 _ denom1;: 주어진 두 분수의 분자를 더하여 새로운 분자 newNumer를 계산합니다.
+To add two given fractions a/b and c/d, add their numerators and denominators as follows.
 
-int newDenom = denom1 \* denom2;: 주어진 두 분수의 분모를 곱하여 새로운 분모 newDenom를 계산합니다.
+```java
+newNumer = a * d + c * b;
+newDenom = b * d;
+```
 
-int gcd = findGCD(newNumer, newDenom);: findGCD 함수를 호출하여 newNumer와 newDenom의 최대공약수 (gcd)를 찾습니다.
+Where newNumer represents the new numerator and newDenom represents the new denominator.
 
-newNumer /= gcd;과 newDenom /= gcd;: newNumer와 newDenom을 최대공약수로 나누어 기약분수를 얻습니다.
+#### Find the greatest common divisor (GCD)
 
-int[] result = {newNumer, newDenom};: 기약분수인 newNumer와 newDenom을 배열에 담아 result 배열에 저장합니다.
+The greatest common divisor is used to make a fraction commutative.
 
-return result;: 계산된 결과인 기약분수를 반환합니다.
+Given newNumer and newDenom, compute the greatest common divisor (GCD).
 
-findGCD 함수는 두 수의 최대공약수를 계산하기 위해 유클리드 호제법을 사용합니다. 이 코드는 두 분수를 더하고, 결과를 기약분수로 정규화하는 간단한 분수 연산을 수행합니다.
+##### Different ways to find the greatest common divisor
+
+1. Euclidean Algorithm: This is one of the most efficient ways to find the greatest common divisor of two numbers. The Euclidean method uses the remainder of the division of two numbers to find the greatest common divisor.
+   For example, the greatest common divisor of two numbers, a and b, is GCD(a, b).
+
+```java
+GCD(a, b) = GCD(b, a % b)
+```
+
+2. Method using prime factorization: This method is to find the common prime factor of two numbers by prime factorizing them. For example, to find the greatest common divisor of 18 and 24, first prime each number.
+   18 = 2 _ 3^2
+   24 = 2^3 _ 3
+   Then, select small values from the exponential part of each prime factor to find the common prime factor. In the example above, 2^1 and 3^1 are common prime factors, so the greatest common divisor is 2^1 \* 3^1 = 6.
+3. Use an algorithm to find the greatest common divisor: Many programming languages and math libraries provide functions or methods to find the greatest common divisor. You can use these functions to simply find the greatest common divisor.
+
+I solved the problem using the Euclidean arithmetic method in the first of the above methods.
+
+```java
+public int findGCD(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+} return Math.abs(a);
+```
+
+We mentioned that we use greatest common divisor to find commutative fractions.
+
+Let's take a quick look at commutative fractions as well.
+
+##### Commutative Fractions
+
+Commutative fractions (or weakly commutative fractions) are fractions with a greatest common divisor (GCD) of 1 in the numerator and denominator. In other words, they are fractions that simplify the fraction to a form that is no longer commutative. For example, 2/4 can be reduced to 1/2 as a commutative fraction.
+
+Representing fractions as commutative fractions makes them simpler to express, easier to compute with, and easier to compare. Therefore, converting to commutative fractions is usually a good idea when dealing with fractions.
+
+The process of converting to a radical fraction involves calculating the greatest common divisor (GCD) of the given numerator and denominator, and dividing the numerator and denominator by this greatest common divisor. This will give you the simplest form of the fraction.
+
+Once you have the greatest common divisor, move on to the next step.
+
+##### Finalize
+
+Divide the numerator and denominator by the greatest common divisor. Use the greatest common divisor you found to divide newNumer and newDenom to get the expected fraction.
+
+```java
+newNumer /= gcd;
+newDenom /= gcd;
+```
+
+Following the formula above, we have used the fraction sum formula and the greatest common divisor to represent a fraction as a promise fraction. Translated with www.DeepL.com/Translator (free version)
