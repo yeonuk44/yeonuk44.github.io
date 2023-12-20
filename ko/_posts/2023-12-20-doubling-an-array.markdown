@@ -40,7 +40,7 @@ date: 2023-12-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "분수의 덧셈" 문제에 대하여 알아본 글입니다.
+## "배열 두배 만들기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,54 +52,38 @@ date: 2023-12-20 09:00:00 +0900
 
 ### 문제
 
-첫 번째 분수의 분자와 분모를 뜻하는 numer1, denom1, 두 번째 분수의 분자와 분모를 뜻하는 numer2, denom2가 매개변수로 주어집니다.
+정수 배열 numbers가 매개변수로 주어집니다.
 
-두 분수를 더한 값을 기약 분수로 나타냈을 때 분자와 분모를 순서대로 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+numbers의 각 원소에 두배한 원소를 가진 배열을 return하도록 solution 함수를 완성해주세요.
 
 #### 입출력 예시
 
-| numer1 | denom1 | numer2 | denom2 | result  |
-| ------ | ------ | ------ | ------ | ------- |
-| 1      | 2      | 3      | 4      | [5, 4]  |
-| 9      | 2      | 1      | 3      | [29, 6] |
+| numbers                   | result                     |
+| ------------------------- | -------------------------- |
+| [1, 2, 3, 4, 5]           | [2, 4, 6, 8, 10]           |
+| [1, 2, 100, -99, 1, 2, 3] | [2, 4, 200, -198, 2, 4, 6] |
 
 ### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public int[] solution(int numer1, int denom1, int numer2, int denom2) {
-        int newNumer = numer1 * denom2 + numer2 * denom1;
-        int newDenom = denom1 * denom2;
-        int gcd = findGCD(newNumer, newDenom);
-        newNumer /= gcd;
-        newDenom /= gcd;
-
-        int[] result = {newNumer, newDenom};
-        return result;
-    }
-    public int findGCD(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
+    public int[] solution(int[] numbers) {
+        for(int i = 0; i < numbers.length; i++){
+            numbers[i] *= 2;
         }
-        return Math.abs(a);
+        return numbers;
     }
 }
 ```
 
 #### 풀이 설명
 
-int newNumer = numer1 _ denom2 + numer2 _ denom1;: 주어진 두 분수의 분자를 더하여 새로운 분자 newNumer를 계산합니다.
+public int[] solution(int[] numbers) : 함수 solution을 선언하고 정수 배열 numbers를 입력 매개변수로 받습니다. 함수는 정수 배열을 반환합니다.
 
-int newDenom = denom1 \* denom2;: 주어진 두 분수의 분모를 곱하여 새로운 분모 newDenom를 계산합니다.
+for(int i = 0; i < numbers.length; i++){: 배열 numbers의 각 요소에 접근하기 위한 반복문을 시작합니다. i 변수는 반복문을 통해 배열의 인덱스를 나타냅니다.
 
-int gcd = findGCD(newNumer, newDenom);: findGCD 함수를 호출하여 newNumer와 newDenom의 최대공약수 (gcd)를 찾습니다.
+numbers[i] \*= 2;: 현재 인덱스 i에 해당하는 배열 요소를 2배로 만듭니다. 이 코드는 현재 배열 요소의 값을 2로 곱하여 수정합니다.
 
-newNumer /= gcd;과 newDenom /= gcd;: newNumer와 newDenom을 최대공약수로 나누어 기약분수를 얻습니다.
+}: 반복문의 끝을 표시합니다. 배열의 모든 요소를 처리한 후에 종료됩니다.
 
-int[] result = {newNumer, newDenom};: 기약분수인 newNumer와 newDenom을 배열에 담아 result 배열에 저장합니다.
-
-return result;: 계산된 결과인 기약분수를 반환합니다.
-
-findGCD 함수는 두 수의 최대공약수를 계산하기 위해 유클리드 호제법을 사용합니다. 이 코드는 두 분수를 더하고, 결과를 기약분수로 정규화하는 간단한 분수 연산을 수행합니다.
+return numbers;: 변경된 배열 numbers를 함수의 반환 값으로 반환합니다. 따라서 이 함수는 주어진 배열의 모든 요소를 2배로 만든 후 그 결과를 반환합니다.
