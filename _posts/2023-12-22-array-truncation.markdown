@@ -40,55 +40,54 @@ date: 2023-12-22 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "중앙값 구하기" 문제에 대하여 알아본 글입니다.
+## This is the "Truncate Array" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving coding test problems, reflecting on the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-중앙값은 어떤 주어진 값들을 크기의 순서대로 정렬했을 때 가장 중앙에 위치하는 값을 의미합니다.
+Given an array of integers numbers and integers num1 and num2 as parameters, complete the solution function so that it returns an array of integers truncated from the num1st index of numbers to the num2nd index of numbers.
 
-예를 들어 1, 2, 7, 10, 11의 중앙값은 7입니다.
+#### Limitations
 
-정수 배열 array가 매개변수로 주어질 때, 중앙값을 return 하도록 solution 함수를 완성해보세요.
+2 ≤ length of numbers ≤ 30
 
-#### 입출력 예시
+0 ≤ element of numbers ≤ 1,000
 
-| array             | result |
-| ----------------- | ------ |
-| [1, 2, 7, 10, 11] | 7      |
-| [9, -1, 0]        | 0      |
+0 ≤num1 < num2 < length of numbers
 
-### 문제에 대한 나의 풀이
+#### Example input and output
+
+| numbers         | num1 | num2 | result    |
+| --------------- | ---- | ---- | --------- |
+| [1, 2, 3, 4, 5] | 1    | 3    | [2 ,3, 4] |
+| [1, 3, 5]       | 1    | 2    | [3, 5]    |
+
+My solution to the ### problem
 
 ```java
-import java.util.Arrays;
+import java.util.*;
+
 class Solution {
-    public int solution(int[] array) {
-        int answer = 0;
-        Arrays.sort(array);
-        answer = array[array.length / 2];
+    public int[] solution(int[] numbers, int num1, int num2) {
+        int[] answer = Arrays.copyOfRange(numbers, num1, num2 + 1);
         return answer;
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Explanation
 
-import java.util.Arrays;: 배열을 정렬하기 위해 Java의 Arrays 클래스를 임포트합니다.
+There is no direct method for slicing an array in Java.
 
-public int solution(int[] array) : 함수 solution을 선언하고, 정수 배열 array를 입력 매개변수로 받습니다. 이 함수는 정수 값을 반환합니다.
+However, you can copy parts of an array to create a new array.
 
-int answer = 0;: 결과 값을 저장할 정수형 변수 answer를 선언하고 0으로 초기화합니다.
+For example, you can slice an array using the Arrays.copyOfRange() method. The above problem was solved by using that method to slice and copy into a new array.
 
-Arrays.sort(array);: 입력된 배열 array를 정렬합니다. 이 코드는 배열을 오름차순으로 정렬합니다. 따라서 배열의 가장 작은 값은 array[0]에, 가장 큰 값은 array[array.length - 1]에 위치하게 됩니다.
-
-answer = array[array.length / 2];: 정렬된 배열에서 중간에 위치한 요소, 즉 중간값(median)을 answer 변수에 저장합니다. 배열의 길이를 2로 나누면 중간값의 인덱스가 됩니다. 이 코드는 배열의 길이가 홀수일 때는 정확히 중간값을, 짝수일 때는 중간에 있는 두 값 중 작은 값을 반환합니다.
-
-return answer;: 중간값을 포함한 answer 변수를 함수의 반환 값으로 반환합니다.
+In the example above, Arrays.copyOfRange(numbers, num1, num2 + 1) creates a partial array of num1 through num2 from the array numbers. The reason for the +1 is to include num2 as well.
