@@ -40,70 +40,86 @@ date: 2023-12-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "짝수는 싫어요" 문제에 대하여 알아본 글입니다.
+## This is the "Remove specific characters" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to take a look at solving a coding test problem, provide a retrospective on how we solved it, and explore other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-정수 n이 매개변수로 주어질 때, n 이하의 홀수가 오름차순으로 담긴 배열을 return하도록 solution 함수를 완성해주세요.
+Given a string my_string and a character letter as parameters, complete the solution function so that it returns a string with letter removed from my_string.
 
-#### 입출력 예시
+#### Limitations
 
-| n   | result                      |
-| --- | --------------------------- |
-| 10  | [1, 3, 5, 7, 9]             |
-| 15  | [1, 3, 5, 7, 9, 11, 13, 15] |
+1 ≤ length of my_string ≤ 100
 
-### 문제에 대한 나의 풀이
+letter is an alphabetic character of length 1
+
+my_string and letter are in alphabetical case.
+
+Distinguish between uppercase and lowercase letters.
+
+#### Example input and output
+
+| my_string | letter | result  |
+| --------- | ------ | ------- |
+| "abcdef"  | "f"    | "abcde" |
+| "CBdbe"   | "B"    | "Cdbe"  |
+
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int[] solution(int n) {
-        int[] answer;
-        if(n % 2 == 0){
-            answer = new int[n / 2];
-        } else {
-            answer = new int[n / 2 + 1];
-        }
-
-        int count = 0;
-        for(int i = 1; i <= n; i++){
-            if(i % 2 != 0){
-                answer[count++] = i;
+    public String solution(String my_string, String letter) {
+        StringBuilder result = new StringBuilder();
+        for(char ch : my_string.toCharArray()){
+            if(ch != letter.charAt(0)){
+                result.append(ch);
             }
         }
-        return answer;
+    } return result.toString();
+}
+```
+
+#### Solution
+
+This code is a function that creates a new string of characters from the string my_string, excluding the specific character letter. Below is a brief explanation of the main parts of the code.
+
+Short description of the main code
+
+```java
+class Solution {
+    public String solution(String my_string, String letter) {
+        // Create a StringBuilder object to accumulate the resulting string
+        StringBuilder result = new StringBuilder();
+
+        // Convert the string my_string to an array of characters and iterate over each character
+        for (char ch : my_string.toCharArray()) {
+            // only add to the result if the current character is not equal to the character letter to exclude
+            if (ch != letter.charAt(0)) {
+                result.append(ch);
+            }
+        }
+
+        // convert the final result to a string and return it
+        return result.toString();
     }
 }
 ```
 
-#### 풀이 설명
+Key steps in that code:
 
-public int[] solution(int n) : 함수 solution을 선언하고, 양수 정수 n을 입력 매개변수로 받습니다. 이 함수는 정수 배열을 반환합니다.
+Create a StringBuilder object result to accumulate the final result string.
 
-int[] answer;: 정수 배열 answer를 선언합니다. 이 배열은 나중에 홀수를 저장할 배열로 사용될 것입니다.
+Convert the string my_string to an array of characters and iterate over each character.
 
-if (n % 2 == 0) : 입력된 n이 짝수인 경우, 홀수의 개수가 (n / 2)개가 될 것이므로 answer 배열의 크기를 (n / 2)로 초기화합니다.
+Only add the character to result if the current character is not equal to the character letter to exclude.
 
-answer = new int[n / 2];: 짝수일 때 배열 크기를 (n / 2)로 초기화합니다.
+Finally, convert result to a string and return it.
 
-else : 입력된 n이 홀수인 경우, 홀수의 개수가 ((n / 2) + 1)개가 될 것이므로 answer 배열의 크기를 ((n / 2) + 1)로 초기화합니다.
-
-answer = new int[n / 2 + 1];: 홀수일 때 배열 크기를 ((n / 2) + 1)로 초기화합니다.
-
-int count = 0;: count 변수를 선언하고 0으로 초기화합니다. 이 변수는 홀수를 answer 배열에 저장할 때 사용됩니다.
-
-for (int i = 1; i <= n; i++) : 1부터 n까지의 모든 정수에 대해 반복합니다.
-
-if (i % 2 != 0) : 현재 숫자 i가 홀수인 경우, 즉 2로 나누었을 때 나머지가 1인 경우, 아래의 작업을 수행합니다.
-
-answer[count++] = i;: 현재 홀수 숫자 i를 answer 배열에 저장하고, count 변수를 증가시켜 다음 홀수를 저장할 위치를 나타냅니다.
-
-return answer;: 홀수로 채워진 answer 배열을 함수의 반환 값으로 반환합니다.
+For example, calling solution("hello", "l") returns "heo".

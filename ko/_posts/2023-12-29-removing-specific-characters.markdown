@@ -40,7 +40,7 @@ date: 2023-12-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "짝수는 싫어요" 문제에 대하여 알아본 글입니다.
+## "특정 문자 제거하기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,58 +52,75 @@ date: 2023-12-29 09:00:00 +0900
 
 ### 문제
 
-정수 n이 매개변수로 주어질 때, n 이하의 홀수가 오름차순으로 담긴 배열을 return하도록 solution 함수를 완성해주세요.
+문자열 my_string과 문자 letter이 매개변수로 주어집니다. my_string에서 letter를 제거한 문자열을 return하도록 solution 함수를 완성해주세요.
+
+#### 제한사항
+
+1 ≤ my_string의 길이 ≤ 100
+
+letter은 길이가 1인 영문자입니다.
+
+my_string과 letter은 알파벳 대소문자로 이루어져 있습니다.
+
+대문자와 소문자를 구분합니다.
 
 #### 입출력 예시
 
-| n   | result                      |
-| --- | --------------------------- |
-| 10  | [1, 3, 5, 7, 9]             |
-| 15  | [1, 3, 5, 7, 9, 11, 13, 15] |
+| my_string | letter | result  |
+| --------- | ------ | ------- |
+| "abcdef"  | "f"    | "abcde" |
+| "CBdbe"   | "B"    | "Cdbe"  |
 
 ### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public int[] solution(int n) {
-        int[] answer;
-        if(n % 2 == 0){
-            answer = new int[n / 2];
-        } else {
-            answer = new int[n / 2 + 1];
-        }
-
-        int count = 0;
-        for(int i = 1; i <= n; i++){
-            if(i % 2 != 0){
-                answer[count++] = i;
+    public String solution(String my_string, String letter) {
+        StringBuilder result = new StringBuilder();
+        for(char ch : my_string.toCharArray()){
+            if(ch != letter.charAt(0)){
+                result.append(ch);
             }
         }
-        return answer;
+        return result.toString();
     }
 }
 ```
 
 #### 풀이 설명
 
-public int[] solution(int n) : 함수 solution을 선언하고, 양수 정수 n을 입력 매개변수로 받습니다. 이 함수는 정수 배열을 반환합니다.
+이 코드는 문자열 my_string에서 특정 문자 letter를 제외한 문자들로 이루어진 새로운 문자열을 생성하는 함수입니다. 아래는 코드의 주요 부분에 대한 간단한 설명입니다.
 
-int[] answer;: 정수 배열 answer를 선언합니다. 이 배열은 나중에 홀수를 저장할 배열로 사용될 것입니다.
+주요 코드의 간단한 설명
 
-if (n % 2 == 0) : 입력된 n이 짝수인 경우, 홀수의 개수가 (n / 2)개가 될 것이므로 answer 배열의 크기를 (n / 2)로 초기화합니다.
+```java
+class Solution {
+    public String solution(String my_string, String letter) {
+        // StringBuilder 객체를 생성하여 결과 문자열을 누적
+        StringBuilder result = new StringBuilder();
 
-answer = new int[n / 2];: 짝수일 때 배열 크기를 (n / 2)로 초기화합니다.
+        // 문자열 my_string을 문자 배열로 변환하고 각 문자에 대해 반복
+        for (char ch : my_string.toCharArray()) {
+            // 현재 문자가 제외할 문자 letter와 같지 않은 경우에만 결과에 추가
+            if (ch != letter.charAt(0)) {
+                result.append(ch);
+            }
+        }
 
-else : 입력된 n이 홀수인 경우, 홀수의 개수가 ((n / 2) + 1)개가 될 것이므로 answer 배열의 크기를 ((n / 2) + 1)로 초기화합니다.
+        // 최종 결과를 문자열로 변환하여 반환
+        return result.toString();
+    }
+}
+```
 
-answer = new int[n / 2 + 1];: 홀수일 때 배열 크기를 ((n / 2) + 1)로 초기화합니다.
+해당 코드의 주요 단계:
 
-int count = 0;: count 변수를 선언하고 0으로 초기화합니다. 이 변수는 홀수를 answer 배열에 저장할 때 사용됩니다.
+StringBuilder 객체 result를 생성하여 최종 결과 문자열을 누적합니다.
 
-for (int i = 1; i <= n; i++) : 1부터 n까지의 모든 정수에 대해 반복합니다.
+문자열 my_string을 문자 배열로 변환하고 각 문자에 대해 반복합니다.
 
-if (i % 2 != 0) : 현재 숫자 i가 홀수인 경우, 즉 2로 나누었을 때 나머지가 1인 경우, 아래의 작업을 수행합니다.
+현재 문자가 제외할 문자 letter와 같지 않은 경우에만 result에 해당 문자를 추가합니다.
 
-answer[count++] = i;: 현재 홀수 숫자 i를 answer 배열에 저장하고, count 변수를 증가시켜 다음 홀수를 저장할 위치를 나타냅니다.
+최종적으로 result를 문자열로 변환하여 반환합니다.
 
-return answer;: 홀수로 채워진 answer 배열을 함수의 반환 값으로 반환합니다.
+예를 들어, solution("hello", "l")을 호출하면 "heo"가 반환됩니다.
