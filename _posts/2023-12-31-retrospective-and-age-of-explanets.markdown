@@ -40,97 +40,106 @@ date: 2023-12-31 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 간단한 회고
+## A brief retrospective
 
-벌써 2023년의 마지막이 도래했습니다. 영어 자격증을 비롯해 여러 시험과 제 자신의 내실을 다지는 한 해로 마무리 지을 것 같습니다.
+Here we are at the end of 2023, and it's been a year of exams, English certifications, and personal growth.
 
-아쉬운 점도 많았고, 제 자신에 대해 돌아볼 수 있는 해였습니다. 다가올 2024년도 후회없이 보낼 수 있게 이 글과 함께하는 모든 이들에게 행운이 가득하길 바래봅니다.
+It's been a year that I've had a lot to look forward to and a lot to reflect on. I wish everyone who reads this article the best of luck for the upcoming 2024 without any regrets.
 
-현재는 중국어 자격증과 기사 자격증을 준비하고 있습니다. 시간이 된다면 개발 관련 내용 뿐만 아닌 저라는 사람을 소개하는 블로그로 만들어볼까 합니다. ㅎㅎㅎ
+Currently, I am preparing for my Chinese certificate and chauffeur's license. If I have time, I'll try to make this blog not only about development but also about me as a person. lol
 
-항상 행복하시길!
+Always be happy!
 
-## "특정 문자 제거하기" 문제에 대하여 알아본 글입니다.
+## This article is about the "Age of Alien Planets" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I'm going to share a retrospective on solving the problem, as well as other ways to solve it, and learn from it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### The Problem
 
-문자열 my_string과 문자 letter이 매개변수로 주어집니다. my_string에서 letter를 제거한 문자열을 return하도록 solution 함수를 완성해주세요.
+You are traveling in space, but your engine fails and you crash land on the planet PROGRAMMERS-962.
 
-#### 제한사항
+At immigration, you are asked to state your age, but on the planet PROGRAMMERS-962, ages are expressed in alphabetical order: a is 0, b is 1, c is 2, ..., j is 9.
 
-1 ≤ my_string의 길이 ≤ 100
+For example, a 23-year-old is represented by CD and a 51-year-old by FB. Complete the solution function so that it returns the PROGRAMMER-962 expression age when age is given as a parameter.
 
-letter은 길이가 1인 영문자입니다.
+#### Limitations
 
-my_string과 letter은 알파벳 대소문자로 이루어져 있습니다.
+age is a natural number.
 
-대문자와 소문자를 구분합니다.
+age ≤ 1,000
 
-#### 입출력 예시
+PROGRAMMERS-962 planets use only lowercase letters of the alphabet.
 
-| my_string | letter | result  |
-| --------- | ------ | ------- |
-| "abcdef"  | "f"    | "abcde" |
-| "CBdbe"   | "B"    | "Cdbe"  |
+#### Example input and output
 
-### 문제에 대한 나의 풀이
+| age | result |
+| --- | ------ |
+| 23  | "cd"   |
+| 51  | "fb"   |
+| 100 | "baa"  |
 
-```java
-class Solution {
-    public String solution(String my_string, String letter) {
-        StringBuilder result = new StringBuilder();
-        for(char ch : my_string.toCharArray()){
-            if(ch != letter.charAt(0)){
-                result.append(ch);
-            }
-        }
-        return result.toString();
-    }
-}
-```
-
-#### 풀이 설명
-
-이 코드는 문자열 my_string에서 특정 문자 letter를 제외한 문자들로 이루어진 새로운 문자열을 생성하는 함수입니다. 아래는 코드의 주요 부분에 대한 간단한 설명입니다.
-
-주요 코드의 간단한 설명
+My solution to the ### problem
 
 ```java
 class Solution {
-    public String solution(String my_string, String letter) {
-        // StringBuilder 객체를 생성하여 결과 문자열을 누적
-        StringBuilder result = new StringBuilder();
-
-        // 문자열 my_string을 문자 배열로 변환하고 각 문자에 대해 반복
-        for (char ch : my_string.toCharArray()) {
-            // 현재 문자가 제외할 문자 letter와 같지 않은 경우에만 결과에 추가
-            if (ch != letter.charAt(0)) {
-                result.append(ch);
-            }
+    public String solution(int age) {
+        String answer = "";
+        for (int i = 0; i < Integer.toString(age).length(); i++) {
+            answer += (char) ((char) Integer.toString(age).charAt(i) + 49);
         }
 
-        // 최종 결과를 문자열로 변환하여 반환
-        return result.toString();
-    }
+    } return answer;
 }
 ```
 
-해당 코드의 주요 단계:
+#### Solution
 
-StringBuilder 객체 result를 생성하여 최종 결과 문자열을 누적합니다.
+This code is a function that takes a given natural number age, maps each digit to an alphabet, and returns it as a string. Here is a brief explanation of the code
 
-문자열 my_string을 문자 배열로 변환하고 각 문자에 대해 반복합니다.
+String answer = "";: Initialize an empty string answer to store the result.
 
-현재 문자가 제외할 문자 letter와 같지 않은 경우에만 result에 해당 문자를 추가합니다.
+for (int i = 0; i < Integer.toString(age).length(); i++) : Sets up a for loop that converts the given number age to a string, iterating over each digit of the string.
 
-최종적으로 result를 문자열로 변환하여 반환합니다.
+answer += (char)((char) Integer.toString(age).charAt(i) + 49);: converts the character of the current digit to an ASCII value, converts that value to a character plus 49, and adds it to answer.
 
-예를 들어, solution("hello", "l")을 호출하면 "heo"가 반환됩니다.
+The reason for adding 49 is that each digit plus 49 is the alphabet of the corresponding ASCII code. (0 plus 49 is 'a', 1 plus 49 is 'b', ..., 9 plus 49 is 'j')
+
+return answer;: Returns the converted string.
+
+The code is using a simple method of converting each digit to an alphabet.
+
+For example, given 23, it would return "cd". The code is utilizing a loop to process the string and convert each digit.
+
+Let's also take a quick look at Ascii code.
+
+##### What is Ascii code?
+
+ASCII code is a standard encoding scheme used to represent characters on computers.
+
+ASCII stands for "American Standard Code for Information Interchange" and was first developed in the United States.
+
+The ASCII code uses 7 bits to represent characters and contains 128 characters in total, from 0 to 127.
+
+The code primarily contains the English alphabet, numbers, and special characters. Here's an example
+
+Example ASCII code
+
+Uppercase English letters: A-Z (65 through 90)
+
+Lowercase English letters: A-Z (97 through 122)
+
+Numbers: 0-9 (48 through 57)
+
+Special characters: !, @, #, $, %, etc.
+
+###### Summary
+
+ASCII code is widely used as a standard for exchanging and representing characters between computers, and many programming languages are based on it.
+
+ASCII code is also the basis for many different character encoding schemes, such as Extended ASCII and Unicode.
