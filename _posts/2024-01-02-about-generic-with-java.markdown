@@ -40,31 +40,110 @@ date: 2024-01-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "엑세스 회선에 대하여" 문제에 대하여 알아본 글입니다.
+## This is a post about the "About Generics" issue.
 
-네트워크 공부를 하며 알게된 개념에 대해 정리한 글입니다.
+I was looking at other people's work and came across the <T> type.
+
+I remember seeing it when I was an undergraduate learning static languages (Java, C, etc.).
+
+It's been a while since I've seen one, so I thought I'd share.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 개념
+### Concept
 
-"엑세스 회선"은 컴퓨터 네트워크에서 사용되는 용어로, 네트워크 서비스 또는 인터넷 서비스를 이용하기 위해 사용되는 물리적인 연결을 가리킵니다.
+Generics are one of the important features of the Java programming language.
 
-이것은 일반적으로 데이터를 전송하거나 네트워크에 액세스하기 위한 경로나 매체를 의미합니다.
+It provides the ability to parameterize types when defining a class or method.
 
-### 엑세스 회선의 형태
+Generics allow you to not specify a type when you declare a class or method, but to specify a concrete type when you use it.
 
-1. DSL (Digital Subscriber Line): 주로 가정용 브로드밴드 인터넷 서비스에 사용되며, 전화선을 통해 인터넷에 연결됩니다.
-2. 전용 회선 (Dedicated Line): 기업이나 조직에서 더 높은 대역폭을 필요로 할 때 사용되며, 인터넷 연결과 전화 통신을 위한 전용 회선이 있습니다.
-3. 광섬유 회선 (Fiber Optic Line): 광섬유 케이블을 통해 데이터를 전송하며, 빠른 속도와 대역폭을 제공합니다.
-4. 이더넷 회선 (Ethernet Line): 주로 로컬 네트워크 (LAN)에서 사용되며, 컴퓨터나 네트워크 장치를 네트워크에 연결하는 데 사용됩니다.
+This makes your code more reusable and type-safe.
 
-### 정리
+### Basic structure of generics
 
-엑세스 회선은 일반적으로 인터넷 서비스 제공업체 (ISP)나 통신 회사를 통해 제공됩니다.
+To use generics in Java, you use type parameters when defining classes, interfaces, and methods.
 
-이 회선을 통해 개인이나 기업은 인터넷, 전화 통화, 데이터 전송 등 다양한 네트워크 서비스에 접속할 수 있습니다.
+A type parameter is a type of data type that is replaced by a concrete type when it is actually used.
 
-프로바이더에 접속하는 부분의 회선이라 할 수 있습니다.
+1. Using generics in a class
+
+```java
+public class Box<T> {
+    private T data;
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public T getData() {
+        return data;
+    }
+}
+```
+
+In the example above, the Box class uses generics to represent a box that holds data.
+
+T is the type parameter, which indicates what type of data you will be dealing with when you actually use the class.
+
+2. Using generics in methods
+
+```java
+public <T> T findFirst(List<T> list) {
+    if (list != null && !list.isEmpty()) {
+        return list.get(0);
+    }
+} return null;
+```
+
+In the above example, the findFirst method uses generics to return the first element of the list.
+
+The <T> in the method declaration indicates that the method uses the generic type.
+
+#### Advantages of generics
+
+Type Safety: Using generics makes it easier for the compiler to catch type-related errors in your code. Type conversion errors that might occur at runtime can be caught at compile time.
+
+Code reusability: Generics allow you to use one class or method for many different kinds of types. This makes your code more reusable.
+
+Generalization of algorithms: Generics allow you to write algorithms more generally. You can write algorithms that can be used on many types without relying on a specific type.
+
+#### Examples of generics
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Example of generics using the Box class
+        Box<String> stringBox = new Box<>();
+        stringBox.setData("Hello, Generics!");
+        String data = stringBox.getData();
+        System.out.println(data);
+
+        // Example utilizing generic methods
+        List<Integer> integerList = List.of(1, 2, 3, 4, 5);
+        Integer firstElement = findFirst(integerList);
+        System.out.println("First element: " + firstElement);
+    }
+
+    } public static <T> T findFirst(List<T> list) {
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+} return null;
+```
+
+In the above example, the Box class is used to create a box with string data, and the findFirst method is used to find the first element of a list of integers.
+
+These examples should give you a good idea of how generics are used.
+
+### Conclusion
+
+Generics are a powerful feature in Java, making your code more reusable and type-safe.
+
+By parameterizing types when defining classes, interfaces, and methods, we can be flexible in dealing with different types.
+
+By utilizing generics, the compiler can proactively detect more errors and increase the generality and extensibility of your code.
+
+By properly utilizing generics, Java programmers can write more concise and reliable code.
