@@ -1,0 +1,119 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_Ant_Army
+title: Ant Army (with. Java)
+# title: Ant Army (with. Java)
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2024-01-04 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## This is a post about the "ant army" problem.
+
+We're going to learn by solving coding test problems, reflecting on the problems we solved, and exploring other ways to solve them.
+
+Let's start with the problem.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### Problem
+
+An army of ants is about to go hunting.
+
+The ant army wants to take an army that is exactly the right size for the health of the prey.
+
+General ants have an attack power of 5, soldier ants have an attack power of 3, and worker ants have an attack power of 1.
+
+For example, if you want to hunt a Yeochi with 23 hit points, you can take 23 worker ants, but you can do so with fewer troops if you take four warlord ants and one trooper ant.
+
+Complete the SOLUTION function to return how many ants you need to form the smallest possible army to match your prey's HP, given the prey's HP as a parameter.
+
+#### Limitations
+
+hp is a natural number.
+
+0 ≤ hp ≤ 1000
+
+#### Example input and output
+
+| hp  | result |
+| --- | ------ |
+| 23  | 5      |
+| 24  | 6      |
+| 999 | 201    |
+
+My solution to the ### problem
+
+```java
+class Solution {
+    public int solution(int hp) {
+        int answer = 0;
+        int quo = 0;
+        int rem = hp;
+        for(int i = 5; i >= 1; i -= 2){
+            quo = rem / i;
+            rem = rem % i;
+            if(quo != 0){
+                answer += quo;
+            }
+        }
+    } return answer;
+}
+
+```
+
+#### Solution
+
+Input: HP - the amount of health that needs to be restored.
+
+Output: Number of times recovered using the healing item.
+
+Utilizing Greedy Algorithm: The implementation uses a greedy algorithm to use healing items in the largest possible increments.
+
+Introduction to the functions used:
+
+REM / I and REM % I: division operations to calculate the number of times a healing item was used (QUO) and the remaining health (REM).
+
+What could be improved:
+
+Use of constants: In the current code, 5 and 2 are used as constants. You can replace these constants with variables for more flexibility.
+
+Efficiency: The code is checking and attempting to heal sequentially based on the type of healing item given. This allows you to consider how to find the optimal healing scenario.
+
+Input exception handling: You may need exception handling for when negative or invalid values are entered.
+
+We can consider these improvements to make our code more complete.
