@@ -40,61 +40,80 @@ date: 2024-01-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "순서쌍의 개수" 문제에 대하여 알아본 글입니다.
+## This is a post about the "ant army" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving coding test problems, reflecting on the problems we solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-순서쌍이란 두 개의 숫자를 순서를 정하여 짝지어 나타낸 쌍으로 (a, b)로 표기합니다.
+An army of ants is about to go hunting.
 
-자연수 n이 매개변수로 주어질 때 두 숫자의 곱이 n인 자연수 순서쌍의 개수를 return하도록 solution 함수를 완성해주세요.
+The ant army wants to take an army that is exactly the right size for the health of the prey.
 
-#### 제한사항
+General ants have an attack power of 5, soldier ants have an attack power of 3, and worker ants have an attack power of 1.
 
-1 ≤ n ≤ 1,000,000
+For example, if you want to hunt a Yeochi with 23 hit points, you can take 23 worker ants, but you can do so with fewer troops if you take four warlord ants and one trooper ant.
 
-#### 입출력 예시
+Complete the SOLUTION function to return how many ants you need to form the smallest possible army to match your prey's HP, given the prey's HP as a parameter.
 
-| n   | result |
+#### Limitations
+
+hp is a natural number.
+
+0 ≤ hp ≤ 1000
+
+#### Example input and output
+
+| hp  | result |
 | --- | ------ |
-| 20  | 6      |
-| 100 | 9      |
+| 23  | 5      |
+| 24  | 6      |
+| 999 | 201    |
 
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int solution(int n) {
+    public int solution(int hp) {
         int answer = 0;
-        for(int i = 1; i <= n; i++){
-            if(n % i == 0){
-                answer++;
+        int quo = 0;
+        int rem = hp;
+        for(int i = 5; i >= 1; i -= 2){
+            quo = rem / i;
+            rem = rem % i;
+            if(quo != 0){
+                answer += quo;
             }
         }
-        return answer;
-    }
+    } return answer;
 }
+
 ```
 
-#### 풀이 설명
+#### Solution
 
-입력: n - 약수의 개수를 계산할 정수.
+Input: HP - the amount of health that needs to be restored.
 
-출력: n의 약수의 개수.
+Output: Number of times recovered using the healing item.
 
-사용된 함수 소개:
-n % i == 0: 나머지 연산을 통해 i가 n의 약수인지를 확인합니다. 만약 나머지가 0이면 i는 n의 약수입니다.
+Utilizing Greedy Algorithm: The implementation uses a greedy algorithm to use healing items in the largest possible increments.
 
-개선 가능한 점:
-성능 개선: 현재 코드는 모든 수에 대해 약수를 확인하므로 성능에 영향을 줄 수 있습니다. 성능을 개선하기 위해 약수는 주어진 수의 제곱근까지만 확인하여도 충분합니다.
+Introduction to the functions used:
 
-코드 모듈화: 함수 내의 기능을 작은 모듈로 나누어 코드의 가독성과 재사용성을 높일 수 있습니다.
+REM / I and REM % I: division operations to calculate the number of times a healing item was used (QUO) and the remaining health (REM).
 
-수학적 최적화: 약수의 개수는 수학적으로도 풀 수 있는 문제이므로, 더 효율적이고 간결한 알고리즘을 고려할 수 있습니다.
+What could be improved:
+
+Use of constants: In the current code, 5 and 2 are used as constants. You can replace these constants with variables for more flexibility.
+
+Efficiency: The code is checking and attempting to heal sequentially based on the type of healing item given. This allows you to consider how to find the optimal healing scenario.
+
+Input exception handling: You may need exception handling for when negative or invalid values are entered.
+
+We can consider these improvements to make our code more complete.
