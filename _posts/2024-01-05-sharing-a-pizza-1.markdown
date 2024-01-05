@@ -40,80 +40,58 @@ date: 2024-01-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "개미 군단" 문제에 대하여 알아본 글입니다.
+## This is a recap of the "Share a Pizza 1" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving coding test problems, reflecting on the problems we've solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-개미 군단이 사냥을 나가려고 합니다.
+A pizza parlor cuts a pizza into seven slices.
 
-개미군단은 사냥감의 체력에 딱 맞는 병력을 데리고 나가려고 합니다.
+Given the number of people to share the pizza, n, complete a solution function that returns the number of slices needed to ensure that everyone gets at least one slice.
 
-장군개미는 5의 공격력을, 병정개미는 3의 공격력을 일개미는 1의 공격력을 가지고 있습니다.
+#### Example input and output
 
-예를 들어 체력 23의 여치를 사냥하려고 할 때, 일개미 23마리를 데리고 가도 되지만, 장군개미 네 마리와 병정개미 한 마리를 데리고 간다면 더 적은 병력으로 사냥할 수 있습니다.
-
-사냥감의 체력 hp가 매개변수로 주어질 때, 사냥감의 체력에 딱 맞게 최소한의 병력을 구성하려면 몇 마리의 개미가 필요한지를 return하도록 solution 함수를 완성해주세요.
-
-#### 제한사항
-
-hp는 자연수입니다.
-
-0 ≤ hp ≤ 1000
-
-#### 입출력 예시
-
-| hp  | result |
+| n   | result |
 | --- | ------ |
-| 23  | 5      |
-| 24  | 6      |
-| 999 | 201    |
+| 7   | 1      |
+| 1   | 1      |
+| 15  | 3      |
 
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int solution(int hp) {
+    public int solution(int n) {
         int answer = 0;
-        int quo = 0;
-        int rem = hp;
-        for(int i = 5; i >= 1; i -= 2){
-            quo = rem / i;
-            rem = rem % i;
-            if(quo != 0){
-                answer += quo;
-            }
+        if(n % 7 == 0){
+            answer = n / 7;
+        }else{
+            answer = n / 7 + 1;
         }
         return answer;
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-입력: hp - 회복해야 하는 체력.
+public int solution(int n) : Declares a function solution, which takes a positive integer n as an input parameter. The function returns an integer value.
 
-출력: 힐링 아이템을 사용하여 회복된 횟수.
+int answer = 0;: Declares the integer variable answer and initializes it to 0. This variable will store the result.
 
-Greedy 알고리즘 활용: Greedy 알고리즘을 사용하여 최대한 큰 단위의 힐링 아이템을 사용하는 방식으로 구현되어 있습니다.
+if (n % 7 == 0): If the input integer n is divided by 7 and the remainder is 0, that is, if n is a multiple of 7, perform the following operation.
 
-사용된 함수 소개:
+answer = n / 7;: store the quotient of n divided by 7 in the variable answer. This way, if it is a multiple of 7, the quotient represents the exact value.
 
-rem / i와 rem % i: 나눗셈 연산을 통해 힐링 아이템을 사용한 횟수(quo)와 나머지 체력(rem)을 계산합니다.
+else: If it is not a multiple of 7, that is, if n is not a multiple of 7, do the following
 
-개선 가능한 점:
+answer = n / 7 + 1;: Store the quotient of n divided by 7 plus 1 in the answer variable. This will represent the remainder, if any, rounded up to the next integer.
 
-상수 사용: 현재 코드에서 5와 2는 상수로 사용되어 있습니다. 이러한 상수를 변수로 대체하여 유연성을 높일 수 있습니다.
-
-효율성: 코드는 주어진 힐링 아이템의 종류에 따라 순차적으로 확인하며 힐링을 시도하고 있습니다. 이를 통해 최적의 힐링 시나리오를 찾아내는 방법을 고려할 수 있습니다.
-
-입력 예외 처리: 음수 또는 잘못된 값이 입력될 경우에 대한 예외 처리가 필요할 수 있습니다.
-
-이러한 개선 사항을 고려하여 코드를 더욱 완전하게 만들 수 있습니다.
+return answer;: Returns the final result, the value answer, as the return value of the function.
