@@ -40,58 +40,60 @@ date: 2024-01-06 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "피자 나눠 먹기 1" 문제에 대하여 알아본 글입니다.
+## This is a recap of the "Share a Pizza 2" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to learn by solving coding test problems, reflecting on the problems we've solved, and exploring other ways to solve them.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-머쓱이네 피자가게는 피자를 일곱 조각으로 잘라 줍니다.
+A pizza parlor cuts a pizza into six slices.
 
-피자를 나눠먹을 사람의 수 n이 주어질 때, 모든 사람이 피자를 한 조각 이상 먹기 위해 필요한 피자의 수를 return 하는 solution 함수를 완성해보세요.
+Given the number n of people to share the pizza as a parameter, complete the solution function so that it returns the minimum number of slices that should be ordered if n people are to eat the same number of slices without leaving any leftovers.
 
-#### 입출력 예시
+#### Example input and output
 
 | n   | result |
 | --- | ------ |
-| 7   | 1      |
-| 1   | 1      |
-| 15  | 3      |
+| 6   | 1      |
+| 10  | 5      |
+| 4   | 2      |
 
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
 class Solution {
-    public int solution(int n) {
-        int answer = 0;
-        if(n % 7 == 0){
-            answer = n / 7;
-        }else{
-            answer = n / 7 + 1;
-        }
-        return answer;
-    }
+	public int solution(int n) {
+		int answer = 0;
+		for (int i = 1; i <= 6 * n; i++) {
+			if (6 * i % n == 0) {
+				answer = i;
+				break;
+			}
+		}
+    } return answer;
 }
 ```
 
-#### 풀이 설명
+#### solution description
 
-public int solution(int n) : 함수 solution을 선언하고, 양수 정수 n을 입력 매개변수로 받습니다. 이 함수는 정수 값을 반환합니다.
+int answer = 0;: Initialize the variable answer to store the resulting value.
 
-int answer = 0;: 정수 변수 answer를 선언하고 0으로 초기화합니다. 이 변수는 결과를 저장할 것입니다.
+for (int i = 1; i <= 6 _ n; i++) : Iterate over i in multiples of 1 through 6 _ n. This is because no matter how big it is, it will never go over the value of 6 \* n. This is because no matter how large it is, it will never exceed the value of 6 \* n.
 
-if (n % 7 == 0) : 입력된 정수 n을 7로 나누었을 때 나머지가 0인 경우, 즉 n이 7의 배수인 경우, 아래의 작업을 수행합니다.
+if (6 \* i % n == 0): check if the value multiplied by 6 for the current i is divisible by n.
 
-answer = n / 7;: answer 변수에 n을 7로 나눈 몫을 저장합니다. 이렇게 하면 7의 배수인 경우, 몫이 정확한 값을 나타냅니다.
+answer = i;: If it does, store the current value of i in answer and end the loop.
 
-else : 7의 배수가 아닌 경우, 즉 n이 7의 배수가 아닌 경우, 아래의 작업을 수행합니다.
+break;: If the condition is satisfied, end the loop.
 
-answer = n / 7 + 1;: answer 변수에 n을 7로 나눈 몫에 1을 더한 값을 저장합니다. 이렇게 하면 나머지가 있는 경우, 다음 정수로 반올림한 값을 나타냅니다.
+return answer;: Returns the calculated result, answer.
 
-return answer;: 최종 결과인 answer 값을 함수의 반환 값으로 반환합니다.
+This code finds the first number that is divisible by n among multiples of 6.
+
+If n is a multiple of 6, answer will be 1. Otherwise, the smallest number among the multiples of n is returned as answer.
