@@ -40,61 +40,57 @@ date: 2024-01-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "피자 나눠 먹기 2" 문제에 대하여 알아본 글입니다.
+## This is a recap of the "Share a Pizza 3" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We're going to look at it as a coding test problem, provide a retrospective on how we solved it, and explore other ways to solve it.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's start with the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-머쓱이네 피자가게는 피자를 여섯 조각으로 잘라 줍니다.
+Mushy's pizzeria cuts pizza into any number of slices, from two slices to ten slices.
 
-피자를 나눠먹을 사람의 수 n이 매개변수로 주어질 때, n명이 주문한 피자를 남기지 않고 모두 같은 수의 피자 조각을 먹어야 한다면 최소 몇 판을 시켜야 하는지를 return 하도록 solution 함수를 완성해보세요.
+Given the number of slices, slice, and the number of people eating the pizza, n, as parameters, complete the solution function to return how many slices of pizza must be ordered for n people to eat at least one slice.
 
-#### 입출력 예시
+#### Example input and output
 
-| n   | result |
-| --- | ------ |
-| 6   | 1      |
-| 10  | 5      |
-| 4   | 2      |
+| slice | n   | result |
+| ----- | --- | ------ |
+| 7     | 10  | 2      |
+| 4     | 12  | 3      |
 
-### 문제에 대한 나의 풀이
+My solution to the ### problem
 
 ```java
 class Solution {
-	public int solution(int n) {
-		int answer = 0;
-		for (int i = 1; i <= 6 * n; i++) {
-			if (6 * i % n == 0) {
-				answer = i;
-				break;
-			}
-		}
-		return answer;
-	}
+    public int solution(int slice, int n) {
+        int answer = 0;
+        for(int i = 0; i < slice * n; i++){
+            if(slice * i >= n){
+                answer = i;
+                break;
+            }
+        }
+	} return answer;
 }
 ```
 
-#### 풀이 설명
+#### solution description
 
-int answer = 0;: 결과 값을 저장할 변수 answer를 초기화합니다.
+int answer = 0;: Initialize the variable answer to store the resulting value.
 
-for (int i = 1; i <= 6 _ n; i++) : i를 1부터 6의 배수로 6 _ n까지 반복합니다. 아무리 커도 6 \* n의 값을 넘지는 않을 것이기 때문입니다.
+for (int i = 0; i < slice _ n; i++) : Iterate through i from 0 to slice _ n.
 
-if (6 \* i % n == 0) : 현재 i에 대해 6을 곱한 값이 n으로 나누어 떨어지는지 확인합니다.
+if (slice \* i >= n) : Checks if the current i multiplied by slice is greater than or equal to n.
 
-answer = i;: 만약 나누어 떨어진다면, answer에 현재의 i 값을 저장하고 반복문을 종료합니다.
+answer = i;: If the condition is satisfied, store the current value of i in answer and end the loop.
 
-break;: 조건을 만족하는 경우, 반복문을 종료합니다.
+break;: If the condition is satisfied, end the loop.
 
-return answer;: 계산된 결과인 answer를 반환합니다.
+return answer;: Returns the calculated result, answer.
 
-이 코드는 n을 6의 배수 중에서 나누어 떨어지는 첫 번째 수를 찾는 것입니다.
-
-만약 n이 6의 배수라면, answer는 1이 될 것이고, 그렇지 않으면 n의 배수 중에서 가장 작은 수가 answer로 반환됩니다.
+This code computes the quotient of dividing slice by n. It finds and returns the multiple of the first slice that is greater than or equal to n.
