@@ -40,7 +40,7 @@ date: 2024-01-08 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "피자 나눠 먹기 3" 문제에 대하여 알아본 글입니다.
+## "배열의 평균값" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,29 +52,27 @@ date: 2024-01-08 09:00:00 +0900
 
 ### 문제
 
-머쓱이네 피자가게는 피자를 두 조각에서 열 조각까지 원하는 조각 수로 잘라줍니다.
+정수 배열 numbers가 매개변수로 주어집니다.
 
-피자 조각 수 slice와 피자를 먹는 사람의 수 n이 매개변수로 주어질 때, n명의 사람이 최소 한 조각 이상 피자를 먹으려면 최소 몇 판의 피자를 시켜야 하는지를 return 하도록 solution 함수를 완성해보세요.
+numbers의 원소의 평균값을 return하도록 solution 함수를 완성해주세요.
 
 #### 입출력 예시
 
-| slice | n   | result |
-| ----- | --- | ------ |
-| 7     | 10  | 2      |
-| 4     | 12  | 3      |
+| numbers                                      | result |
+| -------------------------------------------- | ------ |
+| [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]              | 5.5    |
+| [89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99] | 94.0   |
 
 ### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public int solution(int slice, int n) {
-        int answer = 0;
-        for(int i = 0; i < slice * n; i++){
-            if(slice * i >= n){
-                answer = i;
-                break;
-            }
+    public double solution(int[] numbers) {
+        double answer = 0;
+        for(int num : numbers){
+            answer += num;
         }
+        answer /= numbers.length;
         return answer;
     }
 }
@@ -82,16 +80,12 @@ class Solution {
 
 #### 풀이 설명
 
-int answer = 0;: 결과 값을 저장할 변수 answer를 초기화합니다.
+double answer = 0;: 결과 값을 저장할 변수 answer를 0으로 초기화합니다.
 
-for (int i = 0; i < slice _ n; i++) : i를 0부터 slice _ n까지 반복합니다.
+for (int num : numbers) : 배열 numbers에 있는 각 숫자(num)에 대해 반복합니다.
 
-if (slice \* i >= n) : 현재 i에 slice를 곱한 값이 n보다 크거나 같은지 확인합니다.
+answer += num;: 각 숫자를 answer에 더하여 모든 숫자의 합을 계산합니다.
 
-answer = i;: 만약 조건을 만족하는 경우, answer에 현재의 i 값을 저장하고 반복문을 종료합니다.
+answer /= numbers.length;: 숫자들의 합을 배열의 길이(숫자의 개수)로 나누어 평균을 계산합니다.
 
-break;: 조건을 만족하는 경우, 반복문을 종료합니다.
-
-return answer;: 계산된 결과인 answer를 반환합니다.
-
-이 코드는 slice를 n으로 나누는 몫을 계산하는데, n보다 크거나 같은 첫 번째 slice의 배수를 찾아서 반환합니다.
+return answer;: 계산된 평균 값을 반환합니다.
