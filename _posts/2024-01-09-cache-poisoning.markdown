@@ -40,40 +40,38 @@ date: 2024-01-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "캐시 독점"에 대하여
+## About "Cache Poisoning"
 
-DNS를 학습하며 최근 포스트에서 다룬 웹 캐시에 대한 내용도 일부 포함되어 있습니다.
-
-Cache Poisoning 이하 캐시 독점이라 부르겠습니다.
+As you learn about DNS, you'll also learn about web caching, which we covered in a recent post.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 캐시 독점이란?
+### What is cache poisoning?
 
-공격자가 DNS(Domain Name Systm) 서버의 캐시에 잘못된 정보를 삽입하여 유효하지 않은 IP 주소를 반환하도록 조작하는 공격입니다.
+An attack in which an attacker injects false information into the cache of a Domain Name Systm (DNS) server, manipulating it to return an invalid IP address.
 
-유효하지 않은 IP 주소를 반환하게 되면 어떻게 되는가?
+What happens if an invalid IP address is returned?
 
-공격자는 피해자의 DNS 요청을 조작하고 악의적인 웹사이트로 리디렉션하거나 중간자 공격 등 다양한 공격을 시도할 수 있습니다.
+The attacker can try to manipulate the victim's DNS requests and redirect them to a malicious website or launch a variety of other attacks, including man-in-the-middle attacks.
 
-### 중간자 공격이란 무엇인가?
+### What is a man-in-the-middle attack?
 
-경로 중간에 제삼자가 개입하여 통신 내용을 감청, 조작 또는 위조하는 공격 형태입니다.
+A form of attack in which a third party intervenes in the middle of the path to eavesdrop, manipulate, or forge communications.
 
-이 공격은 통신을 주고받는 양측이 서로 신뢰하는 과정에서 공격자가 사이에 끼어들어 정보를 훔쳐내거나 조작하는 것을 의미합니다.
+This attack means that the two sides sending and receiving the communication trust each other, and the attacker steps in between to steal or manipulate the information.
 
-다시 돌아와 Cache Poisoning은 host head attack 이라고도 불리는데 host head란 무엇일까요?
+Coming back to cache poisoning, it is also called a host head attack, but what is a host head?
 
-### host head란?
+### What is a host head?
 
-HTTP 요청에서 사용되는 헤더 중 하나로, 클라이언트가 서버에게 요청하는 도메인 이름을 전달합니다.
+It is one of the headers used in an HTTP request, which conveys the domain name that the client is requesting from the server.
 
-이 공격은 호스트 헤더를 조작하여 서버의 응답을 유도하고, 잘못된 응답을 캐시에 저장하도록 만들어 다른 클라이언트들에게도 영향을 미치게 됩니다.
+This attack manipulates the host header to trick the server into responding, causing it to cache the incorrect response, which will affect other clients as well.
 
-### 결론
+### Conclusion
 
-캐시 독점은 보안상의 위험이 되므로, DNS 서버 및 웹 서버에서 적절한 방어 및 보호 조치를 취해야 합니다.
+Cache monopolization is a security risk, and proper defense and protection measures must be taken on DNS servers and web servers.
 
-이를 위해 캐시 무효화, 캐시 제어 정책, 적절한 DNS 보안 설정 등을 고려해야 합니다.
+To do this, you should consider cache invalidation, cache control policies, and proper DNS security settings.
