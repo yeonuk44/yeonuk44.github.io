@@ -40,40 +40,61 @@ date: 2024-01-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "캐시 독점"에 대하여
+## About "forward proxy and reverse proxy"
 
-DNS를 학습하며 최근 포스트에서 다룬 웹 캐시에 대한 내용도 일부 포함되어 있습니다.
+This is a summary of concepts I learned while studying networks.
 
-Cache Poisoning 이하 캐시 독점이라 부르겠습니다.
+Computer network and web security play a key role in modern business and personal activities.
+
+In these areas, forward proxies and reverse proxies are important security tools.
+
+In this article, we'll take a look at what forward and reverse proxies are and how they contribute to securing network communications.
+
+Before we discuss forward and reverse proxies, let's first understand what a proxy is.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 캐시 독점이란?
+### What is a proxy?
 
-공격자가 DNS(Domain Name Systm) 서버의 캐시에 잘못된 정보를 삽입하여 유효하지 않은 IP 주소를 반환하도록 조작하는 공격입니다.
+The general concept of a server or software that acts as an intermediary in network communication.
 
-유효하지 않은 IP 주소를 반환하게 되면 어떻게 되는가?
+A proxy sits between a client and a server, receiving requests from the client, forwarding them to the server, and returning responses from the server to the client.
 
-공격자는 피해자의 DNS 요청을 조작하고 악의적인 웹사이트로 리디렉션하거나 중간자 공격 등 다양한 공격을 시도할 수 있습니다.
+With this intermediary role, proxies are used for a variety of purposes.
 
-### 중간자 공격이란 무엇인가?
+Let's take a look at forward and reverse proxies.
 
-경로 중간에 제삼자가 개입하여 통신 내용을 감청, 조작 또는 위조하는 공격 형태입니다.
+### The concept of a Forward Proxy
 
-이 공격은 통신을 주고받는 양측이 서로 신뢰하는 과정에서 공격자가 사이에 끼어들어 정보를 훔쳐내거나 조작하는 것을 의미합니다.
+A forward proxy is a server that acts as a relay between a client and an external server.
 
-다시 돌아와 Cache Poisoning은 host head attack 이라고도 불리는데 host head란 무엇일까요?
+Instead of the client connecting directly to the external server, it connects through the forward proxy.
 
-### host head란?
+This relay role is used for a variety of purposes.
 
-HTTP 요청에서 사용되는 헤더 중 하나로, 클라이언트가 서버에게 요청하는 도메인 이름을 전달합니다.
+#### Purpose
 
-이 공격은 호스트 헤더를 조작하여 서버의 응답을 유도하고, 잘못된 응답을 캐시에 저장하도록 만들어 다른 클라이언트들에게도 영향을 미치게 됩니다.
+- Increase security: A forward proxy provides anonymity by hiding the client's real IP address and instead exposing the IP address of the proxy server. This helps protect the client's privacy and location information.
+- Caching: A forward proxy saves copies of previously requested data and serves the stored data instead of the client when the same request occurs again, saving bandwidth and speeding up response times.
+- Access control: It can be used to manage web usage within an organization and control access to specific websites.
 
-### 결론
+### Concept of Reverse Proxy
 
-캐시 독점은 보안상의 위험이 되므로, DNS 서버 및 웹 서버에서 적절한 방어 및 보호 조치를 취해야 합니다.
+A reverse proxy is a server that acts as a relay for external requests to an internal server.
 
-이를 위해 캐시 무효화, 캐시 제어 정책, 적절한 DNS 보안 설정 등을 고려해야 합니다.
+The client communicates with the internal server through the reverse proxy, and the internal server does not communicate directly with the client.
+
+This architecture is used for the following purposes
+
+#### Purpose
+
+- Increase security: The reverse proxy hides the location of the internal server and controls the communication between the client and the external server. This is used to filter and validate external requests without directly exposing the internal server.
+- Load balancing: A reverse proxy balances the load by distributing requests to multiple internal servers. This can improve the performance of your system and maintain availability.
+- SSL encryption: A reverse proxy decrypts SSL/TLS encryption and enables secure communication with internal servers.
+- Caching: A reverse proxy caches responses to external requests to provide faster responses to the same request.
+
+### Conclusion
+
+You can decide where to place your proxy based on the role and purpose of your project.
