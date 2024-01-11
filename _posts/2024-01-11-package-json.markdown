@@ -40,61 +40,37 @@ date: 2024-01-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "포워드 프록시와 리버스 프록시"에 대하여
+## About "package.json"
 
-네트워크 공부를 하며 알게된 개념에 대해 정리한 글입니다.
+Today I'd like to write about an install error that can occur when merging files, based on my experience.
 
-컴퓨터 네트워크와 웹 보안은 현대 비즈니스 및 개인 활동에서 핵심적인 역할을 합니다.
+I sometimes swap package.json files when I need to match a dependency module with another team member.
 
-이러한 분야에서 포워드 프록시와 리버스 프록시는 중요한 보안 도구로 사용됩니다.
+Of course, if you have a collaborative environment with git, there are other good options, but sometimes you have to go with the next best thing if you can't do the best thing.
 
-이번 글에서는 포워드 프록시와 리버스 프록시가 무엇이며, 어떻게 네트워크 통신 보안에 기여하는지 살펴보겠습니다.
+Let's say I'm in that situation.
 
-우선 포워드와 리버스 프록시에 대해 논하기 전에 프록시가 무엇인지부터 알아보겠습니다.
+In my case, I've found that sometimes I need to manually install dependency packages that are listed in the package.json inside my project, even though they should all be installed when I type the npm install command.
+
+Today, we'll look at this issue.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 프록시(Proxy)란?
+### Why do I sometimes need to manually install?
 
-네트워크 통신에서 중개 역할을 하는 서버 또는 소프트웨어의 일반적인 개념입니다.
+1. your package.json file has changed and you didn't run npm install: If a dependency package has been added or updated to your package.json file, you'll need to run npm install to apply those changes. After making changes to your package.json file, you'll need to run the npm install command again to install the package.
+2. If the node_modules directory has been deleted: When you run the npm install command, the packages are installed in the node_modules directory. If the node_modules directory was manually deleted, you will need to run npm install again to install the packages again.
+3. package-lock.json file conflict: The package-lock.json file is used to record the exact version of a package's dependencies. When sharing or collaborating on a project, other developers may change the package-lock.json file or cause conflicts. In this case, you should update or delete the package-lock.json file before running the npm install command.
+4. Network issues: Sometimes you may not be able to download a package due to network connectivity issues. In this case, we recommend checking your network connection and rerunning npm install.
 
-프록시는 클라이언트와 서버 사이에 위치하여 클라이언트의 요청을 받아 서버로 전달하고, 서버로부터의 응답을 클라이언트에게 반환합니다.
+Dependency packages may not install automatically due to these reasons.
 
-이러한 중개 역할을 통해 프록시는 다양한 목적으로 사용됩니다.
+If you find yourself in one of the above situations, you will need to install the packages manually to resolve the issue.
 
-이제 포워드, 리버스 프록시에 대해 알아보겠습니다.
+### Conclusion
 
-### 포워드 프록시 (Forward Proxy)의 개념
+Dependency packages may not install automatically for any of these reasons.
 
-포워드 프록시는 클라이언트와 외부 서버 간의 중계 역할을 하는 서버입니다.
-
-클라이언트가 외부 서버에 직접 연결하지 않고 포워드 프록시를 통해 연결합니다.
-
-이런 중계 역할은 다양한 목적으로 사용됩니다.
-
-#### 목적
-
-- 보안 강화: 포워드 프록시는 클라이언트의 실제 IP 주소를 감추고 대신 프록시 서버의 IP 주소를 노출시킴으로써 익명성을 제공합니다. 이것은 클라이언트의 개인 정보와 위치 정보를 보호하는 데 도움이 됩니다.
-- 캐싱: 포워드 프록시는 이전에 요청된 데이터의 복사본을 저장하고 동일한 요청이 다시 발생할 때 클라이언트 대신 저장된 데이터를 제공하여 대역폭을 절약하고 응답 시간을 단축시킵니다.
-- 접근 제어: 조직 내에서 웹 사용을 관리하고 특정 웹 사이트에 대한 액세스를 제어하기 위해 사용될 수 있습니다.
-
-### 리버스 프록시 (Reverse Proxy)의 개념
-
-리버스 프록시는 외부 요청을 내부 서버로 중계하는 역할을 하는 서버입니다.
-
-클라이언트는 리버스 프록시를 통해 내부 서버와 통신하며, 내부 서버는 클라이언트와 직접 통신하지 않습니다.
-
-이러한 아키텍처는 다음과 같은 목적으로 사용됩니다.
-
-#### 목적
-
-- 보안 강화: 리버스 프록시는 내부 서버의 위치를 숨기고 클라이언트와 외부 서버 간의 통신을 제어합니다. 이는 내부 서버를 직접 노출하지 않고 외부 요청을 필터링하고 검증하는 데 사용됩니다.
-- 로드 밸런싱: 리버스 프록시는 여러 내부 서버로 요청을 분배하여 부하를 분산시킵니다. 이로써 시스템의 성능을 향상시키고 가용성을 유지할 수 있습니다.
-- SSL 암호화: 리버스 프록시는 SSL/TLS 암호화를 해독하고 내부 서버와의 안전한 통신을 가능하게 합니다.
-- 캐싱: 리버스 프록시는 외부 요청에 대한 응답을 캐싱하여 동일한 요청에 대한 빠른 응답을 제공합니다.
-
-### 결론
-
-프로젝트의 역할과 목적에 따라 프록시의 위치를 결정하면 됩니다.
+If you find yourself in one of the above situations, you'll need to install the packages manually to resolve the issue.
