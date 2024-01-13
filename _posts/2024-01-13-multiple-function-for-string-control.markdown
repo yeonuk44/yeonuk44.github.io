@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Converting_Strings_To_Arrays
-title: About converting strings to arrays
-# title: About converting strings to arrays
+lng_pair: id_About_Multiple_Functions_For_String_Control
+title: About multiple functions for string control
+# title: About multiple functions for string control
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2024-01-12 09:00:00 +0900
+date: 2024-01-13 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -40,51 +40,48 @@ date: 2024-01-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## About "How to convert a string to an array"
+## About "multiple functions for string control"
 
-While testing our code, we realized that there are many ways to convert strings to arrays.
+While testing my code, I realized that there are multiple functions for string control.
 
-We'd like to share them with you.
+I would like to share them with you.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### How to make an array using a for statement
+### How to convert a string to upper and lower case
+
+toUpperCase(): convert to upper case for English strings
+toLowerCase(): Convert to lowercase for an English string
+
+### How to determine if a string satisfies a condition based on a regular expression
+
+Use regexObj.test(str).
+
+Determines if the given string satisfies the regular expression, and returns true or false.
 
 ```javascript
-const str = "Hello";
-const arr = [];
+const str = "table football";
 
-for (let i = 0; i < str.length; i++) {
-  arr.push(str[i]);
-}
-
-console.log(arr); // ["H", "e", "l", "l", "o"]
+const regex = new RegExp("foo*");
+// Expected output: true
 ```
 
-In the above code, the for loop is used to increment the i variable by 1, starting at 0, up to str.length, while adding each character of str to the array arr using the push method.
+### How to utilize backslashes in strings
 
-This ensures that each character of the string is pushed into each element of the array.
+\To output the ": " outputs a pair of quotes
+\": ' Print single quotes
+Print the \\: Prints a \ character
+\r: Move the cursor to the beginning of the line
+\f: Move the cursor to the next page
+\b: move the cursor one space
+\t: Move the cursor by a tab
+\n: Move the cursor to the next line.
 
-When you run the above example, the string "Hello" is converted to an array, stored in the arr variable, and the array is output via console.log(arr).
-
-The output will be ["H", "e", "l", "l", "o"].
-
-### How to create an array using the split statement
-
-```javascript
-const str = "Hello";
-const arr = str.split(""); // Convert a string to an array using an empty string as a separator
-console.log(arr); // ["H", "e", "l", "l", "o"]
-```
-
-This is similar to the for statement, so I'll skip explaining it.
-
-### How to take an array literal and make it an array
+#### Example
 
 ```javascript
-const str = "Hello";
-const arr = [...str]; // Convert a string to an array using array literals
-console.log(arr); // ["H", "e", "l", "l", "o"]
+var a = "My home is "Seoul"." : no output
+var a = "My home is \"Seoul"\." : printable
 ```

@@ -1,6 +1,6 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_converting_strings_to_arrays
+lng_pair: id_About_Converting_Strings_To_Arrays
 title: 문자열을 배열로 변환하는 방법에 대하여
 # title: About converting strings to arrays
 # post specific

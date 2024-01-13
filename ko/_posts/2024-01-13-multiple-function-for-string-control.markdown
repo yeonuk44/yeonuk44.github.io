@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Converting_Strings_To_Arrays
-title: About converting strings to arrays
-# title: About converting strings to arrays
+lng_pair: id_About_Multiple_Functions_For_String_Control
+title: 문자열 제어에 대한 여러 함수에 대하여
+# title: About multiple functions for string control
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2024-01-12 09:00:00 +0900
+date: 2024-01-13 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -40,51 +40,48 @@ date: 2024-01-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## About "How to convert a string to an array"
+## "문자열 제어에 대한 여러 함수"에 대하여
 
-While testing our code, we realized that there are many ways to convert strings to arrays.
+코딩 테스트를 진행하며, 문자열 제어에 대한 여러 함수가 있다는 것을 알게 되었습니다.
 
-We'd like to share them with you.
+이에 공유하고자 합니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### How to make an array using a for statement
+### 문자열 대문자와 소문자로 변환하는 방법
+
+toUpperCase() : 영문 문자열에 대하여 대문자로 변환
+toLowerCase(): 영문 문자열에 대하여 소문자로 변환
+
+### 정규 표현식에 따른 문자열이 조건 만족하는지 판단하는 방법
+
+regexObj.test(str)를 사용합니다.
+
+주어진 문자열이 정규 표현식을 만족하는지 판별하고, 그 여부를 true 또는 false로 반환합니다.
 
 ```javascript
-const str = "Hello";
-const arr = [];
+const str = "table football";
 
-for (let i = 0; i < str.length; i++) {
-  arr.push(str[i]);
-}
-
-console.log(arr); // ["H", "e", "l", "l", "o"]
+const regex = new RegExp("foo*");
+// Expected output: true
 ```
 
-In the above code, the for loop is used to increment the i variable by 1, starting at 0, up to str.length, while adding each character of str to the array arr using the push method.
+### 문자열에서 백슬래쉬를 활용하는 방법
 
-This ensures that each character of the string is pushed into each element of the array.
+\": " 쌍 따옴표를 출력
+\": ' 작은 따옴표를 출력
+\\: \ 문자를 출력
+\r: 커서를 해당 줄 처음으로 이동시킴
+\f: 커서를 다음 페이지로 이동
+\b: 커서를 한 칸 이동시킨다.
+\t: 커서를 탭 만큼 이동시킨다.
+\n: 커서를 다음 줄로 이동시킨다.
 
-When you run the above example, the string "Hello" is converted to an array, stored in the arr variable, and the array is output via console.log(arr).
-
-The output will be ["H", "e", "l", "l", "o"].
-
-### How to create an array using the split statement
-
-```javascript
-const str = "Hello";
-const arr = str.split(""); // Convert a string to an array using an empty string as a separator
-console.log(arr); // ["H", "e", "l", "l", "o"]
-```
-
-This is similar to the for statement, so I'll skip explaining it.
-
-### How to take an array literal and make it an array
+#### 예시
 
 ```javascript
-const str = "Hello";
-const arr = [...str]; // Convert a string to an array using array literals
-console.log(arr); // ["H", "e", "l", "l", "o"]
+var a = "My home is "Seoul"."  : 출력 불가
+var a = "My home is \"Seoul"\."  : 출력 가능
 ```
