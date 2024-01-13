@@ -40,51 +40,48 @@ date: 2024-01-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "문자열을 배열로 변환하는 방법"에 대하여
+## About "multiple functions for string control"
 
-코딩 테스트를 진행하며, 문자열을 배열로 변환하는 방법에는 많은 방법이 있다는 것을 알게 되었습니다.
+While testing my code, I realized that there are multiple functions for string control.
 
-이에 공유하고자 합니다.
+I would like to share them with you.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### for문을 활용해 배열로 만드는 방법
+### How to convert a string to upper and lower case
+
+toUpperCase(): convert to upper case for English strings
+toLowerCase(): Convert to lowercase for an English string
+
+### How to determine if a string satisfies a condition based on a regular expression
+
+Use regexObj.test(str).
+
+Determines if the given string satisfies the regular expression, and returns true or false.
 
 ```javascript
-const str = "Hello";
-const arr = [];
+const str = "table football";
 
-for (let i = 0; i < str.length; i++) {
-  arr.push(str[i]);
-}
-
-console.log(arr); // ["H", "e", "l", "l", "o"]
+const regex = new RegExp("foo*");
+// Expected output: true
 ```
 
-위 코드에서 for 루프를 사용하여 i 변수를 0부터 시작하여 str.length까지 1씩 증가시키면서, str의 각 문자를 arr 배열에 push 메서드를 사용하여 추가합니다.
+### How to utilize backslashes in strings
 
-이렇게 하면 문자열의 각 문자가 배열의 각 요소로 들어가게 됩니다.
+\To output the ": " outputs a pair of quotes
+\": ' Print single quotes
+Print the \\: Prints a \ character
+\r: Move the cursor to the beginning of the line
+\f: Move the cursor to the next page
+\b: move the cursor one space
+\t: Move the cursor by a tab
+\n: Move the cursor to the next line.
 
-위의 예제를 실행하면 "Hello" 문자열이 배열로 변환되어 arr 변수에 저장되고, console.log(arr)을 통해 배열이 출력됩니다.
-
-출력 결과는 ["H", "e", "l", "l", "o"]가 됩니다.
-
-### split문을 활용해 배열로 만드는 방법
-
-```javascript
-const str = "Hello";
-const arr = str.split(""); // 빈 문자열을 구분자로 사용하여 문자열을 배열로 변환
-console.log(arr); // ["H", "e", "l", "l", "o"]
-```
-
-for문과 비슷한 현상을 보이기에 설명은 생략하겠습니다.
-
-### 배열 리터럴을 활용해 배열로 만드는 방법
+#### Example
 
 ```javascript
-const str = "Hello";
-const arr = [...str]; // 배열 리터럴을 사용하여 문자열을 배열로 변환
-console.log(arr); // ["H", "e", "l", "l", "o"]
+var a = "My home is "Seoul"." : no output
+var a = "My home is \"Seoul"\." : printable
 ```
