@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Converting_Strings_To_Arrays
-title: About converting strings to arrays
-# title: About converting strings to arrays
+lng_pair: id_About_Multiple_Functions_For_String_Control
+title: About multiple functions for string control
+# title: About multiple functions for string control
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2024-01-12 09:00:00 +0900
+date: 2024-01-13 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -40,17 +40,17 @@ date: 2024-01-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## About "How to convert a string to an array"
+## "문자열을 배열로 변환하는 방법"에 대하여
 
-While testing our code, we realized that there are many ways to convert strings to arrays.
+코딩 테스트를 진행하며, 문자열을 배열로 변환하는 방법에는 많은 방법이 있다는 것을 알게 되었습니다.
 
-We'd like to share them with you.
+이에 공유하고자 합니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### How to make an array using a for statement
+### for문을 활용해 배열로 만드는 방법
 
 ```javascript
 const str = "Hello";
@@ -63,28 +63,28 @@ for (let i = 0; i < str.length; i++) {
 console.log(arr); // ["H", "e", "l", "l", "o"]
 ```
 
-In the above code, the for loop is used to increment the i variable by 1, starting at 0, up to str.length, while adding each character of str to the array arr using the push method.
+위 코드에서 for 루프를 사용하여 i 변수를 0부터 시작하여 str.length까지 1씩 증가시키면서, str의 각 문자를 arr 배열에 push 메서드를 사용하여 추가합니다.
 
-This ensures that each character of the string is pushed into each element of the array.
+이렇게 하면 문자열의 각 문자가 배열의 각 요소로 들어가게 됩니다.
 
-When you run the above example, the string "Hello" is converted to an array, stored in the arr variable, and the array is output via console.log(arr).
+위의 예제를 실행하면 "Hello" 문자열이 배열로 변환되어 arr 변수에 저장되고, console.log(arr)을 통해 배열이 출력됩니다.
 
-The output will be ["H", "e", "l", "l", "o"].
+출력 결과는 ["H", "e", "l", "l", "o"]가 됩니다.
 
-### How to create an array using the split statement
+### split문을 활용해 배열로 만드는 방법
 
 ```javascript
 const str = "Hello";
-const arr = str.split(""); // Convert a string to an array using an empty string as a separator
+const arr = str.split(""); // 빈 문자열을 구분자로 사용하여 문자열을 배열로 변환
 console.log(arr); // ["H", "e", "l", "l", "o"]
 ```
 
-This is similar to the for statement, so I'll skip explaining it.
+for문과 비슷한 현상을 보이기에 설명은 생략하겠습니다.
 
-### How to take an array literal and make it an array
+### 배열 리터럴을 활용해 배열로 만드는 방법
 
 ```javascript
 const str = "Hello";
-const arr = [...str]; // Convert a string to an array using array literals
+const arr = [...str]; // 배열 리터럴을 사용하여 문자열을 배열로 변환
 console.log(arr); // ["H", "e", "l", "l", "o"]
 ```
