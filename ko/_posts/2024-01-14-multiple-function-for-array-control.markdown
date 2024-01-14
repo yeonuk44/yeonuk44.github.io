@@ -40,9 +40,9 @@ date: 2024-01-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "문자열 제어에 대한 여러 함수"에 대하여
+## "배열 제어에 대한 여러 함수"에 대하여
 
-코딩 테스트를 진행하며, 문자열 제어에 대한 여러 함수가 있다는 것을 알게 되었습니다.
+코딩 테스트를 진행하며, 배열 제어에 대한 여러 함수가 있다는 것을 알게 되었습니다.
 
 이에 공유하고자 합니다.
 
@@ -50,38 +50,107 @@ date: 2024-01-14 09:00:00 +0900
 
 <!-- outline-end -->
 
-### 문자열 대문자와 소문자로 변환하는 방법
+### 배열에 값을 삽입하는 방법
 
-toUpperCase() : 영문 문자열에 대하여 대문자로 변환
-toLowerCase(): 영문 문자열에 대하여 소문자로 변환
+Array.prototype.push()는 배열의 끝에 하나 이상의 요소를 추가하고, 배열의 새로운 길이를 반환합니다.
 
-### 정규 표현식에 따른 문자열이 조건 만족하는지 판단하는 방법
-
-regexObj.test(str)를 사용합니다.
-
-주어진 문자열이 정규 표현식을 만족하는지 판별하고, 그 여부를 true 또는 false로 반환합니다.
+예시
 
 ```javascript
-const str = "table football";
+const animals = ["pigs", "goats", "sheep"];
 
-const regex = new RegExp("foo*");
-// Expected output: true
+const count = animals.push("cows");
+console.log(count);
+// Expected output: 4
+console.log(animals);
+// Expected output: Array ["pigs", "goats", "sheep", "cows"]
+
+animals.push("chickens", "cats", "dogs");
+console.log(animals);
+// Expected output: Array ["pigs", "goats", "sheep", "cows", "chickens", "cats", "dogs"]
 ```
 
-### 문자열에서 백슬래쉬를 활용하는 방법
+### 배열의 모든 요소를 연결해 하나의 문자열로 만드는 방법
 
-\": " 쌍 따옴표를 출력
-\": ' 작은 따옴표를 출력
-\\: \ 문자를 출력
-\r: 커서를 해당 줄 처음으로 이동시킴
-\f: 커서를 다음 페이지로 이동
-\b: 커서를 한 칸 이동시킨다.
-\t: 커서를 탭 만큼 이동시킨다.
-\n: 커서를 다음 줄로 이동시킨다.
-
-#### 예시
+Array.join()을 사용합니다.
+예시
 
 ```javascript
-var a = "My home is "Seoul"."  : 출력 불가
-var a = "My home is \"Seoul"\."  : 출력 가능
+const elements = ["Fire", "Air", "Water"];
+
+console.log(elements.join());
+// Expected output: "Fire,Air,Water"
+
+console.log(elements.join(""));
+// Expected output: "FireAirWater"
+
+console.log(elements.join("-"));
+// Expected output: "Fire-Air-Water"
+```
+
+### 배열의 모든 요소를 오름차순으로 반복하는 방법
+
+forEach()를 사용합니다. forEach()는 주어진 callback을 배열에 있는 각 요소에 대해 오름차순으로 한 번씩 실행합니다.
+
+삭제했거나 초기화하지 않은 인덱스 속성에 대해서는 실행하지 않습니다. (예: 희소 배열)
+
+callback은 요소 값, 요소 인덱스, 순회 중인 배열 총 3개의 인수와 함께 호출됩니다.
+
+초기화하지 않은 값의 반복 생략 예시
+
+```javascript
+const arraySparse = [1, 3, , 7];
+let numCallbackRuns = 0;
+
+arraySparse.forEach(function (element) {
+  console.log(element);
+  numCallbackRuns++;
+});
+
+console.log("numCallbackRuns: ", numCallbackRuns);
+
+// 1
+// 3
+// 7
+// numCallbackRuns: 3
+// comment: as you can see the missing value between 3 and 7 didn't invoke callback function.
+```
+
+for() 반복문 대신 forEach()로 바꾸는 예시
+
+```javascript
+const items = ["item1", "item2", "item3"];
+const copy = [];
+
+// 이전
+for (let i = 0; i < items.length; i++) {
+  copy.push(items[i]);
+}
+
+// 이후
+items.forEach(function (item) {
+  copy.push(item);
+});
+```
+
+배열의 특정 인덱스 요소 제어하는 예시
+
+```javascript
+const months = ["Jan", "March", "April", "June"];
+
+// Inserts at index 1
+console.log(months.splice(1, 0, "Feb"));
+// Expected output: Array ["Jan", "Feb", "March", "April", "June"]
+
+months.splice(4, 1, "May");
+// Replaces 1 element at index 4
+// Expected output: Array ["Jan", "Feb", "March", "April", "May"]
+
+console.log(months.splice(2, 2, "May"));
+// Expected output: Array ["Jan", "Feb", "May"]
+// Console output:  Array ["March", "April"]
+// 제외된 요소가 배열로 출력됩니다.
+
+console.log(months);
+// Expected output: Array ["Jan", "Feb", "May", "May"]
 ```

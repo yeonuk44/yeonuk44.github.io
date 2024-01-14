@@ -40,48 +40,114 @@ date: 2024-01-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "문자열 제어에 대한 여러 함수"에 대하여
+## About "multiple functions for array control"
 
-코딩 테스트를 진행하며, 문자열 제어에 대한 여러 함수가 있다는 것을 알게 되었습니다.
+While testing my code, I realized that there are multiple functions for controlling arrays.
 
-이에 공유하고자 합니다.
+I would like to share them with you.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문자열 대문자와 소문자로 변환하는 방법
+### How to insert a value into an array
 
-toUpperCase() : 영문 문자열에 대하여 대문자로 변환
-toLowerCase(): 영문 문자열에 대하여 소문자로 변환
-
-### 정규 표현식에 따른 문자열이 조건 만족하는지 판단하는 방법
-
-regexObj.test(str)를 사용합니다.
-
-주어진 문자열이 정규 표현식을 만족하는지 판별하고, 그 여부를 true 또는 false로 반환합니다.
+Array.prototype.push() adds one or more elements to the end of the array, and returns the new length of the array.
+Example
 
 ```javascript
-const str = "table football";
+const animals = ["pigs", "goats", "sheep"];
 
-const regex = new RegExp("foo*");
-// Expected output: true
+const count = animals.push("cows");
+console.log(count);
+// Expected output: 4
+console.log(animals);
+// Expected output: Array ["pigs", "goats", "sheep", "cows"]
+
+animals.push("chickens", "cats", "dogs");
+console.log(animals);
+// Expected output: Array ["pigs", "goats", "sheep", "cows", "chickens", "cats", "dogs"]
 ```
 
-### 문자열에서 백슬래쉬를 활용하는 방법
+### How to concatenate all the elements of an array into a single string?
 
-\": " 쌍 따옴표를 출력
-\": ' 작은 따옴표를 출력
-\\: \ 문자를 출력
-\r: 커서를 해당 줄 처음으로 이동시킴
-\f: 커서를 다음 페이지로 이동
-\b: 커서를 한 칸 이동시킨다.
-\t: 커서를 탭 만큼 이동시킨다.
-\n: 커서를 다음 줄로 이동시킨다.
-
-#### 예시
+Use Array.join().
+Example.
 
 ```javascript
-var a = "My home is "Seoul"."  : 출력 불가
-var a = "My home is \"Seoul"\."  : 출력 가능
+const elements = ["Fire", "Air", "Water"];
+
+console.log(elements.join());
+// Expected output: "Fire,Air,Water"
+
+console.log(elements.join(""));
+// Expected output: "FireAirWater"
+
+console.log(elements.join("-"));
+// Expected output: "Fire-Air-Water"
 ```
+
+### How to iterate through all elements of an array in ascending order
+
+Use forEach(). forEach() executes the given callback once for each element in the array, in ascending order. It does not run against index properties that have been deleted or uninitialized (for example, sparse arrays).
+callback is called with three arguments: the element value, the element index, and the array being traversed.
+
+Example of skipping iteration over uninitialized values
+
+```javascript
+const arraySparse = [1, 3, , 7];
+let numCallbackRuns = 0;
+
+arraySparse.forEach(function (element) {
+  console.log(element);
+  numCallbackRuns++;
+});
+
+console.log("numCallbackRuns: ", numCallbackRuns);
+
+// 1
+// 3
+// 7
+// numCallbackRuns: 3
+// comment: as you can see the missing value between 3 and 7 didn't invoke callback function.
+```
+
+Example of replacing a for() loop with forEach()
+
+```javascript
+const items = ["item1", "item2", "item3"];
+const copy = [];
+
+// before
+for (let i = 0; i < items.length; i++) {
+  copy.push(items[i]);
+}
+
+// after
+items.forEach(function (item) {
+  copy.push(item);
+});
+```
+
+Example of controlling a specific index element of an array
+
+````javascript
+const months = ["Jan", "March", "April", "June"];
+
+// Inserts at index 1
+console.log(months.splice(1, 0, "Feb"));
+// Expected output: Array ["Jan", "Feb", "March", "April", "June"]
+
+months.splice(4, 1, "May");
+// Replaces 1 element at index 4
+// Expected output: Array ["Jan", "Feb", "March", "April", "May"]
+
+console.log(months.splice(2, 2, "May"));
+// Expected output: Array ["Jan", "Feb", "May"]
+// Console output: Array ["March", "April"]
+// Excluded elements are output as an array
+
+console.log(months);
+// Expected output: Array ["Jan", "Feb", "May", "May"]
+``` Translated with www.DeepL.com/Translator (free version)
+````
