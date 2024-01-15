@@ -40,117 +40,107 @@ date: 2024-01-15 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "배열 제어에 대한 여러 함수"에 대하여
+## "Swift 문법에 대하여 1 (선언)"에 대하여
 
-코딩 테스트를 진행하며, 배열 제어에 대한 여러 함수가 있다는 것을 알게 되었습니다.
+이번에 iOS에 대해 공부할 기회가 생겨 문법부터 공부하고 있었는데 이번에 이에 대해 정리하는 글을 남기고자 합니다.
 
-이에 공유하고자 합니다.
+모든 언어가 그렇듯 선언에는 다양한 종류가 있습니다.
+
+정리와 예시를 통해 알아보겠습니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 배열에 값을 삽입하는 방법
+### 변수 선언(var)
 
-Array.prototype.push()는 배열의 끝에 하나 이상의 요소를 추가하고, 배열의 새로운 길이를 반환합니다.
+값을 저장하는 데 사용되며, 재할당이 가능합니다.
 
-예시
-
-```javascript
-const animals = ["pigs", "goats", "sheep"];
-
-const count = animals.push("cows");
-console.log(count);
-// Expected output: 4
-console.log(animals);
-// Expected output: Array ["pigs", "goats", "sheep", "cows"]
-
-animals.push("chickens", "cats", "dogs");
-console.log(animals);
-// Expected output: Array ["pigs", "goats", "sheep", "cows", "chickens", "cats", "dogs"]
+```swift
+var name = "John"
 ```
 
-### 배열의 모든 요소를 연결해 하나의 문자열로 만드는 방법
+### 상수 선언(let)
 
-Array.join()을 사용합니다.
-예시
+값을 저장하는 데 사용되며, 재할당이 불가합니다.
 
-```javascript
-const elements = ["Fire", "Air", "Water"];
-
-console.log(elements.join());
-// Expected output: "Fire,Air,Water"
-
-console.log(elements.join(""));
-// Expected output: "FireAirWater"
-
-console.log(elements.join("-"));
-// Expected output: "Fire-Air-Water"
+```swift
+let pi :3.14159265
 ```
 
-### 배열의 모든 요소를 오름차순으로 반복하는 방법
+### 함수 선언(func)
 
-forEach()를 사용합니다. forEach()는 주어진 callback을 배열에 있는 각 요소에 대해 오름차순으로 한 번씩 실행합니다.
+코드의 동작을 정의하는 데 사용됩니다.
 
-삭제했거나 초기화하지 않은 인덱스 속성에 대해서는 실행하지 않습니다. (예: 희소 배열)
-
-callback은 요소 값, 요소 인덱스, 순회 중인 배열 총 3개의 인수와 함께 호출됩니다.
-
-초기화하지 않은 값의 반복 생략 예시
-
-```javascript
-const arraySparse = [1, 3, , 7];
-let numCallbackRuns = 0;
-
-arraySparse.forEach(function (element) {
-  console.log(element);
-  numCallbackRuns++;
-});
-
-console.log("numCallbackRuns: ", numCallbackRuns);
-
-// 1
-// 3
-// 7
-// numCallbackRuns: 3
-// comment: as you can see the missing value between 3 and 7 didn't invoke callback function.
-```
-
-for() 반복문 대신 forEach()로 바꾸는 예시
-
-```javascript
-const items = ["item1", "item2", "item3"];
-const copy = [];
-
-// 이전
-for (let i = 0; i < items.length; i++) {
-  copy.push(items[i]);
+```swift
+func add(a: Int, b: Int) -> Int {
+    return a + b
 }
-
-// 이후
-items.forEach(function (item) {
-  copy.push(item);
-});
 ```
 
-배열의 특정 인덱스 요소 제어하는 예시
+### 클래스 선언(class)
 
-```javascript
-const months = ["Jan", "March", "April", "June"];
+객체 지향 프로그래밍의 클래스를 정의합니다.
 
-// Inserts at index 1
-console.log(months.splice(1, 0, "Feb"));
-// Expected output: Array ["Jan", "Feb", "March", "April", "June"]
+```swift
+class Dog {
+    var name: String
+    init(name: String) {
+        self.name = name
+    }
+}
+```
 
-months.splice(4, 1, "May");
-// Replaces 1 element at index 4
-// Expected output: Array ["Jan", "Feb", "March", "April", "May"]
+### 구조체 선언(struct)
 
-console.log(months.splice(2, 2, "May"));
-// Expected output: Array ["Jan", "Feb", "May"]
-// Console output:  Array ["March", "April"]
-// 제외된 요소가 배열로 출력됩니다.
+값 타입을 정의하는 데 사용됩니다.
 
-console.log(months);
-// Expected output: Array ["Jan", "Feb", "May", "May"]
+```swift
+struct Point {
+    var x: Double
+    var y: Double
+}
+```
+
+### 열거형 선언(enum)
+
+관련된 값들의 그룹을 정의합니다.
+
+```swift
+enum Direction {
+    case north
+    case south
+    case east
+    case west
+}
+```
+
+### 프로토콜 선언(protocol)
+
+특정 요구 사항을 정의하는 데 사용됩니다.
+
+```swift
+protocol CanFly {
+    func fly()
+}
+```
+
+### 확장 선언(extension)
+
+기존 타입에 새로운 기능을 추가합니다.
+
+```swift
+extension Int {
+    var squared: Int {
+        return self * self
+    }
+}
+```
+
+### 타입 별명 선언(typealias)
+
+기존 타입에 대한 새로운 이름을 제공합니다.
+
+```swift
+typealias Length = Double
 ```

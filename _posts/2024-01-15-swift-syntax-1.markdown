@@ -40,117 +40,107 @@ date: 2024-01-15 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "배열 제어에 대한 여러 함수"에 대하여
+## About "Swift syntax 1 (declarations)"
 
-코딩 테스트를 진행하며, 배열 제어에 대한 여러 함수가 있다는 것을 알게 되었습니다.
+I recently had the opportunity to learn iOS and I've been working on the grammar, so I thought I'd write a post to summarize it.
 
-이에 공유하고자 합니다.
+As with any language, there are many different types of declarations.
+
+Let's take a look at them with some examples
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 배열에 값을 삽입하는 방법
+### Variable declarations (var)
 
-Array.prototype.push()는 배열의 끝에 하나 이상의 요소를 추가하고, 배열의 새로운 길이를 반환합니다.
+Used to store values, and can be reassigned.
 
-예시
-
-```javascript
-const animals = ["pigs", "goats", "sheep"];
-
-const count = animals.push("cows");
-console.log(count);
-// Expected output: 4
-console.log(animals);
-// Expected output: Array ["pigs", "goats", "sheep", "cows"]
-
-animals.push("chickens", "cats", "dogs");
-console.log(animals);
-// Expected output: Array ["pigs", "goats", "sheep", "cows", "chickens", "cats", "dogs"]
+```swift
+var name = "John"
 ```
 
-### 배열의 모든 요소를 연결해 하나의 문자열로 만드는 방법
+### Declaring a constant (let)
 
-Array.join()을 사용합니다.
-예시
+Used to store a value, which cannot be reassigned.
 
-```javascript
-const elements = ["Fire", "Air", "Water"];
-
-console.log(elements.join());
-// Expected output: "Fire,Air,Water"
-
-console.log(elements.join(""));
-// Expected output: "FireAirWater"
-
-console.log(elements.join("-"));
-// Expected output: "Fire-Air-Water"
+```swift
+let pi :3.14159265
 ```
 
-### 배열의 모든 요소를 오름차순으로 반복하는 방법
+### Function declarations (func)
 
-forEach()를 사용합니다. forEach()는 주어진 callback을 배열에 있는 각 요소에 대해 오름차순으로 한 번씩 실행합니다.
+Used to define the behavior of code.
 
-삭제했거나 초기화하지 않은 인덱스 속성에 대해서는 실행하지 않습니다. (예: 희소 배열)
-
-callback은 요소 값, 요소 인덱스, 순회 중인 배열 총 3개의 인수와 함께 호출됩니다.
-
-초기화하지 않은 값의 반복 생략 예시
-
-```javascript
-const arraySparse = [1, 3, , 7];
-let numCallbackRuns = 0;
-
-arraySparse.forEach(function (element) {
-  console.log(element);
-  numCallbackRuns++;
-});
-
-console.log("numCallbackRuns: ", numCallbackRuns);
-
-// 1
-// 3
-// 7
-// numCallbackRuns: 3
-// comment: as you can see the missing value between 3 and 7 didn't invoke callback function.
-```
-
-for() 반복문 대신 forEach()로 바꾸는 예시
-
-```javascript
-const items = ["item1", "item2", "item3"];
-const copy = [];
-
-// 이전
-for (let i = 0; i < items.length; i++) {
-  copy.push(items[i]);
+```swift
+func add(a: Int, b: Int) -> Int {
+    return a + b
 }
-
-// 이후
-items.forEach(function (item) {
-  copy.push(item);
-});
 ```
 
-배열의 특정 인덱스 요소 제어하는 예시
+### Class declaration (class)
 
-```javascript
-const months = ["Jan", "March", "April", "June"];
+Defines a class in object-oriented programming.
 
-// Inserts at index 1
-console.log(months.splice(1, 0, "Feb"));
-// Expected output: Array ["Jan", "Feb", "March", "April", "June"]
+```swift
+class Dog {
+    var name: String
+    init(name: String) {
+        self.name = name
+    }
+}
+```
 
-months.splice(4, 1, "May");
-// Replaces 1 element at index 4
-// Expected output: Array ["Jan", "Feb", "March", "April", "May"]
+### Struct declaration (struct)
 
-console.log(months.splice(2, 2, "May"));
-// Expected output: Array ["Jan", "Feb", "May"]
-// Console output:  Array ["March", "April"]
-// 제외된 요소가 배열로 출력됩니다.
+Used to define a value type.
 
-console.log(months);
-// Expected output: Array ["Jan", "Feb", "May", "May"]
+```swift
+struct Point {
+    var x: Double
+    var y: Double
+}
+```
+
+### Declaring an enumeration (enum)
+
+Defines a group of related values.
+
+```swift
+enum Direction {
+    case north
+    case south
+    case east
+    case west
+}
+```
+
+### Protocol declarations (protocol)
+
+Used to define specific requirements.
+
+```swift
+protocol CanFly {
+    func fly()
+}
+```
+
+### Declaring an extension (extension)
+
+Adds new functionality to an existing type.
+
+```swift
+extension Int {
+    var squared: Int {
+        return self * self
+    }
+}
+```
+
+### Declaring type aliases (typealias)
+
+Provide new names for existing types.
+
+```swift
+typealias Length = Double
 ```
