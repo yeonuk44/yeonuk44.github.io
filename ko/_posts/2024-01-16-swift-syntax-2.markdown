@@ -40,107 +40,104 @@ date: 2024-01-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "Swift 문법에 대하여 1 (선언)"에 대하여
+## "Swift 문법에 대하여 2 (타입)"에 대하여
 
 이번에 iOS에 대해 공부할 기회가 생겨 문법부터 공부하고 있었는데 이번에 이에 대해 정리하는 글을 남기고자 합니다.
 
-모든 언어가 그렇듯 선언에는 다양한 종류가 있습니다.
+Swift에는 다양한 타입이 있습니다.
 
-정리와 예시를 통해 알아보겠습니다.
+이번 글에선 타입에 대해 소개하고자 합니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 변수 선언(var)
-
-값을 저장하는 데 사용되며, 재할당이 가능합니다.
+1. Integers
+   정수형을 나타내며, 부호가 있는 Int와 부호가 없는 UInt가 있습니다.
+   예시
 
 ```swift
-var name = "John"
+var positiveNumber: Int = 42
+var unsignedNumber: UInt = 7
 ```
 
-### 상수 선언(let)
-
-값을 저장하는 데 사용되며, 재할당이 불가합니다.
+2. Floating-Poin Number
+   실수를 표현하며, Float와 Double 타입이 있습니다.
+   예시
 
 ```swift
-let pi :3.14159265
+var floatNumber: Float = 3.14
+var doubleNumber: Double = 3.1415926535
 ```
 
-### 함수 선언(func)
-
-코드의 동작을 정의하는 데 사용됩니다.
+3. String
+   텍스트를 표현하는 문자열 타입입니다.
+   예시
 
 ```swift
-func add(a: Int, b: Int) -> Int {
-    return a + b
-}
+var string: String = "Hello, Swift!"
 ```
 
-### 클래스 선언(class)
-
-객체 지향 프로그래밍의 클래스를 정의합니다.
+4. Booleans
+   참 또는 거짓을 표현합니다.
+   예시
 
 ```swift
-class Dog {
-    var name: String
-    init(name: String) {
-        self.name = name
-    }
-}
+var isTrue: Bool = true
+var isFalse: Bool = false
 ```
 
-### 구조체 선언(struct)
-
-값 타입을 정의하는 데 사용됩니다.
+5. Tuples
+   여러 값들을 하나의 그룹으로 묶을 수 있는 타입입니다.
+   예시
 
 ```swift
-struct Point {
-    var x: Double
-    var y: Double
-}
+var person: (String, Int) = ("John", 35)
 ```
 
-### 열거형 선언(enum)
-
-관련된 값들의 그룹을 정의합니다.
+6. Optional
+   값이 있을 수도 있고, 없을 수도 있는 상황을 표현하는 타입입니다.
+   예시
 
 ```swift
-enum Direction {
+var optionalString: String? = nil
+optionalString = "Now it has a value"
+```
+
+7. Array
+   같은 타입의 여러 값들을 순서대로 저장하는 컬렉션 타입입니다.
+   예시
+
+```swift
+var fruits: [String] = ["Apple", "Banana", "Cherry"]
+```
+
+8. Dictionary
+   Key - Value를 쌍으로 데이터를 저장하는 컬렉션 타입입니다.
+   예시
+
+```swift
+var ages: [String: Int] = ["John": 28, "Sarah": 25]
+```
+
+9. Set
+   중복 없이 같은 타입의 여러 값을 저장하는 컬렉션 타입입니다.
+   예시
+
+```swift
+var uniqueNumbers: Set<Int> = [1, 2, 2, 3, 3, 3]
+// uniqueNumbers is now {1, 2, 3}
+```
+
+10. Enumerations
+    관련된 값들을 그룹화하여 작업하는 타입입니다.
+
+```swift
+enum CompassPoint {
     case north
     case south
     case east
     case west
 }
-```
-
-### 프로토콜 선언(protocol)
-
-특정 요구 사항을 정의하는 데 사용됩니다.
-
-```swift
-protocol CanFly {
-    func fly()
-}
-```
-
-### 확장 선언(extension)
-
-기존 타입에 새로운 기능을 추가합니다.
-
-```swift
-extension Int {
-    var squared: Int {
-        return self * self
-    }
-}
-```
-
-### 타입 별명 선언(typealias)
-
-기존 타입에 대한 새로운 이름을 제공합니다.
-
-```swift
-typealias Length = Double
+var direction: CompassPoint = .north
 ```

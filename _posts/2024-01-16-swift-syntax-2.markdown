@@ -40,107 +40,104 @@ date: 2024-01-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "Swift 문법에 대하여 1 (선언)"에 대하여
+## About "Swift Grammar 2 (Type)"
 
-이번에 iOS에 대해 공부할 기회가 생겨 문법부터 공부하고 있었는데 이번에 이에 대해 정리하는 글을 남기고자 합니다.
+I had the opportunity to study iOS this time, and I've been studying grammar, so I thought I'd write a post to summarize it.
 
-모든 언어가 그렇듯 선언에는 다양한 종류가 있습니다.
+There are various types in Swift.
 
-정리와 예시를 통해 알아보겠습니다.
+In this article, I will introduce the types.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 변수 선언(var)
+1. Integers
+   Represents an integer type, with signed Int and unsigned UInt.
+   Examples
 
-값을 저장하는 데 사용되며, 재할당이 가능합니다.
+````swift
+var positiveNumber: Int = 42
+var unsignedNumber: UInt = 7
+```swift
+
+2. Floating-Point Number
+   Represents a real number and has types Float and Double.
+   Examples
 
 ```swift
-var name = "John"
+var floatNumber: Float = 3.14
+var doubleNumber: Double = 3.1415926535
+````
+
+3. String
+   A string type that represents text.
+   Examples
+
+```swift
+var string: String = "Hello, Swift!"
 ```
 
-### 상수 선언(let)
+4. Booleans
+   Represent true or false.
+   Example.
 
-값을 저장하는 데 사용되며, 재할당이 불가합니다.
+````swift
+var isTrue: Bool = true
+var isFalse: Bool = false
+```swift
+
+5. Tuples
+   A type that allows you to group multiple values together.
+   Example.
 
 ```swift
-let pi :3.14159265
+var person: (String, Int) = ("John", 35)
+```swift
+
+6. Optional
+   A type to represent situations where a value may or may not be present.
+   Example.
+
+```swift
+var optionalString: String? = nil
+optionalString = "Now it has a value"
+````
+
+7. Array
+   A collection type that stores multiple values of the same type in order.
+   Example
+
+```swift
+var fruits: [String] = ["Apple", "Banana", "Cherry"]
 ```
 
-### 함수 선언(func)
-
-코드의 동작을 정의하는 데 사용됩니다.
+8. Dictionary
+   A collection type that stores data in key-value pairs.
+   Examples
 
 ```swift
-func add(a: Int, b: Int) -> Int {
-    return a + b
-}
+var ages: [String: Int] = ["John": 28, "Sarah": 25]
 ```
 
-### 클래스 선언(class)
-
-객체 지향 프로그래밍의 클래스를 정의합니다.
+9. Set
+   A collection type that stores multiple values of the same type without duplicates.
+   Example.
 
 ```swift
-class Dog {
-    var name: String
-    init(name: String) {
-        self.name = name
-    }
-}
+var uniqueNumbers: Set<Int> = [1, 2, 2, 3, 3, 3, 3]
+// uniqueNumbers is now {1, 2, 3}
 ```
 
-### 구조체 선언(struct)
-
-값 타입을 정의하는 데 사용됩니다.
-
-```swift
-struct Point {
-    var x: Double
-    var y: Double
-}
-```
-
-### 열거형 선언(enum)
-
-관련된 값들의 그룹을 정의합니다.
+10. Enumerations
+    A type that works with groups of related values.
 
 ```swift
-enum Direction {
+enum CompassPoint {
     case north
     case south
     case east
     case west
 }
-```
-
-### 프로토콜 선언(protocol)
-
-특정 요구 사항을 정의하는 데 사용됩니다.
-
-```swift
-protocol CanFly {
-    func fly()
-}
-```
-
-### 확장 선언(extension)
-
-기존 타입에 새로운 기능을 추가합니다.
-
-```swift
-extension Int {
-    var squared: Int {
-        return self * self
-    }
-}
-```
-
-### 타입 별명 선언(typealias)
-
-기존 타입에 대한 새로운 이름을 제공합니다.
-
-```swift
-typealias Length = Double
+var direction: CompassPoint = .north
 ```
