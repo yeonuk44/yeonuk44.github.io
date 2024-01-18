@@ -1,0 +1,158 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_Swift_4
+title: Swift 문법에 대하여 4 (Array 타입에서 자주 사용되는 함수)
+# title: About Swift syntax 4 (frequently used functions in Array type)
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Swift
+# multiple tag entries are possible
+tags: [swift, ios]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2024-01-18 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## "Swift 문법에 대하여 3 (Integer, String에서 자주 사용되는 함수)"에 대하여
+
+이번에 iOS에 대해 공부할 기회가 생겨 문법부터 공부하고 있었는데 이번에 이에 대해 정리하는 글을 남기고자 합니다.
+
+이번 글에선 Integer의 min, max을 다루고 String의 다양한 함수에 대해 알아보겠습니다.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### Integer 타입
+
+min과 max 함수
+
+두 정수 중 작은 값을 찾거나 큰 값을 찾을 수 있는 전역 함수입니다.
+
+#### 예시
+
+```swift
+let a = 10
+let b = 3
+let minimum = min(a, b) // 3
+let maximum = max(a, b) // 10
+```
+
+다음은 String 타입에서의 자주 사용되는 함수 소개를 해드리겠습니다.
+
+### String 타입
+
+contains 함수
+
+문자열이 특정 문자 또는 부분 문자열을 포함하는지 확인합니다.
+
+#### 예시
+
+```swift
+let string = "Hello, Swift!"
+if string.contains("Swift") {
+    print("Contains Swift!")
+}
+// 출력: Contains Swift!
+```
+
+### hasPrefix 함수
+
+문자열이 특정 접두사로 시작하는지 확인합니다.
+
+#### 예시
+
+```swift
+if string.hasPrefix("Starts") {
+    print("Starts with Hello!")
+}
+// 출력: Starts with Hello!
+```
+
+### hasSuffix 함수
+
+문자열이 특정 접미사로 끝나는지 확인합니다.
+
+#### 예시
+
+```swift
+if string.hasSuffix("!") {
+    print("Ends with an exclamation mark!")
+}
+// 출력: Ends with an exclamation mark!
+```
+
+### lowercased 함수
+
+문자열을 모두 소문자로 변환합니다.
+
+#### 예시
+
+```swift
+let lowercasedString = string.lowercased()
+print(lowercasedString)
+// 출력: hello, swift!
+```
+
+### uppercased 함수
+
+문자열을 모두 대문자로 변환합니다.
+
+#### 예시
+
+```swift
+let uppercasedString = string.uppercased()
+print(uppercasedString)
+// 출력: HELLO, SWIFT!
+```
+
+### count 함수
+
+문자열의 길이를 반환합니다.
+
+#### 예시
+
+```swift
+let length = string.count
+print(length)
+// 출력: 13
+```
+
+### replacingOccurences 함수
+
+문자열 내의 특정 문자열을 다른 문자열로 교체합니다.
+
+#### 예시
+
+```swift
+let replacedString = string.replacingOccurrences(of: "Swift", with: "World")
+print(replacedString)
+// 출력: Hello, World!
+```
