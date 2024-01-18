@@ -40,119 +40,130 @@ date: 2024-01-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "Swift 문법에 대하여 3 (Integer, String에서 자주 사용되는 함수)"에 대하여
+## "Swift 문법에 대하여 4 (Array 타입에서 자주 사용되는 함수)"에 대하여
 
 이번에 iOS에 대해 공부할 기회가 생겨 문법부터 공부하고 있었는데 이번에 이에 대해 정리하는 글을 남기고자 합니다.
 
-이번 글에선 Integer의 min, max을 다루고 String의 다양한 함수에 대해 알아보겠습니다.
+이번 글에선 Array 타입에서의 다양한 함수 중 자주 사용되는 것을 소개하도록 하겠습니다.
+
+우선 배열을 생성하는 방법에 대해서 입니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### Integer 타입
+### Array 생성
 
-min과 max 함수
-
-두 정수 중 작은 값을 찾거나 큰 값을 찾을 수 있는 전역 함수입니다.
+배열 생성 및 초기화하는 방법
 
 #### 예시
 
 ```swift
-let a = 10
-let b = 3
-let minimum = min(a, b) // 3
-let maximum = max(a, b) // 10
+var numbers: [Int] = [1, 2, 3]
 ```
 
-다음은 String 타입에서의 자주 사용되는 함수 소개를 해드리겠습니다.
+### append 함수
 
-### String 타입
-
-contains 함수
-
-문자열이 특정 문자 또는 부분 문자열을 포함하는지 확인합니다.
+배열의 끝에 새로운 요소를 추가합니다.
 
 #### 예시
 
 ```swift
-let string = "Hello, Swift!"
-if string.contains("Swift") {
-    print("Contains Swift!")
-}
-// 출력: Contains Swift!
-```
-
-### hasPrefix 함수
-
-문자열이 특정 접두사로 시작하는지 확인합니다.
-
-#### 예시
-
-```swift
-if string.hasPrefix("Starts") {
-    print("Starts with Hello!")
-}
-// 출력: Starts with Hello!
-```
-
-### hasSuffix 함수
-
-문자열이 특정 접미사로 끝나는지 확인합니다.
-
-#### 예시
-
-```swift
-if string.hasSuffix("!") {
-    print("Ends with an exclamation mark!")
-}
-// 출력: Ends with an exclamation mark!
-```
-
-### lowercased 함수
-
-문자열을 모두 소문자로 변환합니다.
-
-#### 예시
-
-```swift
-let lowercasedString = string.lowercased()
-print(lowercasedString)
-// 출력: hello, swift!
-```
-
-### uppercased 함수
-
-문자열을 모두 대문자로 변환합니다.
-
-#### 예시
-
-```swift
-let uppercasedString = string.uppercased()
-print(uppercasedString)
-// 출력: HELLO, SWIFT!
+numbers.append(4) // numbers: [1, 2, 3, 4]
 ```
 
 ### count 함수
 
-문자열의 길이를 반환합니다.
+배열에 있는 요소의 개수를 반환합니다.
 
 #### 예시
 
 ```swift
-let length = string.count
-print(length)
-// 출력: 13
+let count = numbers.count // count: 4
 ```
 
-### replacingOccurences 함수
+### isEmpty
 
-문자열 내의 특정 문자열을 다른 문자열로 교체합니다.
+배열이 비어있는지 확인합니다.
 
 #### 예시
 
 ```swift
-let replacedString = string.replacingOccurrences(of: "Swift", with: "World")
-print(replacedString)
-// 출력: Hello, World!
+if numbers.isEmpty {
+    print("The array is empty")
+} else {
+    print("The array is not empty")
+}
+// 출력: The array is not empty
 ```
+
+### insert
+
+지정된 인덱스에 요소를 삽입합니다.
+
+#### 예시
+
+```swift
+numbers.insert(0, ar: 0) // numbers: [0,1,2,3,4]
+```
+
+### remove
+
+지정된 인덱스의 요소를 제거합니다.
+
+#### 예시
+
+```swift
+numbers.remove(at: 0) // numbers: [1,2,3,4]
+```
+
+### subscripting
+
+인덱스를 사용하여 배열의 요소에 접근하거나 수정합니다.
+
+#### 예시
+
+```swift
+let firstNumber = numbers[0] // firstNumber: 1
+numbers[2] = 5 // numbers: [1,2,5,4]
+```
+
+### contains
+
+특정 요소가 배열에 있는지 확인합니다.
+
+#### 예시
+
+```swift
+if numbers.contains(5) {
+    print("Contains 5!")
+}
+// 출력: Contains 5!
+```
+
+### first와 last
+
+배열의 첫 번째와 마지막 요소에 접근합니다. 배열이 비어있는 경우 'nil'을 반환합니다.
+
+#### 예시
+
+```swift
+let first = numbers.first // first: Optional(1)
+let last = numbers.last // last: Optional(4)
+```
+
+### map, filter, reduce
+
+함수형 프로그래밍의 패러다임을 사용하여 배열을 변환, 필터링, 누적 등을 수행할 수 있습니다.
+
+#### 예시
+
+```swift
+let doubled = numbers.map { $0 * 2 } // doubled: [2, 4, 10, 8]
+let evenNumbers = numbers.filter { $0 % 2 == 0 } // evenNumbers: [2, 4]
+let sum = numbers.reduce(0, +) // sum: 12
+```
+
+### 함수형 프로그래밍 특징
+
+복잢겅을 관리하고 코드의 재사용성과 테스트 용이성을 높이며, 멀티 쓰레드 환경에서도 더 안정적인 코드를 작성할 수 있게 해줍니다.
