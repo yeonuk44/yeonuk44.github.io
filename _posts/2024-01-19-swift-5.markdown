@@ -40,130 +40,133 @@ date: 2024-01-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "Swift 문법에 대하여 4 (Array 타입에서 자주 사용되는 함수)"에 대하여
+## About "Swift Syntax 5"
 
-이번에 iOS에 대해 공부할 기회가 생겨 문법부터 공부하고 있었는데 이번에 이에 대해 정리하는 글을 남기고자 합니다.
+I had the opportunity to study iOS this week, and I've been studying grammar, so I thought I'd write a post to summarize it.
 
-이번 글에선 Array 타입에서의 다양한 함수 중 자주 사용되는 것을 소개하도록 하겠습니다.
+In this post, I'll introduce various functions of the Set type that are often used.
 
-우선 배열을 생성하는 방법에 대해서 입니다.
+First of all, what is the Set type?
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### Array 생성
+### What is the Set type?
 
-배열 생성 및 초기화하는 방법
+A collection that stores unique values of the same type.
 
-#### 예시
+No order is guaranteed, and each element appears only once.
+
+#### Creation and initialization
+
+How to create and initialize a Set.
+
+##### Example
 
 ```swift
-var numbers: [Int] = [1, 2, 3]
+var color: Set<String> = ["Red", "Green", "Blue"]
 ```
 
-### append 함수
+#### insert
 
-배열의 끝에 새로운 요소를 추가합니다.
+Adds an element to the set. Duplicate values will not be added.
 
-#### 예시
+Example: #####
 
 ```swift
-numbers.append(4) // numbers: [1, 2, 3, 4]
+colors.insert("Yellow") // colors: ["Red", "Green", "Blue", "Yellow"]
 ```
 
-### count 함수
+#### remove
 
-배열에 있는 요소의 개수를 반환합니다.
+Remove a specific element.
 
-#### 예시
+Example: #####
 
 ```swift
-let count = numbers.count // count: 4
+colors.remove("Green") // colors: ["Red", "Blue", "Yellow"]
 ```
 
-### isEmpty
+#### contains
 
-배열이 비어있는지 확인합니다.
+Checks if the set contains a specific element.
 
-#### 예시
+Example: #####
 
 ```swift
-if numbers.isEmpty {
-    print("The array is empty")
+if colors.contains("Blue") {
+    print("Contains Blue!")
+}
+// Output: Contains Blue!
+```
+
+#### count
+
+Returns the number of elements in the set.
+
+Example: #####
+
+```swift
+let count = colors.count // count: 3
+```
+
+#### isEmpty
+
+Checks if set is empty.
+
+##### Example
+
+```swift
+if colors.isEmpty {
+    print("The set is empty")
 } else {
-    print("The array is not empty")
+    print("The set is not empty")
 }
-// 출력: The array is not empty
+// Output: The set is not empty
 ```
 
-### insert
+#### union
 
-지정된 인덱스에 요소를 삽입합니다.
+Combines two sets.
 
-#### 예시
+Example: #####
 
 ```swift
-numbers.insert(0, ar: 0) // numbers: [0,1,2,3,4]
+let moreColors: Set = ["Purple", "Yellow"]
+let allColors = colors.union(moreColors) // allColors: ["Red", "Blue", "Yellow", "Purple"]
 ```
 
-### remove
+#### intersection
 
-지정된 인덱스의 요소를 제거합니다.
+Finds elements that are common to two sets.
 
-#### 예시
+Example: #####
 
 ```swift
-numbers.remove(at: 0) // numbers: [1,2,3,4]
+let commonColors = colors.intersection(moreColors) // commonColors: ["Yellow"]
 ```
 
-### subscripting
+#### subtracting
 
-인덱스를 사용하여 배열의 요소에 접근하거나 수정합니다.
+Removes an element of another set from one set.
 
-#### 예시
+Example: #####
 
 ```swift
-let firstNumber = numbers[0] // firstNumber: 1
-numbers[2] = 5 // numbers: [1,2,5,4]
+let exclusiveColors = colors.subtracting(moreColors) // exclusiveColors: ["Red", "Blue"]
 ```
 
-### contains
+#### symmetricDifference
 
-특정 요소가 배열에 있는지 확인합니다.
+Finds elements in two sets that only exist in each other.
 
-#### 예시
+##### Example
 
 ```swift
-if numbers.contains(5) {
-    print("Contains 5!")
-}
-// 출력: Contains 5!
+let differentColors = colors.symmetricDifference(moreColors) // differentColors: ["Red", "Blue", "Purple"]
 ```
 
-### first와 last
+### In what situations is set preferable?
 
-배열의 첫 번째와 마지막 요소에 접근합니다. 배열이 비어있는 경우 'nil'을 반환합니다.
-
-#### 예시
-
-```swift
-let first = numbers.first // first: Optional(1)
-let last = numbers.last // last: Optional(4)
-```
-
-### map, filter, reduce
-
-함수형 프로그래밍의 패러다임을 사용하여 배열을 변환, 필터링, 누적 등을 수행할 수 있습니다.
-
-#### 예시
-
-```swift
-let doubled = numbers.map { $0 * 2 } // doubled: [2, 4, 10, 8]
-let evenNumbers = numbers.filter { $0 % 2 == 0 } // evenNumbers: [2, 4]
-let sum = numbers.reduce(0, +) // sum: 12
-```
-
-### 함수형 프로그래밍 특징
-
-복잢겅을 관리하고 코드의 재사용성과 테스트 용이성을 높이며, 멀티 쓰레드 환경에서도 더 안정적인 코드를 작성할 수 있게 해줍니다.
+It's great for managing collections of unique elements, and for doing things similar to mathematical set operations.
