@@ -1,0 +1,172 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_Swift_5
+title: About Swift Syntax 5 (Frequently Used Functions in Set Types)
+# title: About Swift syntax 4 (frequently used functions in Array type)
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Swift
+# multiple tag entries are possible
+tags: [swift, ios]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2024-01-19 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## About "Swift Syntax 5"
+
+I had the opportunity to study iOS this week, and I've been studying grammar, so I thought I'd write a post to summarize it.
+
+In this post, I'll introduce various functions of the Set type that are often used.
+
+First of all, what is the Set type?
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### What is the Set type?
+
+A collection that stores unique values of the same type.
+
+No order is guaranteed, and each element appears only once.
+
+#### Creation and initialization
+
+How to create and initialize a Set.
+
+##### Example
+
+```swift
+var color: Set<String> = ["Red", "Green", "Blue"]
+```
+
+#### insert
+
+Adds an element to the set. Duplicate values will not be added.
+
+Example: #####
+
+```swift
+colors.insert("Yellow") // colors: ["Red", "Green", "Blue", "Yellow"]
+```
+
+#### remove
+
+Remove a specific element.
+
+Example: #####
+
+```swift
+colors.remove("Green") // colors: ["Red", "Blue", "Yellow"]
+```
+
+#### contains
+
+Checks if the set contains a specific element.
+
+Example: #####
+
+```swift
+if colors.contains("Blue") {
+    print("Contains Blue!")
+}
+// Output: Contains Blue!
+```
+
+#### count
+
+Returns the number of elements in the set.
+
+Example: #####
+
+```swift
+let count = colors.count // count: 3
+```
+
+#### isEmpty
+
+Checks if set is empty.
+
+##### Example
+
+```swift
+if colors.isEmpty {
+    print("The set is empty")
+} else {
+    print("The set is not empty")
+}
+// Output: The set is not empty
+```
+
+#### union
+
+Combines two sets.
+
+Example: #####
+
+```swift
+let moreColors: Set = ["Purple", "Yellow"]
+let allColors = colors.union(moreColors) // allColors: ["Red", "Blue", "Yellow", "Purple"]
+```
+
+#### intersection
+
+Finds elements that are common to two sets.
+
+Example: #####
+
+```swift
+let commonColors = colors.intersection(moreColors) // commonColors: ["Yellow"]
+```
+
+#### subtracting
+
+Removes an element of another set from one set.
+
+Example: #####
+
+```swift
+let exclusiveColors = colors.subtracting(moreColors) // exclusiveColors: ["Red", "Blue"]
+```
+
+#### symmetricDifference
+
+Finds elements in two sets that only exist in each other.
+
+##### Example
+
+```swift
+let differentColors = colors.symmetricDifference(moreColors) // differentColors: ["Red", "Blue", "Purple"]
+```
+
+### In what situations is set preferable?
+
+It's great for managing collections of unique elements, and for doing things similar to mathematical set operations.
