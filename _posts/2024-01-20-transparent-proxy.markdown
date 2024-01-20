@@ -40,133 +40,62 @@ date: 2024-01-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "Swift 문법에 대하여 5"에 대하여
+## About "Transparent Proxy"
 
-이번에 iOS에 대해 공부할 기회가 생겨 문법부터 공부하고 있었는데 이번에 이에 대해 정리하는 글을 남기고자 합니다.
+I previously wrote an article titled "Forward and reverse proxies play an important role in network security".
 
-이번 글에선 Set 타입에서의 다양한 함수 중 자주 사용되는 것을 소개하도록 하겠습니다.
-
-우선 Set 타입은 무엇일까요?
+In this article, I'll be documenting what I've learned about proxies as a continuation of that topic.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### Set 타입이란?
+### Introduction
 
-동일한 타입의 고유한 값들을 저장하는 컬렉션입니다.
+When sending and receiving data on the internet, information travels through various paths.
 
-순서가 보장되지 않으며, 각 요소는 한 번만 나타납니다.
+One of these paths is through a "proxy".
 
-#### 생성과 초기화
+Proxies relay communication between clients and servers and are used for a variety of purposes, including security, performance optimization, and caching.
 
-Set을 생성하고 초기화하는 방법입니다.
+A "transparent proxy" is a special type of proxy server that works as transparently as its name suggests, and in this article, we'll learn more about it.
 
-##### 예시
+#### What is a transparent proxy?
 
-```swift
-var color: Set<String> = ["Red", "Green", "Blue"]
-```
+A transparent proxy is an intermediary that relays communication between a client and a server, characterized by the fact that the client and server use each other as proxy servers.
 
-#### insert
+This means that the existence of the proxy server is hidden from the user or application, and network traffic is relayed transparently.
 
-set에 요소를 추가합니다. 중복되는 값의 경우 추가되지 않습니다.
+A transparent proxy is invisible to users or applications, and does not change the content of network traffic while mediating it.
 
-##### 예시
+#### How it works
 
-```swift
-colors.insert("Yellow") // colors: ["Red", "Green", "Blue", "Yellow"]
-```
+One of the key characteristics of a transparent proxy is "transparency".
 
-#### remove
+This means that the user or application is unaware of the existence of the proxy server.
 
-특정 요소를 제거합니다.
+The proxy server operates in the middle, without any user awareness in the network equipment or application settings.
 
-##### 예시
+A transparent proxy sits in the middle when a client accesses a server, receiving the client's request and forwarding it to the server.
 
-```swift
-colors.remove("Green") // colors: ["Red", "Blue", "Yellow"]
-```
+It also receives responses from the server and forwards them to the client.
 
-#### contains
+In the process, the proxy acts as an intermediary between the client and server, and can monitor traffic or perform caching, security checks, logging, and more if needed.
 
-set에 특정 요소가 포함되어 있는지 확인합니다.
+#### Utilizing a transparent proxy
 
-##### 예시
+Transparent proxies serve a variety of purposes.
 
-```swift
-if colors.contains("Blue") {
-    print("Contains Blue!")
-}
-// 출력: Contains Blue!
-```
+Let's take a look at some of them.
 
-#### count
+- Caching: A transparent proxy can cache the responses it receives from the server so that it can respond quickly to the same request in the future. This helps optimize performance.
+- Security inspection: Proxies can inspect network traffic to detect and block malicious code or hacking attempts.
+- Logging and surveillance: Proxies can monitor network activity and record logs, which can be used for security and error diagnostics.
 
-set의 요소 개수를 반환합니다.
+#### Conclusion
 
-##### 예시
+A transparent proxy relays network communications while remaining transparent to the user or application.
 
-```swift
-let count = colors.count // count: 3
-```
+In the meantime, they monitor network traffic and serve a variety of purposes, including security, performance optimization, and caching.
 
-#### isEmpty
-
-set이 비어있는지 확인합니다.
-
-##### 예시
-
-```swift
-if colors.isEmpty {
-    print("The set is empty")
-} else {
-    print("The set is not empty")
-}
-// 출력: The set is not empty
-```
-
-#### union
-
-두개의 set을 합칩니다.
-
-##### 예시
-
-```swift
-let moreColors: Set = ["Purple", "Yellow"]
-let allColors = colors.union(moreColors) // allColors: ["Red", "Blue", "Yellow", "Purple"]
-```
-
-#### intersection
-
-두 개의 set에 공통으로 포함된 요소를 찾습니다.
-
-##### 예시
-
-```swift
-let commonColors = colors.intersection(moreColors) // commonColors: ["Yellow"]
-```
-
-#### subtracting
-
-한 set에서 다른 set 요소를 제거합니다.
-
-##### 예시
-
-```swift
-let exclusiveColors = colors.subtracting(moreColors) // exclusiveColors: ["Red", "Blue"]
-```
-
-#### symmetricDifference
-
-두 개의 set에서 서로에게만 있는 요소를 찾습니다.
-
-##### 예시
-
-```swift
-let differentColors = colors.symmetricDifference(moreColors) // differentColors: ["Red", "Blue", "Purple"]
-```
-
-### set은 어떤 상황에서 쓰는 것이 바람직한가?
-
-고유한 요소들의 컬렉션을 관리할 때 유용하며, 수학적 집합 연산과 유사한 작업을 하기에 좋습니다.
+These transparent relay servers play a key role in network management and security.

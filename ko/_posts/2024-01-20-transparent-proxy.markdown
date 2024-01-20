@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_About_Transparent_Proxy
-title: 트랜스페어런트 프록시(Transparent Proxy)란?
+title: 트랜스페어런트 프록시(Transparent Proxy)에 대하여
 # title: About transparent proxy
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -40,133 +40,62 @@ date: 2024-01-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "Swift 문법에 대하여 5"에 대하여
+## "트랜스페어런트 프록시(Transparent Proxy)"에 대하여
 
-이번에 iOS에 대해 공부할 기회가 생겨 문법부터 공부하고 있었는데 이번에 이에 대해 정리하는 글을 남기고자 합니다.
+이전에 "네트워크 보안에서 중요한 역할을 하는 포워드 프록시와 리버스 프록시"라는 제목으로 글을 작성한 바가 있습니다.
 
-이번 글에선 Set 타입에서의 다양한 함수 중 자주 사용되는 것을 소개하도록 하겠습니다.
-
-우선 Set 타입은 무엇일까요?
+해당 글에선 이전 주제에 이은 프록시에 관련한 주제로 학습했던 것을 기록으로 남기고자 합니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### Set 타입이란?
+### 소개
 
-동일한 타입의 고유한 값들을 저장하는 컬렉션입니다.
+인터넷에서 데이터를 주고받을 때, 정보는 다양한 경로를 통해 이동합니다.
 
-순서가 보장되지 않으며, 각 요소는 한 번만 나타납니다.
+이런 경로 중 하나에는 "프록시(Proxy)"가 있습니다.
 
-#### 생성과 초기화
+프록시는 클라이언트와 서버 간의 통신을 중계하고 보안, 성능 최적화, 캐싱 등 다양한 목적으로 사용됩니다.
 
-Set을 생성하고 초기화하는 방법입니다.
+그 중에서도 "트랜스페어런트 프록시"는 특별한 유형의 프록시 서버로, 그 이름처럼 투명하게 동작하는데, 이 글에서는 이러한 트랜스페어런트 프록시에 대해 자세히 알아보겠습니다.
 
-##### 예시
+#### 트랜스페어런트 프록시란?
 
-```swift
-var color: Set<String> = ["Red", "Green", "Blue"]
-```
+트랜스페어런트 프록시는 클라이언트와 서버 간의 통신을 중계하는 중간 매개체로, 클라이언트와 서버가 서로에게 서로를 프록시 서버로 사용한다는 특징을 갖습니다.
 
-#### insert
+이것은 사용자나 애플리케이션에게 프록시 서버의 존재를 숨기고 네트워크 트래픽을 투명하게 중계한다는 뜻입니다.
 
-set에 요소를 추가합니다. 중복되는 값의 경우 추가되지 않습니다.
+트랜스페어런트 프록시는 사용자나 애플리케이션에게는 눈에 띄지 않으며, 네트워크 트래픽을 중개하면서 그 내용을 변경하지 않습니다.
 
-##### 예시
+#### 동작 원리
 
-```swift
-colors.insert("Yellow") // colors: ["Red", "Green", "Blue", "Yellow"]
-```
+트랜스페어런트 프록시의 주요 특징 중 하나는 "투명성"입니다.
 
-#### remove
+이것은 사용자나 애플리케이션이 프록시 서버의 존재를 모르는 것을 의미합니다.
 
-특정 요소를 제거합니다.
+프록시 서버는 네트워크 장비나 애플리케이션 설정에서 사용자의 인식 없이 중간에서 동작합니다.
 
-##### 예시
+트랜스페어런트 프록시는 클라이언트가 서버에 접근할 때 중간에 위치하여 클라이언트의 요청을 받고 서버에 전달합니다.
 
-```swift
-colors.remove("Green") // colors: ["Red", "Blue", "Yellow"]
-```
+서버로부터의 응답 역시 중간에서 받아 클라이언트에 전달합니다.
 
-#### contains
+이 과정에서 프록시는 클라이언트와 서버 사이의 중계 역할을 수행하며, 트래픽을 모니터링하거나 필요한 경우 캐싱, 보안 검사, 로깅 등을 수행할 수 있습니다.
 
-set에 특정 요소가 포함되어 있는지 확인합니다.
+#### 트랜스페어런트 프록시의 활용
 
-##### 예시
+트랜스페어런트 프록시는 다양한 용도로 활용됩니다.
 
-```swift
-if colors.contains("Blue") {
-    print("Contains Blue!")
-}
-// 출력: Contains Blue!
-```
+그 중 일부를 살펴보겠습니다.
 
-#### count
+- 캐싱: 트랜스페어런트 프록시는 서버에서 받은 응답을 캐싱하여 이후 동일한 요청에 빠르게 응답할 수 있습니다. 이는 성능 최적화에 도움이 됩니다.
+- 보안 검사: 프록시는 네트워크 트래픽을 검사하여 악성 코드나 해킹 시도를 탐지하고 차단할 수 있습니다.
+- 로깅 및 감시: 프록시는 네트워크 활동을 모니터링하고 로그를 기록하여 보안 및 오류 진단을 위해 사용될 수 있습니다.
 
-set의 요소 개수를 반환합니다.
+#### 결론
 
-##### 예시
+트랜스페어런트 프록시는 네트워크 통신을 중계하면서 사용자나 애플리케이션에게는 투명하게 동작합니다.
 
-```swift
-let count = colors.count // count: 3
-```
+그 동안 네트워크 트래픽을 모니터링하고 보안, 성능 최적화, 캐싱 등 다양한 목적으로 활용됩니다.
 
-#### isEmpty
-
-set이 비어있는지 확인합니다.
-
-##### 예시
-
-```swift
-if colors.isEmpty {
-    print("The set is empty")
-} else {
-    print("The set is not empty")
-}
-// 출력: The set is not empty
-```
-
-#### union
-
-두개의 set을 합칩니다.
-
-##### 예시
-
-```swift
-let moreColors: Set = ["Purple", "Yellow"]
-let allColors = colors.union(moreColors) // allColors: ["Red", "Blue", "Yellow", "Purple"]
-```
-
-#### intersection
-
-두 개의 set에 공통으로 포함된 요소를 찾습니다.
-
-##### 예시
-
-```swift
-let commonColors = colors.intersection(moreColors) // commonColors: ["Yellow"]
-```
-
-#### subtracting
-
-한 set에서 다른 set 요소를 제거합니다.
-
-##### 예시
-
-```swift
-let exclusiveColors = colors.subtracting(moreColors) // exclusiveColors: ["Red", "Blue"]
-```
-
-#### symmetricDifference
-
-두 개의 set에서 서로에게만 있는 요소를 찾습니다.
-
-##### 예시
-
-```swift
-let differentColors = colors.symmetricDifference(moreColors) // differentColors: ["Red", "Blue", "Purple"]
-```
-
-### set은 어떤 상황에서 쓰는 것이 바람직한가?
-
-고유한 요소들의 컬렉션을 관리할 때 유용하며, 수학적 집합 연산과 유사한 작업을 하기에 좋습니다.
+이러한 투명한 중계 서버는 네트워크 관리와 보안에 핵심적인 역할을 합니다.
