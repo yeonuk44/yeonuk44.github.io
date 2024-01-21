@@ -40,62 +40,55 @@ date: 2024-01-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "트랜스페어런트 프록시(Transparent Proxy)"에 대하여
+## About the "Greedy Strategy" algorithm
 
-이전에 "네트워크 보안에서 중요한 역할을 하는 포워드 프록시와 리버스 프록시"라는 제목으로 글을 작성한 바가 있습니다.
-
-해당 글에선 이전 주제에 이은 프록시에 관련한 주제로 학습했던 것을 기록으로 남기고자 합니다.
+In this article, we'll discuss what the Greedy Strategy is, how it works, and in what situations it can be useful.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 소개
+### Introduction
 
-인터넷에서 데이터를 주고받을 때, 정보는 다양한 경로를 통해 이동합니다.
+The Greedy Strategy, or Greedy Algorithm, is one of the techniques that plays an important role in algorithmic theory.
 
-이런 경로 중 하나에는 "프록시(Proxy)"가 있습니다.
+It is one of the ways to find an optimal solution by always behaving in a way that makes the best choice in the current situation.
 
-프록시는 클라이언트와 서버 간의 통신을 중계하고 보안, 성능 최적화, 캐싱 등 다양한 목적으로 사용됩니다.
+For more information, see: #### What is Greedy Strategy?
 
-그 중에서도 "트랜스페어런트 프록시"는 특별한 유형의 프록시 서버로, 그 이름처럼 투명하게 동작하는데, 이 글에서는 이러한 트랜스페어런트 프록시에 대해 자세히 알아보겠습니다.
+A greedy strategy is an algorithm that makes the best choice at every moment.
 
-#### 트랜스페어런트 프록시란?
+It works by iterating over the best choice at the current point in time to get to the final result, where the choice is the most ideal choice at each step.
 
-트랜스페어런트 프록시는 클라이언트와 서버 간의 통신을 중계하는 중간 매개체로, 클라이언트와 서버가 서로에게 서로를 프록시 서버로 사용한다는 특징을 갖습니다.
+It is based on the belief that if this choice is optimal at each step, it will be optimal overall.
 
-이것은 사용자나 애플리케이션에게 프록시 서버의 존재를 숨기고 네트워크 트래픽을 투명하게 중계한다는 뜻입니다.
+The key to the Greedy Strategy is to follow a simple rule.
 
-트랜스페어런트 프록시는 사용자나 애플리케이션에게는 눈에 띄지 않으며, 네트워크 트래픽을 중개하면서 그 내용을 변경하지 않습니다.
+It's about finding the optimal choice at each moment, and making sure that choice is optimal overall.
 
-#### 동작 원리
+The Greedy algorithm works by breaking the problem into subproblems, finding the optimal solution for each subproblem, and then finding the optimal solution for the whole problem.
 
-트랜스페어런트 프록시의 주요 특징 중 하나는 "투명성"입니다.
+#### Examples of Greedy Strategies
 
-이것은 사용자나 애플리케이션이 프록시 서버의 존재를 모르는 것을 의미합니다.
+- Change Problem: In the problem of giving change in the smallest number of coins, choosing the largest denomination coin first is an example of a Greedy algorithm.
+- Prim algorithm: The Prim algorithm, which finds the minimum spanning tree, utilizes a Greedy approach to select the trunk line with the smallest weight.
+- Kruskal algorithm: Another minimum spanning tree algorithm, the Kruskal algorithm sorts trunk lines in ascending order of weight and selects trunk lines that do not form a cycle.
+- Dijkstra algorithm: In the shortest path problem, the Dijkstra algorithm uses a greedy approach to select the shortest path.
 
-프록시 서버는 네트워크 장비나 애플리케이션 설정에서 사용자의 인식 없이 중간에서 동작합니다.
+#### Limitations of the Greedy Strategy
 
-트랜스페어런트 프록시는 클라이언트가 서버에 접근할 때 중간에 위치하여 클라이언트의 요청을 받고 서버에 전달합니다.
+While the Greedy Strategy is useful for many problems, it is not suitable for all problems.
 
-서버로부터의 응답 역시 중간에서 받아 클라이언트에 전달합니다.
+The Greedy algorithm finds the optimal choice at each step, but that choice does not guarantee an overall optimal solution.
 
-이 과정에서 프록시는 클라이언트와 서버 사이의 중계 역할을 수행하며, 트래픽을 모니터링하거나 필요한 경우 캐싱, 보안 검사, 로깅 등을 수행할 수 있습니다.
+In some problems, the Greedy approach may not converge to the optimal solution.
 
-#### 트랜스페어런트 프록시의 활용
+You should understand these limitations and decide whether to use Greedy based on the nature of your problem.
 
-트랜스페어런트 프록시는 다양한 용도로 활용됩니다.
+#### Conclusion
 
-그 중 일부를 살펴보겠습니다.
+The Greedy Strategy is a powerful tool that can solve a wide variety of problems in a simple and intuitive way.
 
-- 캐싱: 트랜스페어런트 프록시는 서버에서 받은 응답을 캐싱하여 이후 동일한 요청에 빠르게 응답할 수 있습니다. 이는 성능 최적화에 도움이 됩니다.
-- 보안 검사: 프록시는 네트워크 트래픽을 검사하여 악성 코드나 해킹 시도를 탐지하고 차단할 수 있습니다.
-- 로깅 및 감시: 프록시는 네트워크 활동을 모니터링하고 로그를 기록하여 보안 및 오류 진단을 위해 사용될 수 있습니다.
+However, it is not applicable to all problems, and the optimal solution should be chosen based on the characteristics of each problem.
 
-#### 결론
-
-트랜스페어런트 프록시는 네트워크 통신을 중계하면서 사용자나 애플리케이션에게는 투명하게 동작합니다.
-
-그 동안 네트워크 트래픽을 모니터링하고 보안, 성능 최적화, 캐싱 등 다양한 목적으로 활용됩니다.
-
-이러한 투명한 중계 서버는 네트워크 관리와 보안에 핵심적인 역할을 합니다.
+The Greedy algorithm works by finding the optimal choice at each step, which makes it useful for decomposing problems and optimizing each subproblem.
