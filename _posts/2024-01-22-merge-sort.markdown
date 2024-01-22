@@ -40,55 +40,55 @@ date: 2024-01-22 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "Greedy Strategy(탐욕 알고리즘)"에 대하여
+## About "Merge Sort"
 
-이 글에서는 Greedy Strategy의 개념과 작동 방식, 그리고 어떤 상황에서 유용하게 활용될 수 있는지에 대해 알아보겠습니다.
+In preparation for a coding test, I've been studying algorithms, and in this article, I'd like to summarize the bubble sort.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 소개
+### What is Merge Sort?
 
-Greedy Strategy 또는 탐욕 알고리즘은 알고리즘 이론에서 중요한 역할을 하는 기법 중 하나입니다.
+Merge sort is one of the most famous and efficient sorting algorithms, and is a prime example of the Divide and Conquer algorithm.
 
-이 기법은 항상 현재 상황에서 최선의 선택을 하는 방식으로 동작하여 최적의 해를 찾는 방법 중 하나입니다.
+It works by splitting a large problem into smaller problems and solving the smaller problems to solve the whole problem.
 
-#### Greedy Strategy란?
+Merge Sort is stable and fast, with an average time complexity of O(nlogn).
 
-Greedy Strategy는 매 순간마다 최적의 선택을 하는 알고리즘입니다.
+### How Merge Sort works
 
-이는 현재 시점에서의 최선의 선택을 계속해서 반복하며 최종 결과를 얻는 방법입니다. 이 때 선택의 기준은 각 단계에서의 가장 이상적인 선택입니다.
+Divide: Splits the array into two partial arrays.
 
-이 선택이 단계별로 최적이라면, 전체적으로도 최적일 것이라는 믿음에 기반합니다.
+Find the middle point, and divide the array into two subarrays.
 
-Greedy Strategy의 핵심은 간단한 규칙을 따르는 것입니다.
+- Conquer: Recursively sorts each sub-array. This is repeated until the size of the array is 1.
+- Merge: Merges the two sorted subarrays to create a final sorted array.
 
-매 순간의 최적 선택을 찾아내고, 그 선택이 전체적으로 최적인지 확인하는 것이 중요합니다.
+#### Example
 
-Greedy 알고리즘은 문제를 부분 문제로 나누고, 각 부분 문제에서 최적해를 찾아 전체 문제의 최적해를 구하는 방식으로 작동합니다.
+The array we want to sort is [38, 27, 43, 3, 9, 82, 10].
 
-#### Greedy Strategy의 예시
+- Divide: Splitting the array in the middle creates two subarrays.
+  - Left array: [38, 27, 43]
+  - Right array: [3, 9, 82, 10].
+- Conquer: Now recursively sort each subarray. Continue to divide and conquer until the size of the subarrays is 1.
+  - Sort left array: [27, 38, 43]
+  - Sort the right array: [3, 9, 10, 82].
+- Merge: Now merge the sorted subarrays to get the final sorted array.
+  - Left Array: [27, 38, 43]
+  - Right array: [3, 9, 10, 82]
 
-- 거스름돈 문제: 최소한의 동전 개수로 거스름돈을 주는 문제에서, 가장 큰 단위의 동전부터 선택하는 것이 Greedy 알고리즘의 한 예입니다.
-- Prim 알고리즘: 최소 신장 트리(Minimum Spanning Tree)를 찾는 Prim 알고리즘은 Greedy 방식을 활용하여 가장 작은 가중치의 간선을 선택하는 과정을 반복합니다.
-- Kruskal 알고리즘: 또 다른 최소 신장 트리 알고리즘인 Kruskal 알고리즘은 간선을 가중치 오름차순으로 정렬하고, 사이클을 형성하지 않는 간선을 선택합니다.
-- Dijkstra 알고리즘: 최단 경로 문제에서 Dijkstra 알고리즘은 가장 짧은 경로를 선택하는 Greedy 방식을 사용합니다.
+Compare the left and right arrays in order, copying the smaller values to the new array.
 
-#### Greedy Strategy의 한계
+Keep doing this until you get the final sorted array.
 
-Greedy Strategy는 많은 문제에 유용하지만, 모든 문제에 적합한 것은 아닙니다.
+Sorted array: [3, 9, 10, 27, 38, 43, 82]
 
-Greedy 알고리즘은 각 단계에서의 최적 선택을 찾지만, 그 선택이 전체적으로 최적해를 보장하지는 않습니다.
+### Conclusion
 
-어떤 문제에서는 Greedy 접근법이 최적해에 수렴하지 않을 수도 있습니다.
+Merge sort is an efficient and reliable sorting algorithm that is used to sort large datasets.
 
-이러한 한계를 이해하고, 문제의 특성에 따라 Greedy를 사용할지 결정해야 합니다.
+The algorithm is a beautiful example of divide-and-conquer, showing how to divide and conquer data to get a sorted array.
 
-#### 결론
-
-Greedy Strategy는 간단하고 직관적인 방식으로 다양한 문제를 해결할 수 있는 강력한 도구입니다.
-
-하지만 모든 문제에 적용 가능한 것은 아니며, 각 문제의 특성에 따라 최적의 해결 방법을 선택해야 합니다.
-
-Greedy 알고리즘은 단계마다 최적 선택을 찾는 방식으로 동작하므로, 문제를 분해하고 각 부분 문제를 최적화하는데 유용합니다.
+Due to its easy-to-understand structure and stability, merge sort is widely used in practice and is one of the fundamental algorithms in computer science.
