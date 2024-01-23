@@ -42,7 +42,7 @@ date: 2024-01-22 09:00:00 +0900
 
 ## About "Merge Sort"
 
-In preparation for a coding test, I've been studying algorithms, and in this article, I'd like to summarize the bubble sort.
+In preparation for a coding test, I've been studying algorithms, and in this article, I'd like to summarize the merge sort.
 
 {:data-align="center"}
 

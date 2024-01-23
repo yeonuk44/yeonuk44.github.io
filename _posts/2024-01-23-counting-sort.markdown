@@ -40,55 +40,43 @@ date: 2024-01-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "병합 정렬 (Merge Sort)"에 대하여
+## About "Counting Sort"
 
-코딩테스트를 준비하며, 알고리즘에 대한 공부를 하여 이번 글에선 그 중 버블 정렬에 대해 정리하고자 합니다.
+In preparation for a coding test, I've been studying algorithms, and in this article, I'd like to summarize the counting sort.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 병합 정렬 (Merge Sort)이란?
+### What is Counting Sort?
 
-병합 정렬은 정렬 알고리즘 중에서 가장 유명하고 효율적인 알고리즘 중 하나로, 분할 정복(Divide and Conquer) 알고리즘의 대표적인 예입니다.
+Counting sort is one of the fastest performing sorting algorithms.
 
-이 알고리즘은 큰 문제를 작은 문제로 분할하고, 작은 문제를 해결하여 전체 문제를 해결하는 방식으로 동작합니다.
+It can effectively sort on data that can be represented as integers or whole numbers.
 
-병합 정렬은 안정적이며, 평균 시간 복잡도가 O(nlogn)으로 빠르게 동작합니다.
+Unlike other sorting algorithms, Counting Sort has linear time complexity with no comparisons, and it shines when the range of input data is limited.
 
-### 병합 정렬의 동작 과정
+### How does counting sort work?
 
-분할 (Divide): 배열을 두 개의 부분 배열로 분할합니다.
+- Counting: Counts each element of the input array, creating a count array that records the frequency of each element.
+- Cumulative Count: Updates the elements in each count array with the sum of the current element and the previous element. This step determines where each element will be placed in the sorted array.
+- Sorting: Traverses the input array, placing each element in a position sorted by the frequency of that element. It handles duplicate elements by updating the counts array.
 
-중간 지점을 찾고, 배열을 두 개의 하위 배열로 나눕니다.
+#### Example
 
-- 정복 (Conquer): 각 하위 배열을 재귀적으로 정렬합니다. 이는 배열의 크기가 1이 될 때까지 반복됩니다.
-- 병합 (Merge): 정렬된 두 하위 배열을 합병하여 최종 정렬된 배열을 생성합니다.
+The array we want to sort is [3, 5, 6, 3, 1, 1].
 
-#### 예시
+- Counting: Creates a count array by traversing the input array and counting the frequency of each element.
+- Count array: [0, 2, 0, 2, 0, 1, 1, 1]
+- Cumulative Count: Generates a cumulative count array.
+- Cumulative count array: [0, 2, 2, 4, 4, 4, 5, 6].
+- Sorting: Now traverses the original array, placing each element at its position.
+- Sorted array: [1, 1, 3, 3, 5, 6]
 
-우리가 정렬할 배열은 다음과 같습니다: [38, 27, 43, 3, 9, 82, 10]
+### Conclusion
 
-- 분할 (Divide): 배열을 중간에서 분할하면 두 개의 하위 배열이 생성됩니다.
-  - 왼쪽 배열: [38, 27, 43]
-  - 오른쪽 배열: [3, 9, 82, 10]
-- 정복 (Conquer): 이제 각 하위 배열을 재귀적으로 정렬합니다. 하위 배열의 크기가 1이 될 때까지 계속 분할하고 정복합니다.
-  - 왼쪽 배열 정렬: [27, 38, 43]
-  - 오른쪽 배열 정렬: [3, 9, 10, 82]
-- 병합 (Merge): 이제 정렬된 하위 배열을 병합하여 최종 정렬된 배열을 얻습니다.
-  - 왼쪽 배열: [27, 38, 43]
-  - 오른쪽 배열: [3, 9, 10, 82]
+Counting sort is a fast sorting algorithm that provides performance that is proportional to the range of the input data.
 
-왼쪽과 오른쪽 배열을 순서대로 비교하면서 더 작은 값을 새 배열에 복사합니다.
+It is especially useful when the range of the data is small and can be represented as an integer.
 
-이 작업을 계속하면 최종 정렬된 배열을 얻게 됩니다.
-
-정렬된 배열: [3, 9, 10, 27, 38, 43, 82]
-
-### 결론
-
-병합 정렬은 효율적이고 안정적인 정렬 알고리즘으로, 대규모 데이터 집합을 정렬하는 데 사용됩니다.
-
-이 알고리즘은 분할 정복의 아름다운 예로, 데이터를 분할하고 정복하여 정렬된 배열을 얻는 방식을 보여줍니다.
-
-이해하기 쉬운 구조와 안정성으로, 병합 정렬은 실무에서도 널리 사용되며, 컴퓨터 과학의 기본적인 알고리즘 중 하나입니다.
+Its ability to sort without comparison is one of the things that distinguishes it from other sorting algorithms.
