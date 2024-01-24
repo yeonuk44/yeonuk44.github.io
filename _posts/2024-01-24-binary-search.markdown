@@ -40,43 +40,73 @@ date: 2024-01-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "계수 정렬 (Counting Sort)"에 대하여
+## About "Binary Search"
 
-코딩테스트를 준비하며, 알고리즘에 대한 공부를 하여 이번 글에선 그 중 계수 정렬에 대해 정리하고자 합니다.
+The binary search algorithm is one of the most important and efficient search algorithms in computer science and algorithm theory.
+
+It is used to find specific values within a data set, or to efficiently find elements that satisfy a condition.
+
+In this article, we'll learn about the concept of binary search, how it works, its implementation, and its use in real-world situations.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 계수 정렬 (Counting Sort)이란?
+### What is Binary Search?
 
-계수 정렬은 정렬 알고리즘 중에서 가장 빠른 성능을 제공하는 알고리즘 중 하나입니다.
+Binary search is an algorithm for finding a desired value within a sorted data set.
 
-이 알고리즘은 정수나 정수 형태로 표현 가능한 데이터에 대해 효과적으로 정렬할 수 있습니다.
+It works by dividing the data in half, reducing the search range by half, and then finding the desired value.
 
-계수 정렬은 다른 정렬 알고리즘과 달리 비교를 하지 않는 선형 시간 복잡도를 가지며, 입력 데이터의 범위가 제한된 경우에 빛을 발합니다.
+This iterative process allows you to find the desired value very quickly.
 
-### 계수 정렬의 동작 과정
+### How binary traversal works
 
-- 카운팅 (Counting): 입력 배열의 각 요소를 세어서 각 요소의 빈도를 기록한 카운트 배열을 생성합니다.
-- 누적 카운트 (Cumulative Count): 각 카운트 배열의 원소를 현재 원소와 이전 원소의 합으로 업데이트합니다. 이 단계는 정렬된 배열의 각 원소가 어느 위치에 배치될지를 결정합니다.
-- 정렬 (Sorting): 입력 배열을 순회하면서, 각 원소를 그 원소의 빈도를 통해 정렬된 위치에 배치합니다. 이때, 카운트 배열을 업데이트하여 중복된 원소를 처리합니다.
+- Select the middle element.
+- Compare the selected element to the value you're looking for.
+- If the selected element is the same as the value you are looking for, the search ends.
+- If the selected element is greater than the value you're looking for, search again, leaving only the right half.
+- If the selected element is less than the value you are looking for, search again with only the left half.
 
-#### 예시
+Repeat the process until the desired value is found.
 
-우리가 정렬할 배열은 다음과 같습니다: [3, 5, 6, 3, 1, 1]
+### Implementing binary traversal
 
-- 카운팅 (Counting): 입력 배열을 순회하면서 각 원소의 빈도를 세어 카운트 배열을 생성합니다.
-- 카운트 배열: [0, 2, 0, 2, 0, 1, 1]
-- 누적 카운트 (Cumulative Count): 누적 카운트 배열을 생성합니다.
-- 누적 카운트 배열: [0, 2, 2, 4, 4, 5, 6]
-- 정렬 (Sorting): 이제 원래 배열을 순회하면서 각 원소를 해당 위치에 배치합니다.
-- 정렬된 배열: [1, 1, 3, 3, 5, 6]
+Binary traversal can be implemented via recursion or looping.
 
-### 결론
+Below is a simple implementation of binary traversal using a loop.
 
-계수 정렬은 입력 데이터의 범위에 비례하는 성능을 제공하는 빠른 정렬 알고리즘입니다.
+```java
+int binarySearch(int arr[], int target) {
+    int left = 0, right = arr.length - 1;
 
-데이터의 범위가 작고 정수 형태로 표현 가능한 경우에 특히 유용합니다.
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
 
-비교 없이도 정렬할 수 있는 특징은 다른 정렬 알고리즘과 구별되는 장점 중 하나입니다.
+        if (arr[mid] == target)
+            return mid;
+
+        if (arr[mid] < target)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+
+    return -1; // if not found
+}
+
+```
+
+### Utilizing Binary Navigation
+
+Binary traversal is used to check for the existence of a specific value within an array, or to quickly find a desired value.
+
+For example, it is very useful for finding an item in a sorted list, or checking the existence of a value within a certain range.
+
+Binary traversal is actively used in database query optimization, game programming, search engines, and sorting algorithms.
+
+### Conclusion
+
+Binary traversal is an efficient algorithm for quickly finding a desired value in a sorted data set.
+
+By understanding and utilizing this algorithm, you can better solve many problems related to data retrieval.
