@@ -1,0 +1,68 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_Comparison_Building_Tools_Java
+title: Maven과 Gradle - Java 프로젝트 빌드 도구 비교
+# title: Maven and Gradle - A Comparison of Tools for Building Java Projects
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2024-01-26 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## "Open API"에 대하여
+
+Open API(Open Application Programming Interface)는 특정 소프트웨어 애플리케이션에서 제공되는 기능을 외부 개발자나 다른 애플리케이션에게 공개적으로 제공하는 인터페이스를 의미합니다.
+
+이는 소프트웨어 컴포넌트 간에 상호 작용할 수 있도록 허용하고, 다른 애플리케이션에서 해당 기능을 활용할 수 있게 합니다.
+
+이 글에서는 Open API의 특징과 장점에 대해 알아보겠습니다.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### 개념
+
+Open API는 일반적으로 웹 기술을 기반으로 하며, REST(Representational State Transfer) 또는 SOAP(Simple Object Access Protocol)와 같은 프로토콜을 사용하여 데이터를 교환합니다.
+
+Open API를 통해 제공되는 기능은 다양할 수 있으며, 주로 데이터 검색, 기능 실행, 서비스 통합 등을 포함합니다.
+
+### 주요 특징과 장점
+
+- 개방성(Openness): Open API는 외부 개발자나 다른 애플리케이션에 대한 접근을 허용하므로, 누구나 해당 기능을 활용할 수 있습니다.
+- 재사용성(Reusability): 다양한 애플리케이션에서 공통적으로 사용되는 기능을 Open API로 제공함으로써, 코드의 재사용성을 높일 수 있습니다.
+- 유연성(Flexibility): Open API를 사용하면 다양한 플랫폼과 기술에서 호환성을 유지하면서 서비스를 확장할 수 있습니다.
+- 비용 절감: 외부 개발자들에게 기능을 제공함으로써 새로운 기능을 개발하는 데 필요한 비용을 절감할 수 있습니다.
+- 협업과 생태계 구축: Open API는 다양한 애플리케이션과 서비스 간에 협업을 촉진하며, 생태계를 구축하는 데 기여합니다.
+  - 대표적인 예로는 Google Maps API, Twitter API, GitHub API 등이 있습니다. 이러한 Open API를 사용하면 개발자들은 해당 서비스의 기능을 활용하여 자신의 애플리케이션을 개발할 수 있습니다.
