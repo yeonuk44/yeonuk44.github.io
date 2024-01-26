@@ -40,29 +40,49 @@ date: 2024-01-26 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "Open API"에 대하여
+## Introduction
 
-Open API(Open Application Programming Interface)는 특정 소프트웨어 애플리케이션에서 제공되는 기능을 외부 개발자나 다른 애플리케이션에게 공개적으로 제공하는 인터페이스를 의미합니다.
+Maven and Gradle are the two main build tools used by Java developers to manage and build their projects.
 
-이는 소프트웨어 컴포넌트 간에 상호 작용할 수 있도록 허용하고, 다른 애플리케이션에서 해당 기능을 활용할 수 있게 합니다.
-
-이 글에서는 Open API의 특징과 장점에 대해 알아보겠습니다.
-
-{:data-align="center"}
+They each have their own characteristics, allowing developers to choose based on their project requirements and preferences.
 
 <!-- outline-end -->
 
-### 개념
+### Maven
 
-Open API는 일반적으로 웹 기술을 기반으로 하며, REST(Representational State Transfer) 또는 SOAP(Simple Object Access Protocol)와 같은 프로토콜을 사용하여 데이터를 교환합니다.
+#### Features
 
-Open API를 통해 제공되는 기능은 다양할 수 있으며, 주로 데이터 검색, 기능 실행, 서비스 통합 등을 포함합니다.
+- XML-based configuration: Maven uses XML to define project structure and build settings.
+- Setup over conventions: Maven organizes and builds your project according to the rules. It's simple enough that no additional configuration is required.
+- Leverage a central repository: Maven downloads dependency libraries from a central repository and caches them in its own local repository for reuse.
+- Plugin-based extensions: Maven can be extended with a variety of plugins to perform build-related tasks.
 
-### 주요 특징과 장점
+#### Pros
 
-- 개방성(Openness): Open API는 외부 개발자나 다른 애플리케이션에 대한 접근을 허용하므로, 누구나 해당 기능을 활용할 수 있습니다.
-- 재사용성(Reusability): 다양한 애플리케이션에서 공통적으로 사용되는 기능을 Open API로 제공함으로써, 코드의 재사용성을 높일 수 있습니다.
-- 유연성(Flexibility): Open API를 사용하면 다양한 플랫폼과 기술에서 호환성을 유지하면서 서비스를 확장할 수 있습니다.
-- 비용 절감: 외부 개발자들에게 기능을 제공함으로써 새로운 기능을 개발하는 데 필요한 비용을 절감할 수 있습니다.
-- 협업과 생태계 구축: Open API는 다양한 애플리케이션과 서비스 간에 협업을 촉진하며, 생태계를 구축하는 데 기여합니다.
-  - 대표적인 예로는 Google Maps API, Twitter API, GitHub API 등이 있습니다. 이러한 Open API를 사용하면 개발자들은 해당 서비스의 기능을 활용하여 자신의 애플리케이션을 개발할 수 있습니다.
+- Simple structure makes it easy to start a project.
+- Setup is minimal because it follows conventions.
+
+### Gradle
+
+#### Features
+
+- Uses Groovy DSL: Gradle provides a dynamic DSL using the Groovy language. This enables more concise and expressive build scripts.
+- Conventions over settings and settings over conventions: Gradle provides high flexibility while following conventions. There is a lot of scope to customize settings.
+- Script-driven build definition: Gradle treats build scripts as part of the programming language, providing high flexibility when writing them.
+- Support for multi-project builds: Gradle efficiently supports dependency management and parallel builds between multiple projects.
+
+#### Pros
+
+- Highly flexible, suitable for complex projects.
+- Powerful plugin system and rich ecosystem.
+
+## Which one should you choose?
+
+- Project size and complexity: Maven is better suited for smaller projects, while Gradle offers more flexibility for larger projects.
+- DSL preference: If you prefer a dynamic DSL with Groovy, Gradle is a good choice.
+- Ecosystem and support: Maven has been around for a long time, so it has a vast ecosystem; however, Gradle is also enjoying continuous growth and support.
+- Importance of conventions and settings: Maven tends to minimize settings and follow conventions. Gradle emphasizes flexibility in settings and is highly customizable.
+
+## Conclusion
+
+Depending on the nature of the project and the experience of the developer, you can choose between Maven and Gradle.
