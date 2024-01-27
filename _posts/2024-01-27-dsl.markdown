@@ -40,49 +40,50 @@ date: 2024-01-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 소개
+## What is DSL?
 
-Maven과 Gradle은 Java 개발자들이 프로젝트를 관리하고 빌드하는 데 사용되는 두 가지 주요 빌드 도구입니다.
+DSL stands for “Domain Specific Language,” meaning a language designed to solve a specific domain or problem area.
 
-이들은 각자의 특징을 가지고 있어 개발자는 프로젝트 요구사항과 선호도에 따라 선택할 수 있습니다.
+This is a language created to efficiently perform specific tasks in various fields, and unlike general-purpose programming languages, it is a purpose-specific language used only in specific domains.
 
 <!-- outline-end -->
 
-### Maven
+### Features of DSL
 
-#### 특징
+- Domain specificity:
+  DSLs excel in their field because they are designed to solve a specific domain or problem. This means that it has a grammar and structure optimized for a specific task.
+- Expression and readability:
+  DSLs emphasize readability and expressiveness in a specific domain. It is designed so that experts in the field can easily understand and use it.
+- Limited scope:
+  Unlike general-purpose programming languages, DSLs focus on specific tasks, so their syntax and functionality are relatively simple and clear.
 
-- XML 기반 설정: Maven은 XML을 사용하여 프로젝트 구조와 빌드 설정을 정의합니다.
-- 컨벤션 오버 설정: Maven은 규칙에 따라 프로젝트를 구성하고 빌드합니다. 추가 설정이 필요하지 않을 정도로 간단합니다.
-- 중앙 저장소 활용: Maven은 중앙 저장소에서 의존성 라이브러리를 다운로드하고 자체 로컬 저장소에 캐시하여 재사용합니다.
-- 플러그인 기반 확장: Maven은 다양한 플러그인을 통해 빌드와 관련된 작업을 수행할 수 있습니다.
+### Examples of DSLs
 
-#### 장점
+- SQL (Structured Query Language):
+  SQL is a prime example of a DSL used in database management systems. It provides a concise and clear syntax for database-related operations, allowing you to perform database queries effectively.
 
-- 간단한 구조로 프로젝트를 쉽게 시작할 수 있습니다.
-- 컨벤션을 따르기 때문에 설정이 최소화됩니다.
+```sql
+SELECT * FROM Customers WHERE Country = 'USA';
+```
 
-### Gradle
+- HTML (HyperText Markup Language):
+  HTML can be viewed as a DSL for defining the structure of web pages. The structure of a web page is expressed in simple tags, which the web browser interprets and renders.
 
-#### 특징
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Website</title>
+  </head>
+  <body>
+    <h1>Welcome to My Website</h1>
+    <p>This is a sample web page.</p>
+  </body>
+</html>
+```
 
-- Groovy DSL 사용: Gradle은 Groovy 언어를 사용한 동적 DSL을 제공합니다. 이는 더 간결하고 표현력이 뛰어난 빌드 스크립트를 가능하게 합니다.
-- 컨벤션 오버 설정 및 설정 오버 컨벤션: Gradle은 컨벤션을 따르면서도 높은 유연성을 제공합니다. 설정을 사용자 정의할 수 있는 범위가 넓습니다.
-- 스크립트 기반의 빌드 정의: Gradle은 빌드 스크립트를 작성할 때 프로그래밍 언어의 일부로 취급하여 높은 유연성을 제공합니다.
-- 멀티 프로젝트 빌드 지원: Gradle은 여러 프로젝트 간의 의존성 관리와 병렬 빌드를 효율적으로 지원합니다.
+### Uses of DSL
 
-#### 장점
+DSL is used in various fields.
 
-- 높은 유연성으로 복잡한 프로젝트에 적합합니다.
-- 강력한 플러그인 시스템과 풍부한 생태계를 제공합니다.
-
-## 어떤 것을 선택해야 할까요?
-
-- 프로젝트 규모와 복잡성: Maven은 작은 프로젝트에 더 적합하며, Gradle은 큰 규모의 프로젝트에 높은 유연성을 제공합니다.
-- DSL 선호도: Groovy를 사용한 동적 DSL이 선호된다면 Gradle을 선택하는 것이 좋습니다.
-- 생태계 및 지원: Maven은 오랜 기간 동안 사용되어 왔기 때문에 방대한 생태계를 갖추고 있습니다. 그러나 Gradle도 지속적인 성장과 지원을 받고 있습니다.
-- 컨벤션과 설정의 중요성: Maven은 설정을 최소화하고 컨벤션을 따라가려는 경향이 있습니다. Gradle은 설정의 유연성을 강조하며 사용자 정의가 가능합니다.
-
-## 결론
-
-프로젝트의 특성과 개발자의 경험에 따라 Maven과 Gradle 중 적절한 도구를 선택할 수 있습니다.
+In particular, it is used as a specialized language to solve problems in fields other than computer languages, allowing experts in the field to perform their work more effectively.
