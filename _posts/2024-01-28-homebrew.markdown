@@ -1,0 +1,86 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_Homebrew
+title: About Homebrew
+# title: About Homebrew
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Infra
+# multiple tag entries are possible
+tags: [infra]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2024-01-28 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## What is Homebrew?
+
+Homebrew is a package manager used in the macOS operating system. It is a tool that helps you easily install, update, and uninstall software and libraries.
+
+It is an open source tool specialized for managing software via command line on macOS.
+
+<!-- outline-end -->
+
+### Features and Benefits
+
+- Easy installation and management:
+  Homebrew lets you install and manage software with a few simple commands. The process of installing software is simplified by entering commands through the terminal.
+- Automatic dependency management:
+  It automatically manages any other libraries or dependencies required by the software you are installing. This allows users to easily install the software they need without having to worry about complicated dependency issues.
+- Community contributions:
+  Homebrew is an open source project that allows developers to freely add and manage packages. Therefore, users can suggest or contribute packages they want from the community.
+
+### How to install
+
+To install Homebrew, open a terminal and enter the installation command provided on the official website.
+
+Once installation is complete, you can install and manage the software with simple commands.
+
+#### Examples of Homebrew usage
+
+```bash
+# Homebrew installation command
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Package installation example
+brew install [package name]
+
+# Update installed packages
+brew update
+
+# Delete package
+brew uninstall [package name]
+```
+
+### finish
+
+Homebrew is a powerful package manager for efficiently managing software on macOS.
+
+Users can install and manage the software with just a few command lines, making it convenient to use.
