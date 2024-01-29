@@ -40,47 +40,65 @@ date: 2024-01-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## Homebrew(홈브루) 란?
+## outline
 
-Homebrew는 macOS 운영체제에서 사용되는 패키지 관리자로, 소프트웨어 및 라이브러리를 손쉽게 설치, 업데이트, 제거할 수 있게 도와주는 도구입니다.
+In JavaScript, the module system plays an important role in organizing and reusing code.
 
-macOS에서 명령줄을 통해 소프트웨어를 관리하는 데에 특화된 오픈 소스 도구입니다.
+CommonJS and ES Module are the two main implementations of these module systems. Let’s learn about the characteristics and differences of each.
 
 <!-- outline-end -->
 
-### 특징과 장점
+### CommonJS (require)
 
-- 간편한 설치 및 관리:
-  Homebrew를 사용하면 몇 가지 간단한 명령어로 소프트웨어를 설치하고 관리할 수 있습니다. 터미널을 통해 명령어를 입력하여 소프트웨어를 설치하는 과정이 간소화되어 있습니다.
-- 자동 의존성 관리:
-  설치하려는 소프트웨어가 필요로 하는 다른 라이브러리나 의존성을 자동으로 관리합니다. 이를 통해 사용자는 복잡한 의존성 문제를 신경쓰지 않고 필요한 소프트웨어를 쉽게 설치할 수 있습니다.
-- 커뮤니티 기여:
-  Homebrew는 개발자들이 자유롭게 패키지를 추가하고 관리할 수 있는 오픈 소스 프로젝트입니다. 따라서 사용자들은 커뮤니티에서 원하는 패키지를 제안하거나 기여할 수 있습니다.
+#### characteristic
 
-### 설치 방법
+- Synchronous loading: Loads modules synchronously through the require function.
+- Runtime loading: Modules are loaded dynamically at runtime.
+- Object-based: A module is represented as an object, and you use the properties or methods of that object to access elements of the exported module.
+- Server side (Node.js): Mainly used on the server side and supported by default in the Node.js environment.
 
-Homebrew를 설치하려면 터미널을 열고 공식 웹사이트에서 제공하는 설치 명령어를 입력합니다.
+#### Example of use
 
-설치가 완료되면 간단한 명령어로 소프트웨어를 설치하고 관리할 수 있습니다.
+```javascript
+const fs = require("fs");
+const utils = require("./utils");
 
-#### Homebrew의 사용 예시
-
-```bash
-# Homebrew 설치 명령어
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# 패키지 설치 예시
-brew install [패키지명]
-
-# 설치된 패키지 업데이트
-brew update
-
-# 패키지 삭제
-brew uninstall [패키지명]
+// use module
+console.log(utils.add(2, 3));
 ```
 
-### 마무리
+### ES Module (import/export)
 
-Homebrew는 macOS에서 소프트웨어를 효율적으로 관리하기 위한 강력한 패키지 관리자입니다.
+#### characteristic
 
-사용자들은 명령어 몇 줄로 소프트웨어를 설치하고 관리할 수 있어 편리하게 사용할 수 있습니다.
+- Asynchronous loading: Modules are loaded asynchronously. The import statement operates asynchronously and returns a promise.
+- Static loading: Modules are loaded statically, and are loaded before the code is executed.
+- Object-based: You can export or import specific parts of a module using the export and import statements.
+- Browser and server side: Supported by the latest browsers, ES Module can also be used in Node.js.
+
+#### Example of use
+
+```javascript
+// export module
+//utils.js
+export function add(a, b) {
+  return a + b;
+}
+
+// import module
+//main.js
+import { add } from "./utils";
+
+// use module
+console.log(add(2, 3));
+```
+
+## conclusion
+
+CommonJS is mainly used on the server side (Node.js), while ES Module can be used on both the server and client sides.
+
+CommonJS is synchronous loading and supports runtime loading, while ES Module is asynchronous loading and performs static loading.
+
+CommonJS uses module.exports and require to define and import modules, while ES Module uses export and import.
+
+The choice of modular system depends on the environment and use case, and the appropriate method should be selected according to the requirements of the project.
