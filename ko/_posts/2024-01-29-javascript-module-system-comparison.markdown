@@ -1,6 +1,6 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_JavaScript_module_system_comparison
+lng_pair: id_About_JavaScript_Module_System_Comparison
 title: JavaScript 모듈 시스템 비교에 대하여
 # title: About JavaScript module system comparison
 # post specific
