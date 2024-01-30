@@ -1,22 +1,22 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_JavaScript_Module_System_Comparison
-title: JavaScript 모듈 시스템 비교에 대하여
-# title: About JavaScript module system comparison
+lng_pair: id_About_Data_Formats_In_APIs
+title: API에서의 데이터 형식 이해에 대하여
+# title: About understanding data formats in APIs
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
-category: Javascript
+category: Network
 # multiple tag entries are possible
-tags: [javascript]
+tags: [network]
 # thumbnail image for post
 img: ":post_pic1.jpg"
 # disable comments on this page
 # comments_disable: true
 
 # publish date
-date: 2024-01-29 09:00:00 +0900
+date: 2024-01-30 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
