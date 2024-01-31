@@ -41,96 +41,113 @@ date: 2024-01-31 09:00:00 +0900
 
 <!-- outline-start -->
 
-### 왼쪽 오른쪽(with.Java)에 대하여 알아본 글입니다.
+## This article looks into the problem of “getting a discount at a clothing store.”
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-#### 문제
+### problem
 
-문자열 리스트 str_list에는 "u", "d", "l", "r" 네 개의 문자열이 여러 개 저장되어 있습니다.
+Mooseuk’s Clothing Store offers a 5% discount for purchases over 100,000 won, a 10% discount for purchases over 300,000 won, and a 20% discount for purchases over 500,000 won.
+Given the price of the clothes purchased, complete the solution function to return the amount to be paid.
 
-str_list에서 "l"과 "r" 중 먼저 나오는 문자열이 "l"이라면 해당 문자열을 기준으로 왼쪽에 있는 문자열들을 순서대로 담은 리스트를, 먼저 나오는 문자열이 "r"이라면 해당 문자열을 기준으로 오른쪽에 있는 문자열들을 순서대로 담은 리스트를 return하도록 solution 함수를 완성해주세요.
+#### Restrictions
 
-"l"이나 "r"이 없다면 빈 리스트를 return합니다.
+10 ≤ price ≤ 1,000,000
+The price is given in units of 10 won (1's place is 0).
+Returns an integer with decimal places truncated.
 
-##### 입출력 예시
+#### Input/Output Example
 
-| str_list             | result     |
-| -------------------- | ---------- |
-| ["u", "u", "l", "r"] | ["u", "u"] |
-| ["l"]                | []         |
+| price   | result  |
+| ------- | ------- |
+| 150,000 | 142,500 |
+| 580,000 | 464,000 |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-#### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public String[] solution(String[] str_list) {
-        int lIndex = -1;
-        int rIndex = -1;
-
-        for (int i = 0; i < str_list.length; i++) {
-            if (str_list[i].equals("l")) {
-                lIndex = i;
-                break;
-            } else if (str_list[i].equals("r")) {
-                rIndex = i;
-                break;
-            }
-        }
-        if (lIndex == -1 && rIndex == -1) {
-            return new String[0];
-        }
-
-        if (lIndex != -1) {
-            String[] answer = new String[lIndex];
-            for (int j = 0; j < lIndex; j++) {
-                answer[j] = str_list[j];
-            }
-            return answer;
-        }
-        else {
-            String[] answer = new String[str_list.length - rIndex - 1];
-            for (int k = rIndex + 1; k < str_list.length; k++) {
-                answer[k - rIndex - 1] = str_list[k];
-            }
-            return answer;
-        }
-    }
+     public int solution(int price) {
+         int discount = 0;
+         if (price >= 500000) {
+             discount = price / 5;
+         } else if (price >= 300000) {
+             discount = price / 10;
+         } else if (price >= 100000) {
+             discount = price / 20;
+         }
+         System.out.println(price - discount);
+         return price - discount;
+     }
 }
 ```
 
-##### 풀이 설명
+### Solution explanation
 
-int lIndex = -1;, int rIndex = -1;: "l" 문자의 인덱스와 "r" 문자의 인덱스를 초기화합니다. 초기값은 -1로 설정되어 있습니다.
+int discount = 0;: Initializes the variable discount to store the discount amount.
 
-첫 번째 반복문(for (int i = 0; i < str_list.length; i++) {): 배열 str_list를 반복하면서 "l" 또는 "r" 문자를 찾습니다. 만약 "l"을 찾으면 lIndex에 해당 인덱스를 저장하고 반복문을 종료하고, "r"을 찾으면 rIndex에 해당 인덱스를 저장하고 반복문을 종료합니다.
+if (price >= 500000): If the input price is more than 500,000:
 
-if (lIndex == -1 && rIndex == -1) { return new String[0]; }: "l"과 "r" 모두 찾지 못한 경우, 빈 문자열 배열을 반환합니다.
+discount = price / 5;: Calculates a 20% discount on the price.
 
-if (lIndex != -1) { ... } else { ... }: "l" 또는 "r" 중 하나를 찾은 경우에 따라 다른 로직을 수행합니다.
+else if (price >= 300000): If the input price is greater than 300,000 and less than 500,000:
 
-"l"을 찾은 경우:
+discount = price / 10;: Calculates a 10% discount on the price.
 
-String[] answer = new String[lIndex];: "l" 문자 이전의 문자열을 저장할 배열 answer를 생성합니다.
+else if (price >= 100000): If the input price is greater than 100,000 and less than 300,000:
 
-반복문을 사용하여 "l" 문자 이전의 문자열을 answer 배열에 복사합니다.
+discount = price / 20;: Calculates a 5% discount on the price.
 
-answer 배열을 반환합니다.
+System.out.println(price - discount);: Prints the discounted price.
 
-"r"을 찾은 경우:
+return price - discount;: Returns the discounted price.
 
-String[] answer = new String[str_list.length - rIndex - 1];: "r" 문자 이후의 문자열을 저장할 배열 answer를 생성합니다.
+### Explanation of changed restrictions
 
-반복문을 사용하여 "r" 문자 이후의 문자열을 answer 배열에 복사합니다.
+If we round the decimal point instead of returning an integer with the decimal point rounded off, how can we solve this if we calculate to the nearest 1 won?
 
-answer 배열을 반환합니다.
+#### My solution to the changed restrictions problem
+
+```java
+class Solution {
+     public int solution(int price) {
+         int discount = 0;
+         if (price >= 500000) {
+             discount = (int) Math.ceil(price * 0.2);
+         } else if (price >= 300000) {
+             discount = (int) Math.ceil(price * 0.1);
+         } else if (price >= 100000) {
+             discount = (int) Math.ceil(price * 0.05);
+         }
+         return price - discount;
+     }
+}
+```
+
+#### Solving the problem of changed restrictions
+
+int discount = 0;: Initializes the variable discount to store the discount amount.
+
+if (price >= 500000): If the input price is more than 500,000:
+
+discount = (int) Math.ceil(price \* 0.2);: Calculates a 20% discount on the price, and rounds up using the Math.ceil function.
+
+else if (price >= 300000): If the input price is greater than 300,000 and less than 500,000:
+
+discount = (int) Math.ceil(price \* 0.1);: Calculate the 10% discount of the price and round up using the Math.ceil function.
+
+else if (price >= 100000): If the input price is greater than 100,000 and less than 300,000:
+
+discount = (int) Math.ceil(price \* 0.05);: Calculate the 5% discount of the price and round up using the Math.ceil function.
+
+return price - discount;: Calculates and returns the discounted price.
