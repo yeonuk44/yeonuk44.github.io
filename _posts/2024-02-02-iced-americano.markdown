@@ -41,72 +41,60 @@ date: 2024-02-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "가위, 바위, 보" 문제에 대하여 알아본 글입니다.
+## This article looks into the “Iced Americano” issue.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-가위는 2 바위는 0 보는 5로 표현합니다.
+Even on cold days, I only drink iced Americano.
 
-가위 바위 보를 내는 순서대로 나타낸 문자열 rsp가 매개변수로 주어질 때, rsp에 저장된 가위 바위 보를 모두 이기는 경우를 순서대로 나타낸 문자열을 return하도록 solution 함수를 완성해보세요.
+Iced Americano costs 5,500 won per glass.
 
-#### 제한사항
+Complete the solution function to return an array containing the maximum number of cups of Americano the mugger can drink and the remaining money in order when the money the muggle has is given as a parameter.
 
-0 < rsp의 길이 ≤ 100
+#### Restrictions
 
-rsp와 길이가 같은 문자열을 return 합니다.
+0 < money ≤ 1,000,000
 
-rsp는 숫자 0, 2, 5로 이루어져 있습니다.
+#### Input/Output Example
 
-#### 입출력 예시
-
-| rsp   | result |
-| ----- | ------ |
-| "2"   | "0"    |
-| "205" | "052"  |
+| money  | result    |
+| ------ | --------- |
+| 5,500  | [1, 0]    |
+| 15,000 | [2, 4000] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public String solution(String rsp) {
-        StringBuilder answer = new StringBuilder();
-        for(char ch : rsp.toCharArray()){
-            if(ch == '2'){
-                answer.append('0');
-            }else if(ch == '0'){
-                answer.append('5');
-            }else{
-                answer.append('2');
-            }
-        }
-        return answer.toString();
-    }
+     public int[] solution(int money) {
+         int[] answer = new int[2];
+         answer[0] = money / 5500;
+         answer[1] = money % 5500;
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-입력: rsp - 변환할 문자열.
+int[] answer = new int[2];: Creates an array answer to store two integers.
 
-출력: 변환된 문자열.
+answer[0] = money / 5500;: Stores the quotient of the input amount money divided by 5500 in the first element of the array. This indicates how many times it is divisible by 5500.
 
-사용된 함수 소개: toCharArray(): 문자열을 문자 배열로 변환하는 메서드입니다.
+answer[1] = money % 5500;: Divide the input amount money by 5500 and store the remainder in the second element of the array. This represents the amount remaining when divided by 5500.
 
-상수 사용: 현재 코드에서 '2', '0', '5'는 상수로 사용되어 있습니다.
-이러한 상수를 변수로 대체하여 유연성을 높일 수 있습니다.
+return answer;: returns an array answer where the calculated quotient and remainder are stored.
 
-입력 예외 처리: 입력이 null 또는 빈 문자열인 경우에 대한 예외 처리가 필요할 수 있습니다.
-
-테스트 케이스 작성: 다양한 입력에 대한 테스트 케이스를 작성하여 코드의 안정성을 검증할 수 있습니다.
+This code divides the entered amount by 5500 and returns the quotient and remainder in an array.
