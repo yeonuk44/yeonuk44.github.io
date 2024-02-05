@@ -1,0 +1,162 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_Morse_Code_1
+title: Morse Code 1 (with.Java)
+# title: Morse Code 1 (with.Java)
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2024-02-05 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## This is an article about the "Morse Code 1" problem.
+
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
+
+Let's look at the problem first.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### problem
+
+I received a letter using Morse code from a shy friend.
+
+Since I can't read it, I'm trying to create a program to decipher it.
+
+When the string letter is given as a parameter, complete the solution function to return a string with letter changed to lowercase English.
+
+Morse code is as follows:
+
+```java
+morse = {
+'.-':'a','-...':'b','-.-.':'c','-..':'d','.':'e',' ..-.':'f',
+'--.':'g','....':'h','..':'i','.---':'j','-.-':'k' ,'.-..':'l',
+'--':'m','-.':'n','---':'o','.--.':'p','--.-':'q', '.-.':'r',
+'...':'s','-':'t','..-':'u','...-':'v','.--':'w',' -..-':'x',
+'-.--':'y','--..':'z'
+}
+```
+
+#### Restrictions
+
+- 1 ≤ letter length ≤ 1,000
+- The return value is lowercase.
+- Morse code for letters is separated by spaces.
+- There cannot be more than two consecutive spaces in a letter.
+- Indecipherable letters will not be given.
+- There are no spaces at the beginning and end of the letter.
+
+#### Input/Output Example
+
+| letter                    | result   |
+| ------------------------- | -------- |
+| ".... .-.. .-.. ---"      | "hello"  |
+| ".--. -.-- - .... --- -." | "python" |
+
+<!-- | start_num | end_num | result |
+| --------- | ------- | ------ |
+| 10 | 3 | 0 | -->
+
+### My solution to the problem
+
+```java
+class Solution {
+     public String solution(String letter) {
+         String[] morseArray = letter.split(" ");
+         StringBuilder answer = new StringBuilder();
+         String[] morseAlphabet = {
+             ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", " ..", ".---",
+             "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", " ...", "-",
+             "..-", "...-", ".--", "-..-", "-.--", "--.."
+         };
+
+         for (String morse : morseArray){
+             for (int i = 0; i < morseAlphabet.length; i++) {
+                 if (morse.equals(morseAlphabet[i])) {
+                     char decodedChar = (char) ('a' + i);
+                     answer.append(decodedChar);
+                 }
+             }
+         }
+
+         return answer.toString();
+     }
+}
+```
+
+### Solution explanation
+
+split: Creates an array by dividing the string based on spaces.
+
+Here, the Morse code is divided by space and stored as an array.
+
+(char) ('a' + i): Converting the value of i to alphabet using ASCII code. 'a' + i returns 'a' when i is 0, returns 'b' when i is 1, and so on.
+
+**Why (char) ('a' + i)**
+It is used to obtain the alphabet in order from 'a' according to the i value.
+
+(char) means casting to convert an integer to a character, and 'a' + i is an expression to get the alphabet corresponding to i in the ASCII code.
+
+With this, I'm converting the Morse code to an alphabet and building the result into a final string using StringBuilder.
+
+In Java, you can use the index of the array to map each value directly.
+
+However, if you need mapping for multiple reasons, it may be convenient to use HashMap or another mapping structure.
+
+**When using HashMap**
+
+- Dynamic mapping: When new alphabets or Morse codes may be added or changed, HashMap allows you to dynamically adjust the mapping.
+- Key-value pair management: HashMap allows you to easily add, delete, and modify key and value pairs.
+
+#### example:
+
+```java
+// Initialize HashMap using initialization block
+     static {
+         morseMap = new HashMap<>();
+         morseMap.put(".-", 'a');
+         morseMap.put("-...", 'b');
+         morseMap.put("-.-.", 'c');
+         ...
+      }
+```
+
+**When using arrays**
+
+- Static mapping: Arrays can be used when the mapping is fixed and does not change.
+- Simple structure: When the mapping is simple and unlikely to change, you can use arrays to keep your code concise.
+
+Therefore, it is important to choose the appropriate data structure depending on the situation. Just write code considering the pros and cons of each.
