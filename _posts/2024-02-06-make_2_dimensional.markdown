@@ -40,123 +40,74 @@ date: 2024-02-06 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "모스부호 1" 문제에 대하여 알아본 글입니다.
+## This is an article about the problem of “making it 2-dimensional.”
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-머쓱이는 친구에게 모스부호를 이용한 편지를 받았습니다.
+The integer array num_list and the integer n are given as parameters.
 
-그냥은 읽을 수 없어 이를 해독하는 프로그램을 만들려고 합니다.
+Complete the solution function to return num_list by converting it to a two-dimensional array as described below.
 
-문자열 letter가 매개변수로 주어질 때, letter를 영어 소문자로 바꾼 문자열을 return 하도록 solution 함수를 완성해보세요.
+Since num_list is [1, 2, 3, 4, 5, 6, 7, 8] with length 8 and n is 2, we change num_list to 2\*4 array as follows:
 
-모스부호는 다음과 같습니다.
+When changing to 2-dimensional, the elements of num_list are divided into n elements from the beginning and changed to a 2-dimensional array.
 
-```java
-morse = {
-'.-':'a','-...':'b','-.-.':'c','-..':'d','.':'e','..-.':'f',
-'--.':'g','....':'h','..':'i','.---':'j','-.-':'k','.-..':'l',
-'--':'m','-.':'n','---':'o','.--.':'p','--.-':'q','.-.':'r',
-'...':'s','-':'t','..-':'u','...-':'v','.--':'w','-..-':'x',
-'-.--':'y','--..':'z'
-}
-```
+#### Restrictions
 
-#### 제한사항
+- The length of num_list is several times n.
+- 0 ≤ length of num_list ≤ 150
+- 2 ≤ n < length of num_list
 
-- 1 ≤ letter의 길이 ≤ 1,000
-- return값은 소문자입니다.
-- letter의 모스부호는 공백으로 나누어져 있습니다.
-- letter에 공백은 연속으로 두 개 이상 존재하지 않습니다.
-- 해독할 수 없는 편지는 주어지지 않습니다.
-- 편지의 시작과 끝에는 공백이 없습니다.
+#### Input/Output Example
 
-#### 입출력 예시
-
-| letter                    | result   |
-| ------------------------- | -------- |
-| ".... . .-.. .-.. ---"    | "hello"  |
-| ".--. -.-- - .... --- -." | "python" |
+| num_list                           | n   | result                                   |
+| ---------------------------------- | --- | ---------------------------------------- |
+| [1, 2, 3, 4, 5, 6, 7, 8]           | 2   | [[1, 2], [3, 4], [5, 6], [7, 8]]         |
+| [100, 95, 2, 4, 5, 6, 18, 33, 948] | 3   | [[100, 95, 2], [4, 5, 6], [18, 33, 948]] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public String solution(String letter) {
-        String[] morseArray = letter.split(" ");
-        StringBuilder answer = new StringBuilder();
-        String[] morseAlphabet = {
-            ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---",
-            "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-",
-            "..-", "...-", ".--", "-..-", "-.--", "--.."
-        };
-
-        for (String morse : morseArray){
-            for (int i = 0; i < morseAlphabet.length; i++) {
-                if (morse.equals(morseAlphabet[i])) {
-                    char decodedChar = (char) ('a' + i);
-                    answer.append(decodedChar);
-                }
-            }
-        }
-
-        return answer.toString();
-    }
+     public int[][] solution(int[] num_list, int n) {
+         int[][] answer = new int[num_list.length / n][n];
+         int temp = 0;
+         for(int i = 0; i < num_list.length / n; i++){
+             for(int j = 0; j < n; j++){
+                 answer[i][j] = num_list[temp++];
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-split: 문자열을 공백을 기준으로 나누어 배열로 만듭니다.
+**Main Logic**
 
-여기서는 Morse 코드를 공백을 기준으로 나누어 배열로 저장하고 있습니다.
+answer defines the size of the array as num_list.length / n rows and n columns.
 
-(char) ('a' + i): ASCII 코드를 활용하여 i 값을 알파벳으로 변환하고 있습니다. 'a' + i는 i가 0일 때 'a'를 반환하고, i가 1일 때 'b'를 반환하는 식으로 동작합니다.
+Move the elements of a one-dimensional array into a two-dimensional array using a double loop.
 
-**왜 (char) ('a' + i)를 사용했는가**
-i 값에 따라 'a'에서부터 차례로 알파벳을 얻기 위해 사용됩니다.
+**Function Description**
 
-(char)는 정수를 문자로 변환하는 캐스팅을 의미하며, 'a' + i는 ASCII 코드에서 i에 해당하는 알파벳을 얻기 위한 표현식입니다.
+We used a method of initializing the array and assigning values directly without using a special function.
 
-이를 통해 Morse 코드를 알파벳으로 변환하고 그 결과를 StringBuilder를 사용하여 최종 문자열로 만들고 있습니다.
+**Direction for improvement**
 
-Java에서는 배열의 인덱스를 사용하여 각각의 값을 직접 매핑하는 방식을 사용할 수 있습니다.
+Depending on the input or situation, it may be a good idea to add an option to choose how to fill or ignore the last row.
 
-그러나 여러 가지 이유로 매핑이 필요한 경우, HashMap 또는 다른 매핑 구조를 사용하는 것이 편리할 수 있습니다.
-
-**HashMap을 사용할 경우**
-
-- 동적인 매핑: 새로운 알파벳이나 Morse 코드가 추가되거나 변경될 수 있는 경우, HashMap을 사용하면 동적으로 매핑을 조정할 수 있습니다.
-- 키-값 쌍 관리: HashMap을 사용하면 키와 값의 쌍을 쉽게 추가, 삭제, 수정할 수 있습니다.
-
-#### 예시:
-
-```java
-// 초기화 블록을 사용하여 HashMap 초기화
-    static {
-        morseMap = new HashMap<>();
-        morseMap.put(".-", 'a');
-        morseMap.put("-...", 'b');
-        morseMap.put("-.-.", 'c');
-        ...
-     }
-```
-
-**배열을 사용하는 경우**
-
-- 정적인 매핑: 매핑이 변경되지 않고 고정된 경우 배열을 사용할 수 있습니다.
-- 간단한 구조: 매핑이 간단하고 변경될 가능성이 낮은 경우 배열을 사용하여 코드를 간결하게 유지할 수 있습니다.
-
-따라서 상황에 따라 적절한 데이터 구조를 선택하는 것이 중요합니다. 각각의 장단점을 고려하여 코드를 작성하면 됩니다.
+Through exception handling, the code can be supplemented to ensure appropriate processing by checking the size of num_list and the condition of n.
