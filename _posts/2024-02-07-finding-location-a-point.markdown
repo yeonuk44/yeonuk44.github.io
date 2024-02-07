@@ -40,74 +40,96 @@ date: 2024-02-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "2차원으로 만들기" 문제에 대하여 알아본 글입니다.
+## This is an article about the problem of “Finding the location of a point.”
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-정수 배열 num_list와 정수 n이 매개변수로 주어집니다.
+A quadrant is a plane divided into four parts based on the x and y axes.
 
-num_list를 다음 설명과 같이 2차원 배열로 바꿔 return하도록 solution 함수를 완성해주세요.
+The quadrants are numbered 1 through 4 as shown below.
 
-num_list가 [1, 2, 3, 4, 5, 6, 7, 8] 로 길이가 8이고 n이 2이므로 num_list를 2 \* 4 배열로 다음과 같이 변경합니다.
+If both the x and y coordinates are positive, it is in the first quadrant.
 
-2차원으로 바꿀 때에는 num_list의 원소들을 앞에서부터 n개씩 나눠 2차원 배열로 변경합니다.
+If the x-coordinate is negative and the y-coordinate is positive, it belongs to the second quadrant.
 
-#### 제한사항
+If both the x and y coordinates are negative, it is in the third quadrant.
 
-- num_list의 길이는 n의 배 수개입니다.
-- 0 ≤ num_list의 길이 ≤ 150
-- 2 ≤ n < num_list의 길이
+If the x-coordinate is positive and the y-coordinate is negative, it belongs to the fourth quadrant.
 
-#### 입출력 예시
+An integer array dot containing the x coordinates (x, y) in order is given as a parameter.
 
-| num_list                           | n   | result                                   |
-| ---------------------------------- | --- | ---------------------------------------- |
-| [1, 2, 3, 4, 5, 6, 7, 8]           | 2   | [[1, 2], [3, 4], [5, 6], [7, 8]]         |
-| [100, 95, 2, 4, 5, 6, 18, 33, 948] | 3   | [[100, 95, 2], [4, 5, 6], [18, 33, 948]] |
+Please complete the solution function to return one of 1, 2, 3, or 4 to indicate which quadrant the coordinate dot belongs to.
+
+#### Restrictions
+
+- Length of dot = 2
+- dot[0] represents the x-coordinate, and dot[1] represents the y-coordinate.
+- -500 ≤ element of dot ≤ 500
+- The element of dot is not 0.
+
+#### Input/Output Example
+
+| dot     | result |
+| ------- | ------ |
+| [2, 4]  | 1      |
+| [-7, 9] | 2      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int[][] solution(int[] num_list, int n) {
-        int[][] answer = new int[num_list.length / n][n];
-        int temp = 0;
-        for(int i = 0; i < num_list.length / n; i++){
-            for(int j = 0; j < n; j++){
-                answer[i][j] = num_list[temp++];
-            }
-        }
-        return answer;
-    }
+     public int solution(int[] dot) {
+         int answer = 0;
+
+         if(dot[0] > 0 && dot[1] > 0){
+             answer = 1;
+         }else if(dot[0] < 0 && dot[1] > 0){
+             answer = 2;
+         }else if(dot[0] < 0 && dot[1] < 0){
+             answer = 3;
+         }else if(dot[0] > 0 && dot[1] < 0){
+             answer = 4;
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-**주요 로직**
+This code determines and returns the quadrant to which the given coordinate dot belongs.
 
-answer 배열의 크기를 num_list.length / n 행과 n 열로 정의합니다.
+No special function is used, and the quadrant is determined through the given conditional statement and the value is stored in the answer.
 
-이중 반복문을 사용하여 1차원 배열의 원소를 2차원 배열로 옮깁니다.
+The main concept used here is the division of quadrants in the coordinate plane.
 
-**함수 설명**
+Each conditional statement means:
 
-특별한 함수를 사용하지 않고 직접 배열을 초기화하고 값을 할당하는 방식을 사용했습니다.
+dot[0] > 0 && dot[1] > 0: Quadrant 1
+dot[0] < 0 && dot[1] > 0: Quadrant 2
+dot[0] < 0 && dot[1] < 0: 3rd quadrant
+dot[0] > 0 && dot[1] < 0: Quadrant 4
 
-**개선 방향**
+**Benefits of this code**
 
-입력값이나 상황에 따라 마지막 행을 채우거나 무시하는 방식을 선택할 수 있는 선택지를 추가하는 것이 좋을 수 있습니다.
+Simple and clear logic: Easy to understand by explicitly expressing given conditions.
 
-예외 처리를 통해 num_list의 크기와 n의 조건을 검사하여 적절한 처리를 할 수 있도록 코드를 보완할 수 있습니다.
+Performance: It is very efficient because determination of each condition is made sequentially.
+
+**disadvantage**
+
+In some cases, the size of the dot array may be incorrect.
+
+There is no handling for these situations. (e.g. when dot.length is not 2)
