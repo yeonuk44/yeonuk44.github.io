@@ -40,96 +40,89 @@ date: 2024-02-08 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "점의 위치 구하기" 문제에 대하여 알아본 글입니다.
+## This is an article about the “ball throwing” problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-사분면은 한 평면을 x축과 y축을 기준으로 나눈 네 부분입니다.
+I'm standing in a circle with my shy friends and playing a game of throwing a ball.
 
-사분면은 아래와 같이 1부터 4까지 번호를매깁니다.
+The ball is thrown starting from number 1, and you can skip one person to the right and throw only to the next person.
 
-x 좌표와 y 좌표가 모두 양수이면 제1사분면에 속합니다.
+Given an integer array numbers containing friends' numbers and an integer K, complete the solution function to return the number of the kth person who throws the ball.
 
-x 좌표가 음수, y 좌표가 양수이면 제2사분면에 속합니다.
+#### Restrictions
 
-x 좌표와 y 좌표가 모두 음수이면 제3사분면에 속합니다.
+- 2 < length of numbers < 100
+- 0 < k < 1,000
+- The first and last numbers in numbers are actually right next to each other.
+- Numbers start from 1 and go up in order.
 
-x 좌표가 양수, y 좌표가 음수이면 제4사분면에 속합니다.
+#### Input/Output Example
 
-x 좌표 (x, y)를 차례대로 담은 정수 배열 dot이 매개변수로 주어집니다.
-
-좌표 dot이 사분면 중 어디에 속하는지 1, 2, 3, 4 중 하나를 return 하도록 solution 함수를 완성해주세요.
-
-#### 제한사항
-
-- dot의 길이 = 2
-- dot[0]은 x좌표를, dot[1]은 y좌표를 나타냅니다
-- -500 ≤ dot의 원소 ≤ 500
-- dot의 원소는 0이 아닙니다.
-
-#### 입출력 예시
-
-| dot     | result |
-| ------- | ------ |
-| [2, 4]  | 1      |
-| [-7, 9] | 2      |
+| numbers            | k   | result |
+| ------------------ | --- | ------ |
+| [1, 2, 3, 4]       | 2   | 3      |
+| [1, 2, 3, 4, 5, 6] | 5   | 3      |
+| [1, 2, 3]          | 3   | 2      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int[] dot) {
-        int answer = 0;
-
-        if(dot[0] > 0 && dot[1] > 0){
-            answer = 1;
-        }else if(dot[0] < 0 && dot[1] > 0){
-            answer = 2;
-        }else if(dot[0] < 0 && dot[1] < 0){
-            answer = 3;
-        }else if(dot[0] > 0 && dot[1] < 0){
-            answer = 4;
-        }
-        return answer;
-    }
+     public int solution(int[] numbers, int k) {
+         int answer = 0;
+         answer = numbers[2 * (k -1) % numbers.length];
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-해당 코드는 주어진 좌표 dot이 속하는 사분면을 판별하여 반환하는 코드입니다.
+Here numbers.length represents the length of the array numbers.
 
-특별한 함수를 사용하지 않았으며, 주어진 조건문을 통해 사분면을 결정하고 해당 값을 answer에 저장합니다.
+In the given problem, we throw the ball, skipping one person to the right. To implement this, we multiply (k - 1) by 2 and use the remainder divided by numbers.length.
 
-여기서 사용된 주요 개념은 좌표 평면에서의 사분면을 구분하는 것입니다.
+By doing this, we can find the number of the kth thrower, skipping one person to the right.
 
-각 조건문은 다음을 의미합니다:
+For example, let's consider the case where the array numbers is [1, 2, 3, 4, 5] and k is 3.
 
-dot[0] > 0 && dot[1] > 0: 제 1 사분면
-dot[0] < 0 && dot[1] > 0: 제 2 사분면
-dot[0] < 0 && dot[1] < 0: 제 3 사분면
-dot[0] > 0 && dot[1] < 0: 제 4 사분면
+- Initially, 1 throws the ball. (0th shy)
+- Next, 3 throws the ball. (2nd shy)
+- And 5 throws the ball. (4th shy)
+  The code that expresses this is numbers[2 * (k - 1) % numbers.length].
 
-**이 코드의 장점**
+By using the remainder operator, we can iterate through the array and find the number of the kth thrower.
 
-간단하고 명확한 로직: 주어진 조건들을 명시적으로 표현하여 이해하기 쉽습니다.
+**addition**
+You can use the remainder operator to loop through an array.
 
-성능: 각 조건에 대한 판별이 순차적으로 이루어지기 때문에 매우 효율적입니다.
+If the length of the array is n, for index i, i % n is repeated while cycling through the array.
 
-**단점**
+When using this to retrieve the value at a specific position from an array, you can conveniently implement a circular operation by using the remainder divided by the length of the array.
 
-일부 경우에 따라 dot 배열의 크기가 잘못된 경우가 있을 수 있습니다.
+For example, if the length of the array is 5:
 
-이러한 상황에 대한 처리가 없습니다. (예: dot.length가 2가 아닌 경우)
+- 0 % 5 is 0
+- 1% 5 is 1
+- 2% 5 is 2
+- 3% 5 is 3
+- 4% 5 is 4
+- 5% 5 is 0 again
+- 6% 5 is 1
+
+If you calculate the index of the array through the remainder operation in this way, you can achieve the effect of rotating the array.
+
+This provides easy access to periodically repeated array elements.
