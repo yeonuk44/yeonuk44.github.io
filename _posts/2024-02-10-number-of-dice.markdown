@@ -40,97 +40,68 @@ date: 2024-02-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "배열 회전시키기" 문제에 대하여 알아본 글입니다.
+## This article examines the “Number of Dice” problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-정수가 담긴 배열 numbers와 문자열 direction가 매개변수로 주어집니다.
+I have a cuboid-shaped box and I want to fill this box with as many cube-shaped dice as possible.
 
-배열 numbers의 원소를 direction방향으로 한 칸씩 회전시킨 배열을 return하도록 solution 함수를 완성해주세요.
+When the array box, which stores the width, length, and height of the box, and the integer n, the length of the edge of the dice, are given as parameters, complete the solution function to return the maximum number of dice that can fit into the box.
 
-#### 제한사항
+#### Restrictions
 
-- 3 ≤ numbers의 길이 ≤ 20
-- direction은 "left" 와 "right" 둘 중 하나입니다.
+- The length of the box is 3.
+- box[0] = horizontal length of the box
+- box[1] = vertical length of the box
+- box[2] = height length of box
+- 1 ≤ element of box ≤ 100
+- 1 ≤ n ≤ 50
+- elements of n ≤ box
+- Place the dice parallel to the box.
 
-#### 입출력 예시
+#### Input/Output Example
 
-| numbers                   | direction | result                    |
-| ------------------------- | --------- | ------------------------- |
-| [1, 2, 3]                 | "right"   | [3, 1, 2]                 |
-| [4, 455, 6, 4, -1, 45, 6] | "left"    | [455, 6, 4, -1, 45, 6, 4] |
-
-|
+| box        | n   | result |
+| ---------- | --- | ------ |
+| [1, 1, 1]  | 1   | 1      |
+| [10, 8, 6] | 3   | 12     |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int[] solution(int[] numbers, String direction) {
-        int[] answer = new int[numbers.length];
-        if(direction.equals("right")){
-            for(int i = 0; i < numbers.length; i++){
-                if(answer.length == i + 1){
-                    answer[0] = numbers[i];
-                }else{
-                    answer[i + 1] = numbers[i];
-                }
-            }
-        }else{
-            for(int i = 0; i < numbers.length; i++){
-                if(answer.length == i + 1){
-                    answer[i] = numbers[0];
-                }else{
-                    answer[i] = numbers[i + 1];
-                }
-            }
-        }
-        return answer;
-    }
+     public int solution(int[] box, int n) {
+         int answer = 0;
+         int x = box[0] / n;
+         int y = box[1] / n;
+         int z = box[2] / n;
+
+         answer = x * y * z;
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-주어진 방향이 "right"일 경우: 배열의 각 요소를 한 칸씩 오른쪽으로 이동시킵니다.
+This problem involves calculating the volume of a box, given its size and the number to be divided.
 
-마지막 요소는 첫 번째 요소로 이동합니다.
+To solve the problem, the size of the given box must be divided by each dimension (x, y, z).
 
-주어진 방향이 "left"일 경우: 배열의 각 요소를 한 칸씩 왼쪽으로 이동시킵니다.
+You can then calculate the final volume by multiplying the divisions for each dimension.
 
-첫 번째 요소는 마지막 요소로 이동합니다.
+Divide each dimension (x, y, z) of the box array by n to obtain the division value for each dimension.
 
-위의 두 동작을 수행하면 배열을 회전시킬 수 있습니다.
-
-**사용된 함수 설명**
-equals(): 문자열을 비교하는 메서드입니다.
-
-문자열을 비교할 때 == 연산자를 사용하지 않는 이유는 문자열은 참조 타입이기 때문입니다.
-
-equals() 메서드를 사용하면 두 문자열의 실제 내용을 비교할 수 있습니다.
-
-**코드 분석**
-equals() 메서드를 사용하여 문자열을 비교하고 있습니다.
-
-direction.equals("right")와 direction.equals("left")는 주어진 방향이 "right" 또는 "left"인지 확인하는 조건문입니다.
-
-for 루프를 통해 배열을 회전시키고 있습니다.
-
-오른쪽으로 이동할 때는 마지막 요소를 첫 번째로, 왼쪽으로 이동할 때는 첫 번째 요소를 마지막으로 이동시킵니다.
-
-**코드 장점**
-equals() 메서드 사용: 문자열을 비교할 때 equals() 메서드를 사용함으로써 실제 문자열의 내용을 비교하고 있습니다.
-
-이는 문자열이 참조 타입이기 때문에 내용을 비교하기 위해서는 equals()를 사용하는 것이 올바릅니다.
+Multiply the divided value to calculate the final volume.
