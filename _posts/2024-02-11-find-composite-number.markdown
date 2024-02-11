@@ -40,68 +40,76 @@ date: 2024-02-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "주사위의 개수" 문제에 대하여 알아본 글입니다.
+## This article examines the problem of “Finding composite numbers.”
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-머쓱이는 직육면체 모양의 상자를 하나 가지고 있는데 이 상자에 정육면체 모양의 주사위를 최대한 많이 채우고 싶습니다.
+A number with three or more divisors is called a composite number.
 
-상자의 가로, 세로, 높이가 저장되어있는 배열 box와 주사위 모서리의 길이 정수 n이 매개변수로 주어졌을 때, 상자에 들어갈 수 있는 주사위의 최대 개수를 return 하도록 solution 함수를 완성해주세요.
+When a natural number n is given as a parameter, complete the solution function so that it returns the number of composite numbers less than n.
 
-#### 제한사항
+#### Restrictions
 
-- box의 길이는 3입니다.
-- box[0] = 상자의 가로 길이
-- box[1] = 상자의 세로 길이
-- box[2] = 상자의 높이 길이
-- 1 ≤ box의 원소 ≤ 100
-- 1 ≤ n ≤ 50
-- n ≤ box의 원소
-- 주사위는 상자와 평행하게 넣습니다.
+- 1 ≤ n ≤ 100
 
-#### 입출력 예시
+#### Input/Output Example
 
-| box        | n   | result |
-| ---------- | --- | ------ |
-| [1, 1, 1]  | 1   | 1      |
-| [10, 8, 6] | 3   | 12     |
+| n   | result |
+| --- | ------ |
+| 10  | 5      |
+| 15  | 8      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int[] box, int n) {
-        int answer = 0;
-        int x = box[0] / n;
-        int y = box[1] / n;
-        int z = box[2] / n;
-
-        answer = x * y * z;
-        return answer;
-    }
+     public int solution(int n) {
+         int answer = 0;
+         int count = 0;
+         for(int i = 1; i <= n; i++){
+             for(int j = 1; j <= i; j++){
+                 if(i % j == 0){
+                     count++;
+                 }
+             }
+             if(count > 2){
+                 answer++;
+             }
+             count = 0;
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-이 문제는 박스의 크기와 나누려는 수가 주어졌을 때, 박스의 부피를 계산하는 문제입니다.
+solution(int n): Determines whether each number within the given range is prime, and if so, increments the answer.
 
-문제를 해결하기 위해서는 주어진 박스의 크기를 각 차원(x, y, z)별로 나누어야 합니다.
+count: A variable that counts the number of divisors of each number. For decimal numbers, the number of divisors must be 2.
 
-그리고 나서 각 차원별로 나눈 값을 곱하여 최종적인 부피를 계산할 수 있습니다.
+Use the for statement to repeat numbers from 1 to n, and use the nested for statement to find the divisors of each number.
 
-box 배열의 각 차원(x, y, z)을 n으로 나누어 각 차원별로 나눈 값을 구합니다.
+In the inner for statement, if(i % j == 0) is a condition that checks whether j is a divisor of i.
 
-나눈 값을 곱하여 최종적인 부피를 계산합니다.
+If the number of factors exceeds 2, the number is not prime.
+
+Problem Solving: Solve problems using the simple method of finding the number of prime numbers within a given range.
+
+Intuitive: The code is intuitive and easy to understand.
+
+Although the code is simple, it does not use an efficient prime number discrimination algorithm, so performance may not be good for large input values.
+
+To improve this, it is recommended to use an efficient decimal discrimination algorithm.
