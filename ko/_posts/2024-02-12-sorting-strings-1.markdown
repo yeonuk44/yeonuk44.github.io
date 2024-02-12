@@ -40,7 +40,7 @@ date: 2024-02-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "합성수 찾기" 문제에 대하여 알아본 글입니다.
+## "문자열 정렬하기 1" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,20 +52,21 @@ date: 2024-02-12 09:00:00 +0900
 
 ### 문제
 
-약수의 개수가 세 개 이상인 수를 합성수라고 합니다.
-
-자연수 n이 매개변수로 주어질 때 n이하의 합성수의 개수를 return하도록 solution 함수를 완성해주세요.
+문자열 my_string이 매개변수로 주어질 때, my_string 안에 있는 숫자만 골라 오름차순 정렬한 리스트를 return 하도록 solution 함수를 작성해보세요.
 
 #### 제한사항
 
-- 1 ≤ n ≤ 100
+- 1 ≤ my_string의 길이 ≤ 100
+- my_string에는 숫자가 한 개 이상 포함되어 있습니다.
+- my_string은 영어 소문자 또는 0부터 9까지의 숫자로 이루어져 있습니다.
 
 #### 입출력 예시
 
-| n   | result |
-| --- | ------ |
-| 10  | 5      |
-| 15  | 8      |
+| my_string   | result          |
+| ----------- | --------------- |
+| "hi12392"   | [1, 2, 2, 3, 9] |
+| "p2o4i8gj2" | [2, 2, 4, 8]    |
+| "abcde0"    | [0]             |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -74,21 +75,21 @@ date: 2024-02-12 09:00:00 +0900
 ### 문제에 대한 나의 풀이
 
 ```java
+import java.util.*;
+
 class Solution {
-    public int solution(int n) {
-        int answer = 0;
-        int count = 0;
-        for(int i = 1; i <= n; i++){
-            for(int j = 1; j <= i; j++){
-                if(i % j == 0){
-                    count++;
-                }
+    public int[] solution(String my_string) {
+        List<Integer> numbers = new ArrayList<>();
+
+        for (char ch : my_string.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                numbers.add(Character.getNumericValue(ch));
             }
-            if(count > 2){
-                answer++;
-            }
-            count = 0;
         }
+
+        Collections.sort(numbers);
+        int[] answer = numbers.stream().mapToInt(i -> i).toArray();
+
         return answer;
     }
 }
@@ -96,20 +97,22 @@ class Solution {
 
 ### 풀이 설명
 
-solution(int n): 주어진 범위 내에서 각 숫자가 소수인지를 판별하고, 소수인 경우 answer를 증가시킵니다.
+solution(String my_string): 주어진 문자열 my_string에서 숫자를 추출하여 정렬된 배열로 반환한다.
 
-count: 각 숫자의 약수의 개수를 세는 변수로, 소수는 약수의 개수가 2여야 합니다.
+List<Integer> numbers: 숫자를 저장할 리스트.
 
-for 문을 이용하여 1부터 n까지의 숫자를 반복하고, 내부에 중첩된 for 문을 이용하여 각 숫자의 약수를 찾습니다.
+문자열을 순회하면서 Character.isDigit(ch)를 사용하여 각 문자가 숫자인지 확인하고, 숫자라면 Character.getNumericValue(ch)를 사용하여 숫자형의 char을 int형으로 변환하여 해당 숫자를 리스트에 추가한다.
 
-내부의 for 문에서 if(i % j == 0)는 j가 i의 약수인지를 확인하는 조건입니다.
+Collections.sort(numbers): 리스트의 숫자들을 오름차순으로 정렬한다.
 
-약수의 개수가 2를 초과하면 해당 숫자는 소수가 아닙니다.
+numbers.stream().mapToInt(i -> i).toArray(): 정렬된 리스트를 배열로 변환한다.
 
-문제 해결: 주어진 범위 내에서 소수의 개수를 찾는 간단한 방법으로 문제를 해결합니다.
+**코드 장점**
 
-직관적: 코드가 직관적이며 이해하기 쉽게 작성되어 있습니다.
+숫자 추출 및 정렬이 간편: 숫자 추출 및 정렬을 위해 자바의 내장 함수와 컬렉션을 활용하여 간편한 코드를 제공한다.
 
-해당 코드는 간단하지만, 효율적인 소수 판별 알고리즘을 사용하지 않아서 큰 입력값에 대해서는 성능이 좋지 않을 수 있습니다.
+**코드 단점**
 
-이를 개선하기 위해서는 효율적인 소수 판별 알고리즘을 사용하는 것이 좋습니다.
+숫자 범위 제한: 코드는 문자열에서 0부터 9까지의 숫자만 추출하고 정렬한다.
+
+만약 다른 숫자 범위가 필요한 경우 코드를 수정해야 한다.

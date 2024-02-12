@@ -40,76 +40,79 @@ date: 2024-02-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "합성수 찾기" 문제에 대하여 알아본 글입니다.
+## This is an article that looks into the problem of “sorting strings 1”.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-약수의 개수가 세 개 이상인 수를 합성수라고 합니다.
+When the string my_string is given as a parameter, write a solution function that selects only the numbers in my_string and returns a list sorted in ascending order.
 
-자연수 n이 매개변수로 주어질 때 n이하의 합성수의 개수를 return하도록 solution 함수를 완성해주세요.
+#### Restrictions
 
-#### 제한사항
+- 1 ≤ length of my_string ≤ 100
+- my_string contains one or more numbers.
+- my_string consists of lowercase English letters or numbers from 0 to 9.
 
-- 1 ≤ n ≤ 100
+#### Input/Output Example
 
-#### 입출력 예시
-
-| n   | result |
-| --- | ------ |
-| 10  | 5      |
-| 15  | 8      |
+| my_string   | result          |
+| ----------- | --------------- |
+| "hi12392"   | [1, 2, 2, 3, 9] |
+| "p2o4i8gj2" | [2, 2, 4, 8]    |
+| "abcde0"    | [0]             |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
+import java.util.*;
+
 class Solution {
-    public int solution(int n) {
-        int answer = 0;
-        int count = 0;
-        for(int i = 1; i <= n; i++){
-            for(int j = 1; j <= i; j++){
-                if(i % j == 0){
-                    count++;
-                }
-            }
-            if(count > 2){
-                answer++;
-            }
-            count = 0;
-        }
-        return answer;
-    }
+     public int[] solution(String my_string) {
+         List<Integer> numbers = new ArrayList<>();
+
+         for (char ch : my_string.toCharArray()) {
+             if (Character.isDigit(ch)) {
+                 numbers.add(Character.getNumericValue(ch));
+             }
+         }
+
+         Collections.sort(numbers);
+         int[] answer = numbers.stream().mapToInt(i -> i).toArray();
+
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-solution(int n): 주어진 범위 내에서 각 숫자가 소수인지를 판별하고, 소수인 경우 answer를 증가시킵니다.
+solution(String my_string): Extracts numbers from the given string my_string and returns them as a sorted array.
 
-count: 각 숫자의 약수의 개수를 세는 변수로, 소수는 약수의 개수가 2여야 합니다.
+List<Integer> numbers: List to store numbers.
 
-for 문을 이용하여 1부터 n까지의 숫자를 반복하고, 내부에 중첩된 for 문을 이용하여 각 숫자의 약수를 찾습니다.
+While iterating through the string, use Character.isDigit(ch) to check whether each character is a number. If it is a number, use Character.getNumericValue(ch) to convert the numeric char to int type and add the number to the list.
 
-내부의 for 문에서 if(i % j == 0)는 j가 i의 약수인지를 확인하는 조건입니다.
+Collections.sort(numbers): Sorts the numbers in the list in ascending order.
 
-약수의 개수가 2를 초과하면 해당 숫자는 소수가 아닙니다.
+numbers.stream().mapToInt(i -> i).toArray(): Converts a sorted list to an array.
 
-문제 해결: 주어진 범위 내에서 소수의 개수를 찾는 간단한 방법으로 문제를 해결합니다.
+**Code Advantages**
 
-직관적: 코드가 직관적이며 이해하기 쉽게 작성되어 있습니다.
+Easy to extract and sort numbers: Provides simple code by utilizing Java's built-in functions and collections to extract and sort numbers.
 
-해당 코드는 간단하지만, 효율적인 소수 판별 알고리즘을 사용하지 않아서 큰 입력값에 대해서는 성능이 좋지 않을 수 있습니다.
+**Code Disadvantages**
 
-이를 개선하기 위해서는 효율적인 소수 판별 알고리즘을 사용하는 것이 좋습니다.
+Number range restriction: The code extracts and sorts only the numbers 0 through 9 from the string.
+
+If you need a different number range, you will need to modify the code.
