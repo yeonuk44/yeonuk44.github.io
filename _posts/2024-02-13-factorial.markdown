@@ -40,79 +40,80 @@ date: 2024-02-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "문자열 정렬하기 1" 문제에 대하여 알아본 글입니다.
+## This is an article about the “factorial” problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 my_string이 매개변수로 주어질 때, my_string 안에 있는 숫자만 골라 오름차순 정렬한 리스트를 return 하도록 solution 함수를 작성해보세요.
+ifactorial (i!) means the product of integers from 1 to i. For example 5! = 5 _ 4 _ 3 _ 2 _ 1 = 120. Given an integer n, complete the solution function to return the largest integer i that satisfies the following conditions.
 
-#### 제한사항
+-i! ≤ n
 
-- 1 ≤ my_string의 길이 ≤ 100
-- my_string에는 숫자가 한 개 이상 포함되어 있습니다.
-- my_string은 영어 소문자 또는 0부터 9까지의 숫자로 이루어져 있습니다.
+#### Restrictions
 
-#### 입출력 예시
+- 0 < n ≤ 3,628,800
 
-| my_string   | result          |
-| ----------- | --------------- |
-| "hi12392"   | [1, 2, 2, 3, 9] |
-| "p2o4i8gj2" | [2, 2, 4, 8]    |
-| "abcde0"    | [0]             |
+#### Input/Output Example
+
+| n       | result |
+| ------- | ------ |
+| 3628800 | 10     |
+| 7       | 3      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
-import java.util.*;
-
 class Solution {
-    public int[] solution(String my_string) {
-        List<Integer> numbers = new ArrayList<>();
-
-        for (char ch : my_string.toCharArray()) {
-            if (Character.isDigit(ch)) {
-                numbers.add(Character.getNumericValue(ch));
-            }
-        }
-
-        Collections.sort(numbers);
-        int[] answer = numbers.stream().mapToInt(i -> i).toArray();
-
-        return answer;
-    }
+     public int solution(int n) {
+         int answer = 0;
+         int temp = 1;
+         for(int i = 2; i <= 10; i++){
+             for(int j = i; j >= 2; j--){
+                 temp *= j;
+             }
+             if(temp == n){
+                 answer = i;
+                 return answer;
+             } else if(temp > n){
+                 answer = i - 1;
+                 return answer;
+             } else {
+                 temp = 1;
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-solution(String my_string): 주어진 문자열 my_string에서 숫자를 추출하여 정렬된 배열로 반환한다.
+solution(int n): Returns the minimum number of numbers that can represent the given integer n as a factorial.
 
-List<Integer> numbers: 숫자를 저장할 리스트.
+Use the for statement to calculate the factorial for numbers from 2 to 10.
 
-문자열을 순회하면서 Character.isDigit(ch)를 사용하여 각 문자가 숫자인지 확인하고, 숫자라면 Character.getNumericValue(ch)를 사용하여 숫자형의 char을 int형으로 변환하여 해당 숫자를 리스트에 추가한다.
+Calculate the factorial from the current number to 2 through the inner for statement and store it in temp.
 
-Collections.sort(numbers): 리스트의 숫자들을 오름차순으로 정렬한다.
+If the calculated factorial matches n, that number is returned as the result.
 
-numbers.stream().mapToInt(i -> i).toArray(): 정렬된 리스트를 배열로 변환한다.
+If the factorial is greater than n, the previous number is the minimum number and is returned as the result.
 
-**코드 장점**
+**Code Advantages**
 
-숫자 추출 및 정렬이 간편: 숫자 추출 및 정렬을 위해 자바의 내장 함수와 컬렉션을 활용하여 간편한 코드를 제공한다.
+- Simple implementation: The implementation required to solve the problem is simple.
+- Intuitive logic: It has intuitive logic by sequentially checking given conditions.
 
-**코드 단점**
+**Code Disadvantages**
 
-숫자 범위 제한: 코드는 문자열에서 0부터 9까지의 숫자만 추출하고 정렬한다.
-
-만약 다른 숫자 범위가 필요한 경우 코드를 수정해야 한다.
+- Applicable only to a specific range: Currently, the factorial is calculated only for numbers from 2 to 10, so if it is outside this range, accurate results cannot be obtained.

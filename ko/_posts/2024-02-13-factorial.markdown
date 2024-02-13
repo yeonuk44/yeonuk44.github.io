@@ -40,7 +40,7 @@ date: 2024-02-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "문자열 정렬하기 1" 문제에 대하여 알아본 글입니다.
+## "팩토리얼" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,21 +52,20 @@ date: 2024-02-13 09:00:00 +0900
 
 ### 문제
 
-문자열 my_string이 매개변수로 주어질 때, my_string 안에 있는 숫자만 골라 오름차순 정렬한 리스트를 return 하도록 solution 함수를 작성해보세요.
+i팩토리얼 (i!)은 1부터 i까지 정수의 곱을 의미합니다. 예를들어 5! = 5 _ 4 _ 3 _ 2 _ 1 = 120 입니다. 정수 n이 주어질 때 다음 조건을 만족하는 가장 큰 정수 i를 return 하도록 solution 함수를 완성해주세요.
+
+- i! ≤ n
 
 #### 제한사항
 
-- 1 ≤ my_string의 길이 ≤ 100
-- my_string에는 숫자가 한 개 이상 포함되어 있습니다.
-- my_string은 영어 소문자 또는 0부터 9까지의 숫자로 이루어져 있습니다.
+- 0 < n ≤ 3,628,800
 
 #### 입출력 예시
 
-| my_string   | result          |
-| ----------- | --------------- |
-| "hi12392"   | [1, 2, 2, 3, 9] |
-| "p2o4i8gj2" | [2, 2, 4, 8]    |
-| "abcde0"    | [0]             |
+| n       | result |
+| ------- | ------ |
+| 3628800 | 10     |
+| 7       | 3      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -75,21 +74,24 @@ date: 2024-02-13 09:00:00 +0900
 ### 문제에 대한 나의 풀이
 
 ```java
-import java.util.*;
-
 class Solution {
-    public int[] solution(String my_string) {
-        List<Integer> numbers = new ArrayList<>();
-
-        for (char ch : my_string.toCharArray()) {
-            if (Character.isDigit(ch)) {
-                numbers.add(Character.getNumericValue(ch));
+    public int solution(int n) {
+        int answer = 0;
+        int temp = 1;
+        for(int i = 2; i <= 10; i++){
+            for(int j = i; j >= 2; j--){
+                temp *= j;
+            }
+            if(temp == n){
+                answer = i;
+                return answer;
+            } else if(temp > n){
+                answer = i - 1;
+                return answer;
+            } else {
+                temp = 1;
             }
         }
-
-        Collections.sort(numbers);
-        int[] answer = numbers.stream().mapToInt(i -> i).toArray();
-
         return answer;
     }
 }
@@ -97,22 +99,21 @@ class Solution {
 
 ### 풀이 설명
 
-solution(String my_string): 주어진 문자열 my_string에서 숫자를 추출하여 정렬된 배열로 반환한다.
+solution(int n): 주어진 정수 n을 팩토리얼로 표현할 수 있는 최소한의 숫자 개수를 반환합니다.
 
-List<Integer> numbers: 숫자를 저장할 리스트.
+for 문을 이용하여 2부터 10까지의 숫자에 대해 팩토리얼을 계산합니다.
 
-문자열을 순회하면서 Character.isDigit(ch)를 사용하여 각 문자가 숫자인지 확인하고, 숫자라면 Character.getNumericValue(ch)를 사용하여 숫자형의 char을 int형으로 변환하여 해당 숫자를 리스트에 추가한다.
+내부 for 문을 통해 현재 숫자부터 2까지의 팩토리얼을 계산하고, 이를 temp에 저장합니다.
 
-Collections.sort(numbers): 리스트의 숫자들을 오름차순으로 정렬한다.
+계산한 팩토리얼이 n과 일치하면 해당 숫자를 결과로 반환합니다.
 
-numbers.stream().mapToInt(i -> i).toArray(): 정렬된 리스트를 배열로 변환한다.
+팩토리얼이 n보다 크면 직전 숫자가 최소 개수이므로 결과로 반환합니다.
 
 **코드 장점**
 
-숫자 추출 및 정렬이 간편: 숫자 추출 및 정렬을 위해 자바의 내장 함수와 컬렉션을 활용하여 간편한 코드를 제공한다.
+- 간단한 구현: 문제를 해결하는 데 필요한 구현이 간단하다.
+- 직관적인 로직: 주어진 조건을 순차적으로 검사하여 직관적인 로직을 갖추고 있다.
 
 **코드 단점**
 
-숫자 범위 제한: 코드는 문자열에서 0부터 9까지의 숫자만 추출하고 정렬한다.
-
-만약 다른 숫자 범위가 필요한 경우 코드를 수정해야 한다.
+- 특정 범위에만 적용 가능: 현재는 2부터 10까지의 숫자에 대해서만 팩토리얼을 계산하고 있어, 이 범위를 벗어나면 정확한 결과를 얻을 수 없다.
