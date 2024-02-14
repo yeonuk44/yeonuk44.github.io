@@ -40,7 +40,7 @@ date: 2024-02-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "팩토리얼" 문제에 대하여 알아본 글입니다.
+## "모음 제거" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,20 +52,21 @@ date: 2024-02-14 09:00:00 +0900
 
 ### 문제
 
-i팩토리얼 (i!)은 1부터 i까지 정수의 곱을 의미합니다. 예를들어 5! = 5 _ 4 _ 3 _ 2 _ 1 = 120 입니다. 정수 n이 주어질 때 다음 조건을 만족하는 가장 큰 정수 i를 return 하도록 solution 함수를 완성해주세요.
+영어에선 a, e, i, o, u 다섯 가지 알파벳을 모음으로 분류합니다.
 
-- i! ≤ n
+문자열 my_string이 매개변수로 주어질 때 모음을 제거한 문자열을 return하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- 0 < n ≤ 3,628,800
+- my_string은 소문자와 공백으로 이루어져 있습니다.
+- 1 ≤ my_string의 길이 ≤ 1,000
 
 #### 입출력 예시
 
-| n       | result |
-| ------- | ------ |
-| 3628800 | 10     |
-| 7       | 3      |
+| my_string          | result      |
+| ------------------ | ----------- |
+| "bus"              | "bs"        |
+| "nice to meet you" | "nc t mt y" |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -75,45 +76,35 @@ i팩토리얼 (i!)은 1부터 i까지 정수의 곱을 의미합니다. 예를�
 
 ```java
 class Solution {
-    public int solution(int n) {
-        int answer = 0;
-        int temp = 1;
-        for(int i = 2; i <= 10; i++){
-            for(int j = i; j >= 2; j--){
-                temp *= j;
-            }
-            if(temp == n){
-                answer = i;
-                return answer;
-            } else if(temp > n){
-                answer = i - 1;
-                return answer;
-            } else {
-                temp = 1;
+    public String solution(String my_string) {
+        StringBuilder answer = new StringBuilder();
+        char[] arrString = my_string.toCharArray();
+
+        for(char charString : arrString){
+            if(charString != 'a' && charString != 'e' && charString != 'i' && charString != 'o' && charString != 'u'){
+                answer.append(charString);
             }
         }
-        return answer;
+        return answer.toString();
     }
 }
 ```
 
 ### 풀이 설명
 
-solution(int n): 주어진 정수 n을 팩토리얼로 표현할 수 있는 최소한의 숫자 개수를 반환합니다.
+solution(String my_string): 주어진 문자열 my_string에서 모음을 제외한 문자들을 추출하여 반환합니다.
 
-for 문을 이용하여 2부터 10까지의 숫자에 대해 팩토리얼을 계산합니다.
+StringBuilder를 사용하여 문자열을 효율적으로 처리합니다.
 
-내부 for 문을 통해 현재 숫자부터 2까지의 팩토리얼을 계산하고, 이를 temp에 저장합니다.
+문자열을 문자 배열로 변환하고, 각 문자에 대해 모음인지 검사하여 모음이 아닌 경우 StringBuilder에 추가합니다.
 
-계산한 팩토리얼이 n과 일치하면 해당 숫자를 결과로 반환합니다.
-
-팩토리얼이 n보다 크면 직전 숫자가 최소 개수이므로 결과로 반환합니다.
+최종적으로 StringBuilder를 문자열로 변환하여 결과를 반환합니다.
 
 **코드 장점**
 
-- 간단한 구현: 문제를 해결하는 데 필요한 구현이 간단하다.
-- 직관적인 로직: 주어진 조건을 순차적으로 검사하여 직관적인 로직을 갖추고 있다.
+- 효율적인 문자열 처리: StringBuilder를 사용하여 문자열 처리를 효율적으로 수행한다.
+- 간결한 구현: 각 문자에 대한 모음 검사를 통해 간결한 구현을 제공한다.
 
 **코드 단점**
 
-- 특정 범위에만 적용 가능: 현재는 2부터 10까지의 숫자에 대해서만 팩토리얼을 계산하고 있어, 이 범위를 벗어나면 정확한 결과를 얻을 수 없다.
+- 하드코딩된 모음 리스트: 모음을 검사할 때 'a', 'e', 'i', 'o', 'u'를 하드코딩하여 사용하고 있어, 나중에 모음이 변경될 경우 코드를 수정해야 한다.

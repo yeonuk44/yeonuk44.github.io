@@ -40,80 +40,71 @@ date: 2024-02-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "팩토리얼" 문제에 대하여 알아본 글입니다.
+## This article looks into the “vowel removal” issue.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-i팩토리얼 (i!)은 1부터 i까지 정수의 곱을 의미합니다. 예를들어 5! = 5 _ 4 _ 3 _ 2 _ 1 = 120 입니다. 정수 n이 주어질 때 다음 조건을 만족하는 가장 큰 정수 i를 return 하도록 solution 함수를 완성해주세요.
+In English, the five letters a, e, i, o, and u are classified into vowels.
 
-- i! ≤ n
+Complete the solution function so that when the string my_string is given as a parameter, it returns a string with the vowels removed.
 
-#### 제한사항
+#### Restrictions
 
-- 0 < n ≤ 3,628,800
+- my_string consists of lowercase letters and spaces.
+- 1 ≤ length of my_string ≤ 1,000
 
-#### 입출력 예시
+#### Input/Output Example
 
-| n       | result |
-| ------- | ------ |
-| 3628800 | 10     |
-| 7       | 3      |
+| my_string          | result      |
+| ------------------ | ----------- |
+| "bus"              | "bs"        |
+| "nice to meet you" | "nc t mt y" |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int n) {
-        int answer = 0;
-        int temp = 1;
-        for(int i = 2; i <= 10; i++){
-            for(int j = i; j >= 2; j--){
-                temp *= j;
-            }
-            if(temp == n){
-                answer = i;
-                return answer;
-            } else if(temp > n){
-                answer = i - 1;
-                return answer;
-            } else {
-                temp = 1;
-            }
-        }
-        return answer;
-    }
+     public String solution(String my_string) {
+         StringBuilder answer = new StringBuilder();
+         char[] arrString = my_string.toCharArray();
+
+         for(char charString : arrString){
+             if(charString != 'a' && charString != 'e' && charString != 'i' && charString != 'o' && charString != 'u'){
+                 answer.append(charString);
+             }
+         }
+         return answer.toString();
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-solution(int n): 주어진 정수 n을 팩토리얼로 표현할 수 있는 최소한의 숫자 개수를 반환합니다.
+solution(String my_string): Extracts and returns characters excluding vowels from the given string my_string.
 
-for 문을 이용하여 2부터 10까지의 숫자에 대해 팩토리얼을 계산합니다.
+Use StringBuilder to process strings efficiently.
 
-내부 for 문을 통해 현재 숫자부터 2까지의 팩토리얼을 계산하고, 이를 temp에 저장합니다.
+Convert the string to an array of characters, check for each character if it is a collection, and if not, add it to the StringBuilder.
 
-계산한 팩토리얼이 n과 일치하면 해당 숫자를 결과로 반환합니다.
+Finally, we convert the StringBuilder to a string and return the result.
 
-팩토리얼이 n보다 크면 직전 숫자가 최소 개수이므로 결과로 반환합니다.
+**Code Advantages**
 
-**코드 장점**
+- Efficient string processing: String processing is performed efficiently using StringBuilder.
+- Concise implementation: Provides a concise implementation through vowel checking for each character.
 
-- 간단한 구현: 문제를 해결하는 데 필요한 구현이 간단하다.
-- 직관적인 로직: 주어진 조건을 순차적으로 검사하여 직관적인 로직을 갖추고 있다.
+**Code Disadvantages**
 
-**코드 단점**
-
-- 특정 범위에만 적용 가능: 현재는 2부터 10까지의 숫자에 대해서만 팩토리얼을 계산하고 있어, 이 범위를 벗어나면 정확한 결과를 얻을 수 없다.
+- Hard-coded vowel list: When checking vowels, 'a', 'e', 'i', 'o', and 'u' are hard-coded, so if the vowel changes later, the code must be modified.
