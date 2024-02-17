@@ -40,65 +40,66 @@ date: 2024-02-17 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "숨어있는 숫자의 덧셈 1" 문제에 대하여 알아본 글입니다.
+## This is an article that looks into the “length of array elements” issue.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 my_string이 매개변수로 주어집니다.
+A string array strlist is given as a parameter.
 
-my_string안의 모든 자연수들의 합을 return하도록 solution 함수를 완성해주세요.
+Complete the solution function to retrun an array containing the length of each element of strlist.
 
-#### 제한사항
+#### Restrictions
 
-- 1 ≤ my_string의 길이 ≤ 1,000
-- my_string은 소문자, 대문자 그리고 한자리 자연수로만 구성되어있습니다.
+- 1 ≤ length of strlist element ≤ 100
+- strlist consists of lowercase letters, uppercase letters, and special characters.
 
-#### 입출력 예시
+#### Input/Output Example
 
-| my_string       | result |
-| --------------- | ------ |
-| "aAb1B2cC34oOp" | 10     |
-| "1a2b3c4d123"   | 16     |
+| strlist                        | result       |
+| ------------------------------ | ------------ |
+| ["We", "are", "the", "world!"] | [2, 3, 3, 6] |
+| ["I", "Love", "Programmers."]  | [1, 4, 12]   |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(String my_string) {
-        int answer = 0;
-        for (char ch : my_string.toCharArray()) {
-            if (Character.isDigit(ch)) {
-                answer += Character.getNumericValue(ch);
-            }
-        }
-        return answer;
-    }
+     public int[] solution(String[] strlist) {
+         int[] answer = new int[strlist.length];
+         int count = 0;
+         for(String temp : strlist){
+             answer[count++] = temp.length();
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- solution(String my_string): 주어진 문자열 my_string에서 숫자를 추출하고, 추출한 숫자들을 더한 결과를 반환한다.
-- int answer: 최종 결과를 저장할 변수.
-- 문자열을 순회하면서 Character.isDigit(ch)를 사용하여 각 문자가 숫자인지 확인하고, 숫자라면 Character.getNumericValue(ch)를 사용하여 해당 숫자를 누적하여 더한다.
-- 최종적으로 더해진 값을 반환한다.
+- Array initialization: Initialize the array answer to store the result as long as the given string array strlist through int[] answer = new int[strlist.length];
+- Calculating string length: While iterating through the array strlist using a for-each statement, calculate the length of each string with temp.length() and store it in the answer array at the corresponding index.
+- Index increase: After storing the length of each string, the count variable is increased so that the value can be stored at the next index.
+- Result return: Calculate the length of all strings, store them in an array, and finally return the result array answer.
 
-**코드 장점**
+**Code Advantages**
 
-- 숫자 합산이 간편: 각 문자에서 숫자를 추출하여 더하는 과정이 간편하고 직관적이다.
+- Simple logic: It consists of simple yet efficient logic that calculates the length of the string.
+- Scalability: Array initialization is performed dynamically so that it can respond flexibly according to the length of the array, making it possible to respond to a variety of inputs.
 
-**코드 단점**
+**Code Disadvantages**
 
-- 숫자 범위 제한: 코드는 문자열에서 0부터 9까지의 숫자만 추출하여 더한다. 만약 - 다른 숫자 범위가 필요한 경우 코드를 수정해야 한다.
+- Lack of error handling: The current code does not consider exception handling, such as when the input array is null. It is a good idea to add appropriate exception handling.
+- Fixed return value data type: The current code returns the result array as int[], but there is a lack of logic to respond when various data types are required depending on the input. There is a need to improve it by considering the diversity of inputs and returns.

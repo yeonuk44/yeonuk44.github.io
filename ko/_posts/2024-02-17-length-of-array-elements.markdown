@@ -40,7 +40,7 @@ date: 2024-02-17 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "숨어있는 숫자의 덧셈 1" 문제에 대하여 알아본 글입니다.
+## "배열 원소의 길이" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,21 +52,21 @@ date: 2024-02-17 09:00:00 +0900
 
 ### 문제
 
-문자열 my_string이 매개변수로 주어집니다.
+문자열 배열 strlist가 매개변수로 주어집니다.
 
-my_string안의 모든 자연수들의 합을 return하도록 solution 함수를 완성해주세요.
+strlist 각 원소의 길이를 담은 배열을 retrun하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- 1 ≤ my_string의 길이 ≤ 1,000
-- my_string은 소문자, 대문자 그리고 한자리 자연수로만 구성되어있습니다.
+- 1 ≤ strlist 원소의 길이 ≤ 100
+- strlist는 알파벳 소문자, 대문자, 특수문자로 구성되어 있습니다.
 
 #### 입출력 예시
 
-| my_string       | result |
-| --------------- | ------ |
-| "aAb1B2cC34oOp" | 10     |
-| "1a2b3c4d123"   | 16     |
+| strlist                        | result       |
+| ------------------------------ | ------------ |
+| ["We", "are", "the", "world!"] | [2, 3, 3, 6] |
+| ["I", "Love", "Programmers."]  | [1, 4, 12]   |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -76,12 +76,11 @@ my_string안의 모든 자연수들의 합을 return하도록 solution 함수를
 
 ```java
 class Solution {
-    public int solution(String my_string) {
-        int answer = 0;
-        for (char ch : my_string.toCharArray()) {
-            if (Character.isDigit(ch)) {
-                answer += Character.getNumericValue(ch);
-            }
+    public int[] solution(String[] strlist) {
+        int[] answer = new int[strlist.length];
+        int count = 0;
+        for(String temp : strlist){
+            answer[count++] = temp.length();
         }
         return answer;
     }
@@ -90,15 +89,17 @@ class Solution {
 
 ### 풀이 설명
 
-- solution(String my_string): 주어진 문자열 my_string에서 숫자를 추출하고, 추출한 숫자들을 더한 결과를 반환한다.
-- int answer: 최종 결과를 저장할 변수.
-- 문자열을 순회하면서 Character.isDigit(ch)를 사용하여 각 문자가 숫자인지 확인하고, 숫자라면 Character.getNumericValue(ch)를 사용하여 해당 숫자를 누적하여 더한다.
-- 최종적으로 더해진 값을 반환한다.
+- 배열 초기화: int[] answer = new int[strlist.length];를 통해 주어진 문자열 배열 strlist의 길이만큼 결과를 저장할 배열 answer를 초기화한다.
+- 문자열 길이 계산: for-each문을 통해 배열 strlist를 순회하면서 각 문자열의 길이를 temp.length()로 계산하여 해당 인덱스에 있는 answer 배열에 저장한다.
+- 인덱스 증가: 각 문자열의 길이를 저장한 후, count 변수를 증가시켜 다음 인덱스에 값을 저장할 수 있도록 한다.
+- 결과 반환: 모든 문자열의 길이를 계산하여 배열에 저장한 후, 최종적으로 결과 배열 answer를 반환한다.
 
 **코드 장점**
 
-- 숫자 합산이 간편: 각 문자에서 숫자를 추출하여 더하는 과정이 간편하고 직관적이다.
+- 간결한 로직: 문자열의 길이를 계산하는 간단하면서도 효율적인 로직으로 구성되어 있다.
+- 확장성: 배열의 길이에 따라 유동적으로 대응할 수 있도록 배열 초기화를 동적으로 수행하고 있어, 다양한 입력에 대응 가능하다.
 
 **코드 단점**
 
-- 숫자 범위 제한: 코드는 문자열에서 0부터 9까지의 숫자만 추출하여 더한다. 만약 - 다른 숫자 범위가 필요한 경우 코드를 수정해야 한다.
+- 오류 처리 부족: 현재 코드는 입력된 배열이 null인 경우 등의 예외 처리를 고려하고 있지 않다. 적절한 예외 처리를 추가하는 것이 좋다.
+- 반환 값 자료형 고정: 현재 코드에서는 결과 배열을 int[]로 반환하고 있지만, 입력에 따라 다양한 자료형이 필요한 경우에는 이를 대응할 수 있는 로직이 부족하다. 입력과 반환의 다양성을 고려하여 개선할 필요가 있다.
