@@ -40,66 +40,78 @@ date: 2024-02-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "배열 원소의 길이" 문제에 대하여 알아본 글입니다.
+## This article looks into the “removing duplicate characters” issue.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 배열 strlist가 매개변수로 주어집니다.
+The string my_string is given as a parameter.
 
-strlist 각 원소의 길이를 담은 배열을 retrun하도록 solution 함수를 완성해주세요.
+Please complete the solution function to remove duplicate characters from my_string and return a string with only one character remaining.
 
-#### 제한사항
+#### Restrictions
 
-- 1 ≤ strlist 원소의 길이 ≤ 100
-- strlist는 알파벳 소문자, 대문자, 특수문자로 구성되어 있습니다.
+- 1 ≤ my_string ≤ 110
+- my_string consists of uppercase letters, lowercase letters, and spaces.
+- Distinguish between uppercase and lowercase letters.
+- Spaces (" ") are also separated by one character.
+- Among the duplicated characters, the first character is left.
 
-#### 입출력 예시
+#### Input/Output Example
 
-| strlist                        | result       |
-| ------------------------------ | ------------ |
-| ["We", "are", "the", "world!"] | [2, 3, 3, 6] |
-| ["I", "Love", "Programmers."]  | [1, 4, 12]   |
+| my_string          | result            |
+| ------------------ | ----------------- |
+| "people"           | "peol"            |
+| “We are the world” | "We are arthwold" |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
+import java.util.*;
 class Solution {
-    public int[] solution(String[] strlist) {
-        int[] answer = new int[strlist.length];
-        int count = 0;
-        for(String temp : strlist){
-            answer[count++] = temp.length();
-        }
-        return answer;
-    }
+     public String solution(String my_string) {
+         StringBuilder answer = new StringBuilder();
+         Set<String> set = new HashSet<>();
+         char[] arrMyString = my_string.toCharArray();
+
+         for(char ch : arrMyString){
+             if(set.add(String.valueOf(ch))){
+                 answer.append(ch);
+             }
+         }
+
+         return answer.toString();
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 배열 초기화: int[] answer = new int[strlist.length];를 통해 주어진 문자열 배열 strlist의 길이만큼 결과를 저장할 배열 answer를 초기화한다.
-- 문자열 길이 계산: for-each문을 통해 배열 strlist를 순회하면서 각 문자열의 길이를 temp.length()로 계산하여 해당 인덱스에 있는 answer 배열에 저장한다.
-- 인덱스 증가: 각 문자열의 길이를 저장한 후, count 변수를 증가시켜 다음 인덱스에 값을 저장할 수 있도록 한다.
-- 결과 반환: 모든 문자열의 길이를 계산하여 배열에 저장한 후, 최종적으로 결과 배열 answer를 반환한다.
+- HashSet utilization: Create a HashSet that does not allow duplication through Set<String> set = new HashSet<>();
+- String traversal: After converting the string to a character array, iterate through each character using the for-each statement.
+- Removal of duplicates: Add characters to HashSet through set.add(String.valueOf(ch)). If a character already exists, the add method returns false, and if it is a new character, it returns true.
+- Add unique character: Only if it is a new character, add the character to the result string through answer.append(ch).
+- Result return: After traversing all characters and removing duplicate characters, the resulting string is finally returned through the toString() method.
 
-**코드 장점**
+**Code Advantages**
 
-- 간결한 로직: 문자열의 길이를 계산하는 간단하면서도 효율적인 로직으로 구성되어 있다.
-- 확장성: 배열의 길이에 따라 유동적으로 대응할 수 있도록 배열 초기화를 동적으로 수행하고 있어, 다양한 입력에 대응 가능하다.
+- Simple logic: A simple yet effective logic is used to remove duplicate characters and leave only unique characters.
+- HashSet utilization: HashSet is a data structure that can effectively remove duplicate values, making it easy to check for duplicates.
+- String manipulation: Strings are efficiently manipulated using StringBuilder.
 
-**코드 단점**
+**Code Disadvantages**
 
-- 오류 처리 부족: 현재 코드는 입력된 배열이 null인 경우 등의 예외 처리를 고려하고 있지 않다. 적절한 예외 처리를 추가하는 것이 좋다.
-- 반환 값 자료형 고정: 현재 코드에서는 결과 배열을 int[]로 반환하고 있지만, 입력에 따라 다양한 자료형이 필요한 경우에는 이를 대응할 수 있는 로직이 부족하다. 입력과 반환의 다양성을 고려하여 개선할 필요가 있다.
+- Case Sensitivity: The current code is case sensitive and handles duplicate characters. If you want to handle duplicates case-insensitively, additional logic is needed.
+- Result string order: The current code does not maintain the order of the strings but removes duplicates. If you want to remove duplicates while maintaining the order of the input string, you should use LinkedHashSet, etc.
+- String conversion overhead: The part where characters are converted to strings through String.valueOf(ch) is repeated, which may cause overhead. This may cause performance degradation, especially when processing large strings.
