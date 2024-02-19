@@ -40,78 +40,82 @@ date: 2024-02-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "중복된 문자 제거" 문제에 대하여 알아본 글입니다.
+## This article looks into the "Control 'Z'" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 my_string이 매개변수로 주어집니다.
+You are given a string containing numbers and "Z" separated by spaces.
 
-my_string에서 중복된 문자를 제거하고 하나의 문자만 남긴 문자열을 return하도록 solution 함수를 완성해주세요.
+I'm trying to add numbers in a string one after another.
 
-#### 제한사항
+At this time, if "Z" appears, it means subtracting the number that was added just before.
 
-- 1 ≤ my_string ≤ 110
-- my_string은 대문자, 소문자, 공백으로 구성되어 있습니다.
-- 대문자와 소문자를 구분합니다.
-- 공백(" ")도 하나의 문자로 구분합니다.
-- 중복된 문자 중 가장 앞에 있는 문자를 남깁니다.
+Given a string s consisting of a number and "Z", complete the solution function so that it returns the value the wizard found.
 
-#### 입출력 예시
+#### Restrictions
 
-| my_string          | result        |
-| ------------------ | ------------- |
-| "people"           | "peol"        |
-| "We are the world" | "We arthwold" |
+- Length of 1 ≤ s ≤ 200
+- -1,000 < number of elements in s < 1,000
+- s consists of a number, "Z", and a space.
+- The numbers in s and "Z" are separated from each other by a space.
+- Consecutive spaces are not allowed.
+- There are no numbers starting with 0 except 0.
+  -s does not start with "Z".
+- There are no spaces at the beginning or end of s.
+- “Z” never appears consecutively.
+
+#### Input/Output Example
+
+| s             | result |
+| ------------- | ------ |
+| "1 2 Z 3"     | 4      |
+| "10 20 30 40" | 100    |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
-import java.util.*;
 class Solution {
-    public String solution(String my_string) {
-        StringBuilder answer = new StringBuilder();
-        Set<String> set = new HashSet<>();
-        char[] arrMyString = my_string.toCharArray();
-
-        for(char ch : arrMyString){
-            if(set.add(String.valueOf(ch))){
-                answer.append(ch);
-            }
-        }
-
-        return answer.toString();
-    }
+     public int solution(String s) {
+         int answer = 0;
+         String[] temp = s.split(" ");
+         int tempInt = 0;
+         for(String a : temp){
+             if(a.equals("Z")){
+                 answer -= tempInt;
+             } else{
+                 answer += Integer.parseInt(a);
+                 tempInt = Integer.parseInt(a);
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- HashSet 활용: Set<String> set = new HashSet<>();를 통해 중복을 허용하지 않는 HashSet을 생성한다.
-- 문자열 순회: 문자열을 문자 배열로 변환한 후, for-each문을 사용하여 각 문자를 순회한다.
-- 중복 제거: set.add(String.valueOf(ch))를 통해 HashSet에 문자를 추가하는데, 만약 이미 존재하는 문자라면 add 메서드는 false를 반환하고, 새로운 문자라면 true를 반환한다.
-- 유일한 문자 추가: 새로운 문자인 경우에만 answer.append(ch)를 통해 결과 문자열에 해당 문자를 추가한다.
-- 결과 반환: 모든 문자를 순회하고 중복된 문자를 제거한 후, 최종적으로 결과 문자열을 toString() 메서드를 통해 반환한다.
+- String separation: Split the given string s based on spaces through s.split(" ") and store it in the string array temp.
+- Number and 'Z' processing: While traversing the array temp through a for statement, if each element is 'Z', the previously stored value tempInt is subtracted from the sum answer to date, and if it is a number, converted to an integer and the current value is calculated. Add to the sum.
+- Remember previous value: Every time 'Z' appears, subtraction is performed from the current sum, so the previously stored integer value is remembered in tempInt and used.
 
-**코드 장점**
+**Code Advantages**
 
-- 간결한 로직: 중복된 문자를 제거하고 유일한 문자만 남기는 간단하면서도 효과적인 로직을 사용하고 있다.
-- HashSet 활용: HashSet은 중복된 값을 효과적으로 제거할 수 있는 자료구조로, 중복 검사에 용이하다.
-- 문자열 조작: StringBuilder를 사용하여 문자열을 효율적으로 조작하고 있다.
+- Simple logic: The logic for processing strings and calculating sums using simple patterns is intuitive.
+- Array utilization: By separating the string and storing it in an array, each element can be processed sequentially.
 
-**코드 단점**
+**Code Disadvantages**
 
-- 대소문자 구분: 현재 코드는 대소문자를 구분하여 중복 문자를 처리하고 있다. 만약 대소문자를 구분하지 않고 중복을 처리하려면 추가적인 로직이 필요하다.
-- 결과 문자열 순서: 현재 코드는 문자열의 순서를 유지하지 않고 중복을 제거한다. 만약 입력 문자열의 순서를 유지하면서 중복을 제거하려면 LinkedHashSet 등을 사용해야 한다.
-- 문자열 변환 오버헤드: 문자를 String.valueOf(ch)를 통해 문자열로 변환하는 부분이 반복되어 오버헤드를 일으킬 수 있다. 특히 큰 문자열에 대한 처리에서 성능 저하의 원인이 될 수 있다.
+- Insufficient error handling: Only cases where 'Z' and numbers appear are considered, and error handling for input values is insufficient. It would be a good idea to add validation, etc.
+- Fixed separation criteria: In the current code, strings are separated based on spaces, but various other cases are not considered. It is necessary to add logic to handle various cases depending on the format of the input data.
