@@ -40,66 +40,74 @@ date: 2024-02-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "369 게임" 문제에 대하여 알아본 글입니다.
+## This article examines the “close number” problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-머쓱이는 친구들과 369게임을 하고 있습니다.
+When an integer array array and an integer n are given as parameters, complete the solution function so that it returns the number closest to n among the integers contained in the array.
 
-369게임은 1부터 숫자를 하나씩 대며 3, 6, 9가 들어가는 숫자는 숫자 대신 3, 6, 9의 개수만큼 박수를 치는 게임입니다.
+#### Restrictions
 
-머쓱이가 말해야하는 숫자 order가 매개변수로 주어질 때, 머쓱이가 쳐야할 박수 횟수를 return 하도록 solution 함수를 완성해보세요.
+- 1 ≤ length of array ≤ 100
+- 1 ≤ element of array ≤ 100
+- 1 ≤ n ≤ 100
+- If there are multiple closest numbers, the smaller number is returned.
 
-#### 제한사항
+#### Input/Output Example
 
-- 1 ≤ order ≤ 1,000,000
-
-#### 입출력 예시
-
-| order | result |
-| ----- | ------ |
-| 3     | 1      |
-| 29423 | 2      |
+| s             | result |
+| ------------- | ------ |
+| "1 2 Z 3"     | 4      |
+| "10 20 30 40" | 100    |
+| "10 Z 20 Z 1" | 1      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 import java.util.*;
 class Solution {
-    public int solution(int order) {
-        int answer = 0;
-
-        for(char str : Integer.toString(order).toCharArray()){
-            int temp = str - '0';
-            if(temp - 3 == 0 || temp - 6 == 0 || temp - 9 == 0){
-                answer++;
-            }
-        }
-        return answer;
-    }
+     public int solution(int[] array, int n) {
+         int answer = 0;
+         int temp = 101;
+         Arrays.sort(array);
+         for(int i = 0; i < array.length; i++){
+             if(temp > Math.abs(n - array[i])){
+                 answer = array[i];
+                 temp = Math.abs(n - array[i]);
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-int temp = str - '0';에서 '0'을 빼는 이유는 문자형으로 된 숫자를 정수형으로 변환하기 위해서입니다.
+- Initial value setting: Initialize the temp variable to 101. This value is set to be greater than the maximum difference of array elements.
+- Sorting an array: Use the Arrays.sort method to sort an array in ascending order.
+- Array traversal: Calculate the difference between each element and n while traversing the sorted array.
+- Find the closest element: If a difference smaller than the minimum difference so far appears, the element is assigned to the answer and the temp value is updated.
+- Return result: Returns the closest element if found.
 
-문자형 숫자는 ASCII 코드 값으로 표현되는데, 숫자 '0'의 ASCII 코드 값은 48입니다.
+**Code Advantages**
 
-따라서 '0'과 문자형 숫자를 뺌으로써 해당 문자형 숫자를 정수형으로 변환할 수 있습니다.
+- Utilize ascending sort: You can use a sorted array to efficiently find the element closest to n.
+- Concise Logic: Simple yet effective logic to find the closest array element.
 
-예를 들어, str이 '3'인 경우, '3' - '0'은 51 - 48로 계산됩니다. 이는 정수형 숫자 3과 같은 값을 가지게 됩니다.
+**Code Disadvantages**
 
-즉, int temp = str - '0';은 문자형 숫자를 정수형으로 변환하는 역할을 수행합니다.
+- Fixed initial value: The initial value 101 is determined by the maximum difference between array elements. If the values in the array are out of range, you must adjust these values appropriately.
+- No handling when the array is empty: The current code does not take into account handling when the array is empty. I would recommend adding handling for empty arrays.
+- No handling when there are multiple minimum differences: The current code does not handle cases where there are multiple minimum differences. For example, if the array is [1, 5, 9] and n is 6, both 5 and 9 have the minimum difference. I would recommend adding handling for this.
