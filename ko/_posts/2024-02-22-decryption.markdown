@@ -63,17 +63,16 @@ date: 2024-02-22 09:00:00 +0900
 #### 제한사항
 
 - 1 ≤ cipher의 길이 ≤ 1,000
-  1 ≤ code ≤ cipher의 길이
-  cipher는 소문자와 공백으로만 구성되어 있습니다.
-  공백도 하나의 문자로 취급합니다.
+- 1 ≤ code ≤ cipher의 길이
+- cipher는 소문자와 공백으로만 구성되어 있습니다.
+- 공백도 하나의 문자로 취급합니다.
 
 #### 입출력 예시
 
-| s             | result |
-| ------------- | ------ |
-| "1 2 Z 3"     | 4      |
-| "10 20 30 40" | 100    |
-| "10 Z 20 Z 1" | 1      |
+| cipher                     | code | result     |
+| -------------------------- | ---- | ---------- |
+| "dfjardstddetckdaccccdegk" | 4    | "attack"   |
+| "pfqallllabwaoclk"         | 2    | "fallback" |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -82,38 +81,31 @@ date: 2024-02-22 09:00:00 +0900
 ### 문제에 대한 나의 풀이
 
 ```java
-import java.util.*;
 class Solution {
-    public int solution(int[] array, int n) {
-        int answer = 0;
-        int temp = 101;
-        Arrays.sort(array);
-        for(int i = 0; i < array.length; i++){
-            if(temp > Math.abs(n - array[i])){
-                answer = array[i];
-                temp = Math.abs(n - array[i]);
-            }
+    public String solution(String cipher, int code) {
+        StringBuilder sb = new StringBuilder();
+        int max = cipher.length() / code;
+        for(int i = 1; i <= max; i++){
+            int temp = i * code;
+            sb.append(cipher.charAt(temp - 1));
         }
-        return answer;
+        return sb.toString();
     }
 }
 ```
 
 ### 풀이 설명
 
-- 초기값 설정: temp 변수를 101로 초기화합니다. 이 값은 배열 요소의 최대 차이보다 크게 설정되어 있습니다.
-- 배열 정렬: Arrays.sort 메서드를 사용하여 배열을 오름차순으로 정렬합니다.
-- 배열 순회: 정렬된 배열을 순회하면서 각 요소와 n의 차이를 계산합니다.
-- 가장 가까운 요소 찾기: 현재까지의 최소 차이보다 작은 차이가 나타날 경우, 해당 요소를 answer에 할당하고 temp 값을 갱신합니다.
-- 결과 반환: 가장 가까운 요소를 찾았다면 이를 반환합니다.
+먼저, StringBuilder 객체인 sb를 생성합니다. 이 객체는 문자열을 효율적으로 처리하기 위해 사용됩니다.
 
-**코드 장점**
+다음으로, cipher의 길이를 code로 나눈 값을 max에 저장합니다. 이는 추출할 문자의 개수를 나타냅니다.
 
-- 오름차순 정렬 활용: 정렬된 배열을 사용하여 n과 가장 가까운 요소를 효율적으로 찾을 수 있습니다.
-- 간결한 로직: 간단하면서도 효과적인 로직으로 가장 가까운 배열 요소를 찾고 있습니다.
+그리고 for 루프를 통해 1부터 max까지의 숫자를 반복합니다. 이는 추출할 문자의 위치를 나타냅니다.
 
-**코드 단점**
+루프 내부에서는 temp 변수에 i와 code를 곱한 값을 저장합니다. 이는 추출할 문자의 인덱스를 계산하는데 사용됩니다.
 
-- 고정된 초기값: 초기값 101은 배열 요소의 최대 차이에 따라 결정되어 있습니다. 만약 배열의 값 범위를 벗어나면 이 값을 적절하게 조정해야 합니다.
-- 배열이 비어있을 경우 처리 부재: 현재 코드는 배열이 비어있을 때의 처리를 고려하지 않고 있습니다. 빈 배열에 대한 처리를 추가하는 것이 좋습니다.
-- 최소 차이가 여러 개인 경우 처리 부재: 현재 코드는 최소 차이가 여러 개인 경우에 대한 처리를 하고 있지 않습니다. 예를 들어, 배열이 [1, 5, 9]이고 n이 6인 경우, 5와 9 모두 최소 차이를 갖습니다. 이에 대한 처리를 추가하는 것이 좋습니다.
+그리고 sb에 cipher.charAt(temp - 1)을 추가합니다. charAt 메서드는 주어진 인덱스에 해당하는 문자를 반환합니다. temp - 1은 인덱스가 0부터 시작하는 반면, temp는 1부터 시작하기 때문에 1을 빼줍니다.
+
+마지막으로, sb.toString()을 호출하여 StringBuilder 객체를 문자열로 변환한 후 반환합니다.
+
+이렇게 하면 cipher 문자열에서 code 간격으로 추출된 문자들이 순서대로 이어진 새로운 문자열이 반환됩니다.
