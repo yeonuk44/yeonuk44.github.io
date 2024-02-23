@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_About_Uppercase_And_Lowercase_Letters
-title: 대문자와 소문자(with.Java)
+title: 대문자와 소문자 (with.Java)
 # title: Uppercase and lowercase letters (with.Java)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -40,7 +40,7 @@ date: 2024-02-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "암호 해독" 문제에 대하여 알아본 글입니다.
+## "대문자와 소문자" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,27 +52,19 @@ date: 2024-02-23 09:00:00 +0900
 
 ### 문제
 
-군 전략가 머쓱이는 전쟁 중 적군이 다음과 같은 암호 체계를 사용한다는 것을 알아냈습니다.
-
-암호화된 문자열 cipher를 주고받습니다.
-
-그 문자열에서 code의 배수 번째 글자만 진짜 암호입니다.
-
-문자열 cipher와 정수 code가 매개변수로 주어질 때 해독된 암호 문자열을 return하도록 solution 함수를 완성해주세요.
+문자열 my_string이 매개변수로 주어질 때, 대문자는 소문자로 소문자는 대문자로 변환한 문자열을 return하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- 1 ≤ cipher의 길이 ≤ 1,000
-- 1 ≤ code ≤ cipher의 길이
-- cipher는 소문자와 공백으로만 구성되어 있습니다.
-- 공백도 하나의 문자로 취급합니다.
+- 1 ≤ my_string의 길이 ≤ 1,000
+- my_string은 영어 대문자와 소문자로만 구성되어 있습니다.
 
 #### 입출력 예시
 
-| cipher                     | code | result     |
-| -------------------------- | ---- | ---------- |
-| "dfjardstddetckdaccccdegk" | 4    | "attack"   |
-| "pfqallllabwaoclk"         | 2    | "fallback" |
+| my_string    | result       |
+| ------------ | ------------ |
+| "cccCCC"     | "CCCccc"     |
+| "abCdEfghIJ" | "ABcDeFGHij" |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -82,30 +74,38 @@ date: 2024-02-23 09:00:00 +0900
 
 ```java
 class Solution {
-    public String solution(String cipher, int code) {
-        StringBuilder sb = new StringBuilder();
-        int max = cipher.length() / code;
-        for(int i = 1; i <= max; i++){
-            int temp = i * code;
-            sb.append(cipher.charAt(temp - 1));
+    public String solution(String my_string) {
+        StringBuilder answer = new StringBuilder();
+        char[] chArr = my_string.toCharArray();
+        for(char ch : chArr){
+            String str = Character.toString(ch);
+            if(ch >= 65 && 90 >= ch){
+                answer.append(str.toLowerCase());
+            }else{
+                answer.append(str.toUpperCase());
+            }
         }
-        return sb.toString();
+        return answer.toString();
     }
 }
 ```
 
 ### 풀이 설명
 
-먼저, StringBuilder 객체인 sb를 생성합니다. 이 객체는 문자열을 효율적으로 처리하기 위해 사용됩니다.
+이 코드는 주어진 문자열 내의 모든 대문자를 소문자로, 소문자를 대문자로 변환하는 기능을 하는 메서드입니다.
 
-다음으로, cipher의 길이를 code로 나눈 값을 max에 저장합니다. 이는 추출할 문자의 개수를 나타냅니다.
+이를 위해 StringBuilder 객체를 생성하고 문자열을 char 배열로 변환하여 반복문을 돌립니다.
 
-그리고 for 루프를 통해 1부터 max까지의 숫자를 반복합니다. 이는 추출할 문자의 위치를 나타냅니다.
+각 문자에 대해 아스키 코드 값을 기반으로 판단하며, 아스키 코드에서 65 ~ 90은 대문자 A ~ Z를 나타냅니다. 따라서 이 범위에 해당하는 문자는 소문자로 변환하고, 그렇지 않은 문자(즉, 소문자)는 대문자로 변환합니다.
 
-루프 내부에서는 temp 변수에 i와 code를 곱한 값을 저장합니다. 이는 추출할 문자의 인덱스를 계산하는데 사용됩니다.
+이렇게 char형을 사용하는 이유는 아스키 코드를 이용해서 문자의 대소문자를 판별하기에 적합하기 때문입니다.
 
-그리고 sb에 cipher.charAt(temp - 1)을 추가합니다. charAt 메서드는 주어진 인덱스에 해당하는 문자를 반환합니다. temp - 1은 인덱스가 0부터 시작하는 반면, temp는 1부터 시작하기 때문에 1을 빼줍니다.
+char형은 숫자로 변환할 수 있으니 이런 식으로 아스키 코드를 활용할 수 있습니다.
 
-마지막으로, sb.toString()을 호출하여 StringBuilder 객체를 문자열로 변환한 후 반환합니다.
+반면에 String 형은 문자열 전체에 대한 값이므로 아스키 코드를 직접적으로 활용하는 것이 불가능합니다.
 
-이렇게 하면 cipher 문자열에서 code 간격으로 추출된 문자들이 순서대로 이어진 새로운 문자열이 반환됩니다.
+그리고 toUpperCase나 toLowerCase 같은 메서드는 String 클래스의 메서드이기 때문에 String 객체에서만 사용 가능합니다.
+
+char형에는 이와 같은 메서드가 없기 때문에, 대소문자 변환을 위해 ch형을 String형으로 변환한 후 사용합니다.
+
+이 변환은 Character.toString(ch)를 통해 이루어집니다.

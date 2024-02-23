@@ -40,72 +40,72 @@ date: 2024-02-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "암호 해독" 문제에 대하여 알아본 글입니다.
+## This article looks into the “uppercase and lowercase letters” problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-군 전략가 머쓱이는 전쟁 중 적군이 다음과 같은 암호 체계를 사용한다는 것을 알아냈습니다.
+When the string my_string is given as a parameter, complete the solution function to return a string with uppercase letters converted to lowercase and lowercase letters converted to uppercase.
 
-암호화된 문자열 cipher를 주고받습니다.
+#### Restrictions
 
-그 문자열에서 code의 배수 번째 글자만 진짜 암호입니다.
+- 1 ≤ length of my_string ≤ 1,000
+- my_string consists only of uppercase and lowercase English letters.
 
-문자열 cipher와 정수 code가 매개변수로 주어질 때 해독된 암호 문자열을 return하도록 solution 함수를 완성해주세요.
+#### Input/Output Example
 
-#### 제한사항
-
-- 1 ≤ cipher의 길이 ≤ 1,000
-- 1 ≤ code ≤ cipher의 길이
-- cipher는 소문자와 공백으로만 구성되어 있습니다.
-- 공백도 하나의 문자로 취급합니다.
-
-#### 입출력 예시
-
-| cipher                     | code | result     |
-| -------------------------- | ---- | ---------- |
-| "dfjardstddetckdaccccdegk" | 4    | "attack"   |
-| "pfqallllabwaoclk"         | 2    | "fallback" |
+| my_string    | result       |
+| ------------ | ------------ |
+| "cccCCC"     | "CCCccc"     |
+| "abCdEfghIJ" | "ABcDeFGHij" |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public String solution(String cipher, int code) {
-        StringBuilder sb = new StringBuilder();
-        int max = cipher.length() / code;
-        for(int i = 1; i <= max; i++){
-            int temp = i * code;
-            sb.append(cipher.charAt(temp - 1));
-        }
-        return sb.toString();
-    }
+     public String solution(String my_string) {
+         StringBuilder answer = new StringBuilder();
+         char[] chArr = my_string.toCharArray();
+         for(char ch : chArr){
+             String str = Character.toString(ch);
+             if(ch >= 65 && 90 >= ch){
+                 answer.append(str.toLowerCase());
+             }else{
+                 answer.append(str.toUpperCase());
+             }
+         }
+         return answer.toString();
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-먼저, StringBuilder 객체인 sb를 생성합니다. 이 객체는 문자열을 효율적으로 처리하기 위해 사용됩니다.
+This code is a method that converts all uppercase letters in a given string to lowercase and lowercase to uppercase.
 
-다음으로, cipher의 길이를 code로 나눈 값을 max에 저장합니다. 이는 추출할 문자의 개수를 나타냅니다.
+To do this, we create a StringBuilder object and loop through it, converting the string to a char array.
 
-그리고 for 루프를 통해 1부터 max까지의 숫자를 반복합니다. 이는 추출할 문자의 위치를 나타냅니다.
+For each character, the decision is made based on the ASCII code value, where 65 to 90 represent uppercase letters A to Z. Therefore, characters that fall within this range are converted to lowercase letters, and characters that do not (i.e. lowercase letters) are converted to uppercase letters.
 
-루프 내부에서는 temp 변수에 i와 code를 곱한 값을 저장합니다. 이는 추출할 문자의 인덱스를 계산하는데 사용됩니다.
+The reason for using the char type like this is because it is suitable for determining the case of characters using ASCII codes.
 
-그리고 sb에 cipher.charAt(temp - 1)을 추가합니다. charAt 메서드는 주어진 인덱스에 해당하는 문자를 반환합니다. temp - 1은 인덱스가 0부터 시작하는 반면, temp는 1부터 시작하기 때문에 1을 빼줍니다.
+Since the char type can be converted to a number, you can use ASCII code in this way.
 
-마지막으로, sb.toString()을 호출하여 StringBuilder 객체를 문자열로 변환한 후 반환합니다.
+On the other hand, the String type is a value for the entire string, so it is impossible to use ASCII code directly.
 
-이렇게 하면 cipher 문자열에서 code 간격으로 추출된 문자들이 순서대로 이어진 새로운 문자열이 반환됩니다.
+And methods such as toUpperCase and toLowerCase are methods of the String class, so they can only be used on String objects.
+
+Since the char type does not have a method like this, it is used after converting the ch type to the String type for case conversion.
+
+This conversion is done via Character.toString(ch).
