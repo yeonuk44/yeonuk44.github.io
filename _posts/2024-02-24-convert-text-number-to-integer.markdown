@@ -40,72 +40,68 @@ date: 2024-02-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "대문자와 소문자" 문제에 대하여 알아본 글입니다.
+## This is an article about the problem of "Converting text numbers to integers."
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 my_string이 매개변수로 주어질 때, 대문자는 소문자로 소문자는 대문자로 변환한 문자열을 return하도록 solution 함수를 완성해주세요.
+A nerd who doesn't like English tries to change numbers written in English into numbers.
 
-#### 제한사항
+When the string numbers are given as a parameter, complete the solution function to return numbers by converting them to an integer.
 
-- 1 ≤ my_string의 길이 ≤ 1,000
-- my_string은 영어 대문자와 소문자로만 구성되어 있습니다.
+#### Restrictions
 
-#### 입출력 예시
+- Numbers consist of lowercase letters only.
+- Numbers are a combination of "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", and "nine" without spaces.
+- 1 ≤ length of numbers ≤ 50
+- "zero" cannot be at the beginning of numbers.
 
-| my_string    | result       |
-| ------------ | ------------ |
-| "cccCCC"     | "CCCccc"     |
-| "abCdEfghIJ" | "ABcDeFGHij" |
+#### Input/Output Example
+
+| numbers                                | result    |
+| -------------------------------------- | --------- |
+| "onetwothreefourfivesixseveneightnine" | 123456789 |
+| "onefourzerosixseven"                  | 14067     |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public String solution(String my_string) {
-        StringBuilder answer = new StringBuilder();
-        char[] chArr = my_string.toCharArray();
-        for(char ch : chArr){
-            String str = Character.toString(ch);
-            if(ch >= 65 && 90 >= ch){
-                answer.append(str.toLowerCase());
-            }else{
-                answer.append(str.toUpperCase());
-            }
-        }
-        return answer.toString();
-    }
+     public long solution(String numbers) {
+         String string_num = numbers
+             .replace("zero", "0")
+             .replace("one", "1")
+             .replace("two", "2")
+             .replace("three", "3")
+             .replace("four", "4")
+             .replace("five", "5")
+             .replace("six", "6")
+             .replace("seven", "7")
+             .replace("eight", "8")
+             .replace("nine", "9");
+
+         long answer = Long.parseLong(string_num);
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-이 코드는 주어진 문자열 내의 모든 대문자를 소문자로, 소문자를 대문자로 변환하는 기능을 하는 메서드입니다.
-
-이를 위해 StringBuilder 객체를 생성하고 문자열을 char 배열로 변환하여 반복문을 돌립니다.
-
-각 문자에 대해 아스키 코드 값을 기반으로 판단하며, 아스키 코드에서 65 ~ 90은 대문자 A ~ Z를 나타냅니다. 따라서 이 범위에 해당하는 문자는 소문자로 변환하고, 그렇지 않은 문자(즉, 소문자)는 대문자로 변환합니다.
-
-이렇게 char형을 사용하는 이유는 아스키 코드를 이용해서 문자의 대소문자를 판별하기에 적합하기 때문입니다.
-
-char형은 숫자로 변환할 수 있으니 이런 식으로 아스키 코드를 활용할 수 있습니다.
-
-반면에 String 형은 문자열 전체에 대한 값이므로 아스키 코드를 직접적으로 활용하는 것이 불가능합니다.
-
-그리고 toUpperCase나 toLowerCase 같은 메서드는 String 클래스의 메서드이기 때문에 String 객체에서만 사용 가능합니다.
-
-char형에는 이와 같은 메서드가 없기 때문에, 대소문자 변환을 위해 ch형을 String형으로 변환한 후 사용합니다.
-
-이 변환은 Character.toString(ch)를 통해 이루어집니다.
+- Use the replace method on the string numbers to replace numbers in English with the corresponding actual numbers. The replace method replaces the string received as the first argument with the string received as the second argument. In this way, “zero” becomes “0”, “one” becomes “1”, and so on.
+- Since the converted string string_num is an actual numeric string, it is converted to a long type number through the Long.parseLong method. This converted long type number is returned as the final result.
+- This method converts numbers expressed in English into actual numbers. For example, when the input “onetwothree” comes in, it is converted to “123” and then converted to the number 123 and returned.
+- The judgment is based on the ASCII code value for each character. In the ASCII code, 65 to 90 represents uppercase letters A to Z. Therefore, characters that fall within this range are converted to lowercase letters, and characters that do not (i.e. lowercase letters) are converted to uppercase letters.
+- The reason for using the char type is that it is suitable for determining the case of letters using ASCII codes. Since the char type can be converted to a number, you can use ASCII code in this way. On the other hand, the String type is a value for the entire string, so it is impossible to use ASCII code directly.
+- Methods such as toUpperCase and toLowerCase are methods of the String class, so they can only be used on String objects. Since the char type does not have a method like this, it is used after converting the ch type to the String type for case conversion. This conversion is done via Character.toString(ch).
