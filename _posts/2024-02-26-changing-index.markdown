@@ -40,65 +40,56 @@ date: 2024-02-26 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "약수 구하기" 문제에 대하여 알아본 글입니다.
+## This article looks into the "changing index" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-정수 n이 매개변수로 주어질 때, n의 약수를 오름차순으로 담은 배열을 return하도록 solution 함수를 완성해주세요.
+When the string my_string and the integers num1 and num2 are given as parameters, complete the solution function to return a string with the characters corresponding to index num1 and index num2 in my_string changed.
 
-#### 제한사항
+#### Restrictions
 
-- 1 ≤ n ≤ 10,000
+- 1 < length of my_string < 100
+- 0 ≤ num1, num2 < length of my_string
+- my_string consists of lowercase letters.
+- num1 ≠ num2
 
-#### 입출력 예시
+#### Input/Output Example
 
-| n   | result                     |
-| --- | -------------------------- |
-| 24  | [1, 2, 3, 4, 6, 8, 12, 24] |
-| 29  | [1, 29]                    |
+| my_string    | num1 | num2 | result       |
+| ------------ | ---- | ---- | ------------ |
+| "hello"      | 1    | 2    | "hlelo"      |
+| “I love you” | 3    | 6    | "I l veoyou" |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int[] solution(int n) {
-        int cnt = 0;
-        for(int i = 1; i <= n; i++){
-            if(n % i == 0){
-                cnt++;
-            }
-        }
-        int[] answer = new int[cnt];
-        int idx = 0;
-        for(int i = 1; i <= n; i++){
-            if(n % i == 0){
-                answer[idx++] = i;
-            }
-        }
-        return answer;
-    }
+     public String solution(String my_string, int num1, int num2) {
+         char[] ch = my_string.toCharArray();
+
+         ch[num1] = my_string.charAt(num2);
+         ch[num2] = my_string.charAt(num1);
+
+         String answer = String.valueOf(ch);
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- cnt 변수를 선언하고 0으로 초기화합니다. 이 변수는 약수의 개수를 세기 위해 사용됩니다.
-- 1부터 n까지 반복하는 for문을 실행합니다. 변수 i는 1부터 n까지의 값을 가집니다. 만약 n을 i로 나눈 나머지가 0이라면, 즉 i가 n의 약수라면,
-  cnt 값을 1 증가시킵니다.
-- cnt 길이의 배열 answer를 선언합니다.
-- idx 변수를 선언하고 0으로 초기화합니다. 이 변수는 answer 배열의 인덱스를 가리킵니다.
-- 1부터 n까지 반복하는 for문을 실행합니다. 변수 i는 1부터 n까지의 값을 가집니다. 만약 n을 i로 나눈 나머지가 0이라면, 즉 i가 n의 약수라면,
-- answer 배열의 idx 인덱스에 i 값을 할당하고, idx 값을 1 증가시킵니다.
-- answer 배열을 반환합니다.
+- First, convert the given string to a char array. And replace the character at position ch[num1] with my_string.charAt(num2), and replace the character at position ch[num2] with my_string.charAt(num1).
+- After completing the character exchange, convert the char array back to a string and store it in the answer variable. Finally, it returns an answer.
+- In other words, the solution method performs a function that returns the result of exchanging the characters at positions num1 and num2 in the given string.

@@ -40,7 +40,7 @@ date: 2024-02-26 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "약수 구하기" 문제에 대하여 알아본 글입니다.
+## "인덱스 바꾸기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,18 +52,21 @@ date: 2024-02-26 09:00:00 +0900
 
 ### 문제
 
-정수 n이 매개변수로 주어질 때, n의 약수를 오름차순으로 담은 배열을 return하도록 solution 함수를 완성해주세요.
+문자열 my_string과 정수 num1, num2가 매개변수로 주어질 때, my_string에서 인덱스 num1과 인덱스 num2에 해당하는 문자를 바꾼 문자열을 return 하도록 solution 함수를 완성해보세요.
 
 #### 제한사항
 
-- 1 ≤ n ≤ 10,000
+- 1 < my_string의 길이 < 100
+- 0 ≤ num1, num2 < my_string의 길이
+- my_string은 소문자로 이루어져 있습니다.
+- num1 ≠ num2
 
 #### 입출력 예시
 
-| n   | result                     |
-| --- | -------------------------- |
-| 24  | [1, 2, 3, 4, 6, 8, 12, 24] |
-| 29  | [1, 29]                    |
+| my_string    | num1 | num2 | result       |
+| ------------ | ---- | ---- | ------------ |
+| "hello"      | 1    | 2    | "hlelo"      |
+| "I love you" | 3    | 6    | "I l veoyou" |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -73,20 +76,13 @@ date: 2024-02-26 09:00:00 +0900
 
 ```java
 class Solution {
-    public int[] solution(int n) {
-        int cnt = 0;
-        for(int i = 1; i <= n; i++){
-            if(n % i == 0){
-                cnt++;
-            }
-        }
-        int[] answer = new int[cnt];
-        int idx = 0;
-        for(int i = 1; i <= n; i++){
-            if(n % i == 0){
-                answer[idx++] = i;
-            }
-        }
+    public String solution(String my_string, int num1, int num2) {
+        char[] ch = my_string.toCharArray();
+
+        ch[num1] = my_string.charAt(num2);
+        ch[num2] = my_string.charAt(num1);
+
+        String answer = String.valueOf(ch);
         return answer;
     }
 }
@@ -94,11 +90,6 @@ class Solution {
 
 ### 풀이 설명
 
-- cnt 변수를 선언하고 0으로 초기화합니다. 이 변수는 약수의 개수를 세기 위해 사용됩니다.
-- 1부터 n까지 반복하는 for문을 실행합니다. 변수 i는 1부터 n까지의 값을 가집니다. 만약 n을 i로 나눈 나머지가 0이라면, 즉 i가 n의 약수라면,
-  cnt 값을 1 증가시킵니다.
-- cnt 길이의 배열 answer를 선언합니다.
-- idx 변수를 선언하고 0으로 초기화합니다. 이 변수는 answer 배열의 인덱스를 가리킵니다.
-- 1부터 n까지 반복하는 for문을 실행합니다. 변수 i는 1부터 n까지의 값을 가집니다. 만약 n을 i로 나눈 나머지가 0이라면, 즉 i가 n의 약수라면,
-- answer 배열의 idx 인덱스에 i 값을 할당하고, idx 값을 1 증가시킵니다.
-- answer 배열을 반환합니다.
+- 먼저 주어진 문자열을 char 배열로 변환합니다. 그리고 ch[num1] 위치의 문자를 my_string.charAt(num2)로 대체하고, ch[num2] 위치의 문자를 my_string.charAt(num1)로 대체합니다.
+- 문자 교환을 마친 후, char 배열을 다시 문자열로 변환하여 answer 변수에 저장합니다. 마지막으로 answer를 반환합니다.
+- 즉, solution 메서드는 주어진 문자열에서 num1과 num2 위치의 문자를 서로 교환한 결과를 반환하는 기능을 수행합니다.
