@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_About_Characters_Appear_Only_Once
-title: 한 번만 등장한 문자(with.Java)
+title: 한 번만 등장한 문자 (with.Java)
 # title: Characters that appear only once (with.Java)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -40,7 +40,7 @@ date: 2024-02-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "인덱스 바꾸기" 문제에 대하여 알아본 글입니다.
+## "한 번만 등장한 문자" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,21 +52,24 @@ date: 2024-02-27 09:00:00 +0900
 
 ### 문제
 
-문자열 my_string과 정수 num1, num2가 매개변수로 주어질 때, my_string에서 인덱스 num1과 인덱스 num2에 해당하는 문자를 바꾼 문자열을 return 하도록 solution 함수를 완성해보세요.
+문자열 s가 매개변수로 주어집니다.
+
+s에서 한 번만 등장하는 문자를 사전 순으로 정렬한 문자열을 return 하도록 solution 함수를 완성해보세요.
+
+한 번만 등장하는 문자가 없을 경우 빈 문자열을 return 합니다.
 
 #### 제한사항
 
-- 1 < my_string의 길이 < 100
-- 0 ≤ num1, num2 < my_string의 길이
-- my_string은 소문자로 이루어져 있습니다.
-- num1 ≠ num2
+- 0 < s의 길이 < 1,000
+- s는 소문자로만 이루어져 있습니다.
 
 #### 입출력 예시
 
-| my_string    | num1 | num2 | result       |
-| ------------ | ---- | ---- | ------------ |
-| "hello"      | 1    | 2    | "hlelo"      |
-| "I love you" | 3    | 6    | "I l veoyou" |
+| s           | result |
+| ----------- | ------ |
+| "abcabcadc" | "d"    |
+| "abdc"      | "abcd" |
+| "hello"     | "eho"  |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -75,14 +78,28 @@ date: 2024-02-27 09:00:00 +0900
 ### 문제에 대한 나의 풀이
 
 ```java
+import java.util.*;
+
 class Solution {
-    public String solution(String my_string, int num1, int num2) {
-        char[] ch = my_string.toCharArray();
+    public String solution(String s) {
+        String answer = "";
+        String[] strArr = s.split("");
+        int count;
+        Arrays.sort(strArr);
 
-        ch[num1] = my_string.charAt(num2);
-        ch[num2] = my_string.charAt(num1);
+        for(String str : strArr){
+            count = 0;
 
-        String answer = String.valueOf(ch);
+            for(int i = 0; i < strArr.length; i++){
+                if(strArr[i].equals(str)){
+                    count++;
+                }
+            }
+
+            if(count == 1){
+                answer += str;
+            }
+        }
         return answer;
     }
 }
@@ -90,6 +107,9 @@ class Solution {
 
 ### 풀이 설명
 
-- 먼저 주어진 문자열을 char 배열로 변환합니다. 그리고 ch[num1] 위치의 문자를 my_string.charAt(num2)로 대체하고, ch[num2] 위치의 문자를 my_string.charAt(num1)로 대체합니다.
-- 문자 교환을 마친 후, char 배열을 다시 문자열로 변환하여 answer 변수에 저장합니다. 마지막으로 answer를 반환합니다.
-- 즉, solution 메서드는 주어진 문자열에서 num1과 num2 위치의 문자를 서로 교환한 결과를 반환하는 기능을 수행합니다.
+- 먼저, 빈 문자열인 answer를 선언합니다. 그리고 주어진 문자열을 각각의 문자로 나눠서 strArr 배열에 저장합니다. 그리고 strArr 배열을 오름차순으로 정렬합니다.
+- for-each 문을 사용하여 strArr 배열의 각 요소인 str에 대해서 다음을 수행합니다.
+- count 변수를 0으로 초기화합니다.
+- for 문을 사용하여 strArr 배열을 순회하면서, 현재 요소와 str이 같은지 비교합니다. 같다면 count를 증가시킵니다.
+- count가 1인 경우, 즉 현재 문자가 중복되지 않는 경우에만 answer에 해당 문자를 추가합니다.
+- 모든 반복이 완료되면 answer를 반환합니다. 따라서 solution 메서드는 주어진 문자열에서 중복되지 않는 문자들로 이루어진 새로운 문자열을 반환하는 기능을 수행합니다.

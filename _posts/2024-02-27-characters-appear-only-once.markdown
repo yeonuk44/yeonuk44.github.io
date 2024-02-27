@@ -40,56 +40,76 @@ date: 2024-02-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "인덱스 바꾸기" 문제에 대하여 알아본 글입니다.
+## This article looks into the “character that appears only once” issue.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to get to know myself.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 my_string과 정수 num1, num2가 매개변수로 주어질 때, my_string에서 인덱스 num1과 인덱스 num2에 해당하는 문자를 바꾼 문자열을 return 하도록 solution 함수를 완성해보세요.
+The string s is given as a parameter.
 
-#### 제한사항
+Complete the solution function to return a string that sorts alphabetically the characters that appear only once in s.
 
-- 1 < my_string의 길이 < 100
-- 0 ≤ num1, num2 < my_string의 길이
-- my_string은 소문자로 이루어져 있습니다.
-- num1 ≠ num2
+If there are no characters that appear only once, an empty string is returned.
 
-#### 입출력 예시
+#### Restrictions
 
-| my_string    | num1 | num2 | result       |
-| ------------ | ---- | ---- | ------------ |
-| "hello"      | 1    | 2    | "hlelo"      |
-| "I love you" | 3    | 6    | "I l veoyou" |
+- 0 < length of s < 1,000
+- s consists of lowercase letters only.
+
+#### Input/Output Example
+
+| s           | result |
+| ----------- | ------ |
+| "abcabcadc" | "d"    |
+| "abdc"      | "abcd" |
+| "hello"     | "eho"  |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
+import java.util.*;
+
 class Solution {
-    public String solution(String my_string, int num1, int num2) {
-        char[] ch = my_string.toCharArray();
+     public String solution(String s) {
+         String answer = "";
+         String[] strArr = s.split("");
+         int count;
+         Arrays.sort(strArr);
 
-        ch[num1] = my_string.charAt(num2);
-        ch[num2] = my_string.charAt(num1);
+         for(String str : strArr){
+             count = 0;
 
-        String answer = String.valueOf(ch);
-        return answer;
-    }
+             for(int i = 0; i < strArr.length; i++){
+                 if(strArr[i].equals(str)){
+                     count++;
+                 }
+             }
+
+             if(count == 1){
+                 answer += str;
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 먼저 주어진 문자열을 char 배열로 변환합니다. 그리고 ch[num1] 위치의 문자를 my_string.charAt(num2)로 대체하고, ch[num2] 위치의 문자를 my_string.charAt(num1)로 대체합니다.
-- 문자 교환을 마친 후, char 배열을 다시 문자열로 변환하여 answer 변수에 저장합니다. 마지막으로 answer를 반환합니다.
-- 즉, solution 메서드는 주어진 문자열에서 num1과 num2 위치의 문자를 서로 교환한 결과를 반환하는 기능을 수행합니다.
+- First, declare answer, which is an empty string. Then, the given string is divided into individual characters and stored in the strArr array. And then sort the strArr array in ascending order.
+- Use the for-each statement to perform the following for each element, str, of the strArr array.
+- Initialize the count variable to 0.
+- Use the for statement to traverse the strArr array and compare the current element and str for equality. If they are equal, increment count.
+- Add the character to the answer only if count is 1, that is, if the current character is not duplicated.
+- Returns an answer when all iterations are complete. Therefore, the solution method returns a new string consisting of non-duplicate characters from the given string.
