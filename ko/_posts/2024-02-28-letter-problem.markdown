@@ -40,7 +40,7 @@ date: 2024-02-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "한 번만 등장한 문자" 문제에 대하여 알아본 글입니다.
+## "편지" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,24 +52,23 @@ date: 2024-02-28 09:00:00 +0900
 
 ### 문제
 
-문자열 s가 매개변수로 주어집니다.
+머쓱이는 할머니께 생신 축하 편지를 쓰려고 합니다.
 
-s에서 한 번만 등장하는 문자를 사전 순으로 정렬한 문자열을 return 하도록 solution 함수를 완성해보세요.
-
-한 번만 등장하는 문자가 없을 경우 빈 문자열을 return 합니다.
+할머니가 보시기 편하도록 글자 한 자 한 자를 가로 2cm 크기로 적으려고 하며, 편지를 가로로만 적을 때, 축하 문구 message를 적기 위해 필요한 편지지의 최소 가로길이를 return 하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- 0 < s의 길이 < 1,000
-- s는 소문자로만 이루어져 있습니다.
+- 공백도 하나의 문자로 취급합니다.
+- 1 ≤ message의 길이 ≤ 50
+- 편지지의 여백은 생각하지 않습니다.
+- message는 영문 알파벳 대소문자, ‘!’, ‘~’ 또는 공백으로만 이루어져 있습니다.
 
 #### 입출력 예시
 
-| s           | result |
-| ----------- | ------ |
-| "abcabcadc" | "d"    |
-| "abdc"      | "abcd" |
-| "hello"     | "eho"  |
+| message           | result |
+| ----------------- | ------ |
+| "happy birthday!" | 30     |
+| "I love you~"     | 22     |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -78,28 +77,9 @@ s에서 한 번만 등장하는 문자를 사전 순으로 정렬한 문자열�
 ### 문제에 대한 나의 풀이
 
 ```java
-import java.util.*;
-
 class Solution {
-    public String solution(String s) {
-        String answer = "";
-        String[] strArr = s.split("");
-        int count;
-        Arrays.sort(strArr);
-
-        for(String str : strArr){
-            count = 0;
-
-            for(int i = 0; i < strArr.length; i++){
-                if(strArr[i].equals(str)){
-                    count++;
-                }
-            }
-
-            if(count == 1){
-                answer += str;
-            }
-        }
+    public int solution(String message) {
+        int answer = message.length() * 2;
         return answer;
     }
 }
@@ -107,9 +87,5 @@ class Solution {
 
 ### 풀이 설명
 
-- 먼저, 빈 문자열인 answer를 선언합니다. 그리고 주어진 문자열을 각각의 문자로 나눠서 strArr 배열에 저장합니다. 그리고 strArr 배열을 오름차순으로 정렬합니다.
-- for-each 문을 사용하여 strArr 배열의 각 요소인 str에 대해서 다음을 수행합니다.
-- count 변수를 0으로 초기화합니다.
-- for 문을 사용하여 strArr 배열을 순회하면서, 현재 요소와 str이 같은지 비교합니다. 같다면 count를 증가시킵니다.
-- count가 1인 경우, 즉 현재 문자가 중복되지 않는 경우에만 answer에 해당 문자를 추가합니다.
-- 모든 반복이 완료되면 answer를 반환합니다. 따라서 solution 메서드는 주어진 문자열에서 중복되지 않는 문자들로 이루어진 새로운 문자열을 반환하는 기능을 수행합니다.
+- 이 메소드는 String 타입의 message 매개변수를 받아들이고, message의 길이에 2를 곱한 값을 answer 변수에 저장한 뒤, answer를 반환합니다.
+- 이 코드는 주어진 문자열의 길이를 2배로 만든 값을 반환하는 기능을 수행합니다.
