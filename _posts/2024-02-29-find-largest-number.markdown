@@ -40,52 +40,66 @@ date: 2024-02-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "편지" 문제에 대하여 알아본 글입니다.
+## This article examines the problem of “Finding the largest number.”
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-머쓱이는 할머니께 생신 축하 편지를 쓰려고 합니다.
+When an integer array array is given as a parameter, complete the solution function to return an array containing the largest number and its index.
 
-할머니가 보시기 편하도록 글자 한 자 한 자를 가로 2cm 크기로 적으려고 하며, 편지를 가로로만 적을 때, 축하 문구 message를 적기 위해 필요한 편지지의 최소 가로길이를 return 하도록 solution 함수를 완성해주세요.
+#### Restrictions
 
-#### 제한사항
+- 1 ≤ length of array ≤ 100
+- 0 ≤ array element ≤ 1,000
+- There are no duplicate numbers in the array.
 
-- 공백도 하나의 문자로 취급합니다.
-- 1 ≤ message의 길이 ≤ 50
-- 편지지의 여백은 생각하지 않습니다.
-- message는 영문 알파벳 대소문자, ‘!’, ‘~’ 또는 공백으로만 이루어져 있습니다.
+#### Input/Output Example
 
-#### 입출력 예시
-
-| message           | result |
-| ----------------- | ------ |
-| "happy birthday!" | 30     |
-| "I love you~"     | 22     |
+| array          | result  |
+| -------------- | ------- |
+| [1, 8, 3]      | [8, 1]  |
+| [9, 10, 11, 8] | [11, 2] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(String message) {
-        int answer = message.length() * 2;
-        return answer;
-    }
+     public int[] solution(int[] array) {
+         int[] answer = new int[2];
+         int temp = 0;
+         int idx = 0;
+         for(int i = 0; i < array.length; i++){
+             if(temp < array[i]){
+                 temp = array[i];
+                 idx = i;
+             }
+         }
+
+         answer[0] = temp;
+         answer[1] = idx;
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 이 메소드는 String 타입의 message 매개변수를 받아들이고, message의 길이에 2를 곱한 값을 answer 변수에 저장한 뒤, answer를 반환합니다.
-- 이 코드는 주어진 문자열의 길이를 2배로 만든 값을 반환하는 기능을 수행합니다.
+- First, an int array answer of size 2 is declared and initialized. This array is used to store the results.
+- Additionally, int variables temp and idx are also declared and initialized to 0.
+- temp is a variable that stores the maximum value to date, and idx is a variable that stores the index of the maximum value.
+- Next, iterate over the array using a for statement.
+- Access each element of the array and compare it to temp. If the current element is greater than temp, update temp and idx.
+- In other words, when a value larger than the current maximum value is encountered, temp and idx are updated and the corresponding value and index are recorded.
+- When the for statement ends, temp and idx will have the largest value and the index of that value.
+- Store this value in the answer array and return the answer array.

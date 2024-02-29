@@ -40,7 +40,7 @@ date: 2024-02-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "편지" 문제에 대하여 알아본 글입니다.
+## "가장 큰 수 찾기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,23 +52,20 @@ date: 2024-02-29 09:00:00 +0900
 
 ### 문제
 
-머쓱이는 할머니께 생신 축하 편지를 쓰려고 합니다.
-
-할머니가 보시기 편하도록 글자 한 자 한 자를 가로 2cm 크기로 적으려고 하며, 편지를 가로로만 적을 때, 축하 문구 message를 적기 위해 필요한 편지지의 최소 가로길이를 return 하도록 solution 함수를 완성해주세요.
+정수 배열 array가 매개변수로 주어질 때, 가장 큰 수와 그 수의 인덱스를 담은 배열을 return 하도록 solution 함수를 완성해보세요.
 
 #### 제한사항
 
-- 공백도 하나의 문자로 취급합니다.
-- 1 ≤ message의 길이 ≤ 50
-- 편지지의 여백은 생각하지 않습니다.
-- message는 영문 알파벳 대소문자, ‘!’, ‘~’ 또는 공백으로만 이루어져 있습니다.
+- 1 ≤ array의 길이 ≤ 100
+- 0 ≤ array 원소 ≤ 1,000
+- array에 중복된 숫자는 없습니다.
 
 #### 입출력 예시
 
-| message           | result |
-| ----------------- | ------ |
-| "happy birthday!" | 30     |
-| "I love you~"     | 22     |
+| array          | result  |
+| -------------- | ------- |
+| [1, 8, 3]      | [8, 1]  |
+| [9, 10, 11, 8] | [11, 2] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -78,8 +75,19 @@ date: 2024-02-29 09:00:00 +0900
 
 ```java
 class Solution {
-    public int solution(String message) {
-        int answer = message.length() * 2;
+    public int[] solution(int[] array) {
+        int[] answer = new int[2];
+        int temp = 0;
+        int idx = 0;
+        for(int i = 0; i < array.length; i++){
+            if(temp < array[i]){
+                temp = array[i];
+                idx = i;
+            }
+        }
+
+        answer[0] = temp;
+        answer[1] = idx;
         return answer;
     }
 }
@@ -87,5 +95,11 @@ class Solution {
 
 ### 풀이 설명
 
-- 이 메소드는 String 타입의 message 매개변수를 받아들이고, message의 길이에 2를 곱한 값을 answer 변수에 저장한 뒤, answer를 반환합니다.
-- 이 코드는 주어진 문자열의 길이를 2배로 만든 값을 반환하는 기능을 수행합니다.
+- 먼저 크기가 2인 int 배열 answer가 선언되고 초기화됩니다. 이 배열은 결과값을 저장하기 위한 용도로 사용됩니다.
+- 또한, int 변수 temp와 idx도 선언되고 0으로 초기화됩니다.
+- temp는 현재까지의 최댓값을, idx는 해당 최댓값의 인덱스를 저장하는 변수입니다.
+- 그 다음, for 문을 통해 배열을 순회합니다.
+- 배열의 각 요소에 접근하여 temp와 비교합니다. 만약 현재 요소가 temp보다 크다면, temp와 idx를 갱신합니다.
+- 즉, 현재까지의 최댓값보다 큰 값을 만나면 temp와 idx를 갱신하여 해당 값과 인덱스를 기록합니다.
+- for 문이 종료되면, temp와 idx는 가장 큰 값과 해당 값의 인덱스를 가지게 됩니다.
+- 이 값을 answer 배열에 저장하고, answer 배열을 반환합니다.
