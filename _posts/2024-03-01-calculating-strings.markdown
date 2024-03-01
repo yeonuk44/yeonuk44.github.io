@@ -40,66 +40,71 @@ date: 2024-03-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "가장 큰 수 찾기" 문제에 대하여 알아본 글입니다.
+## This is an article about the problem of "Calculating strings".
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-정수 배열 array가 매개변수로 주어질 때, 가장 큰 수와 그 수의 인덱스를 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+my_string is a string formula, such as "3 + 5".
 
-#### 제한사항
+When the string my_string is given as a parameter, complete the solution function that returns the value calculated by the formula.
 
-- 1 ≤ array의 길이 ≤ 100
-- 0 ≤ array 원소 ≤ 1,000
-- array에 중복된 숫자는 없습니다.
+#### Restrictions
 
-#### 입출력 예시
+- There are only + and - operators.
+- There are no spaces at the beginning or end of the string.
+- Numbers starting with 0 are not given.
+- Invalid formulas are not given.
+- 5 ≤ length of my_string ≤ 100
+- The result of calculating my_string is between 1 and 100,000.
+- The median calculated value of my_string is between -100,000 and 100,000.
+- The numbers used in calculations are natural numbers between 1 and 20,000.
+- my_string contains at least one operator.
+- The return type is an integer type.
+- The numbers and operators in my_string are separated by a single space.
 
-| array          | result  |
-| -------------- | ------- |
-| [1, 8, 3]      | [8, 1]  |
-| [9, 10, 11, 8] | [11, 2] |
+#### Input/Output Example
+
+| my_string | result |
+| --------- | ------ |
+| "3 + 4"   | 7      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int[] solution(int[] array) {
-        int[] answer = new int[2];
-        int temp = 0;
-        int idx = 0;
-        for(int i = 0; i < array.length; i++){
-            if(temp < array[i]){
-                temp = array[i];
-                idx = i;
-            }
-        }
+     public int solution(String my_string) {
+         String[] strArr = my_string.split(" ");
+         int answer = Integer.parseInt(strArr[0]);
 
-        answer[0] = temp;
-        answer[1] = idx;
-        return answer;
-    }
+         for(int i = 0; i < strArr.length - 1; i++){
+             if(strArr[i].equals("+")){
+                 answer += Integer.parseInt(strArr[i + 1]);
+             }else if(strArr[i].equals("-")){
+                 answer -= Integer.parseInt(strArr[i + 1]);
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 먼저 크기가 2인 int 배열 answer가 선언되고 초기화됩니다. 이 배열은 결과값을 저장하기 위한 용도로 사용됩니다.
-- 또한, int 변수 temp와 idx도 선언되고 0으로 초기화됩니다.
-- temp는 현재까지의 최댓값을, idx는 해당 최댓값의 인덱스를 저장하는 변수입니다.
-- 그 다음, for 문을 통해 배열을 순회합니다.
-- 배열의 각 요소에 접근하여 temp와 비교합니다. 만약 현재 요소가 temp보다 크다면, temp와 idx를 갱신합니다.
-- 즉, 현재까지의 최댓값보다 큰 값을 만나면 temp와 idx를 갱신하여 해당 값과 인덱스를 기록합니다.
-- for 문이 종료되면, temp와 idx는 가장 큰 값과 해당 값의 인덱스를 가지게 됩니다.
-- 이 값을 answer 배열에 저장하고, answer 배열을 반환합니다.
+- The function receives a string as input, separates the string based on spaces, then converts the first value to an integer and sets it as the initial value. Then, through a loop, operators and operands are checked and calculations are performed.
+- If it is the “+” operator, it adds the next value to the current value.
+- If it is the "-" operator, the next value is subtracted from the current value.
+- Returns the final calculated result.
+- This code can be used as a calculator function to perform simple arithmetic operations. For example, if you enter a string like "10 + 5 - 3", the result will be 10 + 5 - 3 = 12.
+- One thing to note is that there is no logic to verify that the input string is in a valid format, so unexpected behavior may occur if incorrect input is given.
