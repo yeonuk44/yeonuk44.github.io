@@ -40,71 +40,62 @@ date: 2024-03-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "문자열 계산하기" 문제에 대하여 알아본 글입니다.
+## This article examines the “Similarity of Arrays” problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-my_string은 "3 + 5"처럼 문자열로 된 수식입니다.
+I'm trying to see how similar the two arrays are.
 
-문자열 my_string이 매개변수로 주어질 때, 수식을 계산한 값을 return 하는 solution 함수를 완성해주세요.
+Given string arrays s1 and s2, complete the solution function to return the same number of elements.
 
-#### 제한사항
+#### Restrictions
 
-- 연산자는 +, -만 존재합니다.
-- 문자열의 시작과 끝에는 공백이 없습니다.
-- 0으로 시작하는 숫자는 주어지지 않습니다.
-- 잘못된 수식은 주어지지 않습니다.
-- 5 ≤ my_string의 길이 ≤ 100
-- my_string을 계산한 결과값은 1 이상 100,000 이하입니다.
-- my_string의 중간 계산 값은 -100,000 이상 100,000 이하입니다.
-- 계산에 사용하는 숫자는 1 이상 20,000 이하인 자연수입니다.
-- my_string에는 연산자가 적어도 하나 포함되어 있습니다.
-- return type 은 정수형입니다.
-- my_string의 숫자와 연산자는 공백 하나로 구분되어 있습니다.
+- 1 ≤ s1, length of s2 ≤ 100
+- Length of elements of 1 ≤ s1, s2 ≤ 10
+- The elements of s1 and s2 consist of only lowercase alphabet letters.
+- s1 and s2 each have no duplicate elements.
 
-#### 입출력 예시
+#### Input/Output Example
 
-| my_string | result |
-| --------- | ------ |
-| "3 + 4"   | 7      |
+| s1              | s2                          | result |
+| --------------- | --------------------------- | ------ |
+| ["a", "b", "c"] | ["com", "b", "d", "p", "c"] | 2      |
+| ["n", "omg"]    | ["m", "dot"]                | 0      |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(String my_string) {
-        String[] strArr = my_string.split(" ");
-        int answer = Integer.parseInt(strArr[0]);
-
-        for(int i = 0; i < strArr.length - 1; i++){
-            if(strArr[i].equals("+")){
-                answer += Integer.parseInt(strArr[i + 1]);
-            }else if(strArr[i].equals("-")){
-                answer -= Integer.parseInt(strArr[i + 1]);
-            }
-        }
-        return answer;
-    }
+     public int solution(String[] s1, String[] s2) {
+         int answer = 0;
+         for(int i = 0; i < s1.length; i++){
+             for(int j = 0; j < s2.length; j++){
+                 answer += s1[i].equals(s2[j]) ? 1:0;
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 함수는 문자열을 입력받아 공백을 기준으로 문자열을 분리한 후, 첫 번째 값을 정수로 변환하여 초기값으로 설정합니다. 그리고 반복문을 통해 연산자와 피연산자를 확인하고 계산을 수행합니다.
-- "+" 연산자인 경우, 현재 값에 다음 값을 더합니다.
-- "-" 연산자인 경우, 현재 값에서 다음 값을 뺍니다.
-- 최종적으로 계산된 결과를 반환합니다.
-- 이 코드는 간단한 사칙연산을 수행하는 계산기 함수로 사용할 수 있습니다. 예를 들어 "10 + 5 - 3"과 같은 문자열을 입력하면, 10 + 5 - 3 = 12의 결과를 반환합니다.
-- 주의할 점은 입력된 문자열이 유효한 형식인지 검증하는 로직이 없으므로, 잘못된 입력이 주어지면 예기치 않은 동작을 할 수 있다는 점이 있습니다.
+- This method is executed by receiving two string arrays s1 and s2 as arguments.
+- Inside the method, a variable called answer is initialized to 0, and a double loop is used to compare each element of the s1 array with each element of the s2 array.
+- If the two strings are the same, add 1 to the answer, and if they are different, add 0.
+- Finally, the value of the answer variable is returned.
+- This value indicates how many values are the same in the s1 array and s2 array.
+- For example, if the s1 array is ["apple", "banana", "orange"] and the s2 array is ["banana", "orange", "grape"], then the same values in the s1 and s2 arrays are " There are two in total: “banana” and “orange.”
+- The solution method will return 2.
