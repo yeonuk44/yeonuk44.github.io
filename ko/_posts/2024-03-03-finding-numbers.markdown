@@ -40,7 +40,7 @@ date: 2024-03-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "배열의 유사도" 문제에 대하여 알아본 글입니다.
+## "숫자 찾기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,23 +52,21 @@ date: 2024-03-03 09:00:00 +0900
 
 ### 문제
 
-두 배열이 얼마나 유사한지 확인해보려고 합니다.
-
-문자열 배열 s1과 s2가 주어질 때 같은 원소의 개수를 return하도록 solution 함수를 완성해주세요.
+정수 num과 k가 매개변수로 주어질 때, num을 이루는 숫자 중에 k가 있으면 num의 그 숫자가 있는 자리 수를 return하고 없으면 -1을 return 하도록 solution 함수를 완성해보세요.
 
 #### 제한사항
 
-- 1 ≤ s1, s2의 길이 ≤ 100
-- 1 ≤ s1, s2의 원소의 길이 ≤ 10
-- s1과 s2의 원소는 알파벳 소문자로만 이루어져 있습니다
-- s1과 s2는 각각 중복된 원소를 갖지 않습니다.
+- 0 < num < 1,000,000
+- 0 ≤ k < 10
+- num에 k가 여러 개 있으면 가장 처음 나타나는 자리를 return 합니다.
 
 #### 입출력 예시
 
-| s1              | s2                          | result |
-| --------------- | --------------------------- | ------ |
-| ["a", "b", "c"] | ["com", "b", "d", "p", "c"] | 2      |
-| ["n", "omg"]    | ["m", "dot"]                | 0      |
+| num    | k   | result |
+| ------ | --- | ------ |
+| 29183  | 1   | 3      |
+| 232443 | 4   | 4      |
+| 123456 | 7   | -1     |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -77,14 +75,21 @@ date: 2024-03-03 09:00:00 +0900
 ### 문제에 대한 나의 풀이
 
 ```java
+import java.util.Arrays;
+
 class Solution {
-    public int solution(String[] s1, String[] s2) {
+    public int solution(int num, int k) {
         int answer = 0;
-        for(int i = 0; i < s1.length; i++){
-            for(int j = 0; j < s2.length; j++){
-                answer += s1[i].equals(s2[j]) ? 1 : 0;
+        char[] chArr = String.valueOf(num).toCharArray();
+        char chK = (char) (k + '0');
+
+        for(int i = 0; i < chArr.length; i++){
+            if(chArr[i] == chK){
+                answer = i + 1;
+                break;
             }
         }
+        if(answer == 0) answer = -1;
         return answer;
     }
 }
@@ -92,10 +97,10 @@ class Solution {
 
 ### 풀이 설명
 
-- 이 메서드는 두 개의 문자열 배열 s1과 s2를 인자로 받아서 실행됩니다.
-- 메서드 내부에서는 answer라는 변수를 0으로 초기화하고, 이중 반복문을 사용하여 s1 배열의 각 요소와 s2 배열의 각 요소를 비교합니다.
-- 두 문자열이 같다면 answer에 1을 더하고, 다르다면 0을 더합니다.
-- 최종적으로 answer 변수의 값을 반환합니다.
-- 이 값은 s1 배열과 s2 배열에서 같은 값이 몇 개인지를 나타냅니다.
-- 예를 들어, s1 배열이 ["apple", "banana", "orange"]이고 s2 배열이 ["banana", "orange", "grape"]라면, s1 배열과 s2 배열에서 같은 값은 "banana"와 "orange"로 총 2개입니다.
-- solution 메서드는 2를 반환할 것입니다.
+- answer 변수를 0으로 초기화합니다. 이 변수는 k가 처음으로 등장하는 위치를 저장하는 역할을 합니다.
+- num을 String으로 변환한 후, toCharArray() 메소드를 사용하여 각 자리의 숫자를 char 배열로 변환합니다.
+- chK 변수에는 k를 char 형태로 변환한 값을 저장합니다.
+- for 문을 사용하여 chArr 배열을 순회하면서 chK와 같은 숫자가 있는지 확인합니다.
+- chArr[i]와 chK가 같으면, answer에 i + 1의 값을 저장하고 반복문을 종료합니다. 이때, i + 1은 1부터 시작하는 위치를 의미합니다.
+- 반복문이 종료된 후, answer가 0인 경우는 k가 주어진 숫자에 없는 경우이므로 -1을 저장합니다.
+- 최종적으로 answer 값을 반환합니다.

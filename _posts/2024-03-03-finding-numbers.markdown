@@ -40,62 +40,67 @@ date: 2024-03-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "배열의 유사도" 문제에 대하여 알아본 글입니다.
+## This is an article about the “Find a number” problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-두 배열이 얼마나 유사한지 확인해보려고 합니다.
+When the integers num and k are given as parameters, if there is k among the numbers making up num, complete the solution function so that it returns the number of digits in num, and if not, it returns -1.
 
-문자열 배열 s1과 s2가 주어질 때 같은 원소의 개수를 return하도록 solution 함수를 완성해주세요.
+#### Restrictions
 
-#### 제한사항
+- 0 < num < 1,000,000
+- 0 ≤ k < 10
+- If there are multiple k in num, the first occurrence is returned.
 
-- 1 ≤ s1, s2의 길이 ≤ 100
-- 1 ≤ s1, s2의 원소의 길이 ≤ 10
-- s1과 s2의 원소는 알파벳 소문자로만 이루어져 있습니다
-- s1과 s2는 각각 중복된 원소를 갖지 않습니다.
+#### Input/Output Example
 
-#### 입출력 예시
-
-| s1              | s2                          | result |
-| --------------- | --------------------------- | ------ |
-| ["a", "b", "c"] | ["com", "b", "d", "p", "c"] | 2      |
-| ["n", "omg"]    | ["m", "dot"]                | 0      |
+| num    | k   | result |
+| ------ | --- | ------ |
+| 29183  | 1   | 3      |
+| 232443 | 4   | 4      |
+| 123456 | 7   | -1     |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
+import java.util.Arrays;
+
 class Solution {
-    public int solution(String[] s1, String[] s2) {
-        int answer = 0;
-        for(int i = 0; i < s1.length; i++){
-            for(int j = 0; j < s2.length; j++){
-                answer += s1[i].equals(s2[j]) ? 1 : 0;
-            }
-        }
-        return answer;
-    }
+     public int solution(int num, int k) {
+         int answer = 0;
+         char[] chArr = String.valueOf(num).toCharArray();
+         char chK = (char) (k + '0');
+
+         for(int i = 0; i < chArr.length; i++){
+             if(chArr[i] == chK){
+                 answer = i + 1;
+                 break;
+             }
+         }
+         if(answer == 0) answer = -1;
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 이 메서드는 두 개의 문자열 배열 s1과 s2를 인자로 받아서 실행됩니다.
-- 메서드 내부에서는 answer라는 변수를 0으로 초기화하고, 이중 반복문을 사용하여 s1 배열의 각 요소와 s2 배열의 각 요소를 비교합니다.
-- 두 문자열이 같다면 answer에 1을 더하고, 다르다면 0을 더합니다.
-- 최종적으로 answer 변수의 값을 반환합니다.
-- 이 값은 s1 배열과 s2 배열에서 같은 값이 몇 개인지를 나타냅니다.
-- 예를 들어, s1 배열이 ["apple", "banana", "orange"]이고 s2 배열이 ["banana", "orange", "grape"]라면, s1 배열과 s2 배열에서 같은 값은 "banana"와 "orange"로 총 2개입니다.
-- solution 메서드는 2를 반환할 것입니다.
+- Initialize the answer variable to 0. This variable serves to store the position where k first appears.
+- After converting num to String, use the toCharArray() method to convert each digit into a char array.
+- The value converted from k to char is stored in the chK variable.
+- Use a for statement to traverse the chArr array and check if there is a number equal to chK.
+- If chArr[i] and chK are the same, the value of i + 1 is stored in the answer and the loop is terminated. At this time, i + 1 means the position starting from 1.
+- After the loop ends, if the answer is 0, -1 is stored because k is not in the given number.
+- Finally, the answer value is returned.
