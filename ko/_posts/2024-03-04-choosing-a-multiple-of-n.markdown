@@ -40,7 +40,7 @@ date: 2024-03-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "숫자 찾기" 문제에 대하여 알아본 글입니다.
+## "n의 배수 고르기" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,21 +52,21 @@ date: 2024-03-04 09:00:00 +0900
 
 ### 문제
 
-정수 num과 k가 매개변수로 주어질 때, num을 이루는 숫자 중에 k가 있으면 num의 그 숫자가 있는 자리 수를 return하고 없으면 -1을 return 하도록 solution 함수를 완성해보세요.
+정수 n과 정수 배열 numlist가 매개변수로 주어질 때, numlist에서 n의 배수가 아닌 수들을 제거한 배열을 return하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- 0 < num < 1,000,000
-- 0 ≤ k < 10
-- num에 k가 여러 개 있으면 가장 처음 나타나는 자리를 return 합니다.
+- 1 ≤ n ≤ 10,000
+- 1 ≤ numlist의 크기 ≤ 100
+- 1 ≤ numlist의 원소 ≤ 100,000
 
 #### 입출력 예시
 
-| num    | k   | result |
-| ------ | --- | ------ |
-| 29183  | 1   | 3      |
-| 232443 | 4   | 4      |
-| 123456 | 7   | -1     |
+| n   | numlist                        | result             |
+| --- | ------------------------------ | ------------------ |
+| 3   | [4, 5, 6, 7, 8, 9, 10, 11, 12] | [6, 9, 12]         |
+| 5   | [1, 9, 3, 10, 13, 5]           | [10, 5]            |
+| 12  | [2, 100, 120, 600, 12, 12]     | [120, 600, 12, 12] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -75,21 +75,21 @@ date: 2024-03-04 09:00:00 +0900
 ### 문제에 대한 나의 풀이
 
 ```java
-import java.util.Arrays;
-
 class Solution {
-    public int solution(int num, int k) {
-        int answer = 0;
-        char[] chArr = String.valueOf(num).toCharArray();
-        char chK = (char) (k + '0');
-
-        for(int i = 0; i < chArr.length; i++){
-            if(chArr[i] == chK){
-                answer = i + 1;
-                break;
+    public int[] solution(int n, int[] numlist) {
+        int cnt = 0;
+        for(int x : numlist){
+            if(x % n == 0){
+                cnt++;
             }
         }
-        if(answer == 0) answer = -1;
+        int[] answer = new int[cnt];
+        int idx = 0;
+        for(int i = 0; i < numlist.length; i++){
+            if(numlist[i] % n == 0){
+                answer[idx++] = numlist[i];
+            }
+        }
         return answer;
     }
 }
@@ -97,10 +97,10 @@ class Solution {
 
 ### 풀이 설명
 
-- answer 변수를 0으로 초기화합니다. 이 변수는 k가 처음으로 등장하는 위치를 저장하는 역할을 합니다.
-- num을 String으로 변환한 후, toCharArray() 메소드를 사용하여 각 자리의 숫자를 char 배열로 변환합니다.
-- chK 변수에는 k를 char 형태로 변환한 값을 저장합니다.
-- for 문을 사용하여 chArr 배열을 순회하면서 chK와 같은 숫자가 있는지 확인합니다.
-- chArr[i]와 chK가 같으면, answer에 i + 1의 값을 저장하고 반복문을 종료합니다. 이때, i + 1은 1부터 시작하는 위치를 의미합니다.
-- 반복문이 종료된 후, answer가 0인 경우는 k가 주어진 숫자에 없는 경우이므로 -1을 저장합니다.
-- 최종적으로 answer 값을 반환합니다.
+- cnt: n으로 나누어 떨어지는 숫자의 개수를 세기 위한 변수입니다. 초기값은 0으로 설정됩니다.
+- for-each 반복문: numlist 배열에서 x를 하나씩 꺼내어 반복합니다.
+- x를 n으로 나누었을 때 나머지가 0이면, 즉 x가 n으로 나누어 떨어지면 cnt를 증가시킵니다.
+- 결과 배열(answer) 초기화: cnt를 이용하여 결과 배열 answer의 크기를 지정합니다.
+- 인덱스 변수(idx) 초기화: 결과 배열 answer에 값을 저장하기 위한 인덱스 변수 idx를 0으로 초기화합니다.
+- for 반복문: numlist 배열을 인덱스 i를 이용하여 반복합니다.
+- numlist[i]를 n으로 나누었을 때 나머지가 0이면, 즉 numlist[i]가 n으로 나누어 떨어지면 answer[idx]에 numlist[i]를 저장하고 idx를 1 증가시킵니다.

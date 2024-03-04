@@ -40,67 +40,67 @@ date: 2024-03-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "숫자 찾기" 문제에 대하여 알아본 글입니다.
+## This is an article about the problem of “Selecting a multiple of n.”
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-정수 num과 k가 매개변수로 주어질 때, num을 이루는 숫자 중에 k가 있으면 num의 그 숫자가 있는 자리 수를 return하고 없으면 -1을 return 하도록 solution 함수를 완성해보세요.
+When the integer n and the integer array numlist are given as parameters, complete the solution function to return an array with numbers that are not multiples of n removed from numlist.
 
-#### 제한사항
+#### Restrictions
 
-- 0 < num < 1,000,000
-- 0 ≤ k < 10
-- num에 k가 여러 개 있으면 가장 처음 나타나는 자리를 return 합니다.
+- 1 ≤ n ≤ 10,000
+- 1 ≤ size of numlist ≤ 100
+- 1 ≤ elements of numlist ≤ 100,000
 
-#### 입출력 예시
+#### Input/Output Example
 
-| num    | k   | result |
-| ------ | --- | ------ |
-| 29183  | 1   | 3      |
-| 232443 | 4   | 4      |
-| 123456 | 7   | -1     |
+| n   | numlist                        | result             |
+| --- | ------------------------------ | ------------------ |
+| 3   | [4, 5, 6, 7, 8, 9, 10, 11, 12] | [6, 9, 12]         |
+| 5   | [1, 9, 3, 10, 13, 5]           | [10, 5]            |
+| 12  | [2, 100, 120, 600, 12, 12]     | [120, 600, 12, 12] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
-import java.util.Arrays;
-
 class Solution {
-    public int solution(int num, int k) {
-        int answer = 0;
-        char[] chArr = String.valueOf(num).toCharArray();
-        char chK = (char) (k + '0');
-
-        for(int i = 0; i < chArr.length; i++){
-            if(chArr[i] == chK){
-                answer = i + 1;
-                break;
-            }
-        }
-        if(answer == 0) answer = -1;
-        return answer;
-    }
+     public int[] solution(int n, int[] numlist) {
+         int cnt = 0;
+         for(int x : numlist){
+             if(x % n == 0){
+                 cnt++;
+             }
+         }
+         int[] answer = new int[cnt];
+         int idx = 0;
+         for(int i = 0; i < numlist.length; i++){
+             if(numlist[i] % n == 0){
+                 answer[idx++] = numlist[i];
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- answer 변수를 0으로 초기화합니다. 이 변수는 k가 처음으로 등장하는 위치를 저장하는 역할을 합니다.
-- num을 String으로 변환한 후, toCharArray() 메소드를 사용하여 각 자리의 숫자를 char 배열로 변환합니다.
-- chK 변수에는 k를 char 형태로 변환한 값을 저장합니다.
-- for 문을 사용하여 chArr 배열을 순회하면서 chK와 같은 숫자가 있는지 확인합니다.
-- chArr[i]와 chK가 같으면, answer에 i + 1의 값을 저장하고 반복문을 종료합니다. 이때, i + 1은 1부터 시작하는 위치를 의미합니다.
-- 반복문이 종료된 후, answer가 0인 경우는 k가 주어진 숫자에 없는 경우이므로 -1을 저장합니다.
-- 최종적으로 answer 값을 반환합니다.
+- cnt: A variable for counting the number of numbers divisible by n. The initial value is set to 0.
+- for-each loop: Remove x from the numlist array one by one and repeat.
+- If the remainder when x is divided by n is 0, that is, if x is divisible by n, cnt is increased.
+- Result array (answer) initialization: Use cnt to specify the size of the result array answer.
+- Initialization of index variable (idx): Initialize the index variable idx to 0 to store the value in the result array answer.
+- for loop: Repeats the numlist array using index i.
+- If the remainder is 0 when numlist[i] is divided by n, that is, if numlist[i] is divisible by n, numlist[i] is stored in answer[idx] and idx is increased by 1.
