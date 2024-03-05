@@ -40,7 +40,7 @@ date: 2024-03-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "n의 배수 고르기" 문제에 대하여 알아본 글입니다.
+## "최댓값 만들기 1" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,21 +52,21 @@ date: 2024-03-05 09:00:00 +0900
 
 ### 문제
 
-정수 n과 정수 배열 numlist가 매개변수로 주어질 때, numlist에서 n의 배수가 아닌 수들을 제거한 배열을 return하도록 solution 함수를 완성해주세요.
+정수 배열 numbers가 매개변수로 주어집니다.
+
+numbers의 원소 중 두 개를 곱해 만들 수 있는 최댓값을 return하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- 1 ≤ n ≤ 10,000
-- 1 ≤ numlist의 크기 ≤ 100
-- 1 ≤ numlist의 원소 ≤ 100,000
+- 0 ≤ numbers의 원소 ≤ 10,000
+- 2 ≤ numbers의 길이 ≤ 100
 
 #### 입출력 예시
 
-| n   | numlist                        | result             |
-| --- | ------------------------------ | ------------------ |
-| 3   | [4, 5, 6, 7, 8, 9, 10, 11, 12] | [6, 9, 12]         |
-| 5   | [1, 9, 3, 10, 13, 5]           | [10, 5]            |
-| 12  | [2, 100, 120, 600, 12, 12]     | [120, 600, 12, 12] |
+| numbers               | result |
+| --------------------- | ------ |
+| [1, 2, 3, 4, 5]       | 20     |
+| [0, 31, 24, 10, 1, 9] | 744    |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -75,20 +75,15 @@ date: 2024-03-05 09:00:00 +0900
 ### 문제에 대한 나의 풀이
 
 ```java
+import java.util.*;
+
 class Solution {
-    public int[] solution(int n, int[] numlist) {
-        int cnt = 0;
-        for(int x : numlist){
-            if(x % n == 0){
-                cnt++;
-            }
-        }
-        int[] answer = new int[cnt];
-        int idx = 0;
-        for(int i = 0; i < numlist.length; i++){
-            if(numlist[i] % n == 0){
-                answer[idx++] = numlist[i];
-            }
+    public int solution(int[] numbers) {
+        int answer = 1;
+        Arrays.sort(numbers);
+        int endIdx = numbers.length - 1;
+        for(int i = endIdx; i >= endIdx - 1; i--){
+            answer *= numbers[i];
         }
         return answer;
     }
@@ -97,10 +92,10 @@ class Solution {
 
 ### 풀이 설명
 
-- cnt: n으로 나누어 떨어지는 숫자의 개수를 세기 위한 변수입니다. 초기값은 0으로 설정됩니다.
-- for-each 반복문: numlist 배열에서 x를 하나씩 꺼내어 반복합니다.
-- x를 n으로 나누었을 때 나머지가 0이면, 즉 x가 n으로 나누어 떨어지면 cnt를 증가시킵니다.
-- 결과 배열(answer) 초기화: cnt를 이용하여 결과 배열 answer의 크기를 지정합니다.
-- 인덱스 변수(idx) 초기화: 결과 배열 answer에 값을 저장하기 위한 인덱스 변수 idx를 0으로 초기화합니다.
-- for 반복문: numlist 배열을 인덱스 i를 이용하여 반복합니다.
-- numlist[i]를 n으로 나누었을 때 나머지가 0이면, 즉 numlist[i]가 n으로 나누어 떨어지면 answer[idx]에 numlist[i]를 저장하고 idx를 1 증가시킵니다.
+- Arrays.sort(numbers): 배열을 정렬한다.
+- endIdx: 배열의 마지막 인덱스를 계산한다.
+- for 문을 이용하여 가장 큰 두 숫자를 선택하고 곱한다.
+
+**코드 장점**
+
+- 정렬을 활용: 정렬을 통해 가장 큰 숫자를 빠르게 선택할 수 있다.

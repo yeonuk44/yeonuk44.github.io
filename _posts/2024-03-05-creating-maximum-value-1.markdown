@@ -40,67 +40,62 @@ date: 2024-03-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "n의 배수 고르기" 문제에 대하여 알아본 글입니다.
+## This is an article about the "Creating the maximum value 1" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-정수 n과 정수 배열 numlist가 매개변수로 주어질 때, numlist에서 n의 배수가 아닌 수들을 제거한 배열을 return하도록 solution 함수를 완성해주세요.
+The integer array numbers is given as a parameter.
 
-#### 제한사항
+Complete the solution function to return the maximum value that can be created by multiplying two of the elements of numbers.
 
-- 1 ≤ n ≤ 10,000
-- 1 ≤ numlist의 크기 ≤ 100
-- 1 ≤ numlist의 원소 ≤ 100,000
+#### Restrictions
 
-#### 입출력 예시
+- 0 ≤ elements of numbers ≤ 10,000
+- 2 ≤ length of numbers ≤ 100
 
-| n   | numlist                        | result             |
-| --- | ------------------------------ | ------------------ |
-| 3   | [4, 5, 6, 7, 8, 9, 10, 11, 12] | [6, 9, 12]         |
-| 5   | [1, 9, 3, 10, 13, 5]           | [10, 5]            |
-| 12  | [2, 100, 120, 600, 12, 12]     | [120, 600, 12, 12] |
+#### Input/Output Example
+
+| numbers               | result |
+| --------------------- | ------ |
+| [1, 2, 3, 4, 5]       | 20     |
+| [0, 31, 24, 10, 1, 9] | 744    |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
+import java.util.*;
+
 class Solution {
-    public int[] solution(int n, int[] numlist) {
-        int cnt = 0;
-        for(int x : numlist){
-            if(x % n == 0){
-                cnt++;
-            }
-        }
-        int[] answer = new int[cnt];
-        int idx = 0;
-        for(int i = 0; i < numlist.length; i++){
-            if(numlist[i] % n == 0){
-                answer[idx++] = numlist[i];
-            }
-        }
-        return answer;
-    }
+     public int solution(int[] numbers) {
+         int answer = 1;
+         Arrays.sort(numbers);
+         int endIdx = numbers.length - 1;
+         for(int i = endIdx; i >= endIdx - 1; i--){
+             answer *= numbers[i];
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- cnt: n으로 나누어 떨어지는 숫자의 개수를 세기 위한 변수입니다. 초기값은 0으로 설정됩니다.
-- for-each 반복문: numlist 배열에서 x를 하나씩 꺼내어 반복합니다.
-- x를 n으로 나누었을 때 나머지가 0이면, 즉 x가 n으로 나누어 떨어지면 cnt를 증가시킵니다.
-- 결과 배열(answer) 초기화: cnt를 이용하여 결과 배열 answer의 크기를 지정합니다.
-- 인덱스 변수(idx) 초기화: 결과 배열 answer에 값을 저장하기 위한 인덱스 변수 idx를 0으로 초기화합니다.
-- for 반복문: numlist 배열을 인덱스 i를 이용하여 반복합니다.
-- numlist[i]를 n으로 나누었을 때 나머지가 0이면, 즉 numlist[i]가 n으로 나누어 떨어지면 answer[idx]에 numlist[i]를 저장하고 idx를 1 증가시킵니다.
+- Arrays.sort(numbers): Sorts an array.
+- endIdx: Calculates the last index of the array.
+- Use the for statement to select the two largest numbers and multiply them.
+
+**Code Advantages**
+
+- Use sorting: Sorting allows you to quickly select the largest number.
