@@ -48,27 +48,47 @@ hello! Today we will learn about DDL (Domain-Specific Language) for SQL.
 
 <!-- outline-end -->
 
-###SQL
+### SQL
 
-SQL is a language for defining, manipulating, and controlling data in a database management system (DBMS). Among them, DDL is a sublanguage of SQL used to create, modify, and delete database objects. Now let's learn more about DDL.
+SQL is a language for defining, manipulating, and controlling data in a database management system (DBMS).
 
-###DDL
+Among them, DDL is a sublanguage of SQL used to create, modify, and delete database objects.
+
+Now let's learn more about DDL.
+
+### DDL
 
 DDL is used to define the structure of a database. Major DDL commands include CREATE, ALTER, and DROP. You can use these commands to create, modify, or delete various database objects, including tables, indexes, views, and procedures.
 
 #### CREATE
 
-The CREATE statement is used to create new database objects. For example, you can create a new table using the CREATE TABLE statement. The CREATE statement defines the table's columns, data types, constraints, etc.
+The CREATE statement is used to create new database objects.
+
+For example, you can create a new table using the CREATE TABLE statement.
+
+The CREATE statement defines the table's columns, data types, constraints, etc.
 
 #### ALTER
 
-The ALTER statement is used to modify existing database objects. You can use the ALTER TABLE statement to perform tasks such as adding a new column to a table or changing the data type of an existing column. The ALTER statement provides powerful capabilities to dynamically change database structures.
+The ALTER statement is used to modify existing database objects.
+
+You can use the ALTER TABLE statement to perform tasks such as adding a new column to a table or changing the data type of an existing column.
+
+The ALTER statement provides powerful capabilities to dynamically change database structures.
 
 #### DROP
 
-The DROP statement is used to delete database objects. You can drop tables using the DROP TABLE statement, and you can also drop indexes using the DROP INDEX statement. The DROP statement requires caution because it permanently deletes database objects.
+The DROP statement is used to delete database objects.
 
-In this way, DDL defines the database schema and controls the structure of the database by creating, modifying, or deleting database objects. Therefore, DDL plays an important role related to database design. Database developers or administrators must understand DDL and use it appropriately to design and manage databases.
+You can drop tables using the DROP TABLE statement, and you can also drop indexes using the DROP INDEX statement.
+
+The DROP statement requires caution because it permanently deletes database objects.
+
+In this way, DDL defines the database schema and controls the structure of the database by creating, modifying, or deleting database objects.
+
+Therefore, DDL plays an important role related to database design.
+
+Database developers or administrators must understand DDL and use it appropriately to design and manage databases.
 
 ## summary
 
