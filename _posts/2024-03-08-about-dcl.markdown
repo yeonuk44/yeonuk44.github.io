@@ -40,66 +40,54 @@ date: 2024-03-08 09:00:00 +0900
 
 <!-- outline-start -->
 
-## DML(Domain-Specific Language)에 대하여 알아본 글입니다.
+## This is an article about DCL (Domain-Specific Language).
 
-안녕하세요! 이번에는 SQL의 DML(Domain-Specific Language)에 대해 알아보도록 하겠습니다.
+hello! This time, we will learn about SQL’s DCL (Domain-Specific Language).
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### SQL
+###SQL
 
-SQL은 데이터베이스 관리 시스템(DBMS)에서 데이터를 조작하기 위한 언어로, DML은 SQL의 하위 언어 중 하나입니다.
+SQL is a language for controlling data in a database management system (DBMS), and DCL is one of the sub-languages of SQL.
 
-DML은 데이터를 검색, 삽입, 수정 및 삭제하는 데 사용됩니다.
+DCL is used for database security and permission management.
 
-이제 DML에 대해 자세히 알아보도록 하겠습니다.
+Now let's learn more about DCL.
 
-### DML
+###DML
 
-DML은 데이터베이스의 내용을 조작하는 데 사용됩니다.
+DCL is used to manage database security and permissions.
 
-주요한 DML 명령어로는 SELECT, INSERT, UPDATE, DELETE 등이 있습니다.
+Major DCL commands include GRANT and REVOKE.
 
-이 명령어들을 사용하여 데이터를 조작하고 원하는 결과를 얻을 수 있습니다.
+You can use these commands to grant or revoke privileges for specific operations to database users.
 
-#### SELECT
+#### GRANT
 
-SELECT 문은 데이터베이스에서 데이터를 검색하는 데 사용됩니다.
+The GRANT statement is used to grant database users permission for specific operations.
 
-특정 테이블에서 원하는 데이터를 선택하고, 원하는 조건에 따라 필터링할 수 있습니다.
+For example, you can use the GRANT statement to grant SELECT permission to a specific user.
 
-SELECT 문은 데이터베이스에서 데이터를 읽어오는 데 주로 사용되며, 결과를 통해 원하는 정보를 얻을 수 있습니다.
+This allows users to read data from the database.
 
-#### INSERT
+The GRANT statement plays an important role in strengthening database security and managing access rights to data.
 
-INSERT 문은 데이터베이스에 새로운 데이터를 삽입하는 데 사용됩니다.
+#### REVOKE
 
-특정 테이블에 새로운 레코드를 추가하고, 각 컬럼에 해당하는 값을 지정하여 데이터를 삽입할 수 있습니다.
+The REVOKE statement is used to revoke permission for a specific operation from a database user.
 
-INSERT 문을 사용하여 데이터를 추가함으로써 데이터베이스에 새로운 정보를 등록할 수 있습니다.
+For example, you can use the REVOKE statement to revoke the INSERT permission from a specific user.
 
-#### UPDATE
+This prevents users from adding new data to the database.
 
-UPDATE 문은 데이터베이스에 있는 기존 데이터를 수정하는 데 사용됩니다.
+The REVOKE statement plays an important role in maintaining database security and removing unnecessary permissions.
 
-특정 테이블에서 원하는 레코드를 선택하고, 해당 레코드의 값을 업데이트할 수 있습니다.
+DCL manages database security and permissions to prevent unauthorized access to data and prevent unauthorized modification or deletion of data.
 
-UPDATE 문을 사용하여 데이터를 수정함으로써 데이터베이스의 내용을 갱신할 수 있습니다.
+Database administrators must understand and utilize DCL appropriately to maintain the security of their databases.
 
-#### DELETE
+## summary
 
-DELETE 문은 데이터베이스에서 특정 데이터를 삭제하는 데 사용됩니다.
-
-특정 테이블에서 원하는 조건에 맞는 레코드를 선택하여 삭제할 수 있습니다.
-
-DELETE 문을 사용하여 데이터를 삭제함으로써 데이터베이스에서 불필요한 정보를 제거할 수 있습니다.
-
-DML은 데이터베이스의 내용을 조작하여 필요한 데이터를 검색하고, 새로운 데이터를 삽입하거나 수정 및 삭제할 수 있는 강력한 기능을 제공합니다.
-
-데이터베이스 사용자는 DML을 통해 데이터를 유연하게 다룰 수 있으며, 원하는 결과를 얻을 수 있습니다.
-
-## 요약
-
-DML은 데이터를 검색, 삽입, 수정 및 삭제하기 위한 명령어로, 데이터베이스의 내용을 조작하는 데 중요한 역할을 합니다.
+DCL is a command for database security and permission management, and plays an important role in preventing unauthorized access to data and maintaining database safety.
