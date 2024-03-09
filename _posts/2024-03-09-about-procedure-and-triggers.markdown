@@ -1,0 +1,93 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_Procedure_And_Triggers
+title: About procedures and triggers
+# title: About procedures and triggers
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: SQL
+# multiple tag entries are possible
+tags: [sql]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2024-03-09 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## DCL(Domain-Specific Language)에 대하여 알아본 글입니다.
+
+안녕하세요! 이번에는 SQL의 DCL(Domain-Specific Language)에 대해 알아보도록 하겠습니다.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### SQL
+
+SQL은 데이터베이스 관리 시스템(DBMS)에서 데이터를 제어하기 위한 언어로, DCL은 SQL의 하위 언어 중 하나입니다.
+
+DCL은 데이터베이스의 보안과 권한 관리를 위해 사용됩니다.
+
+이제 DCL에 대해 자세히 알아보도록 하겠습니다.
+
+### DML
+
+DCL은 데이터베이스의 보안과 권한을 관리하는 데 사용됩니다.
+
+주요한 DCL 명령어로는 GRANT, REVOKE 등이 있습니다.
+
+이 명령어들을 사용하여 데이터베이스 사용자에게 특정 작업에 대한 권한을 부여하거나 회수할 수 있습니다.
+
+#### GRANT
+
+GRANT 문은 데이터베이스 사용자에게 특정 작업에 대한 권한을 부여하는 데 사용됩니다.
+
+예를 들어, GRANT 문을 사용하여 특정 사용자에게 SELECT 권한을 부여할 수 있습니다.
+
+이를 통해 사용자는 데이터베이스에서 데이터를 읽을 수 있게 됩니다.
+
+GRANT 문은 데이터베이스의 보안을 강화하고, 데이터에 대한 접근 권한을 관리하는 데 중요한 역할을 합니다.
+
+#### REVOKE
+
+REVOKE 문은 데이터베이스 사용자로부터 특정 작업에 대한 권한을 회수하는 데 사용됩니다.
+
+예를 들어, REVOKE 문을 사용하여 특정 사용자로부터 INSERT 권한을 회수할 수 있습니다.
+
+이를 통해 사용자는 데이터베이스에 새로운 데이터를 추가할 수 없게 됩니다.
+
+REVOKE 문은 데이터베이스의 보안을 유지하고, 불필요한 권한을 제거하는 데 중요한 역할을 합니다.
+
+DCL은 데이터베이스의 보안과 권한을 관리하여 데이터의 무단 접근을 방지하고, 데이터의 무단 수정 또는 삭제를 방지합니다.
+
+데이터베이스 관리자는 DCL을 이해하고 적절히 활용하여 데이터베이스의 보안을 유지해야 합니다.
+
+## 요약
+
+DCL은 데이터베이스의 보안과 권한 관리를 위한 명령어로, 데이터의 무단 접근을 방지하고 데이터베이스의 안전성을 유지하는 데 중요한 역할을 합니다.
