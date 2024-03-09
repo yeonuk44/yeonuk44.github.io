@@ -40,54 +40,40 @@ date: 2024-03-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-## DCL(Domain-Specific Language)에 대하여 알아본 글입니다.
+## This is an article about procedures and triggers.
 
-안녕하세요! 이번에는 SQL의 DCL(Domain-Specific Language)에 대해 알아보도록 하겠습니다.
+hello everyone! Today, we will learn about ‘procedures’ and ‘triggers’, which play important roles in database management.
+
+Both features greatly help automate database operations and increase efficiency.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### SQL
+### Procedure
 
-SQL은 데이터베이스 관리 시스템(DBMS)에서 데이터를 제어하기 위한 언어로, DCL은 SQL의 하위 언어 중 하나입니다.
+A procedure is a function that allows a series of SQL commands to be executed as a single function in the database.
 
-DCL은 데이터베이스의 보안과 권한 관리를 위해 사용됩니다.
+This means you can process complex queries that are used multiple times in one go.
 
-이제 DCL에 대해 자세히 알아보도록 하겠습니다.
+This reduces code duplication and makes maintenance convenient.
 
-### DML
+A procedure is not executed until it is called, either by an explicit request from the user or by another trigger or procedure.
 
-DCL은 데이터베이스의 보안과 권한을 관리하는 데 사용됩니다.
+Additionally, you can receive parameters within a procedure and perform operations dynamically.
 
-주요한 DCL 명령어로는 GRANT, REVOKE 등이 있습니다.
+### Trigger
 
-이 명령어들을 사용하여 데이터베이스 사용자에게 특정 작업에 대한 권한을 부여하거나 회수할 수 있습니다.
+A trigger is a procedure that is automatically executed in the database when a specific event (data insertion, modification, deletion, etc.) occurs.
 
-#### GRANT
+This allows you to ensure data consistency, automatically check that certain conditions are met, or process complex business rules within the database.
 
-GRANT 문은 데이터베이스 사용자에게 특정 작업에 대한 권한을 부여하는 데 사용됩니다.
+Triggers are automatically executed when certain conditions are met without any explicit call from the user.
 
-예를 들어, GRANT 문을 사용하여 특정 사용자에게 SELECT 권한을 부여할 수 있습니다.
+This maintains the integrity of the database and enables efficient data management.
 
-이를 통해 사용자는 데이터베이스에서 데이터를 읽을 수 있게 됩니다.
+## summary
 
-GRANT 문은 데이터베이스의 보안을 강화하고, 데이터에 대한 접근 권한을 관리하는 데 중요한 역할을 합니다.
+If you understand the characteristics of procedures and triggers and utilize them well, you can perform database operations more efficiently.
 
-#### REVOKE
-
-REVOKE 문은 데이터베이스 사용자로부터 특정 작업에 대한 권한을 회수하는 데 사용됩니다.
-
-예를 들어, REVOKE 문을 사용하여 특정 사용자로부터 INSERT 권한을 회수할 수 있습니다.
-
-이를 통해 사용자는 데이터베이스에 새로운 데이터를 추가할 수 없게 됩니다.
-
-REVOKE 문은 데이터베이스의 보안을 유지하고, 불필요한 권한을 제거하는 데 중요한 역할을 합니다.
-
-DCL은 데이터베이스의 보안과 권한을 관리하여 데이터의 무단 접근을 방지하고, 데이터의 무단 수정 또는 삭제를 방지합니다.
-
-데이터베이스 관리자는 DCL을 이해하고 적절히 활용하여 데이터베이스의 보안을 유지해야 합니다.
-
-## 요약
-
-DCL은 데이터베이스의 보안과 권한 관리를 위한 명령어로, 데이터의 무단 접근을 방지하고 데이터베이스의 안전성을 유지하는 데 중요한 역할을 합니다.
+This reduces the complexity of database management and increases the accuracy and stability of operations.
