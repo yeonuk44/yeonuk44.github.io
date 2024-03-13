@@ -39,46 +39,54 @@ date: 2024-03-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 스크립트 언어와 라이브러리에 대하여 알아본 글입니다.
+## This article provides an overview of memory management, implementation techniques, and page replacement algorithms.
 
-이번 글은 정보처리기사를 준비하며 스크립트 언어와 라이브러리에 대해 개념과 알아두면 좋은 포인트를 중심으로 다시 소개해드리겠습니다.
+In this article, we are preparing an information processing article and this time we will look at memory management.
 
-스크립트 언어와 라이브러리는 소프트웨어 개발과 정보처리 분야에서 중요한 개념입니다. 함께 알아보도록 하겠습니다.
+Memory management is an important part of the operating system, and various techniques and algorithms are used to determine how programs are stored in memory and to utilize memory space efficiently.
+
+Let’s find out together.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 스크립트 언어란?
+### Storage management overview
 
-스크립트 언어는 컴파일 과정 없이 인터프리터에 의해 실행되는 언어를 말합니다.
+Memory management is responsible for storing data and instructions required when a program is executed and allocating memory space required for execution.
 
-스크립트 언어는 주로 자동화 작업, 웹 개발, 데이터 분석 등 다양한 분야에서 사용됩니다.
+To manage this efficiently, we have the following goals:
 
-**스크립트 언어의 특징**
+- Address space allocation: When a program is loaded into memory, it allocates an appropriate address space to prevent crashes or overflows.
+- Memory protection: Protects memory areas from being accessed by other programs or operating systems.
+- Efficient use of memory space: Minimizes unused memory space and allows multiple processes to run simultaneously in a multiprogramming environment.
 
-- 인터프리터에 의한 실행: 스크립트 언어는 인터프리터에 의해 한 줄씩 실행되며, 컴파일 과정을 거치지 않습니다.
-- 동적 타입 체크: 스크립트 언어는 변수의 타입을 미리 선언하지 않고, 실행 시점에서 동적으로 타입을 체크합니다.
-- 간단한 문법: 스크립트 언어는 일반적으로 간단하고 읽기 쉬운 문법을 가지고 있으며, 빠르게 개발할 수 있습니다.
+### Storage management implementation techniques
 
-### 라이브러리란?
+Storage management manages memory using a variety of implementation techniques. Key implementation techniques include:
 
-라이브러리는 재사용 가능한 코드의 모음으로, 특정 기능을 구현하기 위해 필요한 함수, 클래스, 변수 등을 포함합니다.
+- Single fixed partition allocation: Memory is divided into multiple fixed sizes and allocated to processes. Each partition can only be used by one process and cannot be used by any other process.
+- Variable partition allocation: Dynamically partitions memory and allocates it to processes. Depending on the size of the process, you can allocate and free as much memory space as needed.
+- Paging: Memory is divided into fixed-sized pages, and processes are allocated in page units. This helps solve external fragmentation issues.
+- Segmentation: Memory is divided into segments, which are logical units, and processes are allocated by segment. A segment is a logical part of a program and consists of code, data, stack, etc.
 
-라이브러리를 사용하면 개발자는 필요한 기능을 직접 구현하지 않고도 빠르고 효율적으로 개발할 수 있습니다.
+### Page replacement algorithm
 
-**라이브러리에 대한 알아두면 좋은 포인트**
+Since all pages cannot be loaded into memory in the paging technique, only the pages that are needed are loaded and the pages that are not needed are stored in auxiliary memory.
 
-- 기능 확장: 라이브러리는 이미 구현된 기능을 제공하여 개발자가 이를 활용할 수 있도록 돕습니다. 이를 통해 개발 시간과 노력을 절약할 수 있습니다.
-- 커뮤니티 지원: 인기 있는 라이브러리는 활발한 커뮤니티와 문서, 예제 코드 등을 제공합니다. 이를 통해 문제 해결에 도움을 받을 수 있고, 개발자들과 지식을 공유할 수 있습니다.
-- 풍부한 기능: 라이브러리는 다양한 기능을 제공하기 때문에, 개발자가 필요로 하는 다양한 작업을 수행할 수 있습니다. 예를 들어 데이터 분석을 위한 라이브러리인 NumPy는 배열 연산, 선형 대수, 통계 등 다양한 기능을 제공합니다.
+When a page fault occurs, a page replacement algorithm must be used.
 
-## 마치며
+The main page replacement algorithms are as follows:
 
-스크립트 언어와 라이브러리는 개발 작업을 효율적으로 수행하는데 필수적인 요소입니다.
+- FIFO (First-In, First-Out): Replaces the page that came in first.
+- Least Recently Used (LRU): Replaces the page that has not been referenced in the longest time.
+- Least Frequently Used (LFU): Replace the least referenced pages.
+- OPT (Optimal): Replace pages that will not be used for the longest time in the future. Although this is an optimal algorithm in theory, it is difficult to implement in practice.
 
-스크립트 언어는 인터프리터에 의해 실행되며, 동적 타입 체크와 간단한 문법을 통해 빠르게 개발할 수 있습니다.
+## Conclusion
 
-라이브러리는 개발자가 필요한 기능을 쉽고 빠르게 구현할 수 있도록 도와줍니다.
+Memory management is one of the core functions of an operating system and has a significant impact on the speed and efficiency of program execution.
 
-이러한 개념과 포인트를 숙지하고 활용하면 소프트웨어 개발에 큰 도움이 될 것입니다. 감사합니다.
+Managing it effectively helps improve system stability and performance.
+
+thank you
