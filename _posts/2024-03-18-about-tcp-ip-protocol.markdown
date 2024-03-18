@@ -39,74 +39,78 @@ date: 2024-03-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## OSI 참조 모델에 대하여 알아본 글입니다.
+## This is an article about the TCP/IP protocol.
 
-이번 글은 정보처리기사를 준비하며 이번에는 OSI(Open Systems Interconnection) 참조 모델에 대해 알아보고자 합니다.
+In this article, we are preparing an information processing article, and this time we will learn about the TCP/IP protocol.
 
-네트워크 통신의 구조를 이해하기 위한 이 모델은 전 세계적으로 널리 사용되고 있습니다.
+TCP/IP is the most widely used set of protocols in Internet communications and is an important concept that underlies network communications.
 
-함께 살펴보도록 하겠습니다.
+Let’s take a look at it together.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### OSI 참조 모델의 계층
+### What is TCP/IP protocol?
 
-**물리 계층 (Physical Layer)**
+TCP/IP stands for Transmission Control Protocol/Internet Protocol, and is a set of protocols for communication between computers on the Internet.
 
-전기 신호나 비트 스트림으로 데이터를 전송합니다.
+This protocol provides stable and reliable communication by performing various functions such as data transmission, route establishment, and error detection and recovery.
 
-데이터 전송에 필요한 물리적인 연결과 전송 매체 등을 다룹니다.
+### Main components of TCP/IP protocol
 
-**데이터 링크 계층 (Data Link Layer)**
+**Internet Protocol (IP, Internet Protocol)**
 
-데이터를 블록 단위로 나누고, 에러 검출 및 수정을 수행합니다.
+IP is the main protocol used to send and receive data on the Internet.
 
-물리 계층에서 전송된 데이터를 프레임 형태로 구성합니다.
+The data is divided into packets, the destination is identified and transmitted.
 
-### 네트워크 계층 (Network Layer)
+IP addresses identify computers and perform routing.
 
-여러 경로 중 가장 효율적인 경로를 선택하고, 패킷을 전송합니다.
+**Transmission Control Protocol (TCP)**
 
-IP 주소를 통해 목적지를 식별하고, 라우팅을 수행합니다.
+TCP is a protocol responsible for data reliability and flow control.
 
-**전송 계층 (Transport Layer)**
+Divides data into segments, performs error recovery and retransmission.
 
-데이터의 신뢰성과 흐름 제어를 담당합니다.
+It has connection-oriented characteristics and ensures reliable data transmission.
 
-데이터를 세그먼트로 분할하고, 에러 복구 및 재전송을 수행합니다.
+### Internet Control Message Protocol (ICMP)
 
-### 세션 계층 (Session Layer)
+ICMP is a protocol that transmits error messages over a network and monitors network status.
 
-통신 세션을 설정, 유지, 종료하는 역할을 합니다.
+Used for detecting network conditions and resolving errors.
 
-데이터의 동기화와 대화 제어를 담당합니다.
+### Domain Name System (DNS)
 
-**표현 계층 (Presentation Layer)**
+DNS is a system that performs translation between IP addresses and domain names.
 
-데이터의 포맷 변환, 암호화, 압축 등의 변환 작업을 수행합니다.
+It is used for communication by converting human-understandable domain names into IP addresses.
 
-데이터를 응용 계층에서 이해할 수 있는 형식으로 변환합니다.
+### File Transfer Protocol (FTP)
 
-### 응용 계층 (Application Layer)
+FTP is a file transfer protocol that supports file transfer between clients and servers.
 
-사용자와 네트워크 간의 인터페이스를 제공합니다.
+Provides functions such as file upload, download, and deletion.
 
-사용자 애플리케이션에 서비스를 제공하고, 데이터의 최종 목적지입니다.
+**Email Protocol (SMTP, Simple Mail Transfer Protocol)**
 
-**OSI 참조 모델의 장점**
+SMTP is a protocol for sending and receiving email.
 
-계층화된 구조로 인해 네트워크 통신의 각 단계를 이해하기 쉽습니다.
+It is used for sending and receiving emails and supports communication between different mail servers.
 
-다른 벤더나 프로토콜 간의 호환성을 보장합니다.
+### Advantages of TCP/IP protocol
 
-특정 계층의 변경이 다른 계층에 미치는 영향을 예측할 수 있습니다.
+Ensures interoperability between various systems and devices on the network.
 
-표준화된 모델로써 네트워크 설계와 문제 해결에 유용합니다.
+Provides stable and reliable communication in large-scale networks such as the Internet.
 
-## 마치며
+By supporting a variety of application protocols, we can provide a variety of services.
 
-OSI 참조 모델은 네트워크 통신의 기본 개념을 이해하는 데 있어서 중요한 도구입니다.
+It is an open standard and has high compatibility with other protocols.
 
-각 계층의 역할과 기능을 이해하고, 이를 기반으로 네트워크 구성과 문제 해결에 접근해 보세요.
+## Conclusion
+
+The TCP/IP protocol is the most basic protocol in various network environments, including the Internet, and is essential for understanding and configuring network communications.
+
+Understand the role and function of each protocol and use it to solve problems related to network configuration.
