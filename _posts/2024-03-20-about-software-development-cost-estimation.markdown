@@ -39,83 +39,74 @@ date: 2024-03-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 수학적 산정 기법을 통한 소프트웨어 개발 비용 산정에 대하여 알아본 글입니다.
+## This article explores software development cost estimation using mathematical calculation techniques.
 
-파이썬은 간결하고 읽기 쉬운 문법으로 유명한 프로그래밍 언어입니다.
-
-함께 예시를 통해 알아보도록 하겠습니다.
+In this article, we will learn about Cocomo's software development types, the Putnam model, and the function point (FP) model.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 변수와 자료형
+### Types of software development in Cocomo
 
-파이썬에서 변수를 선언할 때에는 별도의 타입 지정이 필요하지 않습니다.
+Cocomo (Model) is an abbreviation for Constructive Cost Model and is a model used to estimate software development costs.
 
-예를 들어, 다음과 같이 변수를 선언할 수 있습니다.
+Cocomo categorizes software development projects into three types:
 
-```python
-name = "Alice"
-age = 25
-height = 165.5
-```
+**Organic**
 
-위의 예시에서 name은 문자열, age는 정수형, height는 실수형 변수입니다.
+It's suitable for relatively small and simple projects.
 
-### 조건문 (if문)
+Applies when developers have extensive experience and a stable development environment.
 
-파이썬에서 조건문은 if, elif, else 키워드를 사용하여 작성할 수 있습니다.
+This includes, for example, software development projects by individuals or small teams.
 
-예를 들어, 다음과 같이 조건문을 작성할 수 있습니다.
+**Semi-Detached**
 
-```python
-x = 10
+Suitable for slightly more complex projects.
 
-if x > 0:
-    print("양수입니다.")
-elif x < 0:
-    print("음수입니다.")
-else:
-    print("0입니다.")
-```
+This applies when some team members lack experience or the development environment is relatively unstable.
 
-위의 예시에서는 변수 x가 양수인지, 음수인지, 또는 0인지를 판별하여 결과를 출력합니다.
+For example, a software development project by a medium-sized organization or team.
 
-### 반복문 (for문)
+**Embedded**
 
-파이썬의 for문은 시퀀스 자료형을 순회하면서 반복하는 데에 사용됩니다.
+Suitable for very complex, reliability-critical projects.
 
-예를 들어, 다음과 같이 리스트를 순회하며 요소를 출력할 수 있습니다.
+Applies when the development environment is uncertain or the developers have limited experience.
 
-```python
-fruits = ["사과", "바나나", "딸기"]
+Examples include embedded systems or highly reliable software development projects.
 
-for fruit in fruits:
-    print(fruit)
-```
+Cocomo's software development typology helps you choose a costing model and coordinate your development process based on the characteristics of your project.
 
-위의 예시에서는 fruits라는 리스트의 요소를 하나씩 순회하며 출력합니다.
+### Putnam model
 
-### 함수
+The Putnam model is a model that represents the relationship between the size of a software development project and the manpower devoted to development.
 
-파이썬에서 함수를 정의할 때에는 def 키워드를 사용합니다.
+This model estimates costs by analyzing the correlation between the manpower required for software development and the development period.
 
-예를 들어, 다음과 같이 인사하는 함수를 정의할 수 있습니다.
+The Putnam model estimates the amount of manpower needed for software development based on the size of the development project.
 
-```python
-def say_hello(name):
-    print("안녕하세요, " + name + "님!")
+This allows you to calculate the expected development period and cost of your project.
 
-say_hello("Alice")
-```
+The Putnam model helps managers plan project schedules and manage risks.
 
-위의 예시에서는 say_hello라는 함수를 정의하고, 해당 함수를 호출하여 "안녕하세요, Alice님!"을 출력합니다.
+**Function Points (FP) Model**
 
-## 마치며
+The function point (FP) model is a model that calculates costs based on the functional aspects of software.
 
-파이썬의 기초 문법과 예시에 대해 간략하게 살펴보았습니다.
+This model measures function points based on the functional requirements of the software and uses this to calculate development costs.
 
-파이썬은 간결하고 가독성이 좋은 문법으로 다양한 프로그래밍 분야에서 활용됩니다.
+The FP model classifies software functionality into elements such as external inputs, outputs, data files, and documented data.
 
-다음에는 더 다양한 주제로 만나뵙도록 하겠습니다. 감사합니다.
+Each element is weighted according to its complexity to calculate the function score.
+
+This helps you estimate development costs and plan project schedules.
+
+The function point model facilitates communication between developers and customers and helps effectively manage the cost and schedule of software development projects.
+
+## Conclusion
+
+Estimating software development costs is an important process that determines the success and efficiency of a project.
+
+Mathematical estimation techniques are methodologies used to quantitatively estimate software development costs.
