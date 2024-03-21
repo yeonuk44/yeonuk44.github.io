@@ -39,74 +39,66 @@ date: 2024-03-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 수학적 산정 기법을 통한 소프트웨어 개발 비용 산정에 대하여 알아본 글입니다.
+## This article discusses project schedule planning and management methods.
 
-이 글에서는 Cocomo의 소프트웨어 개발 유형, Putnam 모형, 그리고 기능점수(FP) 모형에 대해 알아보겠습니다.
+Tools and techniques such as Program Evaluation and Review Technique (PERT), Critical Path Method (CPM), and Gantt Chart are used for effective project scheduling.
+
+In this article, we will look at each concept and its characteristics.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### Cocomo의 소프트웨어 개발 유형
+### PERT (Program Evaluation and Review Technique)
 
-Cocomo(Model)은 Constructive Cost Model의 약자로, 소프트웨어 개발 비용을 산정하기 위해 사용되는 모델입니다.
+PERT is a probabilistic methodology used for project scheduling and management.
 
-Cocomo는 소프트웨어 개발 프로젝트를 세 가지 유형으로 분류합니다.
+Mainly applied to complex and non-linear projects.
 
-**Organic**
+PERT uses the following factors to plan and manage the project schedule:
 
-비교적 작고 단순한 프로젝트에 적합합니다.
+- Event: Represents a specific event or outcome that occurs in a project. For example, you might have events such as “System Design Completed” or “Coding Completed.”
+- Activity: Represents the unit of work performed in the project. Each activity is associated with a start and end event.
+- Time Estimation: Estimate the time required for each activity. PERT uses three time estimates: best time (the lower bound on the expected time), expected time (the average of the expected time), and worst time (the upper bound on the expected time).
 
-개발자들 간의 경험이 풍부하고, 안정된 개발 환경일 때 적용됩니다.
+PERT provides a probabilistic forecast of the project schedule based on these factors.
 
-예를 들어, 개인 또는 소규모 팀에 의한 소프트웨어 개발 프로젝트가 여기에 해당합니다.
+This helps project managers identify and prioritize risks.
 
-**Semi-Detached**
+### CPM (Critical Path Method)
 
-조금 더 복잡한 프로젝트에 적합합니다.
+CPM is a simple yet powerful methodology used for project schedule planning and management.
 
-일부 팀원들이 경험이 부족하거나, 개발 환경이 상대적으로 안정되지 않을 때 적용됩니다.
+CPM determines the minimum duration of a project by specifying the “Critical Path,” which is the longest path in the project.
 
-예를 들어, 중간 규모의 조직 또는 팀에 의한 소프트웨어 개발 프로젝트가 여기에 해당합니다.
+CPM plans and manages project schedules in the following steps:
 
-**Embedded**
+- Activity Identification: Identify and record all activities performed in the project.
+- Precedence Relationship Definition: Defines the precedence relationship between each activity. This establishes a logical flow for the project.
+- Time Estimation: Estimate the time required for each activity. CPM typically uses one time estimate.
+- Create a network diagram: Create a network diagram based on activities and precedence relationships.
+- Critical Path Determination: Identify the project's critical path through a network diagram. The critical path is the critical path that determines the minimum duration of the project.
 
-매우 복잡하고, 신뢰성이 중요한 프로젝트에 적합합니다.
+CPM schedules projects around critical paths, allowing you to monitor project progress.
 
-개발 환경이 불확실하거나, 개발자들의 경험이 제한적일 때 적용됩니다.
+### Gantt Chart
 
-예를 들어, 임베디드 시스템 또는 고도로 신뢰성이 요구되는 소프트웨어 개발 프로젝트가 여기에 해당합니다.
+A Gantt chart is a tool that visually represents a project schedule.
 
-Cocomo의 소프트웨어 개발 유형은 프로젝트의 특성에 따라 비용 산정 모델을 선택하고, 개발 프로세스를 조정하는 데 도움을 줍니다.
+A bar graph displays the activities included in the schedule and their start and end dates.
 
-### Putnam 모형
+A Gantt chart includes the following elements:
 
-Putnam 모형은 소프트웨어 개발 프로젝트의 크기와 개발에 투입되는 인력 사이의 관계를 나타내는 모델입니다.
+- Activity: Represents the unit of work performed in the project. Each activity is represented by a bar graph.
+- Time: Displays the start and end dates of each activity. This gives you a visual overview of your project schedule.
+- Milestone: Represents an important event or goal of a project. It is indicated by a special symbol that appears on the Gantt chart.
 
-이 모델은 소프트웨어 개발에 필요한 인력과 개발 기간 사이의 상관 관계를 분석하여 비용을 산정합니다.
+A Gantt chart is a tool that makes it easy to understand and manage your project schedule.
 
-Putnam 모형은 개발 프로젝트의 크기를 기반으로 소프트웨어 개발에 필요한 인력의 양을 추정합니다.
+Through visual representation, you can understand the progress of the project and the relationships between tasks.
 
-이를 통해 프로젝트의 예상 개발 기간과 비용을 계산할 수 있습니다.
+## Conclusion
 
-Putnam 모형은 관리자들이 프로젝트 일정을 계획하고 리스크를 관리하는 데 도움을 줍니다.
+Project schedule planning is an important factor that determines the success and efficiency of a project. Knowing its characteristics can help you optimize it for the nature of the project.
 
-**기능점수(FP) 모형**
-
-기능점수(FP) 모형은 소프트웨어의 기능적인 측면을 기반으로 비용을 산정하는 모델입니다.
-
-이 모델은 소프트웨어의 기능 요구사항을 기반으로 기능점수를 측정하고, 이를 사용하여 개발 비용을 계산합니다.
-
-FP 모형은 소프트웨어의 기능을 외부 입력, 출력, 데이터 파일, 문서화된 데이터 등의 요소로 분류합니다.
-
-각 요소는 복잡성에 따라 가중치를 부여하여 기능점수를 산정합니다.
-
-이를 통해 개발 비용을 예측하고 프로젝트 일정을 계획할 수 있습니다.
-
-기능점수 모형은 개발자와 고객 간의 의사 소통을 원활하게 하고, 소프트웨어 개발 프로젝트의 비용과 일정을 효과적으로 관리하는 데 도움을 줍니다.
-
-## 마치며
-
-소프트웨어 개발 비용 산정은 프로젝트의 성공과 효율성을 결정하는 중요한 과정입니다.
-
-수학적 산정 기법은 소프트웨어 개발 비용을 정량적으로 산정하기 위해 사용되는 방법론입니다.
+thank you
