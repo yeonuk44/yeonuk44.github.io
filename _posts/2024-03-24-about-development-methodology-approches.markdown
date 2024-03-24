@@ -39,48 +39,74 @@ date: 2024-03-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 상향식 비용 산정 기법에 대하여 알아본 글입니다.
+## This article explores software development methodology approaches.
 
-상향식 비용 산정 기법은 소프트웨어 개발 비용을 추정하기 위해 사용되는 방법 중 하나입니다.
+hello! This time, we will learn about software development methodology.
 
-이 기법은 소프트웨어 개발 프로젝트의 규모와 복잡성을 고려하여 개발에 필요한 리소스와 시간을 산정하는 데에 초점을 맞춥니다.
+A software development methodology is a set of procedures and principles used to develop and manage software, and plays an important role in efficient development and maintenance.
 
-이번 글에서는 상향식 비용 산정 기법의 개요, LOC(Line of Code) 기법, 그리고 개발 단계별 인월수 기법에 대해 알아보겠습니다.
+Among various software development methodologies, we will learn about structural, information engineering, object-oriented, component-based, agile, and product line methodologies.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 상향식 비용 산정 기법 개요
+### Structural Methodology
 
-상향식 비용 산정 기법은 소프트웨어 개발 비용을 프로젝트의 규모와 관련된 요소를 기반으로 예측하는 방법입니다.
+Structured methodology is a method of dividing software development into structured steps.
 
-이 기법은 프로젝트의 크기, 복잡성, 개발 환경 등을 고려하여 소프트웨어 개발에 필요한 리소스를 추정합니다.
+A representative example is the waterfall model, which sequentially progresses through the stages of requirements analysis, design, development, testing, and maintenance.
 
-상향식 비용 산정 기법은 초기에는 보다 추상적인 수준에서 비용을 산정하고, 개발 과정이 진행됨에 따라 세부적인 비용 산정을 수행합니다.
+At each stage, work is carried out based on the results of the previous stage, and the development process can be managed systematically.
 
-### LOC(Line of Code) 기법
+### Information Engineering Methodology
 
-LOC 기법은 소프트웨어 개발에 참여하는 코드의 행(Line) 수를 기반으로 비용을 산정하는 방법입니다.
+Information engineering methodology is a data-driven approach to software development.
 
-이 기법은 개발자가 작성한 소스 코드의 양을 통해 프로젝트의 규모를 추정하고, 이를 바탕으로 개발에 필요한 시간과 리소스를 계산합니다.
+We analyze and design systems with a focus on data flow and processing.
 
-일반적으로 LOC 기법은 과거의 프로젝트 데이터나 표준화된 행(Line) 수에 따른 산정 모델을 사용하여 비용을 예측합니다.
+Typically, data flow diagrams and data dictionaries are used to model the system and proceed with data-centered development.
 
-### 개발 단계별 인월수 기법
+This allows you to clearly understand the structure and flow of the system.
 
-개발 단계별 인월수 기법은 개발 과정을 여러 단계로 나누고, 각 단계에서 필요한 인력의 인월수(Man-Month)를 산정하는 방법입니다.
+### Object-oriented methodology
 
-이 기법은 소프트웨어 개발 프로세스를 요구사항 분석, 설계, 코딩, 테스트 등의 단계로 세분화하고, 각 단계에 필요한 인력의 인월수를 추정합니다.
+Object-oriented methodology is a method of applying real-world objects to software development.
 
-이때 인월수는 개발자 한 명이 한 달 동안 일할 수 있는 시간으로 계산됩니다.
+A system is modeled as a set of objects, and software is developed through interactions between the objects.
 
-## 마치며
+You can use object-oriented languages such as Java and C++ to define classes and objects, and develop flexible and reusable software by utilizing concepts such as inheritance and polymorphism.
 
-상향식 비용 산정 기법은 소프트웨어 개발 비용을 예측하기 위해 유용한 방법입니다.
+### Component-based methodology
 
-LOC 기법은 개발자가 작성한 코드의 양을 기반으로 비용을 산정하며, 개발 단계별 인월수 기법은 개발 과정을 단계별로 세분화하여 인력의 인월수를 산정합니다.
+Component-based methodology is a method of developing software by dividing it into components, which are independent components.
 
-이러한 비용 산정 기법들은 개발 프로젝트의 효율성과 예산 관리에 중요한 역할을 합니다.
+Each component is reusable and can be developed, tested, and deployed independently.
 
-그러나 비용 산정은 항상 정확한 예측을 보장하지는 않으므로, 다양한 요소를 고려하고 유연성을 가지는 것이 중요합니다.
+This improves productivity and eases maintenance.
+
+### Agile Methodology
+
+Agile methodology is a methodology used for flexible and adaptive software development in a rapidly changing environment.
+
+Representative examples include Scrum, Extreme Programming (XP), and Kanban.
+
+Agile methodology repeats development in small cycles and allows you to quickly respond to customer requirements and flexibly respond to changes.
+
+### Product Line Methodology
+
+The product line methodology is a methodology for developing and managing software as a product.
+
+We carry out design, development, launch, and maintenance focusing on the product development life cycle.
+
+The product line methodology moves software development in a circular manner, enabling continuous improvement and rapid response to customer requirements.
+
+## Conclusion
+
+A software development methodology should be selected based on the characteristics and requirements of the project.
+
+Each methodology has pros and cons, and the appropriate methodology must be selected by considering the collaboration method of the developer and team, the project schedule, etc.
+
+This can lead to efficient and successful software development.
+
+thank you!
