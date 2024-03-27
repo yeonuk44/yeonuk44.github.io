@@ -39,50 +39,43 @@ date: 2024-03-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 소프트웨어 개발 표준에 대하여 알아본 글입니다.
+## This is an article about tailoring development methodology.
 
-소프트웨어 개발 표준은 소프트웨어 개발 프로세스를 표준화하고 품질과 효율성을 향상시키기 위해 사용되는 지침과 규정의 모음입니다.
+Tailoring a software development methodology refers to the process of adapting a software development methodology to the specific requirements of a project and the environment of an organization.
 
-이번 글에서는 세 가지 주요한 소프트웨어 개발 표준인 ISO/IEC 12207, CMMI (성숙도 5단계를 포함), 그리고 SPICE (프로세스 수행 능력 단계를 포함)에 대해 알아보겠습니다.
+In this article, we will look at the managerial and technical aspects of tailoring a software development methodology, as well as internal and external considerations.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### ISO/IEC 12207
+### Management aspects
 
-ISO/IEC 12207은 소프트웨어 및 시스템 엔지니어링 프로세스에 대한 국제 표준입니다.
+The management aspect of tailoring a software development methodology requires consideration of the following:
 
-이 표준은 소프트웨어 개발의 다양한 생명주기 활동을 정의하고, 프로세스, 활동, 역할, 산출물 등을 명확하게 기술합니다.
+- Project goals and scope: When choosing a development methodology, you should consider the goals and scope of the project. Depending on the size, complexity, and duration of your project, you can choose the appropriate methodology.
+- Organizational culture and resources: An organization's culture and resources influence the choice of development methodology. The methodology must be adjusted to take into account the nature and capabilities of the organization. Additionally, resources such as required personnel, tools, and environment must be considered.
+- Project management methods: Project management methods and development methodologies should be complementary. If your project management methods do not match your development methodology, adjustments may be necessary. For example, if you adopt an agile development methodology, your project management methods must also be flexible and responsive.
 
-ISO/IEC 12207은 요구사항 분석, 설계, 개발, 테스트, 유지보수 등의 단계를 포함하여 소프트웨어 개발 생명주기 전반을 다룹니다.
+### Technical aspects
 
-이 표준은 품질 개선과 프로젝트 관리를 위한 프로세스를 제공하여 개발 표준 준수를 통해 소프트웨어 개발의 효율성과 품질을 향상시킬 수 있습니다.
+The technical aspects of tailoring a software development methodology require the following considerations:
 
-### CMMI (성숙도 5단계를 포함)
+- Technical requirements: The development methodology must be selected considering the technical requirements of the project. For example, if your project is reliability-critical, a waterfall model may be appropriate.
+- Development tools and environment: When choosing a development methodology, you must consider the development tools and environment you will use. Efficient development is possible only if the development tools and environment are compatible with the chosen methodology.
+- Technical limitations: Technical limitations must be considered when choosing a development methodology. If there are specific technical constraints, a methodology should be chosen that takes those constraints into account.
 
-CMMI는 Capability Maturity Model Integration의 약자로, 프로세스 성숙도 모델입니다.
+### Internal and external matters
 
-CMMI는 소프트웨어 개발 및 조직의 프로세스 성숙도를 평가하고 향상시키기 위한 프레임워크로 널리 사용됩니다.
+Internal and external considerations for tailoring a software development methodology include:
 
-CMMI는 5단계로 구성되어 있으며, 초기 단계인 단계 1에서는 프로세스를 무질서한 상태로 수행하고, 최고 단계인 단계 5에서는 프로세스를 지속적으로 개선하고 최적화합니다.
+- Internal factors: Internal factors of the organization must be considered. The methodology must be adjusted considering the nature of the organization, culture, developer capabilities, etc.
+- External factors: External factors of the development project must also be considered. The methodology must be selected taking into account customer requirements, industry, and legal constraints.
 
-CMMI는 프로세스 관리, 프로젝트 관리, 요구사항 관리, 설계, 개발, 테스트, 유지보수 등 다양한 영역을 다루며, 조직의 성숙도를 평가하고 향상시킴으로써 개발 프로세스의 품질과 효율성을 향상시킬 수 있습니다.
+## Conclusion
 
-### SPICE (프로세스 수행 능력 단계를 포함)
+Tailoring a software development methodology is a critical step to the success of a project.
 
-SPICE는 Software Process Improvement and Capability Determination의 약자로, 소프트웨어 프로세스 개선과 능력 평가를 위한 국제 표준입니다.
+It is necessary to select and adjust an appropriate development methodology by comprehensively considering management, technical aspects, and internal and external factors.
 
-SPICE는 소프트웨어 개발 프로세스의 성숙도를 평가하고 개선하기 위한 프레임워크로 사용됩니다.
-
-SPICE는 프로세스 수행 능력을 평가하기 위해 6개의 능력 수준으로 구성된 모델을 제공합니다.
-
-이 모델은 프로세스 수행 능력을 정량화하고, 프로세스 개선을 위한 목표와 활동을 제시합니다.
-
-SPICE는 품질 관리, 품질 보증, 품질 통제, 리소스 관리, 문서화 등의 다양한 프로세스 영역을 다루며, 소프트웨어 개발 프로세스의 성능을 개선하여 품질과 효율성을 향상시킬 수 있습니다.
-
-## 마치며
-
-ISO/IEC 12207, CMMI, SPICE는 모두 소프트웨어 개발 표준으로서, 개발 프로세스의 품질과 효율성을 향상시키기 위해 사용됩니다.
-
-이러한 표준을 적용함으로써 조직은 일관된 개발 방법론을 따르고, 표준화된 프로세스를 통해 소프트웨어 개발의 품질과 성과를 향상시킬 수 있습니다.
+This helps ensure the quality and performance of development projects.
