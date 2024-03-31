@@ -53,7 +53,7 @@ Now let’s look at them one by one.
 
 <!-- outline-end -->
 
-### Network installation structure:
+### Network installation structure
 
 - Forming: Computers are connected in a circle, with one computer directly connected to another.
 - Ring type: Computers are connected in a ring shape, and each computer is directly connected to the computer on either side.
@@ -61,12 +61,12 @@ Now let’s look at them one by one.
 - Hierarchical: Multiple small networks are organized hierarchically, with upper layers using routers to communicate with lower layers.
 - Network type: A form in which multiple computers are complexly connected, allowing communication through multiple paths.
 
-### Network classification:
+### Network classification
 
 - LAN (Local Area Network): A network used in a small geographical area, and is used in limited spaces such as indoors or inside buildings.
 - WAN (Wide Area Network): A network that covers a wide geographical area and is used in large-scale networks such as the Internet.
 
-### LAN standard (IEEE 802.x):
+### LAN standard (IEEE 802.x)
 
 LANs follow standardized specifications from the Institute of Electrical and Electronics Engineers (IEEE).
 
@@ -74,7 +74,7 @@ In particular, the LAN standard is known as the IEEE 802.x series.
 
 x stands for various versions, each version defining specifications for a particular technology or communication method.
 
-### Versions of 802.11:
+### Versions of 802.11
 
 802.11 is part of the IEEE 802.x series that defines standards for wireless local area networks (WLANs).
 
@@ -82,7 +82,7 @@ x stands for various versions, each version defining specifications for a partic
 
 For example, there are 802.11b, 802.11g, 802.11n, and 802.11ac, and each version may have different speeds and compatibility.
 
-### CSMA/CD and CSMA/CA:
+### CSMA/CD and CSMA/CA
 
 CSMA/CD (Carrier Sense Multiple Access with Collision Detection) is a method of detecting and handling collisions in wired networks such as Ethernet.
 

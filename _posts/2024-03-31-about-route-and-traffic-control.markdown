@@ -39,61 +39,70 @@ date: 2024-03-31 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 네트워크 구축에 대하여 알아본 글입니다.
+## This is an article about routes and traffic control.
 
-오늘은 네트워크 구축에 대해 알아보겠습니다.
+In networks, there are important concepts called path control and traffic control.
 
-네트워크는 컴퓨터와 다른 장치들이 서로 연결되어 정보를 주고받을 수 있는 시스템입니다.
+They play an essential role in maintaining the efficiency and stability of the network.
 
-네트워크를 구축할 때는 여러 가지 설치 구조와 분류, 표준, 그리고 통신 기술에 대해 알아야 합니다.
-
-이제 하나씩 살펴보도록 하겠습니다.
+In this article, we will look at an overview of path control, path control protocol, traffic control, flow control, congestion control, and deadlock prevention.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 네트워크 설치 구조:
+### Overview of route control
 
-- 성형: 컴퓨터들이 원형으로 연결된 형태로, 한 컴퓨터가 다른 컴퓨터로 바로 연결됩니다.
-- 링형: 컴퓨터들이 링 모양으로 연결되어 있으며, 각 컴퓨터는 양 옆 컴퓨터와 직접 연결됩니다.
-- 버스형: 컴퓨터들이 한 줄로 연결되어 있으며, 모든 컴퓨터가 같은 통신 매체를 공유합니다.
-- 계층형: 여러 개의 작은 네트워크가 계층적으로 구성되어 있으며, 상위 계층에서는 라우터를 사용하여 하위 계층과 통신합니다.
-- 망형: 여러 개의 컴퓨터들이 복잡하게 연결되어 있는 형태로, 여러 경로를 통해 통신이 가능합니다.
+Path control is the process of determining which path a packet should follow as it passes through a network.
 
-### 네트워크 분류:
+This ensures that packets are sent to their destination via the optimal path, improving network efficiency and performance.
 
-- LAN(Local Area Network): 작은 지리적 범위에서 사용되는 네트워크로, 옥내나 건물 내부 등 한정된 공간에서 사용됩니다.
-- WAN(Wide Area Network): 넓은 지리적 범위를 커버하는 네트워크로, 인터넷과 같은 대규모 네트워크에 사용됩니다.
+Route control uses routing protocols to exchange route information and determines the optimal route through a route selection algorithm.
 
-### LAN의 표준안(IEEE 802.x):
+### Path Control Protocol
 
-LAN은 IEEE(전기 및 전자 기술자 협회)에서 표준화된 규격을 따릅니다.
+Path control protocol is a protocol for exchanging path information between network devices.
 
-특히, LAN의 표준안은 IEEE 802.x 시리즈로 알려져 있습니다.
+Representative path control protocols used include OSPF (Open Shortest Path First), BGP (Border Gateway Protocol), and RIP (Routing Information Protocol).
 
-x는 다양한 버전을 의미하며, 각 버전은 특정 기술이나 통신 방식에 대한 규격을 정의합니다.
+These protocols perform path control in various situations according to their respective characteristics and purposes.
 
-### 802.11의 버전:
+### Traffic Control
 
-802.11은 무선 LAN(WLAN)에 대한 표준을 정의하는 IEEE 802.x 시리즈 중 하나입니다.
+Traffic control is a technology that controls the flow of data that occurs in a network.
 
-802.11은 초기에는 2Mbps의 속도를 제공하는 무선 통신 기술이었지만, 점차 발전하여 다양한 버전이 등장했습니다.
+A variety of traffic can occur simultaneously on a network, and efficient traffic control is important to maintain network performance and stability.
 
-예를 들어, 802.11b, 802.11g, 802.11n, 802.11ac 등이 있으며, 각 버전마다 속도와 호환성 등이 다를 수 있습니다.
+Traffic control includes prioritizing traffic, allocating bandwidth, and controlling congestion.
 
-### CSMA/CD와 CSMA/CA:
+### Flow control
 
-CSMA/CD(Carrier Sense Multiple Access with Collision Detection)는 이더넷과 같은 유선 네트워크에서 충돌을 감지하고 처리하는 방식입니다.
+Flow control is a technology for regulating the data transmission rate between the transmitting and receiving sides.
 
-충돌이 발생하면 일정 시간 동안 대기한 후 재전송을 시도합니다.
+The data transmitting side transmits data according to the processing speed of the receiving side to prevent congestion, and the receiving side informs the sending side of the time to process the data to prevent excessive data transmission.
 
-CSMA/CA(Carrier Sense Multiple Access with Collision Avoidance)는 무선 네트워크에서 충돌을 예방하기 위한 방식입니다.
+This helps improve network efficiency and prevent data loss.
 
-데이터를 전송하기 전에 다른 기기가 사용 중인지 확인하고 충돌을 최소화하기 위해 전송을 조절합니다.
+### Congestion control
 
-## 마치며
+Congestion control is a technology that prevents network resources from being overloaded due to excessive requests to the network.
 
-이상으로 네트워크 구축에 대한 블로그 형식의 글을 작성해보았습니다.
+To this end, methods such as traffic monitoring, traffic filtering, and limited bandwidth allocation are used to promote efficient use of network resources.
 
-네트워크 설치 구조와 분류, LAN의 표준, 그리고 무선 통신 기술에 대해 간략히 알아보았습니다.
+### Deadlock prevention
+
+Deadlock is a condition that can occur in a network, where each device waits infinitely for each other's resources.
+
+Deadlocks can degrade network performance and cause the entire system to stop functioning.
+
+To prevent this, we use deadlock detection and recovery algorithms to solve the problem and appropriately adjust resource allocation and release.
+
+## Conclusion
+
+Path control and traffic control are key concepts for network efficiency and stability.
+
+Path control determines the optimal path to ensure efficient delivery of packets, and traffic control improves network performance by regulating data flow.
+
+In addition, it supports efficient use of data transmission and network resources through flow control and congestion control, and maintains network stability by preventing deadlock.
+
+It is important to utilize these concepts appropriately to optimize network operations.
