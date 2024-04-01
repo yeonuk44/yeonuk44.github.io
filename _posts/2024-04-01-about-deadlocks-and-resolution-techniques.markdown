@@ -39,78 +39,54 @@ date: 2024-04-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 교착상태와 해결 기법에 대하여 알아본 글입니다.
+## This article discusses deadlocks and resolution techniques.
 
-안녕하세요! 오늘부터는 글의 생기를 불어넣기 위해 매일 조금씩 글의 주제와 상관없는 TMI를 넣어볼까합니다.
+hello! From today, I will add TMI that has nothing to do with the topic of the article little by little every day to bring life to the article.
 
-**오늘의 TMI**
+**---Today’s TMI---**
 
-오늘은 저의 26번째 생일입니다. 사실 이것저것 많은 것을 했는데 이 경험들이 제 인생에 도움이 될지 몰라 잠시 생각에 잠겼네요.. 지금은 아무것도 하지 않으면 변하지 않는다는 생각으로 꾸준히 계속 할 생각입니다! 여러분도 의미를 떠나 꾸준히 하고 있는 행동이 있나요? 언제가 될지는 모르지만 인생에 도움이 될 것이라고 생각합니다! 응원하겠습니다!
+Today is my 26th birthday.
 
-돌아와서 이번에는 컴퓨터 시스템에서 발생할 수 있는 교착상태에 대해 알아보고, 이를 해결하기 위한 기법들에 대해 살펴보겠습니다.
+Actually, I've done a lot of different things, but I was lost in thought for a while wondering if these experiences might be helpful in my life. For now, I plan to keep going with the thought that nothing will change if I don't do anything!
 
-교착상태는 시스템 자원을 요구하며 동시에 점유하고 있는 프로세스들이 서로 필요한 자원을 기다리며 무한히 대기하는 상황을 말합니다.
+Do you also have any actions that you consistently do, regardless of their meaning? I don't know when it will happen, but I think it will help me in life!
 
-이러한 상황은 시스템의 작동을 멈추게 할 수 있으므로 중요한 개념입니다.
+We will support you!
 
-지금부터 자세히 알아보겠습니다.
+**---TMI End---**
+
+We'll come back and this time we'll look at deadlocks that can occur in computer systems and techniques for resolving them.
+
+Deadlock refers to a situation where processes that are requesting and occupying system resources at the same time wait indefinitely for the resources they need.
+
+This is an important concept because these situations can cause the system to stop working.
+
+Let’s take a closer look now.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 경로 제어의 개요
+### Necessary and sufficient conditions for deadlock to occur
 
-경로 제어는 패킷이 네트워크를 통해 전달될 때 어떤 경로를 따라야 하는지 결정하는 과정입니다.
+- Mutual Exclusion: A resource must be available to only one process at the same time.
+- Hold and Wait: A process must occupy at least one resource and wait for another resource.
+- No Preemption: Resources already occupied by other processes cannot be forcibly taken away.
+- Circular Wait: A circular structure formed to wait for resources must exist in a set of processes.
 
-이를 통해 패킷은 최적의 경로를 통해 목적지로 전송되며, 네트워크의 효율성과 성능을 향상시킵니다.
+When these four conditions are met simultaneously, a deadlock can occur.
 
-경로 제어는 라우팅 프로토콜을 사용하여 경로 정보를 교환하고, 경로 선택 알고리즘을 통해 최적 경로를 결정합니다.
+### Deadlock resolution techniques
 
-### 경로 제어 프로토콜
+- Deadlock Prevention: This is a method of preventing deadlock by removing one of the necessary and sufficient conditions for deadlock to occur. For example, you can eliminate ring waiting conditions by ensuring a consistent resource allocation order.
+- Deadlock Avoidance: A method of preventing deadlock from occurring by checking the granting of resource requests in advance. A classic example is the banker algorithm, which allows resource allocation only to maintain a safe state.
+- Deadlock Detection and Recovery: This is a method of detecting and recovering when a deadlock occurs. Deadlocks are detected through resource allocation graphs, etc., and the process involved in the deadlock is stopped or resources are preempted to recover.
+- Deadlock Ignorance: If the possibility of a deadlock occurring is very low or if it does not significantly affect the system, the deadlock is ignored. In some real-time systems, it may make sense to ignore deadlock.
 
-경로 제어 프로토콜은 네트워크 장비 간에 경로 정보를 교환하기 위한 프로토콜입니다.
+## Conclusion
 
-대표적으로 사용되는 경로 제어 프로토콜로는 OSPF (Open Shortest Path First), BGP (Border Gateway Protocol), RIP (Routing Information Protocol) 등이 있습니다.
+Deadlock is a significant problem that threatens the stability of the system.
 
-이들 프로토콜은 각각의 특징과 용도에 따라 다양한 상황에서 경로 제어를 수행합니다.
+Therefore, system designers and developers must consider the possibility of deadlock occurring and select appropriate deadlock resolution techniques to maintain system stability.
 
-### 트래픽 제어
-
-트래픽 제어는 네트워크에서 발생하는 데이터 흐름을 제어하는 기술입니다.
-
-네트워크에는 다양한 트래픽이 동시에 발생할 수 있으며, 효율적인 트래픽 제어는 네트워크 성능과 안정성을 유지하는 데 중요합니다.
-
-트래픽 제어는 트래픽의 우선순위 설정, 대역폭 할당, 혼잡 제어 등을 포함합니다.
-
-### 흐름 제어
-
-흐름 제어는 송신 측과 수신 측 간의 데이터 전송 속도 조절을 위한 기술입니다.
-
-데이터 송신 측은 수신 측의 처리 속도에 맞춰 데이터를 전송하여 혼잡을 방지하고, 수신 측은 송신 측에게 데이터를 처리할 시간을 알려주어 데이터의 과다 전송을 막습니다.
-
-이를 통해 네트워크의 효율성을 향상시키고 데이터 손실을 방지할 수 있습니다.
-
-### 폭주 제어
-
-폭주 제어는 네트워크에 대한 과도한 요청이 발생하여 네트워크 자원이 과부하되는 현상을 방지하는 기술입니다.
-
-이를 위해 트래픽 모니터링, 트래픽 필터링, 제한된 대역폭 할당 등의 방법을 사용하여 네트워크 자원의 효율적인 사용을 도모합니다.
-
-### 교착상태 방지
-
-교착상태는 네트워크에서 발생할 수 있는 상태로, 각 장치가 서로의 자원을 기다리며 무한히 대기하는 상황을 말합니다.
-
-교착상태는 네트워크의 성능을 저하시키고, 전체 시스템의 동작을 멈추게 할 수 있습니다.
-
-이를 방지하기 위해 교착상태 검출 및 복구 알고리즘을 사용하여 문제를 해결하고, 자원 할당과 해제를 적절히 조절합니다.
-
-## 마치며
-
-경로 제어와 트래픽 제어는 네트워크의 효율성과 안정성을 위한 핵심 개념입니다.
-
-경로 제어는 최적 경로를 결정하여 패킷의 효율적인 전달을 도모하며, 트래픽 제어는 데이터 흐름을 조절하여 네트워크 성능을 향상시킵니다.
-
-또한, 흐름 제어와 폭주 제어를 통해 데이터 전송과 네트워크 자원의 효율적인 사용을 지원하며, 교착상태 방지를 통해 네트워크의 안정성을 유지합니다.
-
-이러한 개념들을 적절히 활용하여 네트워크 운영을 최적화하는 것이 중요합니다.
+This prevents potential problems caused by deadlock and ensures smooth system operation.
