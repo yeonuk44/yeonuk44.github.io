@@ -39,64 +39,57 @@ date: 2024-04-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 소프트웨어 개발 보안 구축에 대하여 알아본 글입니다.
+## This article discusses input data verification and expression.
 
-안녕하세요! 소프트웨어 개발 보안에 대해 알아보겠습니다.
+hello! This time, we will learn about input data verification and expression during software development security.
 
-글을 본격적으로 시작하기에 앞서,
+Before starting the writing in earnest,
 
-**---오늘의 TMI---**
+**---Today’s TMI---**
 
-오늘은 운동을 잘 마치고 육회와 연어 초밥 및 덮밥을 먹었습니다.
+It's been a while since I played a game called 'League of Legends' with my friend.
 
-너무 맛있더라고요! 역시 운동 후엔 단백질보충! ㅎㅎ
+It was fun, but I was also upset that they were ruining the game on purpose.
 
-매일 맘 편히 먹기 위해 생존 운동을 하고 있습니다.
+I finished the game without saying anything, and then pressed report for various reasons haha.
 
-운동하고 맛있는거 먹을 생각에 운동도 꾸준히 할 수 있는 것 같습니다.
+How do you deal with this situation? I wonder!
 
-여러분도 무언가 지속가능한 활동을 하고자 할 때, 인간의 보상심리를 스스로에게 적용해보는 방법은 어떨까요? ㅎㅎ
+**---TMI End---**
 
-**---TMI 끝---**
-
-돌아와서 이번 글에서는 Secure SDLC(Secure Software Development Life Cycle) 방법론과 시큐어 코딩의 개념에 대해 알려드리겠습니다.
+Coming back, in this article we will also look at major security weaknesses: SQL injection, path manipulation, XSS, operating system command injection, dangerous format file upload, automatic connection to an untrusted URL address, and memory buffer overflow.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### Secure SDLC의 개요
+### Overview of input data validation and representation
 
-Secure SDLC는 소프트웨어 개발 과정에서 보안을 고려한 안전한 소프트웨어를 개발하기 위한 방법론입니다.
+Input data verification is the process of checking the validity of data entered by the user.
 
-전통적인 개발 방법론에 보안 요소를 추가하여 보안 위협으로부터 소프트웨어를 보호하고, 사용자의 개인정보와 기업 자산을 안전하게 보호하는 것이 목표입니다.
+Incorrect input data can lead to malicious attacks, so it is important to ensure that the data is trustworthy.
 
-### Secure SDLC 방법론 소개
+Additionally, the way the input data is represented also affects security, so the data must be represented in an appropriate manner.
 
-Secure SDLC는 보안을 고려한 다양한 단계로 구성됩니다.
+### Major security weaknesses
 
-각 단계에서는 보안 요소를 고려하며 보안 활동을 수행합니다.
+- SQL Injection:
+  SQL injection is when a malicious user attempts to attack a database by inserting SQL code into the input data. Input data should be validated, and interactions with the database should use parameterized queries or Object Relational Mapping (ORM) to prevent SQL injection.
+- Path Traversal:
+  Path manipulation is an attack where the user uses special characters such as "../" in the input data to manipulate paths in the file system. Path verification can prevent users from accessing inaccessible files.
+- Cross-Site Scripting (XSS):
+  XSS is an attack where a malicious user injects a malicious script into a web application and executes it in the user's browser. You must validate input data and use appropriate escaping techniques to prevent XSS attacks.
+- OS Command Injection:
+  Operating system command injection is an attack in which a malicious user takes control of a server's operating system by inserting malicious commands into input data. When validating input data and executing commands, it is safer to use APIs or libraries rather than executing system commands directly.
+- Unsafe File Upload:
+  A dangerous format file upload is when a malicious user attempts to attack a server by uploading a malicious file to a web application. You must ensure safe file upload by verifying the extension, size, and MIME type of the uploaded file.
+- Automatic connection to an untrusted URL address:
+  Automatic connection to an untrusted URL address is an attack that connects to a malicious site through a link that the user clicks. When creating links, make sure they are from trusted addresses and display a warning to users when using auto-connect connections to maintain a secure connection.
+- Memory Buffer Overflow:
+  A memory buffer overflow is an attack in which a malicious user manipulates the execution flow of a program by overflowing its memory through input data. You must verify the length of input data and use safe buffer management techniques to prevent memory buffer overflow.
 
-- 요구사항 분석 단계: 소프트웨어의 보안 요구사항을 분석하고 정의합니다. 사용자 인증, 데이터 암호화 등 보안 관련 요구사항을 확인합니다.
-- 설계 단계: 보안 아키텍처를 설계하고 보안 기능을 결정합니다. 시스템의 취약점을 고려하여 보안을 강화하기 위한 설계를 수행합니다.
-- 구현 단계: 보안 코딩 가이드라인을 준수하여 보안 취약점을 예방하고, 안전한 코드를 작성합니다. 취약한 함수 사용, 인증 및 권한 검증 등을 확인합니다.
-- 테스트 단계: 보안 테스트를 수행하여 취약점을 찾고, 보안 결함을 수정합니다. 페네트레이션 테스트, 코드 리뷰, 취약점 스캐닝 등을 통해 보안을 강화합니다.
-- 유지보수 단계: 소프트웨어의 보안 업데이트와 취약점 패치를 수행합니다. 보안 이슈에 대한 대응과 지속적인 강화가 필요합니다.
+## Conclusion
 
-### 시큐어 코딩의 개념
+In this way, we learned about the importance of input data validation and representation, as well as major security weaknesses.
 
-시큐어 코딩은 취약점을 최소화하고 보안을 강화하기 위해 안전한 코딩 기법을 적용하는 것을 말합니다.
-
-시큐어 코딩은 다음과 같은 개념을 포함합니다.
-
-- 입력 검증: 사용자 입력을 신뢰하지 않고, 유효성을 검증하는 것입니다. 예상치 못한 입력으로 인한 취약점을 방지할 수 있습니다.
-- 인증과 권한 검증: 사용자의 신원을 확인하고, 권한을 검증하여 불법적인 접근을 차단합니다.
-- 취약한 함수 사용 방지: 취약한 함수 사용은 보안 위협을 초래할 수 있습니다. 안전한 대안 함수나 라이브러리를 사용하여 취약성을 예방합니다.
-- 데이터 보호: 데이터의 암호화와 안전한 저장 방법을 고려하여 데이터 노출을 방지합니다.
-- 에러 처리: 예외 상황에 대한 적절한 처리를 수행하여 시스템의 취약성을 줄입니다.
-
-## 마치며
-
-이렇게 Secure SDLC와 시큐어 코딩을 통해 소프트웨어 개발 보안을 강화할 수 있습니다.
-
-안전한 소프트웨어를 개발하여 사용자와 기업의 정보를 보호하는 데 주력해야 합니다. 감사합니다.
+During software development, it is important to consider security and implement appropriate verification and defense mechanisms. thank you
