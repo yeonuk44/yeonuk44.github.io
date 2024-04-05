@@ -39,57 +39,48 @@ date: 2024-04-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 입력 데이터 검증 및 표현에 대하여 알아본 글입니다.
+## This article explores the importance and risks of security.
 
-안녕하세요! 이번에는 소프트웨어 개발 보안 중 입력 데이터 검증 및 표현에 대해 알아보겠습니다.
+hello!
 
-글을 본격적으로 시작하기에 앞서,
+Before starting the writing in earnest,
 
-**---오늘의 TMI---**
+**---Today’s TMI---**
 
-친구와 오랜만에 '리그 오브 레전드'라는 게임을 했습니다.
+I had a hamburger and milkshake today at a burger place called ‘Frank Burger’ and it was so delicious! Personally, it's the #1 burger haha. If you get a chance, be sure to try it!
 
-재미도 있었지만 일부러 게임을 망치는 같은 편이 속상하기도 하더군요.
+**---TMI End---**
 
-저는 아무말 안하고 게임을 마친 뒤, 각종 사유로 신고를 눌렀습니다ㅋㅋㅋㅋ
-
-여러분은 이런 상황에서 어떻게 대처하시나요?? 궁금합니다!
-
-**---TMI 끝---**
-
-돌아와서 이번 글에서는 주요 보안 약점인 SQL 삽입, 경로 조작, XSS, 운영체제 명령어 삽입, 위험한 형식 파일 업로드, 신뢰되지 않는 URL 주소로 자동접속 연결, 메모리 버퍼 오버플로에 대해서도 살펴보겠습니다.
+Coming back, in this article I'd like to talk about the importance of security and the dangers of hardcoded passwords.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 입력 데이터 검증 및 표현의 개요
+### outline
 
-입력 데이터 검증은 사용자로부터 입력받은 데이터의 유효성을 확인하는 과정입니다.
+Many web applications and software use encryption to secure passwords when they are stored or transmitted.
 
-잘못된 입력 데이터는 악의적인 공격으로 이어질 수 있으므로, 신뢰할 수 있는 데이터인지 확인하는 것이 중요합니다.
+However, some developers still hardcode passwords into their source code for convenience.
 
-또한, 입력 데이터의 표현 방식 역시 보안에 영향을 미치므로, 적절한 방식으로 데이터를 표현해야 합니다.
+However, hardcoded passwords can pose a huge security risk.
 
-### 주요 보안 약점
+If the code is made public or exposed to a malicious attacker, your password can easily be stolen.
 
-- SQL 삽입(SQL Injection):
-  SQL 삽입은 악의적인 사용자가 입력 데이터에 SQL 코드를 삽입하여 데이터베이스에 대한 공격을 시도하는 것입니다. 입력 데이터의 유효성을 검증하고, 데이터베이스와의 상호작용에는 파라미터화된 쿼리나 ORM(Object Relational Mapping)을 사용하여 SQL 삽입을 방지해야 합니다.
-- 경로 조작(Path Traversal):
-  경로 조작은 사용자가 입력 데이터에 "../"와 같은 특수 문자를 사용하여 파일 시스템의 경로를 조작하는 공격입니다. 경로 검증을 통해 사용자가 접근할 수 없는 파일에 접근하는 것을 막을 수 있습니다.
-- XSS(Cross-Site Scripting):
-  XSS는 악의적인 사용자가 웹 애플리케이션에 악성 스크립트를 삽입하여 사용자들의 브라우저에서 실행되게 하는 공격입니다. 입력 데이터의 유효성을 검증하고, 적절한 이스케이프(Escape) 기법을 사용하여 XSS 공격을 방지해야 합니다.
-- 운영체제 명령어 삽입(OS Command Injection):
-  운영체제 명령어 삽입은 악의적인 사용자가 입력 데이터에 악성 명령어를 삽입하여 서버의 운영체제를 제어하는 공격입니다. 입력 데이터의 유효성을 검증하고, 명령어를 실행할 때는 시스템 명령어를 직접 실행하지 말고, API나 라이브러리를 사용하는 것이 안전합니다.
-- 위험한 형식 파일 업로드(Unsafe File Upload):
-  위험한 형식 파일 업로드는 악의적인 사용자가 웹 애플리케이션에 악성 파일을 업로드하여 서버에 대한 공격을 시도하는 것입니다. 업로드 파일의 확장자, 크기, MIME 타입 등을 검증하여 안전한 파일 업로드를 보장해야 합니다.
-- 신뢰되지 않는 URL 주소로 자동접속 연결:
-  신뢰되지 않는 URL 주소로 자동접속 연결은 사용자가 클릭한 링크를 통해 악성 사이트로 연결되는 공격입니다. 링크를 생성할 때는 신뢰할 수 있는 주소인지 확인하고, 자동접속 연결을 사용할 때는 사용자에게 경고를 표시하여 안전한 연결을 유지해야 합니다.
-- 메모리 버퍼 오버플로(Buffer Overflow):
-  메모리 버퍼 오버플로는 악의적인 사용자가 입력 데이터를 통해 프로그램의 메모리를 넘어서서 실행 흐름을 조작하는 공격입니다. 입력 데이터의 길이를 검증하고, 안전한 버퍼 관리 기법을 사용하여 메모리 버퍼 오버플로를 방지해야 합니다.
+This may lead to users' personal information being leaked and system breaches.
 
-## 마치며
+### How to replace hardcoded passwords
 
-이렇게 입력 데이터 검증 및 표현의 중요성과 주요 보안 약점에 대해 알아보았습니다.
+1. Using environment variables. Environment variables are settings provided by the operating system or application and are a secure place to store encrypted passwords. This allows you to use it without having to write the password directly in your source code.
+2. Utilize external storage. The encrypted password is stored in external storage, and the application accesses the storage to use the password. This will increase the security of your password.
+3. It is also a good idea to get help from a security expert. Security experts are familiar with the latest security technologies and principles and can suggest appropriate security solutions. Therefore, it is very important to get professional advice on security.
 
-소프트웨어 개발 과정에서 보안을 고려하여 적절한 검증과 방어 메커니즘을 구현하는 것이 중요합니다. 감사합니다
+To develop and use more secure applications, you should avoid using hardcoded passwords.
+
+Instead, encrypted passwords should be stored securely and appropriate security measures should be adopted to protect users' personal information.
+
+## Conclusion
+
+It is everyone's responsibility to recognize the importance of security and take appropriate measures to manage passwords.
+
+We must continue to do our best to develop and use with security in mind. thank you
