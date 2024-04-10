@@ -39,70 +39,116 @@ date: 2024-04-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 암호화에 대하여 알아본 글입니다.
+## This article discusses service attacks and response methods.
 
-안녕하세요!
+hello!
 
-오늘은 암호 알고리즘과 암호화 기법에 대해 알아보려고 합니다.
+Today we will learn about service attacks and how to respond.
 
-글을 본격적으로 시작하기에 앞서,
+Before starting the writing in earnest,
 
-**---오늘의 TMI---**
+**---Today’s TMI---**
 
-얼마전에 생일이라고 실내 아이스 스케이트를 타러 잠실에 갔는데 몸살 걸릴 뻔 했습니다. 아이스링크장에 간다고 옷을 두껍게 입었는데 타다보니 땀이 나서 엄청 덥더라고요. 벗기도 힘든 옷이라 입고 있었더니 하하.. 고수들은 반팔이나 얇은 긴팔을 입고 있었습니다. 제 생각에 가장 이상적인 복장은 반팔에 긴팔 겉옷을 걸치면 조절하기 좋을 것 같습니다! ㅎㅎ
+Today is National Assembly election day! Thanks to my mother, I made time to go without missing it. As I prepare for a job, I tend to focus only on the timetable and don't look at the dates. It's a good day because I feel like I'm contributing through voting. Cheer up everyone today!
 
-**---TMI 끝---**
+**---TMI End---**
 
-글로 돌아가겠습니다!
+Let’s get back to writing!
 
-암호화는 데이터를 안전하게 보호하기 위해 사용되는 기술로, 개인키와 공개키 암호화 기법, 그리고 해시와 솔트에 대해 자세히 알아보겠습니다.
+A service attack refers to an act by a malicious attacker that attempts to attack a network or system and disrupts the provision of normal services.
+
+Now, let's look at the main types of service attacks one by one.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 개인키와 공개키 암호화 기법
+### Ping of Death
 
-개인키와 공개키 암호화 기법은 대칭키 암호화 방식의 한계를 극복하기 위해 개발된 암호화 방식입니다.
+A ping of death is an attack in which an attacker sends excessively sized Internet Control Message Protocol (ICMP) packets to bring down the target system.
 
-개인키 암호화 기법은 하나의 키로 암호화와 복호화를 모두 처리하는 방식이며, 공개키 암호화 기법은 암호화와 복호화를 위한 서로 다른 두 개의 키를 사용하는 방식입니다.
+These ICMP packets are manipulated to a size that is difficult for the system to handle, causing overload.
 
-개인키 암호화 기법은 암호화와 복호화에 동일한 키를 사용하기 때문에 빠르지만, 키를 안전하게 관리해야 하는 단점이 있습니다.
+### Smurfing
 
-공개키 암호화 기법은 공개키로 암호화하고 개인키로 복호화하기 때문에 키를 안전하게 관리할 필요가 없지만, 개인키를 이용한 암호화는 개인키 암호화 기법보다 느릴 수 있습니다.
+Smurfing is a method in which an attacker attacks a target system by sending an ICMP Echo Request message to a broadcast address on the network to induce a large number of responses.
 
-**대표적인 공개키 암호화 기법**
+This can consume the target system's bandwidth and paralyze services.
 
-RSA, DSA, ECC 등이 있으며, 이러한 암호화 기법은 안전한 통신과 데이터 보호에 널리 사용됩니다.
+### SYN Flooding
 
-### 해시와 솔트 해시
+SYN Flooding is an attack in which an attacker sends a large number of TCP connection requests (SYN packets) to the target system and terminates the connection without waiting for a response.
 
-해시와 솔트 해시는 임의의 길이의 데이터를 고정된 길이의 데이터로 변환하는 알고리즘입니다.
+This causes the target system's resources to be depleted, making it unable to provide normal services.
 
-해시 함수는 동일한 입력에 대해서는 항상 동일한 해시 값을 출력하며, 한 번 해시된 데이터는 원래의 데이터로 복원할 수 없습니다.
+### Land Attack
 
-이러한 특성을 이용하여 암호화보다는 데이터 무결성 검증이나 비밀번호 저장 등에 주로 사용됩니다.
+A land attack is an attack in which an attacker continuously sends TCP packets to the target system by setting the sending IP address and destination IP address to be the same.
 
-하지만 해시 함수만으로는 보안에 취약할 수 있습니다.
+These packets are recognized by the system as themselves and cause an infinite loop, paralyzing the service.
 
-이를 보완하기 위해 솔트(Salt)라는 개념이 도입되었습니다.
+### DDoS (Distributed Denial of Service)
 
-솔트는 해시 함수에 추가되는 임의의 값으로, 각각의 데이터에 고유한 해시 값을 생성하기 위해 사용됩니다.
+DDoS is an attack that simultaneously attacks a target system by manipulating multiple computers or devices.
 
-솔트를 사용하면 동일한 데이터에 대해서도 다른 해시 값을 생성하여 보안을 강화할 수 있습니다.
+This exhausts the target system's resources and paralyzes services.
 
-종류와 간단한 소개 암호 알고리즘과 암호화 기법은 다양한 종류가 존재합니다.
+### Phishing
 
-몇 가지 대표적인 종류를 간단하게 소개하겠습니다.
+Phishing is an attack in which an attacker steals a user's personal information through a fake website or email.
 
-- 대칭키 암호화: 암호화와 복호화에 동일한 키를 사용하는 알고리즘으로, DES, AES 등이 있습니다.
-- 공개키 암호화: 암호화와 복호화에 서로 다른 키를 사용하는 알고리즘으로, RSA, DSA, ECC 등이 있습니다.
-- 해시 함수: 임의의 길이의 데이터를 고정된 길이의 데이터로 변환하는 알고리즘으로, MD5, SHA-1, SHA-256 등이 있습니다.
+Attackers use social engineering techniques to trick users into revealing personal information.
 
-## 마치며
+### Ping Flood
 
-이상으로 오늘은 암호 알고리즘과 암호화 기법, 그리고 해시와 솔트에 대해 알아보았습니다.
+Ping Flood is an attack in which an attacker sends a large number of ICMP Echo Request messages to the target system.
 
-이러한 암호화 기술은 개인정보 보호와 데이터 보안에 중요한 역할을 합니다.
+This exhausts the target system's resources and paralyzes its services.
 
-감사합니다.
+### Switch Jamming
+
+Switch jamming is an attack in which an attacker attacks a network switch, disrupting its operation and paralyzing network traffic.
+
+This may cause network connectivity to be disrupted, making service unavailable.
+
+### Bluesnarfing
+
+Blueprinting is an attack in which an attacker illegally accesses another device through Bluetooth and steals personal information.
+
+An attacker can gain complete control over the device via a Bluetooth connection.
+
+### Worm
+
+A worm is a piece of malicious software that is self-executing and spreads automatically through a network.
+
+Worms can perform actions such as carrying out attacks on a target system or depleting the system's resources.
+
+### Keylogger Attack
+
+A keylogger attack is an attack in which an attacker installs keylogger software on the target system to monitor and steal the user's keyboard input.
+
+This may allow us to obtain your password or personal information.
+
+### Ransomware
+
+Ransomware is an attack in which an attacker infiltrates malicious software into a target system, encrypts files, and demands monetary compensation for restoration.
+
+This causes users to lose access to their files.
+
+### Backdoor
+
+A backdoor is an attack that creates a path for an attacker to allow unauthorized access to a target system by using malicious software or security vulnerabilities.
+
+This could allow an attacker to gain complete control over the system.
+
+## Conclusion
+
+Today we briefly looked at the types of service attacks.
+
+To protect your systems and networks from these attacks, it is important to strengthen security measures such as firewalls, intrusion detection systems, and security updates.
+
+Users should also be careful about downloading files and clicking links from trusted sources.
+
+To ensure a safe online environment, continuous attention and attention to security is required.
+
+thank you
