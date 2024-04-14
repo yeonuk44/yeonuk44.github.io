@@ -39,78 +39,68 @@ date: 2024-04-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 서버 인증에 대하여 알아본 글입니다.
+## This is an article about security architecture and framework.
 
-안녕하세요!
+hello!
 
-서버 인증에 대해 알아보려고 하는 분들을 위해 이번에는 인증, 인가, 지식, 소유, 행위 기반 인증에 대해 알아보도록 하겠습니다.
+This time, we will learn about security architecture and framework.
 
-글을 본격적으로 시작하기에 앞서,
+Before starting the writing in earnest,
 
-**---오늘의 TMI---**
+**---Today’s TMI---**
 
-워드프로세스와 컴퓨터 활용 능력 자격증을 취득했습니다!
+Wow, I watched the LCK tournament today and it was really exciting..!
 
-자습책 및 인강 하나 없이 문제를 보고, 기출문제만 계속 풀이하고 갔는데 필기 및 실기 전부 잘 봐서 붙었습니다!
+I really respect the MVP 'Giin', including those ranked 10th and 1st in the team rankings!
 
-오늘은 기분 좋은 하루가 되었네요ㅎㅎ 여러분도 좋은 일 가득 하시길 바랍니다!
+I look forward to your future actions as well. Congratulations~!
 
-**---TMI 끝---**
+**---TMI End---**
 
-글로 돌아가겠습니다!
+Let’s get back to writing!
 
-서버 인증은 정보 보안에서 매우 중요한 개념이며, 이해하는 것이 중요합니다.
+Security architecture and frameworks are important concepts used to build and manage the security of an organization or system.
+
+In this article, we will look at the concepts and examples of administrative, physical, and technical security.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 인증(Authentication)
+### Administrative Security Administrative Security
 
-인증은 사용자가 자신을 신원을 증명하는 과정입니다.
+Administrative Security Administrative security refers to managing security through organizational policies, procedures, and regulations.
 
-서버에 접근하려는 사용자는 자신의 신원을 증명하기 위해 주로 아이디와 비밀번호를 제공합니다.
+Key administrative security examples include:
 
-이 정보를 통해 서버는 사용자가 누구인지 확인하고 인증을 완료합니다.
+- Security Policy: A document that defines the principles and guidelines for security within an organization. For example, password policies, access control policies, etc.
+- Education and awareness training: Activities to provide security training to employees and increase awareness of security.
+- Risk assessment and management: This is an activity that evaluates the security risks of the system and establishes appropriate response plans.
 
-### 인가(Authorization)
+### Physical Security
 
-인가는 인증된 사용자에게 특정 리소스나 서비스에 접근할 수 있는 권한을 부여하는 과정입니다.
+Physical security refers to protecting physical devices and facilities to ensure security.
 
-예를 들어, 인증된 사용자가 특정 디렉토리에 접근하거나 파일을 수정할 수 있는지 여부를 결정하는 것이 인가입니다.
+Key physical security examples include:
 
-### 지식 기반 인증(Knowledge-based Authentication)
+- Access control: A system that restricts and monitors access to people entering a building or facility. Access cards, biometrics, etc. may be used.
+- CCTV and detection system: A system that monitors and recognizes activities inside and outside the facility through CCTV cameras and a motion detection system.
+- Fire and disaster preparedness: This is a system that protects facilities against fire and natural disasters. For example, fire extinguishers, emergency exits, etc.
 
-지식 기반 인증은 사용자가 미리 정의된 질문에 대한 정확한 답변을 제공하여 신원을 확인하는 방식입니다.
+### Technical Security
 
-예를 들어, "어린 시절 어디인가요?"와 같은 질문에 정확한 답변을 제공해야 인증이 완료됩니다.
+Technical security means using technological methods to protect systems and data.
 
-### 소유 기반 인증(Possession-based Authentication)
+Key technical security examples include:
 
-소유 기반 인증은 사용자가 소유한 물리적인 장치나 미디어를 사용하여 인증하는 방식입니다.
+- Encryption: This is a technology that encrypts data and protects it from illegal access from outside. A representative example is website encryption using SSL/TLS protocols.
+- Firewall: A system that controls communication between external and internal networks and blocks illegal access.
+- Intrusion Detection System (IDS) and Intrusion Prevention System (IPS): Systems that detect and block malicious activity within a network.
 
-대표적인 예로는 SMS로 전송된 일회용 인증번호를 입력하는 방식이 있습니다.
+## Conclusion
 
-이 방식은 사용자가 자신의 핸드폰을 소유하고 있다는 것을 확인하여 인증을 완료합니다.
+Security architectures and frameworks provide a way to build and maintain security by comprehensively considering these administrative, physical, and technical security elements.
 
-### 행위 기반 인증(Behavior-based Authentication)
+It is important to use them in combination to suit each organization or system.
 
-행위 기반 인증은 사용자의 특정 행동 패턴을 분석하여 신원을 확인하는 방식입니다.
-
-사용자의 타이핑 스타일, 마우스 사용 패턴, 터치 동작 등을 분석하여 인증을 수행합니다.
-
-이 방식은 사용자의 특징적인 행동을 기반으로 하기 때문에 보안성이 높다고 평가됩니다.
-
-서버 인증은 위에서 소개한 다양한 방식을 조합하여 사용할 수도 있습니다.
-
-예를 들어, 사용자는 아이디와 비밀번호로 인증을 수행한 후에, 추가적인 인증 단계로 SMS로 전송된 일회용 인증번호를 입력하는 방식을 사용할 수 있습니다.
-
-## 마치며
-
-이상으로 서버 인증에 대한 개념을 간략히 소개해드렸습니다.
-
-이해를 돕기 위해 다양한 인증 방식을 포함하여 설명해보았는데요, 보다 안전한 서버 인증을 위해서는 다중 인증 방식을 사용하는 것이 좋습니다.
-
-각각의 인증 방식은 장단점이 있으므로 상황에 맞게 적절히 조합하여 사용하는 것이 중요합니다.
-
-감사합니다.
+thank you
