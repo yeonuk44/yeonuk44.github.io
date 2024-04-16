@@ -39,76 +39,67 @@ date: 2024-04-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 로그 분석에 대하여 알아본 글입니다.
+## This is an article about network security solutions.
 
-안녕하세요!
+hello!
 
-이번에는 로그 분석에 대해 알아보도록 하겠습니다.
+Today, we will learn about Intrusion Detection System (IDS), which are important parts of network security, Virtual Private Network (VPN), and Secure Shell (SSH), which enable secure remote access. .
 
-글을 본격적으로 시작하기에 앞서,
+Before starting the writing in earnest,
 
-**---오늘의 TMI---**
+**---Today’s TMI---**
 
-오랜만에 로스트아크라는 게임을 제대로 해봤는데 레이드가 정말 재밌더라고요!
+The information processing technician practical exam is just around the corner!
 
-유입도 많은 것 같으니 다음 신규 유저 이벤트도 기대가 됩니다ㅎㅎ
+Even though I wasn't really nervous when it came to writing, I was a little nervous when it came to practical skills haha.
 
-RPG 장르에 흥미가 있으시다면 한 번 해보시길 바랍니다!
+Do you also have a certification that you would like to pursue?
 
-**---TMI 끝---**
+Let's fight together!
 
-글로 돌아가겠습니다!
+**---TMI End---**
 
-로그는 시스템의 동작과 관련된 정보를 기록하는 중요한 도구입니다.
-
-특히, 커널 로그는 시스템의 핵심 부분인 커널에서 생성되는 로그를 의미합니다.
-
-이번 글에서는 커널 로그 중에서 주로 사용되는 wtmp, utmp, btmp, lastlog에 대해 알아보겠습니다.
+Let’s get back to writing!
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### wtmp 로그
+### Intrusion Detection System (IDS)
 
-wtmp 로그는 시스템에 로그인한 사용자의 정보와 로그아웃 기록을 포함합니다.
+An intrusion detection system is a security solution that detects and blocks unusual activity on a network or system.
 
-이 로그는 로그인 관련 정보를 기록하여 사용자의 활동을 추적하고 분석하는 데 사용됩니다.
+This system can come in many forms and can be mainly divided into two types:
 
-주로 보안 감사 및 사용자 활동 추적 목적으로 활용됩니다.
+- Network-based IDS (NIDS): NIDS monitors traffic and detects abnormal behavior on the network. Packet analysis can identify unknown attacks or unauthorized access.
+- Host-based IDS (HIDS): HIDS operates on a specific system and detects intrusions by monitoring logs and events occurring in that system. It can detect malware or malicious user actions.
 
-예를 들어, 사용자의 로그인 기록, 로그아웃 기록, 세션 시작 및 종료 시간 등이 wtmp 로그에 포함됩니다.
+###VPN (Virtual Private Network)
 
-### utmp 로그
+A VPN is a technology for securely transmitting data over public networks.
 
-utmp 로그는 현재 로그인한 사용자의 정보를 기록합니다.
+It provides secure connections primarily over the Internet, allowing you to communicate securely with users in remote locations or with networks located in other geographies.
 
-wtmp 로그와 유사하지만, utmp 로그는 현재 세션에 대한 정보만을 포함하고 있습니다.
+- Advantages of VPN
+  - Encryption: Encrypts data to prevent eavesdropping.
+  - Authentication and access control: Strengthen security by authenticating users and managing access rights.
+  - Remote work environment: Even users in remote areas or on the move can access a secure network.
 
-이 로그는 시스템 관리자가 실시간으로 현재 사용자의 활동을 모니터링하고, 로그아웃하지 않은 세션을 식별하는 데 사용됩니다.
+### SSH (Secure Shell)
 
-예를 들어, 사용자의 로그인 시간, 터미널 장치, 프로세스 ID 등이 utmp 로그에 포함됩니다.
+SSH is a protocol and application for securely connecting to remote systems.
 
-### btmp 로그
+In particular, it is used to connect to remote servers and transfer files through a text-based command line interface.
 
-btmp 로그는 로그인 시도에 대한 정보를 기록합니다.
+- Core features of SSH
+  - Encryption: Encrypts data during communication to prevent eavesdropping.
+  - Authentication: Securely authenticate users to prevent unauthorized access.
+  - Port Forwarding: Allows access to various services through a secure tunnel.
 
-로그인 시도가 실패한 경우에도 해당 정보를 기록하여 보안 이슈를 분석하고 추적하는 데 사용됩니다.
+## Conclusion
 
-예를 들어, 로그인 시도한 사용자의 아이디, 실패한 로그인 시간, 실패한 IP 주소 등이 btmp 로그에 포함됩니다.
+This concludes our brief introduction to intrusion detection systems, VPNs, and SSH.
 
-### lastlog 로그
+These security solutions play a critical role in modern network environments and are essential for keeping data and systems safe.
 
-lastlog 로그는 사용자가 마지막으로 로그인한 시간과 관련된 정보를 기록합니다.
-
-이 로그는 사용자의 로그인 이력을 추적하고, 오랫동안 로그인하지 않은 사용자를 식별하는 데 사용됩니다.
-
-예를 들어, 사용자의 마지막 로그인 시간, 로그인 터미널 장치, IP 주소 등이 lastlog 로그에 포함됩니다.
-
-## 마치며
-
-이러한 커널 로그들은 시스템 보안 및 감사를 위해 중요한 정보를 제공합니다.
-
-로그 분석을 통해 시스템의 이상 동작, 보안 위협, 사용자 활동 등을 식별할 수 있습니다.
-
-보안 관련 이슈에 대한 조사나 시스템 문제 해결에 도움이 되는 유용한 자료입니다.
+We encourage you to actively utilize these technologies to create a safer digital environment.
