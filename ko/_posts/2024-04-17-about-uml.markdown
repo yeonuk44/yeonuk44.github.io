@@ -1,0 +1,94 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_UML
+title: UML (Unified Modeling Language)에 대하여
+# title: About UML (Unified Modeling Language)
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: PM
+# multiple tag entries are possible
+tags: [pm]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2024-04-17 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## UML (Unified Modeling Language)에 대하여 알아본 글입니다.
+
+안녕하세요!
+
+오늘은 UML (Unified Modeling Language)에 대해 알아보고, UML의 구성요소와 다이어그램 종류에 대해 소개해드리겠습니다.
+
+글을 본격적으로 시작하기에 앞서,
+
+**---오늘의 TMI---**
+
+오늘부터 살을 좀 빼보려 합니다!
+
+최근 너무 앉아만 있다보니 살이 많이 찐 것 같아서요.
+
+콤푸차도 사고, 양배추 찜도 먹고 하고 있습니다!
+
+여러분은 다이어트를 위해 식단 관리를 하시나요??
+
+**---TMI 끝---**
+
+글로 돌아가겠습니다!
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### UML 개요
+
+UML은 소프트웨어 개발 과정에서 사용되는 표준화된 모델링 언어로, 시스템의 구조와 동작을 시각적으로 표현하기 위해 사용됩니다.
+
+UML은 사물, 관계, 다이어그램으로 구성되어 있습니다.
+
+### UML의 구성요소
+
+- 사물(Elements): UML에서는 시스템을 구성하는 요소들을 사물로 표현합니다. 클래스, 객체, 인터페이스, 패키지 등이 사물에 해당됩니다. 이러한 사물들은 시스템의 구조를 표현하고, 속성과 동작을 가지며, 서로 연관되어 있습니다.
+- 관계(Relationships): UML에서는 사물들 간의 관계를 표현합니다. 상속, 연관, 의존, 집합 등 다양한 관계를 사용하여 사물들 간의 연결과 의존성을 표현할 수 있습니다.
+- 다이어그램(Diagrams): UML에서는 사물과 관계를 시각적으로 표현하는 다이어그램을 사용합니다. 다이어그램은 시스템의 특정 측면을 나타내며, 소프트웨어 개발자들 사이에서 의사소통과 이해를 돕는 중요한 도구입니다.
+
+### UML 다이어그램 종류
+
+- 클래스 다이어그램(Class Diagram): 시스템의 클래스와 클래스 간의 관계를 표현하는 다이어그램입니다. 클래스의 속성, 연산, 메서드, 상속, 연관 등을 표현하여 시스템의 구조를 보여줍니다.
+- 시퀀스 다이어그램(Sequence Diagram): 시스템의 동작을 시간 순서에 따라 표현하는 다이어그램입니다. 객체 간의 상호작용과 메시지 흐름을 보여줌으로써 시스템의 동작을 시각적으로 이해할 수 있습니다.
+- 상태 다이어그램(State Diagram): 시스템의 동적인 상태를 표현하는 다이어그램입니다. 사물이 가질 수 있는 상태와 상태 간의 전이를 보여줌으로써 시스템의 동작 흐름을 이해할 수 있습니다.
+- 컴포넌트 다이어그램(Component Diagram): 시스템을 구성하는 컴포넌트들과 컴포넌트 간의 관계를 표현하는 다이어그램입니다. 시스템의 구성 요소들을 시각적으로 표현하여 시스템의 구조를 파악할 수 있습니다.
+- 배치 다이어그램(Deployment Diagram): 시스템의 물리적인 배치를 표현하는 다이어그램입니다. 하드웨어, 소프트웨어, 네트워크 등의 구성 요소들 간의 관계와 배치를 보여줌으로써 시스템의 배치를 이해할 수 있습니다.
+
+## 마치며
+
+이상으로 UML의 개념과 구성요소, 그리고 다이어그램 종류에 대해 간략히 소개해드렸습니다.
+
+UML은 소프트웨어 개발 과정에서 중요한 도구로 사용되며, 효과적인 시스템 모델링과 설계를 위해 꼭 알아두시면 좋습니다.
+
+감사합니다!
