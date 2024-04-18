@@ -40,56 +40,89 @@ date: 2024-04-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "인덱스 바꾸기" 문제에 대하여 알아본 글입니다.
+## This is an article about the "OX Quiz (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 my_string과 정수 num1, num2가 매개변수로 주어질 때, my_string에서 인덱스 num1과 인덱스 num2에 해당하는 문자를 바꾼 문자열을 return 하도록 solution 함수를 완성해보세요.
+Quiz, a string array containing addition and subtraction formulas in the form of 'X [operator] Y = Z', is given as a parameter.
 
-#### 제한사항
+Complete the solution function so that it returns an array containing "O" in order if the formula is correct, and "X" if it is incorrect.
 
-- 1 < my_string의 길이 < 100
-- 0 ≤ num1, num2 < my_string의 길이
-- my_string은 소문자로 이루어져 있습니다.
-- num1 ≠ num2
+#### Restrictions
 
-#### 입출력 예시
+- There is always a space between the operation symbol and the number. However, there is no space between the minus sign, which indicates a negative number, and the number.
+- 1 ≤ length of quiz ≤ 10
+- X, Y, and Z each represent an integer consisting of numbers from 0 to 9, and there can be a minus sign at the beginning of each number, which means a negative number.
+- X, Y, Z do not start with 0 except 0.
+- 10,000 ≤ X, Y ≤ 10,000
+- 20,000 ≤ Z ≤ 20,000
+- [Operator] is either + or -.
 
-| my_string    | num1 | num2 | result       |
-| ------------ | ---- | ---- | ------------ |
-| "hello"      | 1    | 2    | "hlelo"      |
-| "I love you" | 3    | 6    | "I l veoyou" |
+#### Input/Output Example
+
+| my_string                                                  | num1                 |
+| ---------------------------------------------------------- | -------------------- |
+| ["3 - 4 = -3", "5 + 6 = 11"]                               | ["X", "O"]           |
+| ["19 - 6 = 13", "5 + 66 = 71", "5 - 15 = 63", "3 - 1 = 2"] | ["O", "O", "X", "O"] |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| 10 | 3 | 0 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public String solution(String my_string, int num1, int num2) {
-        char[] ch = my_string.toCharArray();
+     public String[] solution(String[] quiz) {
+         String[] answer = new String[quiz.length];
+         String[] temp = new String[quiz.length];
 
-        ch[num1] = my_string.charAt(num2);
-        ch[num2] = my_string.charAt(num1);
+         for(int i = 0; i < quiz.length; i++){
+             temp = quiz[i].split(" ");
 
-        String answer = String.valueOf(ch);
-        return answer;
-    }
+             if(temp[1].equals("+")){
+                 if(Integer.valueOf(temp[0]) + Integer.valueOf(temp[2]) == Integer.valueOf(temp[4])){
+                     answer[i] = "O";
+                 }else{
+                     answer[i] = "X";
+                 }
+             }
+
+             if(temp[1].equals("-")){
+                 if(Integer.valueOf(temp[0]) - Integer.valueOf(temp[2]) == Integer.valueOf(temp[4])){
+                     answer[i] = "O";
+                 }else{
+                     answer[i] = "X";
+                 }
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 먼저 주어진 문자열을 char 배열로 변환합니다. 그리고 ch[num1] 위치의 문자를 my_string.charAt(num2)로 대체하고, ch[num2] 위치의 문자를 my_string.charAt(num1)로 대체합니다.
-- 문자 교환을 마친 후, char 배열을 다시 문자열로 변환하여 answer 변수에 저장합니다. 마지막으로 answer를 반환합니다.
-- 즉, solution 메서드는 주어진 문자열에서 num1과 num2 위치의 문자를 서로 교환한 결과를 반환하는 기능을 수행합니다.
+The solution method analyzes each element of the given quiz array and initializes an answer array to store the results.
+
+We also initialize a temp array for temporary use.
+
+We then process each element of the quiz array through a for loop.
+
+Each element is split based on whitespace and stored in the temp array.
+
+If the second element of the temp array is "+", convert the first and third elements to integers and check if their sum equals the fifth element.
+
+If they are the same, "O" is stored in the corresponding index of the answer array. If they are different, "X" is stored.
+
+If the second element of the temp array is "-", we handle it the same way.
+
+Finally, it returns an array of answers.
