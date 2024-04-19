@@ -40,7 +40,7 @@ date: 2024-04-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "OX퀴즈 (with.Java)" 문제에 대하여 알아본 글입니다.
+## "자릿수 더하기(with.Java)" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,26 +52,18 @@ date: 2024-04-19 09:00:00 +0900
 
 ### 문제
 
-덧셈, 뺄셈 수식들이 'X [연산자] Y = Z' 형태로 들어있는 문자열 배열 quiz가 매개변수로 주어집니다.
-
-수식이 옳다면 "O"를 틀리다면 "X"를 순서대로 담은 배열을 return하도록 solution 함수를 완성해주세요.
+정수 n이 매개변수로 주어질 때 n의 각 자리 숫자의 합을 return하도록 solution 함수를 완성해주세요
 
 #### 제한사항
 
-- 연산 기호와 숫자 사이는 항상 하나의 공백이 존재합니다. 단 음수를 표시하는 마이너스 기호와 숫자 사이에는 공백이 존재하지 않습니다.
-- 1 ≤ quiz의 길이 ≤ 10
-- X, Y, Z는 각각 0부터 9까지 숫자로 이루어진 정수를 의미하며, 각 숫자의 맨 앞에 마이너스 기호가 하나 있을 수 있고 이는 음수를 의미합니다.
-- X, Y, Z는 0을 제외하고는 0으로 시작하지 않습니다.
-- 10,000 ≤ X, Y ≤ 10,000
-- 20,000 ≤ Z ≤ 20,000
-- [연산자]는 + 와 - 중 하나입니다.
+- 0 ≤ n ≤ 1,000,000
 
 #### 입출력 예시
 
-| my_string                                                  | num1                 |
-| ---------------------------------------------------------- | -------------------- |
-| ["3 - 4 = -3", "5 + 6 = 11"]                               | ["X", "O"]           |
-| ["19 - 6 = 13", "5 + 66 = 71", "5 - 15 = 63", "3 - 1 = 2"] | ["O", "O", "X", "O"] |
+| n      | result |
+| ------ | ------ |
+| 1234   | 10     |
+| 930211 | 16     |
 
 <!-- | start_num | end_num | result |
 | --------- | ------- | ------ |
@@ -81,28 +73,12 @@ date: 2024-04-19 09:00:00 +0900
 
 ```java
 class Solution {
-    public String[] solution(String[] quiz) {
-        String[] answer = new String[quiz.length];
-        String[] temp = new String[quiz.length];
-
-        for(int i = 0; i < quiz.length; i++){
-            temp = quiz[i].split(" ");
-
-            if(temp[1].equals("+")){
-                if(Integer.valueOf(temp[0]) + Integer.valueOf(temp[2]) == Integer.valueOf(temp[4])){
-                    answer[i] = "O";
-                }else{
-                    answer[i] = "X";
-                }
-            }
-
-            if(temp[1].equals("-")){
-                if(Integer.valueOf(temp[0]) - Integer.valueOf(temp[2]) == Integer.valueOf(temp[4])){
-                    answer[i] = "O";
-                }else{
-                    answer[i] = "X";
-                }
-            }
+    public int solution(int n) {
+        int answer = 0;
+        String str = Integer.toString(n);
+        for(int i = 0; i < str.length(); i++){
+            int k = (int)str.charAt(i) - '0';
+            answer += k;
         }
         return answer;
     }
@@ -111,18 +87,26 @@ class Solution {
 
 ### 풀이 설명
 
-solution 메서드는 주어진 quiz 배열의 각 요소를 분석하여 결과를 저장할 answer 배열을 초기화합니다.
+메소드 시그니처: public int solution(int n)
+정수 n을 매개변수로 받고, 정수 값을 반환하는 메소드입니다.
 
-또한 임시로 사용할 temp 배열도 초기화합니다.
+변수 초기화: int answer = 0;
+결과 값을 저장할 변수인 answer를 0으로 초기화합니다.
 
-그런 다음 for 루프를 통해 quiz 배열의 각 요소를 처리합니다.
+정수를 문자열로 변환: String str = Integer.toString(n);
+입력받은 정수 n을 문자열로 변환하여 str에 저장합니다.
 
-각 요소는 공백을 기준으로 분할되어 temp 배열에 저장됩니다.
+문자열을 순회하며 각 자리의 숫자를 더함:
+for(int i = 0; i < str.length(); i++)
+문자열의 길이만큼 반복합니다.
 
-temp 배열의 두 번째 요소가 "+"인 경우, 첫 번째 요소와 세 번째 요소를 정수로 변환하여 더한 값이 다섯 번째 요소와 같은지 확인합니다.
+int k = (int)str.charAt(i) - '0';
+문자열에서 i번째 문자를 가져와서 ASCII 코드 값을 구하고, '0'의 ASCII 코드 값을 뺀 결과를 정수로 변환하여 k에 저장합니다.
 
-같다면 answer 배열의 해당 인덱스에 "O"를 저장하고, 다르다면 "X"를 저장합니다.
+answer += k;
+k 값을 answer에 더합니다.
 
-temp 배열의 두 번째 요소가 "-"인 경우에도 같은 방식으로 처리합니다.
+결과 값 반환: return answer;
+answer 변수에 저장된 값을 반환합니다.
 
-마지막으로 answer 배열을 반환합니다.
+이렇게 코드는 주어진 정수의 각 자리 숫자를 더한 값을 반환하는 기능을 수행합니다.
