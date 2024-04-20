@@ -40,7 +40,7 @@ date: 2024-04-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "자릿수 더하기(with.Java)" 문제에 대하여 알아본 글입니다.
+## "문자열안에 문자열(with,Java)" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,33 +52,39 @@ date: 2024-04-20 09:00:00 +0900
 
 ### 문제
 
-정수 n이 매개변수로 주어질 때 n의 각 자리 숫자의 합을 return하도록 solution 함수를 완성해주세요
+문자열 str1, str2가 매개변수로 주어집니다.
+
+str1 안에 str2가 있다면 1을 없다면 2를 return하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- 0 ≤ n ≤ 1,000,000
+- 1 ≤ str1의 길이 ≤ 100
+- 1 ≤ str2의 길이 ≤ 100
+- 문자열은 알파벳 대문자, 소문자, 숫자로 구성되어 있습니다.
 
 #### 입출력 예시
 
-| n      | result |
+<!-- | n      | result |
 | ------ | ------ |
 | 1234   | 10     |
-| 930211 | 16     |
+| 930211 | 16     | -->
 
-<!-- | start_num | end_num | result |
-| --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| str1                     | str2   | result |
+| ------------------------ | ------ | ------ |
+| "ab6CDE443fgh22iJKlmn1o" | "6CD"  | 1      |
+| "ppprrrogrammers"        | "pppp" | 2      |
+| "AbcAbcA"                | "AAA"  | 2      |
 
 ### 문제에 대한 나의 풀이
 
 ```java
 class Solution {
-    public int solution(int n) {
+    public int solution(String str1, String str2) {
         int answer = 0;
-        String str = Integer.toString(n);
-        for(int i = 0; i < str.length(); i++){
-            int k = (int)str.charAt(i) - '0';
-            answer += k;
+        if(str1.contains(str2)){
+            answer = 1;
+        }else{
+            answer = 2;
         }
         return answer;
     }
@@ -87,26 +93,14 @@ class Solution {
 
 ### 풀이 설명
 
-메소드 시그니처: public int solution(int n)
-정수 n을 매개변수로 받고, 정수 값을 반환하는 메소드입니다.
+public int solution(String str1, String str2): solution이라는 이름의 메서드를 정의하고, 두 개의 문자열 str1과 str2를 매개변수로 받습니다. 정수형 값을 반환합니다.
 
-변수 초기화: int answer = 0;
-결과 값을 저장할 변수인 answer를 0으로 초기화합니다.
+int answer = 0;: 결과 값을 저장할 변수 answer를 0으로 초기화합니다.
 
-정수를 문자열로 변환: String str = Integer.toString(n);
-입력받은 정수 n을 문자열로 변환하여 str에 저장합니다.
+if(str1.contains(str2)): 만약 str1이 str2를 포함하고 있다면,
+answer = 1;: answer에 1을 대입합니다.
 
-문자열을 순회하며 각 자리의 숫자를 더함:
-for(int i = 0; i < str.length(); i++)
-문자열의 길이만큼 반복합니다.
+else: 그렇지 않으면,
+answer = 2;: answer에 2를 대입합니다.
 
-int k = (int)str.charAt(i) - '0';
-문자열에서 i번째 문자를 가져와서 ASCII 코드 값을 구하고, '0'의 ASCII 코드 값을 뺀 결과를 정수로 변환하여 k에 저장합니다.
-
-answer += k;
-k 값을 answer에 더합니다.
-
-결과 값 반환: return answer;
-answer 변수에 저장된 값을 반환합니다.
-
-이렇게 코드는 주어진 정수의 각 자리 숫자를 더한 값을 반환하는 기능을 수행합니다.
+return answer;: 최종적으로 answer 값을 반환합니다.

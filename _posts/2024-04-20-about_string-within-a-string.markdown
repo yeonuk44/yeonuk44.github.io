@@ -40,73 +40,67 @@ date: 2024-04-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "자릿수 더하기(with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article that looks into the problem of “strings within strings (with, Java)”.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to get to know myself.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-정수 n이 매개변수로 주어질 때 n의 각 자리 숫자의 합을 return하도록 solution 함수를 완성해주세요
+String str1, str2 are given as parameters.
 
-#### 제한사항
+Complete the solution function so that it returns 1 if str2 is in str1, or 2 if not.
 
-- 0 ≤ n ≤ 1,000,000
+#### Restrictions
 
-#### 입출력 예시
+- 1 ≤ length of str1 ≤ 100
+- 1 ≤ length of str2 ≤ 100
+- The string consists of uppercase letters, lowercase letters, and numbers.
 
-| n      | result |
+#### Input/Output Example
+
+<!-- | n | result |
 | ------ | ------ |
-| 1234   | 10     |
-| 930211 | 16     |
+| 1234 | 10 |
+| 930211 | 16 | -->
 
-<!-- | start_num | end_num | result |
-| --------- | ------- | ------ |
-| 10        | 3       | 0      | -->
+| str1                     | str2   | result |
+| ------------------------ | ------ | ------ |
+| "ab6CDE443fgh22iJKlmn1o" | "6CD"  | 1      |
+| "ppprrogrammers"         | "pppp" | 2      |
+| "AbcAbcA"                | "AAA"  | 2      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int n) {
-        int answer = 0;
-        String str = Integer.toString(n);
-        for(int i = 0; i < str.length(); i++){
-            int k = (int)str.charAt(i) - '0';
-            answer += k;
-        }
-        return answer;
-    }
+     public int solution(String str1, String str2) {
+         int answer = 0;
+         if(str1.contains(str2)){
+             answer = 1;
+         }else{
+             answer = 2;
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-메소드 시그니처: public int solution(int n)
-정수 n을 매개변수로 받고, 정수 값을 반환하는 메소드입니다.
+public int solution(String str1, String str2): Define a method named solution and receive two strings str1 and str2 as parameters. Returns an integer value.
 
-변수 초기화: int answer = 0;
-결과 값을 저장할 변수인 answer를 0으로 초기화합니다.
+int answer = 0;: Initialize the variable answer, which will store the result, to 0.
 
-정수를 문자열로 변환: String str = Integer.toString(n);
-입력받은 정수 n을 문자열로 변환하여 str에 저장합니다.
+if(str1.contains(str2)): If str1 contains str2,
+answer = 1;: Assign 1 to answer.
 
-문자열을 순회하며 각 자리의 숫자를 더함:
-for(int i = 0; i < str.length(); i++)
-문자열의 길이만큼 반복합니다.
+else: Otherwise,
+answer = 2;: Assign 2 to answer.
 
-int k = (int)str.charAt(i) - '0';
-문자열에서 i번째 문자를 가져와서 ASCII 코드 값을 구하고, '0'의 ASCII 코드 값을 뺀 결과를 정수로 변환하여 k에 저장합니다.
-
-answer += k;
-k 값을 answer에 더합니다.
-
-결과 값 반환: return answer;
-answer 변수에 저장된 값을 반환합니다.
-
-이렇게 코드는 주어진 정수의 각 자리 숫자를 더한 값을 반환하는 기능을 수행합니다.
+return answer;: Finally returns the answer value.
