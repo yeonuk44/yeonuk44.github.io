@@ -40,67 +40,73 @@ date: 2024-04-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "문자열안에 문자열(with,Java)" 문제에 대하여 알아본 글입니다.
+## This article examines the problem of “identifying square numbers.”
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to get to know myself.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 str1, str2가 매개변수로 주어집니다.
+The integer that results when a natural number is squared is called a square number.
 
-str1 안에 str2가 있다면 1을 없다면 2를 return하도록 solution 함수를 완성해주세요.
+When an integer n is given as a parameter, complete the solution function so that it returns 1 if n is a square number, and 2 otherwise.
 
-#### 제한사항
+#### Restrictions
 
-- 1 ≤ str1의 길이 ≤ 100
-- 1 ≤ str2의 길이 ≤ 100
-- 문자열은 알파벳 대문자, 소문자, 숫자로 구성되어 있습니다.
+- 1 ≤ n ≤ 1,000,000
 
-#### 입출력 예시
+#### Input/Output Example
 
-<!-- | n      | result |
-| ------ | ------ |
-| 1234   | 10     |
-| 930211 | 16     | -->
+| n   | result |
+| --- | ------ |
+| 144 | 1      |
+| 976 | 2      |
 
-| str1                     | str2   | result |
+<!-- | str1 | str2 | result |
 | ------------------------ | ------ | ------ |
-| "ab6CDE443fgh22iJKlmn1o" | "6CD"  | 1      |
-| "ppprrrogrammers"        | "pppp" | 2      |
-| "AbcAbcA"                | "AAA"  | 2      |
+| "ab6CDE443fgh22iJKlmn1o" | "6CD" | 1 |
+| "ppprrogrammers" | "pppp" | 2 |
+| "AbcAbcA" | "AAA" | 2 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(String str1, String str2) {
-        int answer = 0;
-        if(str1.contains(str2)){
-            answer = 1;
-        }else{
-            answer = 2;
-        }
-        return answer;
-    }
+     public int solution(int n) {
+         int answer = 0;
+         for(int i = 1; i <= 1000; i++){
+             if(i * i == n){
+                 answer = 1;
+                 break;
+             }else if(i * i > n){
+                 answer = 2;
+                 break;
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-public int solution(String str1, String str2): solution이라는 이름의 메서드를 정의하고, 두 개의 문자열 str1과 str2를 매개변수로 받습니다. 정수형 값을 반환합니다.
+int answer = 0;: Initialize the variable answer, which will store the result, to 0.
 
-int answer = 0;: 결과 값을 저장할 변수 answer를 0으로 초기화합니다.
+for(int i = 1; i <= 1000; i++): This is a loop statement to sequentially check numbers from 1 to 1000.
 
-if(str1.contains(str2)): 만약 str1이 str2를 포함하고 있다면,
-answer = 1;: answer에 1을 대입합니다.
+if(i \* i == n): If the power of the current number i is equal to n, then n is a square number. So we set answer to 1 and exit the loop.
 
-else: 그렇지 않으면,
-answer = 2;: answer에 2를 대입합니다.
+else if(i \* i > n): If the current number i squared is greater than n, then n is not a square number. So we set answer to 2 and exit the loop.
 
-return answer;: 최종적으로 answer 값을 반환합니다.
+return answer;: Returns the final result answer.
+
+This code sequentially squares numbers from 1 to 1000 and compares them to n to determine whether n is a square number or not. The returned values are:
+
+0: When n is not expressed as a square of numbers from 1 to 1000.
+1: When n is expressed as the square of one of the numbers from 1 to 1000
+2: When n is greater than the square of numbers from 1 to 1000
