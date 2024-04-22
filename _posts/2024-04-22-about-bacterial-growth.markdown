@@ -40,73 +40,63 @@ date: 2024-04-22 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "제곱수 판별하기" 문제에 대하여 알아본 글입니다.
+## This article looks into the problem of “bacterial proliferation (with.Java)”.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-어떤 자연수를 제곱했을 때 나오는 정수를 제곱수라고 합니다.
+It is said that some bacteria multiply twice in one hour.
 
-정수 n이 매개변수로 주어질 때, n이 제곱수라면 1을 아니라면 2를 return하도록 solution 함수를 완성해주세요.
+When the initial number of bacteria n and the elapsed time t are given as parameters, complete the solution function so that it returns the number of bacteria after t time.
 
-#### 제한사항
+#### Restrictions
 
-- 1 ≤ n ≤ 1,000,000
+- 1 ≤ n ≤ 10
+- 1 ≤ t ≤ 15
 
-#### 입출력 예시
+#### Input/Output Example
 
-| n   | result |
+<!-- | n | result |
 | --- | ------ |
-| 144 | 1      |
-| 976 | 2      |
+| 144 | 1 |
+| 976 | 2 | -->
 
-<!-- | str1                     | str2   | result |
-| ------------------------ | ------ | ------ |
-| "ab6CDE443fgh22iJKlmn1o" | "6CD"  | 1      |
-| "ppprrrogrammers"        | "pppp" | 2      |
-| "AbcAbcA"                | "AAA"  | 2      | -->
+| n   | t   | result |
+| --- | --- | ------ |
+| 2   | 10  | 2048   |
+| 7   | 15  | 229376 |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int n) {
-        int answer = 0;
-        for(int i = 1; i <= 1000; i++){
-            if(i * i == n){
-                answer = 1;
-                break;
-            }else if(i * i > n){
-                answer = 2;
-                break;
-            }
-        }
-        return answer;
-    }
+     public int solution(int n, int t) {
+         int answer = n;
+         for(int i = 0; i < t; i++){
+             answer *= 2;
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-int answer = 0;: 결과값을 저장할 변수 answer를 0으로 초기화합니다.
+int answer = n;: Initializes the answer variable to n.
 
-for(int i = 1; i <= 1000; i++): 1부터 1000까지의 수를 순차적으로 확인하기 위한 반복문입니다.
+for(int i = 0; i < t; i++): Executes a loop that repeats from 0 to t-1.
 
-if(i \* i == n): 현재 수 i를 제곱한 값이 n과 같다면, n은 제곱수입니다. 따라서 answer를 1로 설정하고 반복문을 종료합니다.
+Multiply the answer by 2.
 
-else if(i \* i > n): 현재 수 i를 제곱한 값이 n보다 크다면, n은 제곱수가 아닙니다. 따라서 answer를 2로 설정하고 반복문을 종료합니다.
+return answer;: Finally returns the answer value.
 
-return answer;: 최종적인 결과값 answer를 반환합니다.
+This code has a function that repeats n t times and returns the value multiplied by 2.
 
-이 코드는 1부터 1000까지의 수를 차례대로 제곱하여 n과 비교하면서 n이 제곱수인지 아닌지를 판별합니다. 반환되는 값은 다음과 같습니다:
-
-0: n이 1부터 1000까지의 수들의 제곱으로 표현되지 않는 경우
-1: n이 1부터 1000까지의 수들 중 하나의 제곱으로 표현되는 경우
-2: n이 1부터 1000까지의 수들의 제곱보다 큰 경우
+For example, if n is 2 and t is 3, repeat 2 3 times and return 8.
