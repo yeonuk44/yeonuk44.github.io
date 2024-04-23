@@ -40,63 +40,64 @@ date: 2024-04-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "세균 증식(with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the problem of "Sort strings 2 (with.Java)".
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-어떤 세균은 1시간에 두배만큼 증식한다고 합니다.
+When a string my_string consisting of upper and lower case English letters is given as a parameter, complete the solution function to change my_string to all lowercase letters and return a string sorted in alphabetical order.
 
-처음 세균의 마리수 n과 경과한 시간 t가 매개변수로 주어질 때 t시간 후 세균의 수를 return하도록 solution 함수를 완성해주세요.
+#### Restrictions
 
-#### 제한사항
+- 0 < my_string < 100
 
-- 1 ≤ n ≤ 10
-- 1 ≤ t ≤ 15
+#### Input/Output Example
 
-#### 입출력 예시
+| my_string | result   |
+| --------- | -------- |
+| "Bcad"    | "abcd"   |
+| "heLLo"   | "ehllo"  |
+| "Python"  | "hnopty" |
 
-<!-- | n   | result |
-| --- | ------ |
-| 144 | 1      |
-| 976 | 2      | -->
-
-| n   | t   | result |
-| --- | --- | ------ |
-| 2   | 10  | 2048   |
-| 7   | 15  | 229376 |
-
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
+import java.util.Arrays;
+
 class Solution {
-    public int solution(int n, int t) {
-        int answer = n;
-        for(int i = 0; i < t; i++){
-            answer *= 2;
-        }
-        return answer;
-    }
+     public String solution(String my_string) {
+         String answer = my_string.toLowerCase();
+
+         char[] chars = answer.toCharArray();
+         Arrays.sort(chars);
+         answer = new String(chars);
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-int answer = n;: answer 변수를 n으로 초기화합니다.
+- Lowercase conversion: Converts the given string to lowercase using the toLowerCase method.
+- Convert to and sort a character array: Use the toCharArray method to convert a string to a character array, and use the Arrays.sort method to sort the character array alphabetically.
+- Convert to string: Convert the sorted character array back to a string and save it in the answer.
+- Return result: Returns the final sorted string.
 
-for(int i = 0; i < t; i++): 0부터 t-1까지 반복하는 반복문을 실행합니다.
+**Code Advantages**
 
-answer에 2를 곱합니다.
+- Simple string sorting: You can easily convert and sort strings to lowercase by utilizing Java's built-in methods.
+- Code conciseness: Strings are handled in a simple yet effective way.
 
-return answer;: 최종적으로 answer 값을 반환합니다.
+**Code Disadvantages**
 
-이 코드는 n을 t번 반복하여 2를 곱한 값을 반환하는 기능을 가지고 있습니다.
-
-예를 들어, n이 2, t가 3인 경우 2를 3번 반복하여 8을 반환합니다.
+- No handling of Unicode characters: The current code performs sorting on ASCII characters. To properly handle Unicode characters, you need to consider another approach.
+- Ignoring string immutability: Since strings are immutable, the process of converting a sorted character array back to a string may seem unnecessary. This part can be optimized.
+- No exception handling when the string is null: The current code does not consider handling when the given string is null. I recommend adding exception handling for null.
+- No handling if string contains spaces: The current code sorts without considering spaces within the string. If you want to include spaces in the sorting, you need to modify that part.
