@@ -40,64 +40,74 @@ date: 2024-04-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "문자열 정렬하기 2 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the problem of "Cut and save as an array (with.Java)".
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-영어 대소문자로 이루어진 문자열 my_string이 매개변수로 주어질 때, my_string을 모두 소문자로 바꾸고 알파벳 순서대로 정렬한 문자열을 return 하도록 solution 함수를 완성해보세요.
+When the strings my_str and n are given as parameters, complete the solution function to return an array that cuts my_str by length n and stores it.
 
-#### 제한사항
+#### Restrictions
 
-- 0 < my_string < 100
+- 1 ≤ length of my_str ≤ 100
+- 1 ≤ n ≤ length of my_str
+- my_str consists of lowercase letters, uppercase letters, and numbers.
 
-#### 입출력 예시
+#### Input/Output Example
 
-| my_string | result   |
+| my_str             | n   | result                       |
+| ------------------ | --- | ---------------------------- |
+| "abc1Addfggg4556b" | 6   | ["abc1Ad", "dfggg4", "556b"] |
+| "abcdef123"        | 3   | ["abc", "def", "123"]        |
+
+<!-- | my_string | result |
 | --------- | -------- |
-| "Bcad"    | "abcd"   |
-| "heLLo"   | "ehllo"  |
-| "Python"  | "hnopty" |
+| "Bcad" | "abcd" |
+| "heLLo" | "ehllo" |
+| "Python" | "hnopty" | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
-import java.util.Arrays;
-
 class Solution {
-    public String solution(String my_string) {
-        String answer = my_string.toLowerCase();
+     public String[] solution(String my_str, int n) {
+         int length = my_str.length();
+         int arrayLength = (int) Math.ceil((double) length / n);
 
-        char[] chars = answer.toCharArray();
-        Arrays.sort(chars);
-        answer = new String(chars);
-        return answer;
-    }
+         String[] answer = new String[arrayLength];
+
+         for (int i = 0; i < arrayLength; i++) {
+             int start = i * n;
+             int end = Math.min(start + n, length);
+             answer[i] = my_str.substring(start, end);
+         }
+
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 소문자 변환: toLowerCase 메서드를 사용하여 주어진 문자열을 소문자로 변환합니다.
-- 문자 배열로 변환 및 정렬: toCharArray 메서드를 사용하여 문자열을 문자 배열로 변환하고, Arrays.sort 메서드를 사용하여 문자 배열을 알파벳 순으로 정렬합니다.
-- 문자열로 변환: 정렬된 문자 배열을 다시 문자열로 변환하여 answer에 저장합니다.
-- 결과 반환: 최종적으로 정렬된 문자열을 반환합니다.
+- Calculate string length: Calculate the length of the given string and store it in the length variable.
+- Calculating the length of the array to be divided: To calculate the length of the array to divide the string into, divide the string length by the given length, perform a rounding operation, and add one array if the remainder occurs. Store this value in the arrayLength variable.
+- Create an array to store the results: Create a string array of length arrayLength and store it in the answer variable.
+- Divide the string into a certain length and store it in an array: Divide the string into a certain length through a for loop and store each substring in the answer array. The starting index is calculated as `i * n`, the ending index is start + n, but if it is the last part, it cannot be greater than the length of the string, so we use Math.min to choose the smaller of the two values.
+- Return result array: Returns an answer array containing the divided substrings.
 
-**코드 장점**
+**Code Advantages**
 
-- 문자열 정렬 간편성: Java의 내장 메서드를 활용하여 간편하게 문자열을 소문자로 변환하고 정렬할 수 있습니다.
-- 코드 간결성: 간단하면서도 효과적인 방법으로 문자열을 처리하고 있습니다.
+- Flexibility of dividing a string by a certain length: Provides a general way to divide a given string into a desired length and store it in an array.
+- Dynamically adjust the size of the array according to the length of the string: Use memory efficiently by dynamically adjusting the size of the array according to the length of the input string.
 
-**코드 단점**
+**Code Disadvantages**
 
-- 유니코드 문자 처리 부재: 현재 코드는 ASCII 문자에 대한 정렬을 수행하고 있습니다. 유니코드 문자를 올바르게 처리하기 위해서는 다른 방식을 고려해야 합니다.
-- 문자열 불변성 무시: 문자열은 불변(immutable)하므로 정렬된 문자 배열을 다시 문자열로 변환하는 과정이 불필요하게 보일 수 있습니다. 이 부분을 최적화할 수 있습니다.
-- 문자열이 null일 때 예외처리 부재: 현재 코드는 주어진 문자열이 null일 때의 처리를 고려하지 않고 있습니다. null에 대한 예외 처리를 추가하는 것이 좋습니다.
-- 문자열에 공백이 포함된 경우 처리 부재: 현재 코드는 문자열 내의 공백을 고려하지 않고 정렬하고 있습니다. 만약 공백도 정렬에 포함시키고 싶다면 해당 부분을 수정해야 합니다.
+- Array size may vary depending on string length: The size of the array may vary depending on the length of the string and the given length, which may result in unexpected memory usage.
+- Immutability of arrays of split substrings: Once a split substring is stored in an array, it cannot be changed, and the substring cannot be modified later.
