@@ -40,74 +40,69 @@ date: 2024-04-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "잘라서 배열로 저장하기(with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "Number of 7 (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 my_str과 n이 매개변수로 주어질 때, my_str을 길이 n씩 잘라서 저장한 배열을 return하도록 solution 함수를 완성해주세요.
+My favorite lucky number is 7.
 
-#### 제한사항
+When an integer array array is given as a parameter, complete the solution function to return the total number of 7s.
 
-- 1 ≤ my_str의 길이 ≤ 100
-- 1 ≤ n ≤ my_str의 길이
-- my_str은 알파벳 소문자, 대문자, 숫자로 이루어져 있습니다.
+#### Restrictions
 
-#### 입출력 예시
+- 1 ≤ length of array ≤ 100
+- 0 ≤ elements of array ≤ 100,000
 
-| my_str             | n   | result                       |
+#### Input/Output Example
+
+<!-- | my_str | n | result |
 | ------------------ | --- | ---------------------------- |
-| "abc1Addfggg4556b" | 6   | ["abc1Ad", "dfggg4", "556b"] |
-| "abcdef123"        | 3   | ["abc", "def", "123"]        |
+| "abc1Addfggg4556b" | 6 | ["abc1Ad", "dfggg4", "556b"] |
+| "abcdef123" | 3 | ["abc", "def", "123"] | -->
 
-<!-- | my_string | result   |
-| --------- | -------- |
-| "Bcad"    | "abcd"   |
-| "heLLo"   | "ehllo"  |
-| "Python"  | "hnopty" | -->
+| array       | result |
+| ----------- | ------ |
+| [7, 77, 17] | 4      |
+| [10, 29]    | 0      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public String[] solution(String my_str, int n) {
-        int length = my_str.length();
-        int arrayLength = (int) Math.ceil((double) length / n);
-
-        String[] answer = new String[arrayLength];
-
-        for (int i = 0; i < arrayLength; i++) {
-            int start = i * n;
-            int end = Math.min(start + n, length);
-            answer[i] = my_str.substring(start, end);
-        }
-
-        return answer;
-    }
+     public int solution(int[] array) {
+         int answer = 0;
+         for(int i = 0; i < array.length; i++){
+             String str = String.valueOf(array[i]);
+             char[] chArr = str.toCharArray();
+             for(char ch : chArr){
+                 if(ch == '7'){
+                     answer += 1;
+                 }
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 문자열 길이 계산: 주어진 문자열의 길이를 계산하여 length 변수에 저장합니다.
-- 나눌 배열의 길이 계산: 문자열을 나눌 배열의 길이를 계산하기 위해 문자열 길이를 주어진 길이로 나눈 뒤, 올림 연산을 수행하여 나머지가 발생하면 하나의 배열을 추가합니다. 이 값을 arrayLength 변수에 저장합니다.
-- 결과를 저장할 배열 생성: arrayLength 길이의 문자열 배열을 생성하여 answer 변수에 저장합니다.
-- 문자열을 일정 길이로 나누어 배열에 저장: for 루프를 통해 문자열을 일정 길이로 나누고, 각 부분 문자열을 answer 배열에 저장합니다. 시작 인덱스는 `i * n`으로 계산하고, 종료 인덱스는 start + n이지만, 만약 마지막 부분이라면 문자열 길이보다 클 수 없으므로 Math.min을 사용하여 두 값 중 작은 값을 선택합니다.
-- 결과 배열 반환: 나누어진 부분 문자열이 저장된 answer 배열을 반환합니다.
+1. `public int solution(int[] array)`: The solution method is a method that takes an int array as input and returns the number of 7.
+2. `int answer = 0;` : Declare the answer variable and initialize it to 0. This variable is a variable that will store the number of 7.
+3. `for(int i = 0; i < array.length; i++)`: This is a loop that repeats the length of the array. It is used to check all the elements in an array one by one.
+4. `String str = String.valueOf(array[i]);`: Converts the elements of the array to a string. The reason for converting an element of an array to a string is to check if that number is 7.
+5. `char[] chArr = str.toCharArray();`: Converts a string to a character array. The reason for this conversion is to loop through the strings one by one and check whether it is 7.
+6. `for(char ch : chArr)`: It is a loop statement that checks all elements of a character array one by one.
+7. `if(ch == '7')`: Checks whether the character currently being checked is 7.
+8. `answer += 1;`: If the character is 7, 1 is added to the answer variable. That is, increase the number of 7 by 1.
+9. `return answer;`: After the loop ends, returns the answer variable that stores the number of 7.
 
-**코드 장점**
-
-- 일정 길이로 문자열을 나누는 유연성: 주어진 문자열을 원하는 길이로 나누어 배열에 저장할 수 있는 일반적인 방법을 제공합니다.
-- 문자열의 길이에 따라 배열의 크기를 동적으로 조정: 입력 문자열의 길이에 따라 배열의 크기를 동적으로 조정하여 메모리를 효율적으로 사용합니다.
-
-**코드 단점**
-
-- 문자열 길이에 따라 배열 크기가 달라질 수 있음: 문자열의 길이와 주어진 길이에 따라 배열의 크기가 달라지므로, 예상치 못한 메모리 사용량을 초래할 수 있습니다.
-- 나누어진 부분 문자열의 배열에 대한 불변성: 한 번 나누어진 부분 문자열이 저장된 배열은 변경할 수 없으며, 나중에 해당 부분 문자열을 수정할 수 없습니다.
+The code implemented in this way performs the function of counting the number of 7s in the given array.
