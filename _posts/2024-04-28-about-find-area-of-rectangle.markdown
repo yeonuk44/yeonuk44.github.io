@@ -40,59 +40,79 @@ date: 2024-04-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "머쓱이보다 키 큰 사람(with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the problem of “Finding the area of a rectangle (with.Java)”.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to get to know myself.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-머쓱이는 학교에서 키 순으로 줄을 설 때 몇 번째로 서야 하는지 궁금해졌습니다.
+There is a rectangle in a two-dimensional coordinate plane whose sides are parallel to the axis.
 
-머쓱이네 반 친구들의 키가 담긴 정수 배열 array와 머쓱이의 키 height가 매개변수로 주어질 때, 머쓱이보다 키 큰 사람 수를 return 하도록 solution 함수를 완성해보세요.
+When an array dots containing the coordinates of the four vertices of a rectangle [[x1, y1], [x2, y2], [x3, y3], [x4, y4]] is given as a parameter, the solution function returns the area of the rectangle. Try completing it.
 
-#### 제한사항
+#### Restrictions
 
-- 1 ≤ array의 길이 ≤ 100
-- 1 ≤ height ≤ 200
-- 1 ≤ array의 원소 ≤ 200
+- Length of dots = 4
+- Length of element of dots = 2
+- 256 < element of dots[i] < 256
+- Incorrect input will not be given.
 
-#### 입출력 예시
+#### Input/Output Example
 
-| array                | height | result |
+<!-- | array | height | result |
 | -------------------- | ------ | ------ |
-| [149, 180, 192, 170] | 167    | 3      |
-| [180, 120, 140]      | 190    | 0      |
+| [149, 180, 192, 170] | 167 | 3 |
+| [180, 120, 140] | 190 | 0 | -->
 
-<!-- | array       | result |
-| ----------- | ------ |
-| [7, 77, 17] | 4      |
-| [10, 29]    | 0      | -->
+| dots                                 | result |
+| ------------------------------------ | ------ |
+| [[1, 1], [2, 1], [2, 2], [1, 2]]     | 1      |
+| [[-1, -1], [1, 1], [1, -1], [-1, 1]] | 4      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int[] array, int height) {
-        int answer = 0;
-        for(int x : array){
-            if(x > height){
-                answer++;
-            }
-        }
-        return answer;
-    }
-}
+     public int solution(int[][] dots) {
+         int answer = 0;
+         int x = dots[0][0];
+         int y = dots[0][1];
+         int weight = 0;
+         int height = 0;
 
+         for(int i = 1; i < dots.length; i++){
+             if(x != dots[i][0]){
+                 weight = Math.abs(x - dots[i][0]);
+             }
+             if(y != dots[i][1]){
+                 height = Math.abs(y - dots[i][1]);
+             }
+         }
+
+         answer = weight * height;
+         return answer;
+     }
+}
 ```
 
-### 풀이 설명
+### Solution explanation
 
-array배열의 원소값을 반복문을 통해 값만을 추출하여 머쓱이의 키인 height와 비교하였습니다.
+- Store coordinates of first point: Stores the x and y coordinates of the first point in the given array of points in variables x and y.
+- Calculation of horizontal and vertical length: Repeat from the second point to the last point to find the difference between the x and y coordinates to calculate the horizontal length width and vertical length height, respectively.
+- Calculate the area of a rectangle: Multiply the horizontal length and the vertical length to find the area of the rectangle.
+- Return result: Store the area of the obtained rectangle in the answer variable and return it.
 
-비교하여 머쓱이의 키보다 큰 값이 있을 때 answer를 1 증가시키는 것으로 결과를 출력했습니다.
+**Code Advantages**
+
+- Calculate the width and height based on the first point: Find the area of the rectangle by calculating the width and height based on the first point among the given points.
+- Calculation of absolute values of horizontal and vertical lengths: Calculate the distance between two points as absolute values to obtain the horizontal and vertical lengths.
+
+**Code Disadvantages**
+
+- Direction of the square according to the order of the points: The direction of the square may vary depending on the order of the points, and the method of calculating the horizontal and vertical lengths may also vary accordingly. Therefore, it may not handle all cases accurately.
