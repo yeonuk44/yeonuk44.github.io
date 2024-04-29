@@ -40,79 +40,106 @@ date: 2024-04-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "캐릭터의 좌표(with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "character coordinates (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to get to know myself.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-2차원 좌표 평면에 변이 축과 평행한 직사각형이 있습니다.
+I'm playing a stupid RPG game.
 
-직사각형 네 꼭짓점의 좌표 [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]가 담겨있는 배열 dots가 매개변수로 주어질 때, 직사각형의 넓이를 return 하도록 solution 함수를 완성해보세요.
+There are up, down, left, and right direction keys in the game, and pressing each key moves one space up, down, left, or right.
 
-#### 제한사항
+For example, if you press up in [0,0], the character's coordinates will be [0, 1], if you press down, [0, -1], if you press left, [-1, 0], if you press right, the coordinates will be [0, 1]. 1, 0].
 
-- dots의 길이 = 4
-- dots의 원소의 길이 = 2
-- 256 < dots[i]의 원소 < 256
-- 잘못된 입력은 주어지지 않습니다.
+The array keyinput of the direction keys entered by the mage and the size of the map board are given as parameters.
 
-#### 입출력 예시
+When the character always starts at [0,0], please complete the solution function so that it returns the character's coordinates [x, y] after all key inputs are completed.
 
-<!-- | array                | height | result |
-| -------------------- | ------ | ------ |
-| [149, 180, 192, 170] | 167    | 3      |
-| [180, 120, 140]      | 190    | 0      | -->
+[0, 0] is located in the exact center of the board.
 
-| dots                                 | result |
+For example, if the horizontal size of the board is 9, the character can move up to [-4, 0] to the left and up to [4, 0] to the right.
+
+#### Restrictions
+
+- The board is given in the form of [horizontal size, vertical size].
+- The horizontal and vertical sizes of the board are odd.
+- Directional key input outside the size of the board is ignored.
+- 0 ≤ length of keyinput ≤ 50
+- 1 ≤ board[0] ≤ 99
+- 1 ≤ board[1] ≤ 99
+- Keyinput is always up, down, left, and right.
+
+#### Input/Output Example
+
+| keyinput                                  | board    | result  |
+| ----------------------------------------- | -------- | ------- |
+| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1]  |
+| ["down", "down", "down", "down", "down"]  | [7, 9]   | [0, -4] |
+
+<!-- | dots | result |
 | ------------------------------------ | ------ |
-| [[1, 1], [2, 1], [2, 2], [1, 2]]     | 1      |
-| [[-1, -1], [1, 1], [1, -1], [-1, 1]] | 4      |
+| [[1, 1], [2, 1], [2, 2], [1, 2]] | 1 |
+| [[-1, -1], [1, 1], [1, -1], [-1, 1]] | 4 | -->
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int[][] dots) {
-        int answer = 0;
-        int x = dots[0][0];
-        int y = dots[0][1];
-        int weight = 0;
-        int height = 0;
+     public int[] solution(String[] keyinput, int[] board) {
+         int[] answer = new int[2];
+         int maxX = board[0] / 2;
+         int maxY = board[1] / 2;
 
-        for(int i = 1; i < dots.length; i++){
-            if(x != dots[i][0]){
-                weight = Math.abs(x - dots[i][0]);
-            }
-            if(y != dots[i][1]){
-                height = Math.abs(y - dots[i][1]);
-            }
-        }
+         for (String direction: keyinput) {
+             switch (direction) {
+                 case "up":
+                     if (answer[1] < maxY) {
+                         answer[1]++;
+                     }
+                     break;
+                 case "down":
+                     if (answer[1] > -maxY) {
+                         answer[1]--;
+                     }
+                     break;
+                 case "left":
+                     if (answer[0] > -maxX) {
+                         answer[0]--;
+                     }
+                     break;
+                 case "right":
+                     if (answer[0] < maxX) {
+                         answer[0]++;
+                     }
+                     break;
+                 default:
+                     break;
+             }
+         }
 
-        answer = weight * height;
-        return answer;
-    }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 첫 번째 점의 좌표 저장: 주어진 점들 배열에서 첫 번째 점의 x 좌표와 y 좌표를 변수 x와 y에 저장합니다.
-- 가로 길이 및 세로 길이 계산: 두 번째 점부터 마지막 점까지 반복하면서 x 좌표의 차이와 y 좌표의 차이를 구하여 가로 길이 width와 세로 길이 height를 각각 계산합니다.
-- 사각형의 넓이 계산: 가로 길이와 세로 길이를 곱하여 사각형의 넓이를 구합니다.
-- 결과 반환: 구한 사각형의 넓이를 answer 변수에 저장하고 반환합니다.
+- Coordinate movement: Iterates through the given direction array and performs coordinate movement in each direction.
+- Coordinate movement limit: Set the maximum range of movement based on the center of the given board. Limit coordinate movement by setting conditions to prevent movement out of range.
+- Return result: Returns the final moved coordinates as a result.
 
-**코드 장점**
+**Code Advantages**
 
-- 첫 번째 점을 기준으로 가로와 세로 길이 계산: 주어진 점들 중 첫 번째 점을 기준으로 가로와 세로 길이를 계산하여 사각형의 넓이를 구합니다.
-- 가로와 세로 길이의 절대값 계산: 두 점 사이의 거리를 절대값으로 계산하여 가로와 세로 길이를 구합니다.
+- Flexible direction input processing: Processing for each direction was implemented using a switch statement so that coordinates can be moved flexibly according to a given direction.
+- Coordinate movement limit setting: Coordinate movement is limited by setting the maximum range of movement based on the center of the board.
 
-**코드 단점**
+**Code Disadvantages**
 
-- 점의 순서에 따른 사각형의 방향: 점의 순서에 따라 사각형의 방향이 달라질 수 있으며, 이에 따라 가로와 세로 길이의 구하는 방식도 달라질 수 있습니다. 따라서 모든 경우에 대해 정확하게 처리하지 못할 수 있습니다.
+- Only considers limitations in the range of movement: Since the board size changes or various movement constraints are not considered, there may be a possibility of errors in certain situations.
