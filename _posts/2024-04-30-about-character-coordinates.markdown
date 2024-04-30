@@ -40,106 +40,71 @@ date: 2024-04-30 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "캐릭터의 좌표(with.Java)" 문제에 대하여 알아본 글입니다.
+## This article looks into the problem of “Creating the maximum value 2 (with.Java)”.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-머쓱이는 RPG게임을 하고 있습니다.
+The integer array numbers is given as a parameter.
 
-게임에는 up, down, left, right 방향키가 있으며 각 키를 누르면 위, 아래, 왼쪽, 오른쪽으로 한 칸씩 이동합니다.
+Complete the solution function to return the maximum value that can be created by multiplying two of the elements of numbers.
 
-예를 들어 [0,0]에서 up을 누른다면 캐릭터의 좌표는 [0, 1], down을 누른다면 [0, -1], left를 누른다면 [-1, 0], right를 누른다면 [1, 0]입니다.
+#### Restrictions
 
-머쓱이가 입력한 방향키의 배열 keyinput와 맵의 크기 board이 매개변수로 주어집니다.
+- -10,000 ≤ elements of numbers ≤ 10,000
+- 2 ≤ length of numbers ≤ 100
 
-캐릭터는 항상 [0,0]에서 시작할 때 키 입력이 모두 끝난 뒤에 캐릭터의 좌표 [x, y]를 return하도록 solution 함수를 완성해주세요.
+#### Input/Output Example
 
-[0, 0]은 board의 정 중앙에 위치합니다.
-
-예를 들어 board의 가로 크기가 9라면 캐릭터는 왼쪽으로 최대 [-4, 0]까지 오른쪽으로 최대 [4, 0]까지 이동할 수 있습니다.
-
-#### 제한사항
-
-- board은 [가로 크기, 세로 크기] 형태로 주어집니다.
-- board의 가로 크기와 세로 크기는 홀수입니다.
-- board의 크기를 벗어난 방향키 입력은 무시합니다.
-- 0 ≤ keyinput의 길이 ≤ 50
-- 1 ≤ board[0] ≤ 99
-- 1 ≤ board[1] ≤ 99
-- keyinput은 항상 up, down, left, right만 주어집니다.
-
-#### 입출력 예시
-
-| keyinput                                  | board    | result  |
+<!-- | keyinput | board | result |
 | ----------------------------------------- | -------- | ------- |
-| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1]  |
-| ["down", "down", "down", "down", "down"]  | [7, 9]   | [0, -4] |
+| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1] |
+| ["down", "down", "down", "down", "down"] | [7, 9] | [0, -4] | -->
 
-<!-- | dots                                 | result |
-| ------------------------------------ | ------ |
-| [[1, 1], [2, 1], [2, 2], [1, 2]]     | 1      |
-| [[-1, -1], [1, 1], [1, -1], [-1, 1]] | 4      | -->
+| numbers                   | result |
+| ------------------------- | ------ |
+| [1, 2, -3, 4, -5]         | 15     |
+| [0, -31, 24, 10, 1, 9]    | 240    |
+| [10, 20, 30, 5, 5, 20, 5] | 600    |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
+import java.util.Arrays;
+
 class Solution {
-    public int[] solution(String[] keyinput, int[] board) {
-        int[] answer = new int[2];
-        int maxX = board[0] / 2;
-        int maxY = board[1] / 2;
+ public int solution(int[] numbers) {
+ Arrays.sort(numbers);
 
-        for (String direction : keyinput) {
-            switch (direction) {
-                case "up":
-                    if (answer[1] < maxY) {
-                        answer[1]++;
-                    }
-                    break;
-                case "down":
-                    if (answer[1] > -maxY) {
-                        answer[1]--;
-                    }
-                    break;
-                case "left":
-                    if (answer[0] > -maxX) {
-                        answer[0]--;
-                    }
-                    break;
-                case "right":
-                    if (answer[0] < maxX) {
-                        answer[0]++;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+ int n = numbers.length;
+ int maxNegative = numbers[0] * numbers[1];
+ int maxPositive = numbers[n - 1] * numbers[n - 2];
 
-        return answer;
-    }
+ return Math.max(maxNegative, maxPositive);
+ }
 }
+
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 좌표 이동: 주어진 방향 배열을 순회하며 각 방향에 따른 좌표 이동을 수행합니다.
-- 좌표 이동 제한: 주어진 보드의 중심을 기준으로 최대 이동 가능한 범위를 설정합니다. 이동할 때 범위를 벗어나지 않도록 조건을 설정하여 좌표 이동을 제한합니다.
-- 결과 반환: 최종적으로 이동한 좌표를 결과로 반환합니다.
+- Array sorting: Sorts the given array to distinguish between negative and positive numbers.
+- Select the two largest negative numbers: Select the first and second elements of the sorted array and calculate the product of the two largest negative numbers.
+- Select the two largest positive numbers: Select the last and second-to-last elements of the sorted array and calculate the product of the two largest positive numbers.
+- Return result: Returns the larger value of the product of a negative number and a positive number.
 
-**코드 장점**
+**Code Advantages**
 
-- 유연한 방향 입력 처리: 주어진 방향에 따라 유연하게 좌표를 이동할 수 있도록 switch 문을 활용하여 각 방향에 대한 처리를 구현했습니다.
-- 좌표 이동 제한 설정: 보드의 중심을 기준으로 최대 이동 가능한 범위를 설정하여 좌표 이동을 제한하였습니다.
+- Simple logic: I used a simple method of sorting an array, picking the largest number and the second largest number and multiplying them.
+- Efficiency through sorting: We implemented the process of selecting the largest number quickly and simply using a sorted array.
 
-**코드 단점**
+**Code Disadvantages**
 
-- 이동 가능한 범위 제한만 고려: 보드의 크기가 변하는 경우나 다양한 이동 제약 조건을 고려하지 않았으므로, 특정 상황에서의 오류 가능성이 있을 수 있습니다.
+- Time complexity due to array sorting: The time complexity for the process of sorting an array is O(n log n), which may affect performance if the array is large.
