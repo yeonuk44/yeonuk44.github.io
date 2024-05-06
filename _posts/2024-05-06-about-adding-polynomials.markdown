@@ -40,71 +40,91 @@ date: 2024-05-06 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "최댓값 만들기 2 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "polynomial addition (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-정수 배열 numbers가 매개변수로 주어집니다.
+An expression consisting of the sum of one or more terms is called a polynomial.
 
-numbers의 원소 중 두 개를 곱해 만들 수 있는 최댓값을 return하도록 solution 함수를 완성해주세요.
+When calculating a polynomial, calculate and organize like terms.
 
-#### 제한사항
+When a polynomial consisting of addition is given as a parameter, complete the solution function to return the result of adding like terms as a string.
 
-- -10,000 ≤ numbers의 원소 ≤ 10,000
-- 2 ≤ numbers 의 길이 ≤ 100
+If the expressions are the same, the shortest expression is returned.
 
-#### 입출력 예시
+#### Restrictions
 
-<!-- | keyinput                                  | board    | result  |
+- 0 < number in polynomial < 100
+- Only 'x' variable exists in polynomial.
+- A polynomial consists of a positive integer, a space, ‘x’, and ‘+’.
+- There is always a space between the term and the operation symbol.
+- The spaces are not consecutive and there are no spaces at the beginning or end.
+- There is no case where a variable comes before a number in one term.
+- Invalid input such as " + 3xx + + x7 + " will not be given.
+- Numbers cannot start with 0.
+- Multiplication between letters and numbers is omitted.
+- A polynomial has only linear terms and constant terms.
+- Coefficient 1 is omitted.
+- The constant term in the result is placed last.
+- 0 < length of polynomial < 50
+
+#### Input/Output Example
+
+<!-- | keyinput | board | result |
 | ----------------------------------------- | -------- | ------- |
-| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1]  |
-| ["down", "down", "down", "down", "down"]  | [7, 9]   | [0, -4] | -->
+| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1] |
+| ["down", "down", "down", "down", "down"] | [7, 9] | [0, -4] | -->
 
-| numbers                   | result |
-| ------------------------- | ------ |
-| [1, 2, -3, 4, -5]         | 15     |
-| [0, -31, 24, 10, 1, 9]    | 240    |
-| [10, 20, 30, 5, 5, 20, 5] | 600    |
+| polynomial   | result   |
+| ------------ | -------- |
+| "3x + 7 + x" | "4x + 7" |
+| "x + x + x"  | "3x"     |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
-import java.util.Arrays;
-
 class Solution {
-    public int solution(int[] numbers) {
-        Arrays.sort(numbers);
+ public String solution(String polynomial) {
+ String answer = "";
+ int xNum = 0;
+ int num = 0;
+ String[] strArr = polynomial.split(" ");
+ for(String str : strArr){
+ if(str.contains("x")){
+ if(str.equals("x")){
+ xNum += 1;
+ }else{
+ xNum += Integer.valueOf(str.replace("x", ""));
+ }
+ }else if(!str.equals("+")){
+ num += Integer.valueOf(str);
+ }
+ }
 
-        int n = numbers.length;
-        int maxNegative = numbers[0] * numbers[1];
-        int maxPositive = numbers[n - 1] * numbers[n - 2];
-
-        return Math.max(maxNegative, maxPositive);
-    }
+ answer = (xNum != 0 ? xNum == 1 ? "x" : xNum + "x" : "") + (num != 0 ? (xNum != 0 ? " + " : "") + num : xNum == 0 ? "0" : "");
+ return answer;
+ }
 }
-
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 배열 정렬: 주어진 배열을 정렬하여 음수와 양수를 구분합니다.
-- 음수 중 가장 큰 두 수 선택: 정렬된 배열의 첫 번째와 두 번째 요소를 선택하여 음수 중 가장 큰 두 수를 곱한 값을 계산합니다.
-- 양수 중 가장 큰 두 수 선택: 정렬된 배열의 마지막과 마지막에서 두 번째 요소를 선택하여 양수 중 가장 큰 두 수를 곱한 값을 계산합니다.
-- 결과 반환: 음수와 양수를 곱한 값 중 더 큰 값을 반환합니다.
+- String separation: Separates the given polynomials based on spaces and creates a string array.
+- Terms processing: A loop is executed for each term, and terms containing x and constant terms are processed separately.
+- Terms containing x: Accumulate the coefficients of x, distinguishing between cases where there is only "x" and cases where a number and "x" are combined.
+- Constant term: If it is not “+” and does not contain “x”, the constant term is accumulated.
+- Generate result string: Generate the final result string by combining the strings for the coefficients and constant terms of x.
 
-**코드 장점**
+**Code pros and cons**
 
-- 간단한 로직: 배열을 정렬하고 가장 큰 수와 두 번째로 큰 수를 선택하여 곱하는 간단한 방법을 사용했습니다.
-- 정렬을 통한 효율성: 정렬된 배열을 사용하여 가장 큰 수를 선택하는 과정을 빠르고 간단하게 구현했습니다.
-
-**코드 단점**
-
-- 배열 정렬로 인한 시간 복잡도: 배열을 정렬하는 과정에 대한 시간 복잡도가 O(n log n)으로, 배열이 큰 경우 성능에 영향을 줄 수 있습니다.
+- Advantages: We implemented logic that succinctly organizes polynomials, such as calculating each term appropriately and combining the results into a string.
+  The code is written to be concise and easy to understand.
+- Disadvantage: This code assumes that the input fits the given format. Exception handling is required when malformed input is given.
