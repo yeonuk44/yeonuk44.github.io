@@ -40,69 +40,84 @@ date: 2024-05-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "숨어있는 숫자의 덧셈 2 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This article looks into the "safe zone (with.Java)" issue.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 my_string이 매개변수로 주어집니다.
+The area with the mine and the diagonal spaces above, below, left, and right adjacent to the mine are all classified as dangerous areas.
 
-my_string은 소문자, 대문자, 자연수로만 구성되어있습니다.
+Mines are marked as 1 on a two-dimensional array board, and on the board there are only area 1 with mines buried and area 0 without mines.
 
-my_string안의 자연수들의 합을 return하도록 solution 함수를 완성해주세요.
+When the map board of a landmine-laden area is given as a parameter, complete the solution function to return the number of safe area squares.
 
-#### 제한사항
+#### Restrictions
 
-- 1 ≤ my_string의 길이 ≤ 1,000
-- 1 ≤ my_string 안의 자연수 ≤ 1000
-- 연속된 수는 하나의 숫자로 간주합니다.
-- 000123과 같이 0이 선행하는 경우는 없습니다.
-- 문자열에 자연수가 없는 경우 0을 return 해주세요.
+- board is an n x n array.
+- 1 ≤ n ≤ 100
+- Mines are marked with 1.
+  -On the board, there is only area 1 with mines and area 0 without mines.
 
-#### 입출력 예시
+#### Input/Output Example
 
-<!-- | keyinput                                  | board    | result  |
+<!-- | keyinput | board | result |
 | ----------------------------------------- | -------- | ------- |
-| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1]  |
-| ["down", "down", "down", "down", "down"]  | [7, 9]   | [0, -4] | -->
+| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1] |
+| ["down", "down", "down", "down", "down"] | [7, 9] | [0, -4] | -->
 
-| my_string       | result |
-| --------------- | ------ |
-| "aAb1B2cC34oOp" | 37     |
-| "1a2b3c4d123Z"  | 133    |
+| my_string                                                                                                                | result |
+| ------------------------------------------------------------------------------------------------------------------------ | ------ |
+| [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0], [ 0, 0, 0, 0, 0]]                                   | 16     |
+| [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 1, 1, 0], [ 0, 0, 0, 0, 0]]                                   | 13     |
+| [[1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1]] | 0      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(String my_string) {
-        int answer = 0;
-        String[] strArr = my_string.replaceAll("[a-zA-Z]", " ").split(" ");
-
-        for(String str : strArr){
-            if(!str.equals("")){
-                answer += Integer.valueOf(str);
-            }
-        }
-        return answer;
-    }
+ public int solution(int[][] board) {
+ int[][] secondArr = new int[board.length+2][board.length+2];
+ int answer = 0;
+ for(int i = 0; i < board.length; i++){
+ for(int j = 0; j < board.length; j++){
+ if(board[i][j] == 1){
+ for(int a = i; a <= i+2; a++){
+ for(int b = j; b <= j+2; b++){
+ if(secondArr[a][b] != 1){
+ secondArr[a][b] = 1;
+ }
+ }
+ }
+ }
+ }
+ }
+ for(int i = 1; i < secondArr.length - 1; i++){
+ for(int j = 1; j < secondArr.length-1; j++){
+ if(secondArr[i][j] == 0){
+ answer++;
+ }
+ }
+ }
+ return answer;
+ }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 알파벳 치환 및 문자열 분리: 주어진 문자열에서 알파벳을 공백으로 치환하고, 그 결과를 공백을 기준으로 분리하여 문자열 배열로 만듭니다.
-- 숫자 추출 및 합산: 문자열 배열을 순회하면서 각 요소를 숫자로 변환하고, 변환된 숫자를 합산합니다. 빈 문자열은 무시합니다.
-- 결과 반환: 합산된 결과를 반환합니다.
+- Create a new 2-dimensional array: Create a new 2-dimensional array, secondArr, whose size is 1 larger than the existing board array. This is to handle the border portion of the board.
+- Board search and surrounding cell update: When searching the existing board and finding a cell with a value of 1, all 8 surrounding cells around that cell are updated to 2.
+- Searching a new array and counting the number of cells with a value of 0: Searching a new array, counting the number of cells with a value of 0 and storing them in the answer variable.
+- Return result: Returns the number of cells that are finally counted as 0.
 
-**코드 장단점**
+**Code pros and cons**
 
-- 장점: 정규식을 사용하여 알파벳을 공백으로 치환하고 문자열을 쉽게 분리했습니다. 코드가 간결하고 이해하기 쉽게 작성되었습니다.
-- 단점: 이 코드는 입력이 주어진 형식에 맞는다고 가정합니다. 잘못된 형식의 입력이 주어지면 예외 처리가 필요합니다. 문자열을 분리하고 합산하는 과정에서 추가적인 문자열 배열을 생성하여 메모리를 더 사용합니다.
+- Advantage: The code is concise by using an efficient method of counting zero cells. The border areas of the board can be easily handled without any additional processing.
+- Disadvantage: This code processes all cells on the board by traversing them one more time, which can result in inefficient execution time. Performance may be affected, especially if the board is large.
