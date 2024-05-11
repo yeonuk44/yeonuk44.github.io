@@ -40,84 +40,87 @@ date: 2024-05-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "삼각형의 완성조건 2 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "Triangle Completion Condition 2 (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-지뢰가 있는 지역과 지뢰에 인접한 위, 아래, 좌, 우 대각선 칸을 모두 위험지역으로 분류합니다.
+To create a triangle with three line segments, the following conditions must be met.
 
-지뢰는 2차원 배열 board에 1로 표시되어 있고 board에는 지뢰가 매설 된 지역 1과, 지뢰가 없는 지역 0만 존재합니다.
+The length of the longest side must be less than the sum of the lengths of the other two sides.
 
-지뢰가 매설된 지역의 지도 board가 매개변수로 주어질 때, 안전한 지역의 칸 수를 return하도록 solution 함수를 완성해주세요.
+The array sides containing the lengths of the two sides of the triangle is given as a parameter.
 
-#### 제한사항
+Complete the solution function so that it returns the number of integers that can be the remaining side.
 
-- board는 n x n 배열입니다.
-- 1 ≤ n ≤ 100
-- 지뢰는 1로 표시되어 있습니다.
-- board에는 지뢰가 있는 지역 1과 지뢰가 없는 지역 0만 존재합니다.
+#### Restrictions
 
-#### 입출력 예시
+- The elements of sides are natural numbers.
+- The length of sides is 2.
+- 1 ≤ elements of sides ≤ 1,000
 
-<!-- | keyinput                                  | board    | result  |
+#### Input/Output Example
+
+<!-- | keyinput | board | result |
 | ----------------------------------------- | -------- | ------- |
-| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1]  |
-| ["down", "down", "down", "down", "down"]  | [7, 9]   | [0, -4] | -->
+| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1] |
+| ["down", "down", "down", "down", "down"] | [7, 9] | [0, -4] | -->
 
-| my_string                                                                                                                | result |
-| ------------------------------------------------------------------------------------------------------------------------ | ------ |
-| [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0], [0, 0, 0, 0, 0]]                                    | 16     |
-| [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 1, 1, 0], [0, 0, 0, 0, 0]]                                    | 13     |
-| [[1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1]] | 0      |
+| sides   | result |
+| ------- | ------ |
+| [1, 2]  | 1      |
+| [3, 6]  | 5      |
+| [11, 7] | 13     |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
+import java.util.*;
+
 class Solution {
-    public int solution(int[][] board) {
-        int[][] secondArr = new int[board.length+2][board.length+2];
-        int answer = 0;
-        for(int i = 0; i < board.length; i++){
-            for(int j = 0; j < board.length; j++){
-                if(board[i][j] == 1){
-                    for(int a = i; a <= i+2; a++){
-                        for(int b = j; b <= j+2; b++){
-                            if(secondArr[a][b] != 1){
-                                secondArr[a][b] = 1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        for(int i = 1; i < secondArr.length - 1; i++){
-            for(int j = 1; j < secondArr.length-1; j++){
-                if(secondArr[i][j] == 0){
-                    answer++;
-                }
-            }
-        }
-        return answer;
-    }
+     public int solution(int[] sides) {
+         int answer = 0;
+         Arrays.sort(sides);
+
+         for(int i = (sides[1] - sides[0]) + 1; i <= sides[1]; i++){
+             answer++;
+         }
+         for(int i = sides[1] + 1; i < sides[0] + sides[1]; i++){
+             answer++;
+         }
+
+         return answer;
+     }
 }
+
 ```
 
-### 풀이 설명
+### Solution explanation
 
-- 새로운 2차원 배열 생성: 기존의 보드 배열보다 크기가 1씩 큰 새로운 2차원 배열 secondArr를 생성합니다. 이는 보드의 경계 부분을 처리하기 위함입니다.
-- 보드 탐색 및 주변 셀 갱신: 기존의 보드를 탐색하면서 값이 1인 셀을 찾으면, 해당 셀을 중심으로 주변 8개의 셀을 모두 2로 갱신합니다.
-- 새로운 배열 탐색 및 0인 셀 개수 세기: 새로운 배열을 탐색하면서 값이 0인 셀의 개수를 세어 answer 변수에 저장합니다.
-- 결과 반환: 최종적으로 세어진 0인 셀의 개수를 반환합니다.
+Sorts the given array in ascending order.
 
-**코드 장단점**
+This makes the first element of the array the smallest value and the second element the larger value.
 
-- 장점: 0인 셀의 개수를 효율적으로 세는 방법을 사용하여 코드가 간결합니다. 보드의 경계 부분을 추가적인 처리 없이 쉽게 다룰 수 있습니다.
-- 단점: 이 코드는 보드의 모든 셀을 한 번씩 더 탐색하여 처리하므로 실행 시간이 비효율적일 수 있습니다. 특히 보드의 크기가 클 경우에는 성능에 영향을 줄 수 있습니다.
+In the first for loop, it repeats from the difference between the second element and the first element plus 1 to the second element and increments the answer value.
+
+This is intended to include all values between the second and first elements.
+
+For example, if the sides array is given as [3, 7], the first for loop iterates from 4 to 7 and increments the answer value 4 times.
+
+The second for loop iterates from the value greater than the second element to the value less than the sum of the first and second elements and increments the answer value.
+
+This is intended to include all values that are greater than the second element and less than the sum of the first and second elements. For example, if the sides array is given as [3, 7], the second for loop iterates from 8 to 9 and increments the answer value twice.
+
+Returns the final calculated answer value.
+
+The pros and cons of this code are:
+
+- Pros: The code is concise and intuitive. Since the purpose is to calculate the answer value from a given array according to specific rules, it was implemented using simple loop and conditional statements. Because the calculation is performed after sorting the array, it can be useful for other calculations using sorted arrays.
+- Disadvantage: Since there is no explanation of the given rule in the given code, it is difficult to understand what rule is followed just by the code. Therefore, additional information is needed. The variable names used in the code are unclear, which may reduce readability. Naming variables more meaningfully can make the code easier to understand.
