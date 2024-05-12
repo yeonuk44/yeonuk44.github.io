@@ -40,87 +40,95 @@ date: 2024-05-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "삼각형의 완성조건 2 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This article looks into the issue of “Alien language dictionary (with.Java)”.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-선분 세 개로 삼각형을 만들기 위해서는 다음과 같은 조건을 만족해야 합니다.
+PROGRAMMERS-962 An astronaut who crash-lands on a planet is trying to study the language of an alien planet.
 
-가장 긴 변의 길이는 다른 두 변의 길이의 합보다 작아야 합니다.
+An array containing the alphabet spell and an alien language dictionary dic are given as parameters.
 
-삼각형의 두 변의 길이가 담긴 배열 sides이 매개변수로 주어집니다.
+Complete the solution function so that it returns 1 if a word that uses all of the alphabets contained in spell only once exists in dic, and returns 2 if it does not exist.
 
-나머지 한 변이 될 수 있는 정수의 개수를 return하도록 solution 함수를 완성해주세요.
+#### Restrictions
 
-#### 제한사항
+- The elements of spell and dic consist of only lowercase alphabet letters.
+- 2 ≤ spell size ≤ 10
+- The length of the spell element is 1.
+- 1 ≤ size of dic ≤ 10
+- 1 ≤ length of element of dic ≤ 10
+- You must create a word using all the elements of the spell.
+- There are no more than two words in the dic that can be created using all the elements of a spell.
+- Neither dic nor spell have duplicate elements.
 
-- sides의 원소는 자연수입니다.
-- sides의 길이는 2입니다.
-- 1 ≤ sides의 원소 ≤ 1,000
+#### Input/Output Example
 
-#### 입출력 예시
-
-<!-- | keyinput                                  | board    | result  |
+<!-- | keyinput | board | result |
 | ----------------------------------------- | -------- | ------- |
-| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1]  |
-| ["down", "down", "down", "down", "down"]  | [7, 9]   | [0, -4] | -->
+| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1] |
+| ["down", "down", "down", "down", "down"] | [7, 9] | [0, -4] | -->
 
-| sides   | result |
-| ------- | ------ |
-| [1, 2]  | 1      |
-| [3, 6]  | 5      |
-| [11, 7] | 13     |
+| spell                | dic                                     | result |
+| -------------------- | --------------------------------------- | ------ |
+| ["p", "o", "s"]      | ["sod", "eocd", "qixm", "adio", "soo"]  | 2      |
+| ["z", "d", "x"]      | ["def", "dww", "dzx", "loveaw"]         | 1      |
+| ["s", "o", "m", "d"] | ["moos", "dzx", "smm", "sunmmo", "som"] | 2      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
-import java.util.*;
-
 class Solution {
-    public int solution(int[] sides) {
-        int answer = 0;
-        Arrays.sort(sides);
-
-        for(int i = (sides[1] - sides[0]) + 1; i <= sides[1]; i++){
-            answer++;
-        }
-        for(int i = sides[1] + 1; i < sides[0] + sides[1]; i++){
-            answer++;
-        }
-
-        return answer;
-    }
+     public int solution(String[] spell, String[] dic) {
+         int answer = 2;
+         int count = 0;
+         for(String word : dic){
+             for(String str : spell){
+                 if(word.contains(str)){
+                     count++;
+                 }
+             }
+             System.out.println(count);
+             if(count == spell.length){
+                 answer = 1;
+                 break;
+             }else{
+                 count = 0;
+             }
+         }
+         return answer;
+     }
 }
-
 ```
 
-### 풀이 설명
+### Solution explanation
 
-주어진 배열을 오름차순으로 정렬합니다.
+Set the answer variable to the initial value of 2.
 
-이렇게 함으로써 배열의 첫 번째 원소는 가장 작은 값이 되고, 두 번째 원소는 더 큰 값이 됩니다.
+This variable represents the result. 2 is set as the default.
 
-첫 번째 for 루프에서는 두 번째 원소와 첫 번째 원소의 차이에 1을 더한 값부터 두 번째 원소까지 반복하며 answer 값을 증가시킵니다.
+Set the count variable to an initial value of 0.
 
-이는 두 번째 원소와 첫 번째 원소 사이의 모든 값을 포함하기 위한 것입니다.
+This variable is used to count the number of words included in the dic array among the words in the spell array.
 
-예를 들어, 만약 sides 배열이 [3, 7]으로 주어진다면, 첫 번째 for 루프에서는 4부터 7까지 반복하며 answer 값을 4번 증가시킵니다.
+Each word in the dic array is compared with the word (str) in the spell array.
 
-두 번째 for 루프에서는 두 번째 원소보다 큰 값부터 첫 번째 원소와 두 번째 원소의 합보다 작은 값까지 반복하며 answer 값을 증가시킵니다.
+If word contains str, increment the count variable.
+Prints the count variable.
 
-이는 두 번째 원소보다 크고 첫 번째 원소와 두 번째 원소의 합보다 작은 모든 값을 포함하기 위한 것입니다. 예를 들어, 만약 sides 배열이 [3, 7]으로 주어진다면, 두 번째 for 루프에서는 8부터 9까지 반복하며 answer 값을 2번 증가시킵니다.
+If the count variable is equal to the length of the spell array, it means that all words are included in the dic array, so we set the answer variable to 1 and end the loop.
 
-최종적으로 계산된 answer 값을 반환합니다.
+Otherwise, we initialize the count variable to 0.
 
-이 코드의 장단점은 다음과 같습니다:
+When all loops are completed, the answer variable is returned.
 
-- 장점: 코드가 간결하고 직관적입니다. 주어진 배열에서 특정한 규칙에 따라 answer 값을 계산하는 것이 목적이므로, 간단한 반복문과 조건문을 사용하여 구현되었습니다. 배열을 정렬한 후에 계산을 수행하기 때문에, 정렬된 배열을 사용하는 다른 계산에도 유용하게 활용될 수 있습니다.
-- 단점: 주어진 코드에서는 주어진 규칙에 대한 설명이 없기 때문에, 코드만으로는 어떤 규칙을 따르는지 이해하기 어렵습니다. 따라서 추가적인 정보가 필요합니다. 코드에서 사용된 변수명이 명확하지 않아 가독성이 떨어질 수 있습니다. 변수명을 좀 더 의미있게 지정하면 코드의 이해가 쉬워질 수 있습니다.
+- Advantage: Performs the function of checking whether all words in a given spell array are included in the dic array. The code is concise and easy to understand. It is implemented by counting the number of matching words using the count variable.
+- Disadvantage: Efficiency may be low because nested loops are used to compare words in all spells and dics. Time complexity may increase. If there are duplicate spell words, the count variable may be incremented and output incorrect results. Printing intermediate results using System.out.println(count) appears to be used for debugging purposes. In reality, it shouldn't affect the results.
+- Improvement: Instead of nested loops, you can use the Set data structure to remove duplicates and find matching words. This improves efficiency. Instead of a count variable, you can use a HashSet to store the matching words, and ultimately determine the result by comparing the number of stored words with the length of the spell array. The output statement for debugging (System.out.println(count)) can be removed or used in an improved form.
