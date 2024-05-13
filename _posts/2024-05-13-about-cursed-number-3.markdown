@@ -40,95 +40,88 @@ date: 2024-05-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "외계어 사전 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article looking into the "Curse Number 3 (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-PROGRAMMERS-962 행성에 불시착한 우주비행사 머쓱이는 외계행성의 언어를 공부하려고 합니다.
+3x Villagers do not use multiples of 3 and the number 3 because they consider 3 to be a cursed number.
 
-알파벳이 담긴 배열 spell과 외계어 사전 dic이 매개변수로 주어집니다.
+When the integer n is given as a parameter, complete the solution function to return n by replacing it with the number used in 3x Village.
 
-spell에 담긴 알파벳을 한번씩만 모두 사용한 단어가 dic에 존재한다면 1, 존재하지 않는다면 2를 return하도록 solution 함수를 완성해주세요.
+#### Restrictions
 
-#### 제한사항
+- 1 ≤ n ≤ 100
 
-- spell과 dic의 원소는 알파벳 소문자로만 이루어져있습니다.
-- 2 ≤ spell의 크기 ≤ 10
-- spell의 원소의 길이는 1입니다.
-- 1 ≤ dic의 크기 ≤ 10
-- 1 ≤ dic의 원소의 길이 ≤ 10
-- spell의 원소를 모두 사용해 단어를 만들어야 합니다.
-- spell의 원소를 모두 사용해 만들 수 있는 단어는 dic에 두 개 이상 존재하지 않습니다.
-- dic과 spell 모두 중복된 원소를 갖지 않습니다.
+#### Input/Output Example
 
-#### 입출력 예시
-
-<!-- | keyinput                                  | board    | result  |
+<!-- | keyinput | board | result |
 | ----------------------------------------- | -------- | ------- |
-| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1]  |
-| ["down", "down", "down", "down", "down"]  | [7, 9]   | [0, -4] | -->
+| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1] |
+| ["down", "down", "down", "down", "down"] | [7, 9] | [0, -4] | -->
 
-| spell                | dic                                     | result |
-| -------------------- | --------------------------------------- | ------ |
-| ["p", "o", "s"]      | ["sod", "eocd", "qixm", "adio", "soo"]  | 2      |
-| ["z", "d", "x"]      | ["def", "dww", "dzx", "loveaw"]         | 1      |
-| ["s", "o", "m", "d"] | ["moos", "dzx", "smm", "sunmmo", "som"] | 2      |
+| n   | result |
+| --- | ------ |
+| 15  | 25     |
+| 40  | 76     |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(String[] spell, String[] dic) {
-        int answer = 2;
-        int count = 0;
-        for(String word : dic){
-            for(String str : spell){
-                if(word.contains(str)){
-                    count++;
-                }
-            }
-            System.out.println(count);
-            if(count == spell.length){
-                answer = 1;
-                break;
-            }else{
-                count = 0;
-            }
-        }
-        return answer;
-    }
+     public int solution(int n) {
+         int answer = 0;
+         for(int i = 1; i <= n; i++){
+             answer++;
+             while(answer % 3 == 0 || String.valueOf(answer).contains("3")){
+                 answer++;
+             }
+         }
+
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-answer 변수를 초기값 2로 설정합니다.
+Set the answer variable to its initial value of 0.
 
-이 변수는 결과를 나타냅니다. 2는 초기값으로 설정되어 있습니다.
+This variable represents the result.
 
-count 변수를 초기값 0으로 설정합니다.
+Execute the loop while increasing the i variable from 1 to n.
 
-이 변수는 spell 배열에 있는 단어 중 dic 배열에 포함된 단어의 개수를 세기 위해 사용됩니다.
+Increments the answer variable by 1.
 
-dic 배열의 각 단어(word)에 대해서 spell 배열의 단어(str)와 비교합니다.
+Run the loop as long as the answer variable is a multiple of 3 or the string contains "3" after conversion to a number.
 
-만약 word에 str이 포함되어 있다면, count 변수를 증가시킵니다.
-count 변수를 출력합니다.
+Each time the loop is executed, the answer variable is incremented by 1.
 
-만약 count 변수가 spell 배열의 길이와 같다면, 모든 단어가 dic 배열에 포함되어 있다는 의미이므로 answer 변수를 1로 설정하고 반복문을 종료합니다.
+When the loop ends, the answer variable is returned.
 
-그렇지 않은 경우, count 변수를 0으로 초기화합니다.
+**Advantages**
 
-반복문이 모두 종료되면 answer 변수를 반환합니다.
+Performs a function that counts the number of numbers within a given range that are multiples of 3 or contain 3 in the number.
 
-- 장점: 주어진 spell 배열에 있는 모든 단어가 dic 배열에 포함되는지 확인하는 기능을 수행합니다. 코드가 간결하고 이해하기 쉽습니다. count 변수를 사용하여 일치하는 단어의 개수를 세는 방식으로 구현되어 있습니다.
-- 단점: 중첩된 반복문을 사용하여 모든 spell과 dic의 단어를 비교하기 때문에 효율성이 낮을 수 있습니다. 시간 복잡도가 증가할 수 있습니다. 중복된 spell 단어가 있는 경우, count 변수가 중복으로 증가하여 잘못된 결과를 출력할 수 있습니다. System.out.println(count)을 사용하여 중간 결과를 출력하는 것은 디버깅 목적으로 사용되는 것으로 보입니다. 실제로는 결과에 영향을 주지 않아야 합니다.
-- 개선사항: 중첩된 반복문 대신에 Set 자료구조를 사용하여 중복을 제거하고 일치하는 단어를 찾을 수 있습니다. 이렇게 하면 효율성이 개선됩니다. count 변수 대신에 HashSet을 사용하여 일치하는 단어들을 저장하고, 최종적으로 저장된 단어의 개수와 spell 배열의 길이를 비교하여 결과를 결정할 수 있습니다. 디버깅을 위한 출력문(System.out.println(count))은 제거하거나, 개선된 형태로 사용할 수 있습니다.
+The code is concise and easy to understand.
+
+**disadvantage**
+
+Because it is implemented by increasing the answer variable by 1 and checking whether the conditions are met, the efficiency may be low in certain ranges.
+
+Converting the answer variable to a string to check if it contains "3" may result in a performance penalty.
+
+**Improvements**
+
+Instead of using a loop to increment the answer variable by 1, you can improve performance by using a method to directly find numbers that are multiples of 3 or contain 3 in the number.
+
+For example, to find multiples of 3, you can count in a range by increments of 3.
+
+To check whether a number contains 3, you can divide the number by 10 and check the remainder.
