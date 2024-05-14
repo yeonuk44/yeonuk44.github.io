@@ -40,88 +40,91 @@ date: 2024-05-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "저주의 숫자 3(with.Java)" 문제에 대하여 알아본 글입니다.
+## This article looks into the "parallel (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-3x 마을 사람들은 3을 저주의 숫자라고 생각하기 때문에 3의 배수와 숫자 3을 사용하지 않습니다.
+A two-dimensional array dots containing the coordinates of four points is given as a parameter as follows.
 
-정수 n이 매개변수로 주어질 때, n을 3x 마을에서 사용하는 숫자로 바꿔 return하도록 solution 함수를 완성해주세요.
+[[x1, y1], [x2, y2], [x3, y3], [x4, y4]]
 
-#### 제한사항
+Complete the solution function so that when the given four points are divided into two, if the two straight lines are parallel, it returns 1, and if not, it returns 0.
 
-- 1 ≤ n ≤ 100
+#### Restrictions
 
-#### 입출력 예시
+- Length of dots = 4
+- The elements of dots are in the form [x, y], where x and y are integers.
+- 0 ≤ x, y ≤ 100
+- There is no case where two or more different points overlap.
+- Even if two straight lines overlap (coincide), please return 1.
+- It is not given if the straight line connecting any two points is parallel to the x-axis or y-axis.
 
-<!-- | keyinput                                  | board    | result  |
+#### Input/Output Example
+
+<!-- | keyinput | board | result |
 | ----------------------------------------- | -------- | ------- |
-| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1]  |
-| ["down", "down", "down", "down", "down"]  | [7, 9]   | [0, -4] | -->
+| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1] |
+| ["down", "down", "down", "down", "down"] | [7, 9] | [0, -4] | -->
 
-| n   | result |
-| --- | ------ |
-| 15  | 25     |
-| 40  | 76     |
+| dots                              | result |
+| --------------------------------- | ------ |
+| [[1, 4], [9, 2], [3, 8], [11, 6]] | 1      |
+| [[3, 5], [4, 1], [2, 4], [5, 10]] | 0      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int n) {
-        int answer = 0;
-        for(int i = 1; i <= n; i++){
-            answer++;
-            while(answer % 3 == 0 || String.valueOf(answer).contains("3")){
-                answer++;
-            }
-        }
+     public int solution(int[][] dots) {
+         int answer = 0;
+         for(int i =0; i<dots.length;i++) {
 
-        return answer;
-    }
+                 float temp =gradient(dots[i],dots[(i+1)%4]);
+                 float temp2 =gradient(dots[(i+2)%4],dots[(i+3)%4]);
+
+                 if(temp==temp2) {
+                     answer = 1;
+                 }
+         }
+         return answer;
+     }
+     public static float gradient(int[]a1,int[]a2) {
+         float denom, mole;
+
+             denom=a1[0]-a2[0];
+             mole=a1[1]-a2[1];
+
+         return mole/denom;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-answer 변수를 초기값 0으로 설정합니다.
+The solution method takes a given array of points, dots, as an argument.
 
-이 변수는 결과를 나타냅니다.
+The answer variable stores the result indicating whether it is square or not.
 
-i 변수를 1부터 n까지 증가시키면서 반복문을 실행합니다.
+It is initially set to 0.
 
-answer 변수를 1씩 증가시킵니다.
+A for loop iterates over an array of dots.
 
-answer 변수가 3의 배수이거나, 숫자로 변환한 후에 문자열에 "3"이 포함되어 있는 동안 반복문을 실행합니다.
+At this time, based on the ith point, the slopes between the other three points excluding that point are compared.
 
-반복문이 실행될 때마다 answer 변수를 1씩 증가시킵니다.
+The gradient method calculates the gradient between two points. This allows you to find the slope of the line formed by two points.
 
-반복문이 종료되면 answer 변수를 반환합니다.
+If all sides have the same slope (temp and temp2 are the same), set answer to 1.
 
-**장점**
+After completing all loops, the answer value is returned.
 
-주어진 범위 내에서 3의 배수이거나 숫자에 3이 포함된 숫자의 개수를 세는 기능을 수행합니다.
+Provides a simple method to check whether a square is formed using given points.
 
-코드가 간결하고 이해하기 쉽습니다.
-
-**단점**
-
-answer 변수를 1씩 증가시키면서 조건을 만족하는지 확인하는 방식으로 구현되어 있기 때문에, 특정 범위에서의 효율성이 낮을 수 있습니다.
-
-answer 변수를 문자열로 변환하여 "3"이 포함되어 있는지 확인하는 과정에서 성능 저하가 발생할 수 있습니다.
-
-**개선사항**
-
-반복문을 사용하여 answer 변수를 1씩 증가시키는 대신, 3의 배수나 숫자에 3이 포함된 숫자를 직접 찾을 수 있는 방법을 사용하면 성능을 개선할 수 있습니다.
-
-예를 들어, 3의 배수를 찾을 때는 3씩 증가시키면서 범위 내에서 개수를 세는 방식을 사용할 수 있습니다.
-
-숫자에 3이 포함되어 있는지 확인할 때는 숫자를 10으로 나누어가면서 나머지를 확인하는 방식을 사용할 수 있습니다.
+Although the number of points and the shape of the array may change depending on the given problem, you can use the method to determine the shape of the polygon.
