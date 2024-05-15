@@ -40,91 +40,98 @@ date: 2024-05-15 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "평행 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This article looks into the problem of "Length of overlapping line segments (with.Java)".
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-점 네 개의 좌표를 담은 이차원 배열 dots가 다음과 같이 매개변수로 주어집니다.
+Three line segments lie parallel.
 
-[[x1, y1], [x2, y2], [x3, y3], [x4, y4]]
+When the two-dimensional array lines, which contains the start and end coordinates of three line segments in the form [[start, end], [start, end], [start, end]], is given as a parameter, the area where two or more line segments overlap is Complete the solution function to return the length.
 
-주어진 네 개의 점을 두 개씩 이었을 때, 두 직선이 평행이 되는 경우가 있으면 1을 없으면 0을 return 하도록 solution 함수를 완성해보세요.
+The places where two or more line segments overlap are [-2, -1], [0, 1], which overlap by a length of 2.
 
-#### 제한사항
+#### Restrictions
 
-- dots의 길이 = 4
-- dots의 원소는 [x, y] 형태이며 x, y는 정수입니다.
-- 0 ≤ x, y ≤ 100
-- 서로 다른 두개 이상의 점이 겹치는 경우는 없습니다.
-- 두 직선이 겹치는 경우(일치하는 경우)에도 1을 return 해주세요.
-- 임의의 두 점을 이은 직선이 x축 또는 y축과 평행한 경우는 주어지지 않습니다.
+- Length of lines = 3
+- Length of elements of lines = 2
+- All line segments have length 1 or more.
+- The elements of lines are in the form [a, b], where a and b are each endpoint of a line segment.
+- -100 ≤ a < b ≤ 100
 
-#### 입출력 예시
+#### Input/Output Example
 
-<!-- | keyinput                                  | board    | result  |
+<!-- | keyinput | board | result |
 | ----------------------------------------- | -------- | ------- |
-| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1]  |
-| ["down", "down", "down", "down", "down"]  | [7, 9]   | [0, -4] | -->
+| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1] |
+| ["down", "down", "down", "down", "down"] | [7, 9] | [0, -4] | -->
 
-| dots                              | result |
-| --------------------------------- | ------ |
-| [[1, 4], [9, 2], [3, 8], [11, 6]] | 1      |
-| [[3, 5], [4, 1], [2, 4], [5, 10]] | 0      |
+| lines                     | result |
+| ------------------------- | ------ |
+| [[0, 1], [2, 5], [3, 9]]  | 2      |
+| [[-1, 1], [1, 3], [3, 9]] | 0      |
+| [[0, 5], [3, 9], [1, 10]] | 8      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int[][] dots) {
-        int answer = 0;
-        for(int i =0; i<dots.length;i++) {
+     public int solution(int[][] lines) {
+         int answer = 0;
+         int[] points = new int[201];
 
-                float temp =gradient(dots[i],dots[(i+1)%4]);
-                float temp2 =gradient(dots[(i+2)%4],dots[(i+3)%4]);
+         for(int[] line : lines){
+             int start = line[0]+100;
+             int end = line[1]+100;
 
-                if(temp==temp2) {
-                    answer = 1;
-                }
-        }
-        return answer;
-    }
-    public static float gradient(int[]a1,int[]a2) {
-        float denom,mole;
+             for(int i = start; i < end; i++){
+                 points[i] += 1;
+             }
+         }
 
-            denom= a1[0]-a2[0];
-            mole= a1[1]-a2[1];
-
-        return mole/denom;
-    }
+         for(int i : points){
+             if(i > 1){
+                 answer++;
+             }
+         }
+         return answer;
+     }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-solution 메서드는 주어진 점 배열인 dots를 인자로 받습니다.
+The answer variable is a variable that stores the number of intersection points.
 
-answer 변수는 사각형 여부를 나타내는 결과를 저장합니다.
+Initially set to 0.
 
-초기에는 0으로 설정되어 있습니다.
+Creates an array points that represents the start and end of a line segment.
 
-for 루프는 dots 배열을 순회합니다.
+The size of this array is determined by the extent of the line segment.
 
-이 때 i번째 점을 기준으로 해당 점을 제외한 다른 세 개의 점들 간의 기울기를 비교합니다.
+Here, the range is set from -100 to 100 to represent a total of 201 points.
 
-gradient 메서드는 두 점 사이의 기울기를 계산합니다. 이를 통해 두 점이 이루는 선의 기울기를 구할 수 있습니다.
+Iterate through the lines array to find the start and end of each line segment.
 
-만약 모든 변의 기울기가 같다면 (temp와 temp2가 같다면) answer를 1로 설정합니다.
+Here, each line segment is converted to an index in the points array and counted.
 
-모든 루프를 마친 뒤에 answer 값을 반환합니다.
+Increments all points through which the line segment passes by 1.
 
-주어진 점들을 이용하여 사각형을 이루는지 확인하는 간단한 방법을 제공합니다.
+After processing all the line segments, we traverse the points array and increment the answer if the value of each point is greater than 1, which means there is a line segment that intersects at that point.
 
-주어진 문제에 따라 점의 개수와 배열의 형태가 변경될 수 있지만, 해당 메서드를 사용하여 다각형의 형태를 파악할 수 있습니다.
+Finally, it returns the answer value.
+
+This code allows us to efficiently calculate the number of points where line segments intersect.
+
+The size of the array may vary depending on the range of input line segments, but this algorithm is implemented so that it can operate on any range.
+
+What is noteworthy here is that after creating an array points to represent a line segment, the method of increasing the range of the line segment by 1 was used.
+
+This makes it easy to calculate how many line segments each point spans.
