@@ -40,98 +40,98 @@ date: 2024-05-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "겹치는 선분의 길이 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the problem of "Identifying finite decimal numbers (with.Java)".
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-선분 3개가 평행하게 놓여 있습니다.
+A decimal number that has only a finite number of digits after the decimal point and does not continue is called a finite decimal number.
 
-세 선분의 시작과 끝 좌표가 [[start, end], [start, end], [start, end]] 형태로 들어있는 2차원 배열 lines가 매개변수로 주어질 때, 두 개 이상의 선분이 겹치는 부분의 길이를 return 하도록 solution 함수를 완성해보세요.
+When converting a fraction to a decimal, we want to determine whether the fraction can be expressed as a finite decimal number.
 
-선분이 두 개 이상 겹친 곳은 [-2, -1], [0, 1]로 길이 2만큼 겹쳐있습니다.
+The conditions for a fraction to become a finite decimal number are as follows.
 
-#### 제한사항
+When expressed as an irreducible fraction, the only prime factors in the denominator must be 2 and 5.
 
-- lines의 길이 = 3
-- lines의 원소의 길이 = 2
-- 모든 선분은 길이가 1 이상입니다.
-- lines의 원소는 [a, b] 형태이며, a, b는 각각 선분의 양 끝점 입니다.
-- -100 ≤ a < b ≤ 100
+When two integers a and b are given as parameters, complete the solution function so that it returns 1 if a/b is a finite decimal number and 2 if it is an infinite decimal number.
 
-#### 입출력 예시
+#### Restrictions
 
-<!-- | keyinput                                  | board    | result  |
-| ----------------------------------------- | -------- | ------- |
-| ["left", "right", "up", "right", "right"] | [11, 11] | [2, 1]  |
-| ["down", "down", "down", "down", "down"]  | [7, 9]   | [0, -4] | -->
+- a, b are integers
+- 0 < a ≤ 1,000
+- 0 < b ≤ 1,000
 
-| lines                     | result |
+#### Input/Output Example
+
+<!-- | lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      |
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-### 문제에 대한 나의 풀이
+| a   | b   | result |
+| --- | --- | ------ |
+| 7   | 20  | 1      |
+| 11  | 22  | 1      |
+| 12  | 21  | 2      |
+
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int[][] lines) {
-        int answer = 0;
-        int[] points = new int[201];
+     public int solution(int a, int b) {
+         int answer = 0;
+         int temp = b / GCD(a, b);
 
-        for(int[] line : lines){
-            int start = line[0]+100;
-            int end = line[1]+100;
+         while(temp != 1){
+             if(temp % 2 == 0){
+                 temp /= 2;
+             }else if(temp % 5 == 0){
+                 temp /= 5;
+             }else {
+                 answer = 2;
+                 return answer;
+             }
+         }
 
-            for(int i = start; i < end; i++){
-                points[i] += 1;
-            }
-        }
+         answer = 1;
 
-        for(int i : points){
-            if(i > 1){
-                answer++;
-            }
-        }
-        return answer;
-    }
+         return answer;
+     }
+
+     private int GCD(int a, int b){
+             if(b == 0){
+                 return a;
+             }else{
+                 return GCD(b, a % b);
+             }
+         }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-answer 변수는 교차하는 지점의 수를 저장하는 변수입니다.
+Stores the value of dividing b by the greatest common divisor (GCD) of a and b in the variable temp.
 
-초기에는 0으로 설정됩니다.
+To do this, we call the GCD method.
 
-선분의 시작과 끝을 나타내는 배열 points를 생성합니다.
+The loop is performed until temp becomes 1.
 
-이 배열의 크기는 선분의 범위에 따라 결정됩니다.
+Check if temp is divisible by 2 or 5.
 
-여기서는 -100부터 100까지의 범위로 설정하여 전체 201개의 점을 표현합니다.
+If it is divisible, divide the corresponding values by 2 and 5, respectively, and then update temp again.
 
-lines 배열을 순회하면서 각 선분의 시작과 끝을 구합니다.
+If temp is not divisible by 2 or 5, we set answer to 2 and return this value.
 
-여기서는 각 선분을 points 배열 상의 인덱스로 변환하여 카운트합니다.
+If all conditions pass, set answer to 1 and return this value.
 
-해당 선분이 지나가는 모든 점들을 1씩 증가시킵니다.
+This code efficiently solves the problem by determining the relationship between two given numbers.
 
-모든 선분을 처리한 후, points 배열을 순회하면서 각 점의 값이 1보다 크면 해당 지점에서 교차하는 선분이 있음을 의미하므로 answer를 증가시킵니다.
-
-최종적으로 answer 값을 반환합니다.
-
-이 코드를 통해 선분들이 교차하는 지점의 수를 효율적으로 계산할 수 있습니다.
-
-입력된 선분들의 범위에 따라 배열의 크기가 달라질 수 있으나, 이 알고리즘은 임의의 범위에 대해서도 동작할 수 있도록 구현되어 있습니다.
-
-여기서 주목할 점은 선분을 표현하기 위해 배열 points를 생성한 후, 해당 선분의 범위를 1씩 증가시키는 방식을 사용한 것입니다.
-
-이를 통해 각 점이 몇 개의 선분에 걸쳐있는지를 쉽게 계산할 수 있습니다.
+In particular, the key to solving the problem is determining whether it is divisible by using the greatest common divisor.
