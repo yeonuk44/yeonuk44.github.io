@@ -39,7 +39,7 @@ date: 2024-05-17 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "유한소수 판별하기(with.Java)" 문제에 대하여 알아본 글입니다.
+## "특이한 정렬 (with.Java)" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -51,21 +51,18 @@ date: 2024-05-17 09:00:00 +0900
 
 ### 문제
 
-소수점 아래 숫자가 계속되지 않고 유한개인 소수를 유한소수라고 합니다.
+정수 n을 기준으로 n과 가까운 수부터 정렬하려고 합니다.
 
-분수를 소수로 고칠 때 유한소수로 나타낼 수 있는 분수인지 판별하려고 합니다.
+이때 n으로부터의 거리가 같다면 더 큰 수를 앞에 오도록 배치합니다.
 
-유한소수가 되기 위한 분수의 조건은 다음과 같습니다.
-
-기약분수로 나타내었을 때, 분모의 소인수가 2와 5만 존재해야 합니다.
-
-두 정수 a와 b가 매개변수로 주어질 때, a/b가 유한소수이면 1을, 무한소수라면 2를 return하도록 solution 함수를 완성해주세요.
+정수가 담긴 배열 numlist와 정수 n이 주어질 때 numlist의 원소를 n으로부터 가까운 순서대로 정렬한 배열을 return하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- a, b는 정수
-- 0 < a ≤ 1,000
-- 0 < b ≤ 1,000
+- 1 ≤ n ≤ 10,000
+- 1 ≤ numlist의 원소 ≤ 10,000
+- 1 ≤ numlist의 길이 ≤ 100
+- numlist는 중복된 원소를 갖지 않습니다.
 
 #### 입출력 예시
 
@@ -75,62 +72,60 @@ date: 2024-05-17 09:00:00 +0900
 | [[-1, 1], [1, 3], [3, 9]] | 0      |
 | [[0, 5], [3, 9], [1, 10]] | 8      | -->
 
-| a   | b   | result |
-| --- | --- | ------ |
-| 7   | 20  | 1      |
-| 11  | 22  | 1      |
-| 12  | 21  | 2      |
+| numlist                       | n   | result                               |
+| ----------------------------- | --- | ------------------------------------ |
+| [1, 2, 3, 4, 5, 6]            | 4   | [4, 5, 3, 6, 2, 1]                   |
+| [10000,20,36,47,40,6,10,7000] | 30  | [36, 40, 20, 47, 10, 6, 7000, 10000] |
 
 ### 문제에 대한 나의 풀이
 
 ```java
+import java.util.*;
 class Solution {
-    public int solution(int a, int b) {
-        int answer = 0;
-        int temp = b / GCD(a, b);
+    public int[] solution(int[] numlist, int n) {
+        int[] answer = new int[numlist.length];
+        int absValue = 0;
+        int temp = Integer.MAX_VALUE;
+        int idx = 0;
+        Arrays.sort(numlist);
 
-        while(temp != 1){
-            if(temp % 2 == 0){
-                temp /= 2;
-            }else if(temp % 5 == 0){
-                temp /= 5;
-            }else {
-                answer = 2;
-                return answer;
-            }
+        ArrayList<Integer> arr_new = new ArrayList<Integer>();
+        for (int i : numlist){
+            arr_new.add(i);
         }
 
-        answer = 1;
 
+        for(int i = 0; i < answer.length; i++){
+            for(int j = arr_new.size() - 1; j >= 0; j--){
+                absValue = Math.abs(n - arr_new.get(j));
+                if(temp > absValue){
+                    temp = absValue;
+                    idx = j;
+                }
+            }
+            answer[i] = arr_new.get(idx);
+            temp = Integer.MAX_VALUE;
+            arr_new.remove(arr_new.get(idx));
+        }
         return answer;
     }
-
-    private int GCD(int a, int b){
-            if(b == 0){
-                return a;
-            }else{
-                return GCD(b, a % b);
-            }
-        }
 }
 ```
 
 ### 풀이 설명
 
-변수 temp에 b를 a와 b의 최대공약수(GCD)로 나눈 값을 저장합니다.
+주어진 배열 numlist를 정렬합니다.
 
-이를 위해 GCD 메서드를 호출합니다.
+정답을 저장할 배열 answer를 초기화합니다.
 
-temp가 1이 될 때까지 반복문을 수행합니다.
+배열 numlist의 각 요소를 저장하기 위한 ArrayList arr_new를 생성하고, 정렬된 numlist의 각 요소를 arr_new에 추가합니다.
 
-temp를 2 또는 5로 나누어 떨어지는지 확인합니다.
+n과 현재 요소와의 차이를 계산하여 absValue에 저장합니다.
 
-만약 나누어 떨어진다면 해당 값을 각각 2와 5로 나눈 후, 다시 temp를 갱신합니다.
+만약 absValue가 현재까지의 최솟값 temp보다 작다면, temp를 absValue로 갱신하고, 현재 인덱스 idx를 해당 요소의 인덱스로 설정합니다.
 
-만약 temp가 2 또는 5로 나누어 떨어지지 않는다면, answer를 2로 설정하고, 이 값을 반환합니다.
+temp와 idx를 사용하여 찾은 가장 가까운 숫자를 answer에 저장합니다.
 
-모든 조건을 통과한 경우, answer를 1로 설정하고, 이 값을 반환합니다.
+arr_new에서 해당 숫자를 제거합니다.
 
-이 코드는 주어진 두 수의 관계를 파악하여 효율적으로 문제를 해결합니다.
-
-특히, 최대공약수를 활용하여 나누어 떨어지는지를 판별하는 점이 해결 방법의 핵심입니다.
+반복이 완료되면 answer를 반환합니다.
