@@ -39,93 +39,81 @@ date: 2024-05-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "특이한 정렬 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article that looks into the "ranking (with. Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to get to know myself.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-정수 n을 기준으로 n과 가까운 수부터 정렬하려고 합니다.
+We want to rank students based on the average of their English and math scores.
 
-이때 n으로부터의 거리가 같다면 더 큰 수를 앞에 오도록 배치합니다.
+Given a two-dimensional integer array score containing English and math scores, complete the solution function to return an array containing ranks based on the average of the English and math scores.
 
-정수가 담긴 배열 numlist와 정수 n이 주어질 때 numlist의 원소를 n으로부터 가까운 순서대로 정렬한 배열을 return하도록 solution 함수를 완성해주세요.
+#### Restrictions
 
-#### 제한사항
+- 0 ≤ score[0], score[1] ≤ 100
+- 1 ≤ score length ≤ 10
+- The element length of score is 2.
+- score does not have duplicate elements.
 
-- 1 ≤ n ≤ 10,000
-- 1 ≤ numlist의 원소 ≤ 10,000
-- 1 ≤ numlist의 길이 ≤ 100
-- numlist는 중복된 원소를 갖지 않습니다.
+#### Input/Output Example
 
-#### 입출력 예시
-
-<!-- | lines                     | result |
+<!-- | lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| numlist                       | n   | result                               |
-| ----------------------------- | --- | ------------------------------------ |
-| [1, 2, 3, 4, 5, 6]            | 4   | [4, 5, 3, 6, 2, 1]                   |
-| [10000,20,36,47,40,6,10,7000] | 30  | [36, 40, 20, 47, 10, 6, 7000, 10000] |
+| score                                                                      | result                |
+| -------------------------------------------------------------------------- | --------------------- |
+| [[80, 70], [90, 50], [40, 70], [50, 80]]                                   | [1, 2, 4, 3]          |
+| [[80, 70], [70, 80], [30, 50], [90, 100], [100, 90], [100, 100], [10, 30]] | [4, 4, 6, 2, 2, 1, 7] |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 import java.util.*;
 class Solution {
-    public int[] solution(int[] numlist, int n) {
-        int[] answer = new int[numlist.length];
-        int absValue = 0;
-        int temp = Integer.MAX_VALUE;
-        int idx = 0;
-        Arrays.sort(numlist);
+ public int[] solution(int[][] score) {
+ int[] answer = new int[score.length];
+ List<Integer> list = new ArrayList<>();
 
-        ArrayList<Integer> arr_new = new ArrayList<Integer>();
-        for (int i : numlist){
-            arr_new.add(i);
-        }
+ for(int[] tempArray : score){
+ list.add(tempArray[0] + tempArray[1]);
+ }
 
+ list.sort(Comparator.reverseOrder());
 
-        for(int i = 0; i < answer.length; i++){
-            for(int j = arr_new.size() - 1; j >= 0; j--){
-                absValue = Math.abs(n - arr_new.get(j));
-                if(temp > absValue){
-                    temp = absValue;
-                    idx = j;
-                }
-            }
-            answer[i] = arr_new.get(idx);
-            temp = Integer.MAX_VALUE;
-            arr_new.remove(arr_new.get(idx));
-        }
-        return answer;
-    }
+ for(int i = 0; i < score.length; i++){
+ answer[i] = list.indexOf(score[i][0] + score[i][1]) + 1;
+ }
+ return answer;
+ }
 }
 ```
 
-### 풀이 설명
+### Solution explanation
 
-주어진 배열 numlist를 정렬합니다.
+The solution method takes a two-dimensional integer array score as input.
 
-정답을 저장할 배열 answer를 초기화합니다.
+This array represents each student's English and math scores.
 
-배열 numlist의 각 요소를 저장하기 위한 ArrayList arr_new를 생성하고, 정렬된 numlist의 각 요소를 arr_new에 추가합니다.
+First, create a list that will contain the sum of each student's English and math scores.
 
-n과 현재 요소와의 차이를 계산하여 absValue에 저장합니다.
+By iterating through the array score, each student's English score and math score are added together and added to the list.
 
-만약 absValue가 현재까지의 최솟값 temp보다 작다면, temp를 absValue로 갱신하고, 현재 인덱스 idx를 해당 요소의 인덱스로 설정합니다.
+Sort in descending order based on the combined score.
 
-temp와 idx를 사용하여 찾은 가장 가까운 숫자를 answer에 저장합니다.
+Once again, iterate over the array score and determine the rank by checking which student's combined score is the largest.
 
-arr_new에서 해당 숫자를 제거합니다.
+After determining the rank, store that rank in the answer array.
 
-반복이 완료되면 answer를 반환합니다.
+Finally, it returns an answer array.
+
+The reason for ranking students this way is based on the sum of their scores, because using averages can cause decimal problems.

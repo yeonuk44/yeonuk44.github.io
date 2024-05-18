@@ -39,7 +39,7 @@ date: 2024-05-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "특이한 정렬 (with.Java)" 문제에 대하여 알아본 글입니다.
+## "등수 매기기 (with. Java)" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -51,18 +51,16 @@ date: 2024-05-18 09:00:00 +0900
 
 ### 문제
 
-정수 n을 기준으로 n과 가까운 수부터 정렬하려고 합니다.
+영어 점수와 수학 점수의 평균 점수를 기준으로 학생들의 등수를 매기려고 합니다.
 
-이때 n으로부터의 거리가 같다면 더 큰 수를 앞에 오도록 배치합니다.
-
-정수가 담긴 배열 numlist와 정수 n이 주어질 때 numlist의 원소를 n으로부터 가까운 순서대로 정렬한 배열을 return하도록 solution 함수를 완성해주세요.
+영어 점수와 수학 점수를 담은 2차원 정수 배열 score가 주어질 때, 영어 점수와 수학 점수의 평균을 기준으로 매긴 등수를 담은 배열을 return하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- 1 ≤ n ≤ 10,000
-- 1 ≤ numlist의 원소 ≤ 10,000
-- 1 ≤ numlist의 길이 ≤ 100
-- numlist는 중복된 원소를 갖지 않습니다.
+- 0 ≤ score[0], score[1] ≤ 100
+- 1 ≤ score의 길이 ≤ 10
+- score의 원소 길이는 2입니다.
+- score는 중복된 원소를 갖지 않습니다.
 
 #### 입출력 예시
 
@@ -72,40 +70,28 @@ date: 2024-05-18 09:00:00 +0900
 | [[-1, 1], [1, 3], [3, 9]] | 0      |
 | [[0, 5], [3, 9], [1, 10]] | 8      | -->
 
-| numlist                       | n   | result                               |
-| ----------------------------- | --- | ------------------------------------ |
-| [1, 2, 3, 4, 5, 6]            | 4   | [4, 5, 3, 6, 2, 1]                   |
-| [10000,20,36,47,40,6,10,7000] | 30  | [36, 40, 20, 47, 10, 6, 7000, 10000] |
+| score                                                                      | result                |
+| -------------------------------------------------------------------------- | --------------------- |
+| [[80, 70], [90, 50], [40, 70], [50, 80]]                                   | [1, 2, 4, 3]          |
+| [[80, 70], [70, 80], [30, 50], [90, 100], [100, 90], [100, 100], [10, 30]] | [4, 4, 6, 2, 2, 1, 7] |
 
 ### 문제에 대한 나의 풀이
 
 ```java
 import java.util.*;
 class Solution {
-    public int[] solution(int[] numlist, int n) {
-        int[] answer = new int[numlist.length];
-        int absValue = 0;
-        int temp = Integer.MAX_VALUE;
-        int idx = 0;
-        Arrays.sort(numlist);
+    public int[] solution(int[][] score) {
+        int[] answer = new int[score.length];
+        List<Integer> list = new ArrayList<>();
 
-        ArrayList<Integer> arr_new = new ArrayList<Integer>();
-        for (int i : numlist){
-            arr_new.add(i);
+        for(int[] tempArray : score){
+            list.add(tempArray[0] + tempArray[1]);
         }
 
+        list.sort(Comparator.reverseOrder());
 
-        for(int i = 0; i < answer.length; i++){
-            for(int j = arr_new.size() - 1; j >= 0; j--){
-                absValue = Math.abs(n - arr_new.get(j));
-                if(temp > absValue){
-                    temp = absValue;
-                    idx = j;
-                }
-            }
-            answer[i] = arr_new.get(idx);
-            temp = Integer.MAX_VALUE;
-            arr_new.remove(arr_new.get(idx));
+        for(int i = 0; i < score.length; i++){
+            answer[i] = list.indexOf(score[i][0] + score[i][1]) + 1;
         }
         return answer;
     }
@@ -114,18 +100,20 @@ class Solution {
 
 ### 풀이 설명
 
-주어진 배열 numlist를 정렬합니다.
+solution 메서드는 2차원 정수 배열 score를 입력으로 받습니다.
 
-정답을 저장할 배열 answer를 초기화합니다.
+이 배열은 각 학생의 영어 점수와 수학 점수를 나타냅니다.
 
-배열 numlist의 각 요소를 저장하기 위한 ArrayList arr_new를 생성하고, 정렬된 numlist의 각 요소를 arr_new에 추가합니다.
+먼저, 각 학생의 영어 점수와 수학 점수의 합계를 담을 리스트 list를 생성합니다.
 
-n과 현재 요소와의 차이를 계산하여 absValue에 저장합니다.
+배열 score를 순회하면서 각 학생의 영어 점수와 수학 점수를 합산하여 list에 추가합니다.
 
-만약 absValue가 현재까지의 최솟값 temp보다 작다면, temp를 absValue로 갱신하고, 현재 인덱스 idx를 해당 요소의 인덱스로 설정합니다.
+합산된 점수를 기준으로 내림차순으로 정렬합니다.
 
-temp와 idx를 사용하여 찾은 가장 가까운 숫자를 answer에 저장합니다.
+다시 한 번 배열 score를 순회하면서 각 학생의 합산된 점수가 몇 번째로 큰지 확인하여 등수를 결정합니다.
 
-arr_new에서 해당 숫자를 제거합니다.
+등수를 결정한 후, 해당 등수를 answer 배열에 저장합니다.
 
-반복이 완료되면 answer를 반환합니다.
+최종적으로 answer 배열을 반환합니다.
+
+이 방식으로 학생들의 점수 합계를 기준으로 등수를 매긴 이유는 평균을 사용하면 소수점 문제가 발생할 수 있기 때문입니다.
