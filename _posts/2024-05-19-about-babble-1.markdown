@@ -39,81 +39,83 @@ date: 2024-05-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "등수 매기기 (with. Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "Babbling 1 (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to get to know myself.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-영어 점수와 수학 점수의 평균 점수를 기준으로 학생들의 등수를 매기려고 합니다.
+Museok is taking care of his 6-month-old nephew.
 
-영어 점수와 수학 점수를 담은 2차원 정수 배열 score가 주어질 때, 영어 점수와 수학 점수의 평균을 기준으로 매긴 등수를 담은 배열을 return하도록 solution 함수를 완성해주세요.
+My nephew can only pronounce the four sounds "aya", "ye", "woo", and "ma" using them at most once.
 
-#### 제한사항
+When the string array babbling is given as a parameter, complete the solution function so that it returns the number of words that the babbling nephew can pronounce.
 
-- 0 ≤ score[0], score[1] ≤ 100
-- 1 ≤ score의 길이 ≤ 10
-- score의 원소 길이는 2입니다.
-- score는 중복된 원소를 갖지 않습니다.
+#### Restrictions
 
-#### 입출력 예시
+- 1 ≤ length of babbling ≤ 100
+- 1 ≤ length of babbling[i] ≤ 15
+- In each string of babbling, “aya”, “ye”, “woo”, and “ma” each appear at most once.
+- That is, among all possible substrings of each string, "aya", "ye", "woo", and "ma" occur only once.
+- The string consists of only lowercase alphabet letters.
 
-<!-- | lines                     | result |
+#### Input/Output Example
+
+<!-- | lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| score                                                                      | result                |
-| -------------------------------------------------------------------------- | --------------------- |
-| [[80, 70], [90, 50], [40, 70], [50, 80]]                                   | [1, 2, 4, 3]          |
-| [[80, 70], [70, 80], [30, 50], [90, 100], [100, 90], [100, 100], [10, 30]] | [4, 4, 6, 2, 2, 1, 7] |
+| babbling                                    | result |
+| ------------------------------------------- | ------ |
+| ["aya", "yee", "u", "maa", "wyeoo"]         | 1      |
+| ["ayaye", "uuuma", "ye", "yemawoo", "ayaa"] | 3      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
-import java.util.*;
 class Solution {
-    public int[] solution(int[][] score) {
-        int[] answer = new int[score.length];
-        List<Integer> list = new ArrayList<>();
+ public int solution(String[] babbling) {
+ int answer = 0;
+ String[] vaildBabblings = {"aya", "ye", "woo", "ma"};
 
-        for(int[] tempArray : score){
-            list.add(tempArray[0] + tempArray[1]);
-        }
+ for(String sound: babbling){
+ for(String validBabbling : validBabblings){
+ sound = sound.replace(validBabbling," ");
+ }
 
-        list.sort(Comparator.reverseOrder());
+ sound = sound.replace(" ","");
 
-        for(int i = 0; i < score.length; i++){
-            answer[i] = list.indexOf(score[i][0] + score[i][1]) + 1;
-        }
-        return answer;
-    }
+ if(sound.equals("")){
+ answer++;
+ }
+ }
+ return answer;
+ }
 }
 ```
 
-### 풀이 설명
+### Solution review
 
-solution 메서드는 2차원 정수 배열 score를 입력으로 받습니다.
+First, an array vaildBabblings is declared, which stores valid syllable combinations.
 
-이 배열은 각 학생의 영어 점수와 수학 점수를 나타냅니다.
+Use a double loop to remove valid syllable combinations from each string (sound).
 
-먼저, 각 학생의 영어 점수와 수학 점수의 합계를 담을 리스트 list를 생성합니다.
+The outer loop repeats the input string array (babbling), and the inner loop repeats valid syllable combinations.
 
-배열 score를 순회하면서 각 학생의 영어 점수와 수학 점수를 합산하여 list에 추가합니다.
+Replaces each valid syllable combination with a space in the string.
 
-합산된 점수를 기준으로 내림차순으로 정렬합니다.
+After removing all valid syllable combinations, we remove spaces from the string.
 
-다시 한 번 배열 score를 순회하면서 각 학생의 합산된 점수가 몇 번째로 큰지 확인하여 등수를 결정합니다.
+Increment answer only if the string with all spaces removed is an empty string ("").
 
-등수를 결정한 후, 해당 등수를 answer 배열에 저장합니다.
+Finally, it returns an answer.
 
-최종적으로 answer 배열을 반환합니다.
-
-이 방식으로 학생들의 점수 합계를 기준으로 등수를 매긴 이유는 평균을 사용하면 소수점 문제가 발생할 수 있기 때문입니다.
+This code provides a simple way to find and count valid syllable combinations in an input string.
