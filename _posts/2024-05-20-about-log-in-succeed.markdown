@@ -39,83 +39,87 @@ date: 2024-05-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "옹알이 1 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This article looks into the "Login successful? (with. Java)" issue.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to get to know myself.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-머쓱이는 태어난 지 6개월 된 조카를 돌보고 있습니다.
+I'm trying to log in to Programmers.
 
-조카는 아직 "aya", "ye", "woo", "ma" 네 가지 발음을 최대 한 번씩 사용해 조합한(이어 붙인) 발음밖에 하지 못합니다.
+Given the array id_pw containing the ID and password entered by the nerd and the two-dimensional array db containing member information, complete the solution function to return a message according to login success or failure as follows.
 
-문자열 배열 babbling이 매개변수로 주어질 때, 머쓱이의 조카가 발음할 수 있는 단어의 개수를 return하도록 solution 함수를 완성해주세요.
+If there is member information that matches both ID and password, "login" is returned.
 
-#### 제한사항
+When login fails, “fail” is returned if there is no member with a matching ID, and “wrong pw” is returned if there is no member with a matching ID but password.
 
-- 1 ≤ babbling의 길이 ≤ 100
-- 1 ≤ babbling[i]의 길이 ≤ 15
-- babbling의 각 문자열에서 "aya", "ye", "woo", "ma"는 각각 최대 한 번씩만 등장합니다.
-- 즉, 각 문자열의 가능한 모든 부분 문자열 중에서 "aya", "ye", "woo", "ma"가 한 번씩만 등장합니다.
-- 문자열은 알파벳 소문자로만 이루어져 있습니다.
+#### Restrictions
 
-#### 입출력 예시
+- Members’ IDs are strings.
+- Members’ IDs consist of only lowercase alphabet letters and numbers.
+- Members’ passwords are strings composed of numbers.
+- Members' passwords may be the same, but their IDs cannot be the same.
+- The length of id_pw is 2.
+- The elements of id_pw and db are in the form of [ID, password].
+- 1 ≤ ID length ≤ 15
+- 1 ≤ length of password ≤ 6
+- length of 1 ≤ db ≤ 10
+- The length of the elements of db is 2.
 
-<!-- | lines                     | result |
+#### Input/Output Example
+
+<!-- | lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| babbling                                    | result |
-| ------------------------------------------- | ------ |
-| ["aya", "yee", "u", "maa", "wyeoo"]         | 1      |
-| ["ayaye", "uuuma", "ye", "yemawoo", "ayaa"] | 3      |
+| id_pw                     | db                                                                              | result     |
+| ------------------------- | ------------------------------------------------------------------------------- | ---------- |
+| ["meosseugi", "1234"]     | [["rardss", "123"], ["yyoom", "1234"], ["meosseugi", "1234"]]                   | "login"    |
+| ["programmer01", "15789"] | [["programmer02", "111111"], ["programmer00", "134"], ["programmer01", "1145"]] | "wrong pw" |
+| ["rabbit04", "98761"]     | [["jaja11", "98761"], ["krong0313", "29440"], ["rabbit00", "111333"]]           | "fail"     |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(String[] babbling) {
-        int answer = 0;
-        String[] vaildBabblings = {"aya", "ye", "woo", "ma"};
-
-        for(String sound : babbling){
-            for(String validBabbling : vaildBabblings){
-                sound = sound.replace(validBabbling," ");
-            }
-
-            sound = sound.replace(" ","");
-
-            if(sound.equals("")){
-                answer++;
-            }
-        }
-        return answer;
-    }
+ public String solution(String[] id_pw, String[][] db) {
+ String answer = "";
+ for(int i = 0; i < db.length; i++){
+ if(id_pw[0].equals(db[i][0]) && id_pw[1].equals(db[i][1])){
+ return "login";
+ }else if(id_pw[0].equals(db[i][0])){
+ return "wrong pw";
+ }else{
+ answer = "fail";
+ }
+ }
+ return answer;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solution review
 
-먼저 유효한 음절 조합을 저장하는 vaildBabblings 배열이 선언됩니다.
+An id_pw array representing the entered ID and password and a db two-dimensional array representing database information are given.
 
-이중 반복문을 사용하여 각 문자열(sound)에서 유효한 음절 조합을 제거합니다.
+Use a loop to iterate through each row in the database.
 
-외부 반복문은 입력된 문자열 배열(babbling)을 반복하고, 내부 반복문은 유효한 음절 조합을 반복합니다.
+At each iteration, the login status is determined by checking the ID and password.
 
-각 유효한 음절 조합을 해당 문자열에서 공백으로 대체합니다.
+If both the ID and password match, “login” is returned and the function ends.
 
-유효한 음절 조합을 모두 제거한 후에는 문자열에서 공백을 제거합니다.
+If the ID matches but the password does not, it returns "wrong pw" and exits the function.
 
-공백이 모두 제거된 문자열이 빈 문자열("")인 경우에만 answer를 증가시킵니다.
+The reason it immediately returns login and wrong pw and exits the function is because the problem clearly states to return immediately in the two cases. (You must read the questions carefully.)
 
-최종적으로 answer를 반환합니다.
+If no matching information is found after checking all rows, returns "fail".
 
-이 코드는 입력된 문자열에서 유효한 음절 조합을 찾아 개수를 세는 간단한 방법을 제공합니다.
+If no matching information is found by the time the function exits, "fail" is returned.
