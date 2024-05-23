@@ -39,69 +39,64 @@ date: 2024-05-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "치킨 쿠폰 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "Binary number addition (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-프로그래머스 치킨은 치킨을 시켜먹으면 한 마리당 쿠폰을 한 장 발급합니다.
+When two strings bin1 and bin2, which represent binary numbers, are given as parameters, complete the solution function to return the sum of the two binary numbers.
 
-쿠폰을 열 장 모으면 치킨을 한 마리 서비스로 받을 수 있고, 서비스 치킨에도 쿠폰이 발급됩니다.
+#### Restrictions
 
-시켜먹은 치킨의 수 chicken이 매개변수로 주어질 때 받을 수 있는 최대 서비스 치킨의 수를 return하도록 solution 함수를 완성해주세요.
+- The return value is a string meaning a binary number.
+- 1 ≤ bin1, length of bin2 ≤ 10
+- bin1 and bin2 consist of only 0 and 1.
+- bin1 and bin2 do not start with zeros except "0".
 
-#### 제한사항
-
-- chicken은 정수입니다.
-- 0 ≤ chicken ≤ 1,000,000
-
-#### 입출력 예시
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| chicken | result |
-| ------- | ------ |
-| 100     | 11     |
-| 1,081   | 120    |
+| bin1   | bin2   | result  |
+| ------ | ------ | ------- |
+| "10"   | "11"   | "101"   |
+| "1001" | "1111" | "11000" |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int chicken) {
-        int answer = 0;
+ public String solution(String bin1, String bin2) {
+ String answer = "";
+ int binarySum = Integer.parseInt(bin1,2) + Integer.parseInt(bin2,2);
 
-        while (chicken >= 10) {
-            answer += chicken / 10;
-            chicken = chicken / 10 + chicken % 10;
-        }
-        return answer;
-    }
+ answer = Integer.toBinaryString(binarySum);
+
+ return answer;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solved review
 
-먼저 answer 변수를 0으로 초기화합니다.
+This function takes two binary strings as input, converts them to decimal, and returns the summed result back as a binary string.
 
-while 루프를 사용하여 치킨의 개수가 10 이상인 경우에만 반복합니다.
+First, we initialize the answer variable to an empty string.
 
-현재 치킨의 개수에서 10을 나눈 몫을 answer에 더합니다. 이는 현재 치킨의 개수에서 얻을 수 있는 쿠폰의 개수입니다.
+Using the Integer.parseInt() function, convert the two input binary strings (bin1 and bin2) to decimal numbers and then add them. This calculates the sum of two binary numbers as a decimal number.
 
-치킨의 개수를 10으로 나눈 몫에 치킨의 개수를 10으로 나눈 나머지를 더하여 다음 치킨의 개수를 업데이트합니다.
+To convert the binary sum back to a binary string, we use the Integer.toBinaryString() function. This function converts a decimal number to a binary string.
 
-이렇게 함으로써 한 번에 구매한 치킨의 개수와 쿠폰으로 받은 치킨의 개수를 합산하여 다음 단계의 치킨 개수를 계산합니다.
-
-while 루프가 종료되면 치킨의 개수가 10 미만이 되었으므로 함수는 마지막으로 계산된 answer 값을 반환합니다.
+Assigns the converted binary string to the answer variable and returns it.
