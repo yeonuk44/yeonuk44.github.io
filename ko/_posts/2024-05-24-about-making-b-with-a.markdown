@@ -39,7 +39,7 @@ date: 2024-05-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "이진수 더하기 (with.Java)" 문제에 대하여 알아본 글입니다.
+## "A로 B 만들기 (with.Java)" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -51,14 +51,12 @@ date: 2024-05-24 09:00:00 +0900
 
 ### 문제
 
-이진수를 의미하는 두 개의 문자열 bin1과 bin2가 매개변수로 주어질 때, 두 이진수의 합을 return하도록 solution 함수를 완성해주세요.
+문자열 before와 after가 매개변수로 주어질 때, before의 순서를 바꾸어 after를 만들 수 있으면 1을, 만들 수 없으면 0을 return 하도록 solution 함수를 완성해보세요.
 
 #### 제한사항
 
-- return 값은 이진수를 의미하는 문자열입니다.
-- 1 ≤ bin1, bin2의 길이 ≤ 10
-- bin1과 bin2는 0과 1로만 이루어져 있습니다.
-- bin1과 bin2는 "0"을 제외하고 0으로 시작하지 않습니다.
+- 0 < before의 길이 == after의 길이 < 1,000
+- before와 after는 모두 소문자로 이루어져 있습니다.
 
 #### 입출력 예시
 
@@ -69,34 +67,43 @@ date: 2024-05-24 09:00:00 +0900
 | [[-1, 1], [1, 3], [3, 9]] | 0      |
 | [[0, 5], [3, 9], [1, 10]] | 8      | -->
 
-| bin1   | bin2   | result  |
-| ------ | ------ | ------- |
-| "10"   | "11"   | "101"   |
-| "1001" | "1111" | "11000" |
+| before  | after   | result |
+| ------- | ------- | ------ |
+| "olleh" | "hello" | 1      |
+| "allpe" | "apple" | 0      |
 
 ### 문제에 대한 나의 풀이
 
 ```java
+import java.util.Arrays;
+
 class Solution {
-    public String solution(String bin1, String bin2) {
-        String answer = "";
-        int binarySum = Integer.parseInt(bin1,2) + Integer.parseInt(bin2,2);
+    public int solution(String before, String after) {
 
-        answer = Integer.toBinaryString(binarySum);
+        char[] beforeArray = before.toCharArray();
+        char[] afterArray = after.toCharArray();
+        Arrays.sort(beforeArray);
+        Arrays.sort(afterArray);
 
-        return answer;
+        return Arrays.equals(beforeArray, afterArray) ? 1 : 0;
     }
 }
 ```
 
 ### 풀이 리뷰
 
-두 개의 이진수 문자열을 입력으로 받아 이를 10진수로 변환한 후 합산한 결과를 다시 이진수 문자열로 반환하는 함수입니다.
+먼저, 입력된 두 문자열 before와 after를 각각 문자 배열(char[])로 변환합니다.
 
-먼저 answer 변수를 빈 문자열로 초기화합니다.
+Arrays.sort() 함수를 사용하여 두 문자 배열을 알파벳 순으로 정렬합니다.
 
-Integer.parseInt() 함수를 사용하여 입력된 두 개의 이진수 문자열(bin1과 bin2)을 각각 10진수로 변환한 후 더합니다. 이렇게 하면 두 이진수의 합이 10진수로 계산됩니다.
+이렇게 하면 두 문자열의 각 문자가 정렬된 상태가 됩니다.
 
-이진수로 된 합을 다시 이진수 문자열로 변환하기 위해 Integer.toBinaryString() 함수를 사용합니다. 이 함수는 10진수를 이진수 문자열로 변환해줍니다.
+Arrays.equals() 함수를 사용하여 정렬된 두 문자 배열이 서로 같은지를 확인합니다.
 
-변환된 이진수 문자열을 answer 변수에 할당하고 반환합니다.
+이 함수는 두 배열이 같은지를 비교하여 true 또는 false를 반환합니다.
+
+만약 정렬된 두 문자 배열이 같다면, 즉, 두 문자열이 같은 문자들을 가지고 있다면, 1을 반환합니다.
+
+그렇지 않으면 0을 반환합니다.
+
+입력된 문자열이 동일한 문자들로 이루어져 있는지를 간단하게 확인하기 위해 문자열을 정렬하여 비교하는 방법을 사용합니다.

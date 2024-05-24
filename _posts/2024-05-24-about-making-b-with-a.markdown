@@ -39,64 +39,71 @@ date: 2024-05-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "이진수 더하기 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This article looks into the problem of “Making B with A (with.Java)”.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-이진수를 의미하는 두 개의 문자열 bin1과 bin2가 매개변수로 주어질 때, 두 이진수의 합을 return하도록 solution 함수를 완성해주세요.
+When strings before and after are given as parameters, complete the solution function to return 1 if you can create after by changing the order of before, and 0 if you cannot.
 
-#### 제한사항
+#### Restrictions
 
-- return 값은 이진수를 의미하는 문자열입니다.
-- 1 ≤ bin1, bin2의 길이 ≤ 10
-- bin1과 bin2는 0과 1로만 이루어져 있습니다.
-- bin1과 bin2는 "0"을 제외하고 0으로 시작하지 않습니다.
+- 0 < length of before == length of after < 1,000
+- Before and after are both lowercase letters.
 
-#### 입출력 예시
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| bin1   | bin2   | result  |
-| ------ | ------ | ------- |
-| "10"   | "11"   | "101"   |
-| "1001" | "1111" | "11000" |
+| before  | after   | result |
+| ------- | ------- | ------ |
+| "olleh" | "hello" | 1      |
+| "allpe" | "apple" | 0      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
+import java.util.Arrays;
+
 class Solution {
-    public String solution(String bin1, String bin2) {
-        String answer = "";
-        int binarySum = Integer.parseInt(bin1,2) + Integer.parseInt(bin2,2);
+ public int solution(String before, String after) {
 
-        answer = Integer.toBinaryString(binarySum);
+ char[] beforeArray = before.toCharArray();
+ char[] afterArray = after.toCharArray();
+ Arrays.sort(beforeArray);
+ Arrays.sort(afterArray);
 
-        return answer;
-    }
+ return Arrays.equals(beforeArray, afterArray) ? 1:0;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solved review
 
-두 개의 이진수 문자열을 입력으로 받아 이를 10진수로 변환한 후 합산한 결과를 다시 이진수 문자열로 반환하는 함수입니다.
+First, convert the two input strings before and after into character arrays (char[]).
 
-먼저 answer 변수를 빈 문자열로 초기화합니다.
+Sort an array of two characters alphabetically using the Arrays.sort() function.
 
-Integer.parseInt() 함수를 사용하여 입력된 두 개의 이진수 문자열(bin1과 bin2)을 각각 10진수로 변환한 후 더합니다. 이렇게 하면 두 이진수의 합이 10진수로 계산됩니다.
+This will ensure that each character in both strings is aligned.
 
-이진수로 된 합을 다시 이진수 문자열로 변환하기 위해 Integer.toBinaryString() 함수를 사용합니다. 이 함수는 10진수를 이진수 문자열로 변환해줍니다.
+Use the Arrays.equals() function to determine whether two sorted arrays of characters are equal.
 
-변환된 이진수 문자열을 answer 변수에 할당하고 반환합니다.
+This function compares two arrays for equality and returns true or false.
+
+If the two sorted character arrays are equal, that is, if the two strings contain the same characters, it returns 1.
+
+Otherwise it returns 0.
+
+To simply check whether the input string consists of the same characters, we use a method of sorting and comparing strings.
