@@ -39,71 +39,89 @@ date: 2024-05-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "A로 B 만들기 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "Number of k (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 before와 after가 매개변수로 주어질 때, before의 순서를 바꾸어 after를 만들 수 있으면 1을, 만들 수 없으면 0을 return 하도록 solution 함수를 완성해보세요.
+In the numbers 1 to 13, 1 appears 6 times: 1, 10, 11, 12, and 13.
 
-#### 제한사항
+When integers i, j, and k are given as parameters, complete the solution function to return how many times k appears from i to j.
 
-- 0 < before의 길이 == after의 길이 < 1,000
-- before와 after는 모두 소문자로 이루어져 있습니다.
+#### Restrictions
 
-#### 입출력 예시
+- 1 ≤ i < j ≤ 100,000
+- 0 ≤ k ≤ 9
+
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| before  | after   | result |
+<!-- | before | after | result |
 | ------- | ------- | ------ |
-| "olleh" | "hello" | 1      |
-| "allpe" | "apple" | 0      |
+| "olleh" | "hello" | 1 |
+| "allpe" | "apple" | 0 | -->
 
-### 문제에 대한 나의 풀이
+| i   | j   | k   | result |
+| --- | --- | --- | ------ |
+| 1   | 13  | 1   | 6      |
+| 10  | 50  | 5   | 5      |
+| 3   | 10  | 2   | 0      |
+
+### My solution to the problem
 
 ```java
-import java.util.Arrays;
-
 class Solution {
-    public int solution(String before, String after) {
-
-        char[] beforeArray = before.toCharArray();
-        char[] afterArray = after.toCharArray();
-        Arrays.sort(beforeArray);
-        Arrays.sort(afterArray);
-
-        return Arrays.equals(beforeArray, afterArray) ? 1 : 0;
-    }
+ public int solution(int i, int j, int k) {
+ int answer = 0;
+ String str = "0";
+ char ch = '0';
+ for(int a = i; a <= j; a++){
+ str = Integer.toString(a);
+ for(int b = 0; b < str.length(); b++){
+ ch = str.charAt(b);
+ if(ch == Integer.toString(k).charAt(0)){
+ answer++;
+ }
+ }
+ }
+ return answer;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solved review
 
-먼저, 입력된 두 문자열 before와 after를 각각 문자 배열(char[])로 변환합니다.
+Set the answer variable to its initial value of 0.
 
-Arrays.sort() 함수를 사용하여 두 문자 배열을 알파벳 순으로 정렬합니다.
+This variable represents the result.
 
-이렇게 하면 두 문자열의 각 문자가 정렬된 상태가 됩니다.
+Initialize the str variable to "0". This variable is used to convert numbers into strings and store them.
 
-Arrays.equals() 함수를 사용하여 정렬된 두 문자 배열이 서로 같은지를 확인합니다.
+Initialize the ch variable to '0'. This variable is used to check character by character in a string.
 
-이 함수는 두 배열이 같은지를 비교하여 true 또는 false를 반환합니다.
+Execute the loop while increasing variable a from i to j.
 
-만약 정렬된 두 문자 배열이 같다면, 즉, 두 문자열이 같은 문자들을 가지고 있다면, 1을 반환합니다.
+Convert the value of a to a string and store it in the str variable.
 
-그렇지 않으면 0을 반환합니다.
+Execute the loop while increasing the b variable from 0 to the length of str - 1.
 
-입력된 문자열이 동일한 문자들로 이루어져 있는지를 간단하게 확인하기 위해 문자열을 정렬하여 비교하는 방법을 사용합니다.
+Check the bth character (ch) of str.
+
+If ch is equal to k, then increase the answer variable by 1.
+
+When the loop ends, the answer variable is returned.
+
+The code is implemented by converting each number within the input range into a string, checking each character of the string one by one, and comparing it with k.

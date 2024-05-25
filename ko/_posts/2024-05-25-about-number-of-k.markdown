@@ -39,7 +39,7 @@ date: 2024-05-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "A로 B 만들기 (with.Java)" 문제에 대하여 알아본 글입니다.
+## "k의 개수 (with.Java)" 문제에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -51,12 +51,14 @@ date: 2024-05-25 09:00:00 +0900
 
 ### 문제
 
-문자열 before와 after가 매개변수로 주어질 때, before의 순서를 바꾸어 after를 만들 수 있으면 1을, 만들 수 없으면 0을 return 하도록 solution 함수를 완성해보세요.
+1부터 13까지의 수에서, 1은 1, 10, 11, 12, 13 이렇게 총 6번 등장합니다.
+
+정수 i, j, k가 매개변수로 주어질 때, i부터 j까지 k가 몇 번 등장하는지 return 하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- 0 < before의 길이 == after의 길이 < 1,000
-- before와 after는 모두 소문자로 이루어져 있습니다.
+- 1 ≤ i < j ≤ 100,000
+- 0 ≤ k ≤ 9
 
 #### 입출력 예시
 
@@ -67,43 +69,59 @@ date: 2024-05-25 09:00:00 +0900
 | [[-1, 1], [1, 3], [3, 9]] | 0      |
 | [[0, 5], [3, 9], [1, 10]] | 8      | -->
 
-| before  | after   | result |
+<!-- | before  | after   | result |
 | ------- | ------- | ------ |
 | "olleh" | "hello" | 1      |
-| "allpe" | "apple" | 0      |
+| "allpe" | "apple" | 0      | -->
+
+| i   | j   | k   | result |
+| --- | --- | --- | ------ |
+| 1   | 13  | 1   | 6      |
+| 10  | 50  | 5   | 5      |
+| 3   | 10  | 2   | 0      |
 
 ### 문제에 대한 나의 풀이
 
 ```java
-import java.util.Arrays;
-
 class Solution {
-    public int solution(String before, String after) {
-
-        char[] beforeArray = before.toCharArray();
-        char[] afterArray = after.toCharArray();
-        Arrays.sort(beforeArray);
-        Arrays.sort(afterArray);
-
-        return Arrays.equals(beforeArray, afterArray) ? 1 : 0;
+    public int solution(int i, int j, int k) {
+        int answer = 0;
+        String str = "0";
+        char ch = '0';
+        for(int a = i; a <= j; a++){
+            str = Integer.toString(a);
+            for(int b = 0; b < str.length(); b++){
+                ch = str.charAt(b);
+                if(ch == Integer.toString(k).charAt(0)){
+                    answer++;
+                }
+            }
+        }
+        return answer;
     }
 }
 ```
 
 ### 풀이 리뷰
 
-먼저, 입력된 두 문자열 before와 after를 각각 문자 배열(char[])로 변환합니다.
+answer 변수를 초기값 0으로 설정합니다.
 
-Arrays.sort() 함수를 사용하여 두 문자 배열을 알파벳 순으로 정렬합니다.
+이 변수는 결과를 나타냅니다.
 
-이렇게 하면 두 문자열의 각 문자가 정렬된 상태가 됩니다.
+str 변수를 "0"으로 초기화합니다. 이 변수는 숫자를 문자열로 변환하여 저장하는 용도로 사용됩니다.
 
-Arrays.equals() 함수를 사용하여 정렬된 두 문자 배열이 서로 같은지를 확인합니다.
+ch 변수를 '0'으로 초기화합니다. 이 변수는 문자열에서 한 문자씩 확인하기 위해 사용됩니다.
 
-이 함수는 두 배열이 같은지를 비교하여 true 또는 false를 반환합니다.
+a 변수를 i부터 j까지 증가시키면서 반복문을 실행합니다.
 
-만약 정렬된 두 문자 배열이 같다면, 즉, 두 문자열이 같은 문자들을 가지고 있다면, 1을 반환합니다.
+a 값을 문자열로 변환하여 str 변수에 저장합니다.
 
-그렇지 않으면 0을 반환합니다.
+b 변수를 0부터 str의 길이-1까지 증가시키면서 반복문을 실행합니다.
 
-입력된 문자열이 동일한 문자들로 이루어져 있는지를 간단하게 확인하기 위해 문자열을 정렬하여 비교하는 방법을 사용합니다.
+str의 b번째 문자(ch)를 확인합니다.
+
+ch가 k와 같다면, answer 변수를 1 증가시킵니다.
+
+반복문이 종료되면 answer 변수를 반환합니다.
+
+해당 코드는 입력받은 범위 내에서 각 숫자를 문자열로 변환하고, 문자열의 각 문자를 하나씩 확인하여 k와 비교하는 방식으로 구현되어 있습니다.
