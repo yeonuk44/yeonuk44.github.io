@@ -39,89 +39,85 @@ date: 2024-05-26 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "k의 개수 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "String Pushing (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to get to know myself.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-1부터 13까지의 수에서, 1은 1, 10, 11, 12, 13 이렇게 총 6번 등장합니다.
+In the string "hello", if we move each character one space to the right and move the last character to the front, we get "ohell".
 
-정수 i, j, k가 매개변수로 주어질 때, i부터 j까지 k가 몇 번 등장하는지 return 하도록 solution 함수를 완성해주세요.
+If you define this as pushing a string, when strings A and B are given as parameters, complete the solution function so that if A can be pushed to become B, it returns the minimum number of times it must be pushed, and if it cannot be pushed to B, it returns -1.
 
-#### 제한사항
+#### Restrictions
 
-- 1 ≤ i < j ≤ 100,000
-- 0 ≤ k ≤ 9
+- 0 < length of A = length of B < 100
+- A and B are made up of lowercase alphabet letters.
 
-#### 입출력 예시
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-<!-- | before  | after   | result |
+| A       | B       | result |
 | ------- | ------- | ------ |
-| "olleh" | "hello" | 1      |
-| "allpe" | "apple" | 0      | -->
+| "hello" | "ohell" | 1      |
+| "apple" | "elppa" | -1     |
+| "atat"  | "tata"  | 1      |
+| "abc"   | "abc"   | 0      |
 
-| i   | j   | k   | result |
-| --- | --- | --- | ------ |
-| 1   | 13  | 1   | 6      |
-| 10  | 50  | 5   | 5      |
-| 3   | 10  | 2   | 0      |
-
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int i, int j, int k) {
-        int answer = 0;
-        String str = "0";
-        char ch = '0';
-        for(int a = i; a <= j; a++){
-            str = Integer.toString(a);
-            for(int b = 0; b < str.length(); b++){
-                ch = str.charAt(b);
-                if(ch == Integer.toString(k).charAt(0)){
-                    answer++;
-                }
-            }
-        }
-        return answer;
-    }
+ public int solution(String A, String B) {
+ int answer = -1;
+ StringBuilder sb = new StringBuilder(A);
+ char[] chArr = A.toCharArray();
+ int repeatCount = 1;
+
+ if(A.equals(B)){
+ return 0;
+ }
+
+ for(int i = chArr.length - 1; i >= 0; i--){
+ sb.replace(0,0,Character.toString(chArr[i]));
+ sb.deleteCharAt(sb.length() - 1);
+ if(sb.toString().equals(B)){
+ return repeatCount;
+ }
+ repeatCount++;
+ }
+
+
+ return answer;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solved review
 
-answer 변수를 초기값 0으로 설정합니다.
+To solve the problem of finding the minimum number of rotations to rotate a string to create the desired string, we use a string manipulation method.
 
-이 변수는 결과를 나타냅니다.
+The above code is a function that, given two strings A and B, calculates the minimum number of rotations required to circularly move string A to create a string identical to B.
 
-str 변수를 "0"으로 초기화합니다. 이 변수는 숫자를 문자열로 변환하여 저장하는 용도로 사용됩니다.
+First, if the input strings A and B are the same, there is no need to rotate, so it returns 0.
 
-ch 변수를 '0'으로 초기화합니다. 이 변수는 문자열에서 한 문자씩 확인하기 위해 사용됩니다.
+Otherwise, manipulate the string A using StringBuilder.
 
-a 변수를 i부터 j까지 증가시키면서 반복문을 실행합니다.
+Create an array of characters from string A and manipulate the string sequentially from back to front.
 
-a 값을 문자열로 변환하여 str 변수에 저장합니다.
+At each rotation, we loop through string A and compare it to B.
 
-b 변수를 0부터 str의 길이-1까지 증가시키면서 반복문을 실행합니다.
-
-str의 b번째 문자(ch)를 확인합니다.
-
-ch가 k와 같다면, answer 변수를 1 증가시킵니다.
-
-반복문이 종료되면 answer 변수를 반환합니다.
-
-해당 코드는 입력받은 범위 내에서 각 숫자를 문자열로 변환하고, 문자열의 각 문자를 하나씩 확인하여 k와 비교하는 방식으로 구현되어 있습니다.
+At the moment string A becomes equal to B, the number of rotations until now is returned.
+If the loop through string A does not find a string identical to B, -1 is returned.
