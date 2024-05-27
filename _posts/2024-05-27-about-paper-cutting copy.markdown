@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_About_Paper_Cutting
-title: 종이 자르기 (with.Java)
+title: Paper Cutting (with.Java)
 # title: Paper Cutting (with.Java)
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
