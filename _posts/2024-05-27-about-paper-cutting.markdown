@@ -39,85 +39,61 @@ date: 2024-05-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "문자열 밀기 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "Paper Cutting (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-문자열 "hello"에서 각 문자를 오른쪽으로 한 칸씩 밀고 마지막 문자는 맨 앞으로 이동시키면 "ohell"이 됩니다.
+I'm trying to cut a large piece of paper into 1 x 1 pieces.
 
-이것을 문자열을 민다고 정의한다면 문자열 A와 B가 매개변수로 주어질 때, A를 밀어서 B가 될 수 있다면 밀어야 하는 최소 횟수를 return하고 밀어서 B가 될 수 없으면 -1을 return 하도록 solution 함수를 완성해보세요.
+For example, cutting a 2 x 2 piece of paper into a 1 x 1 piece requires at least three strokes of the scissors.
 
-#### 제한사항
+When integers M and N are given as parameters, complete the solution function to return the minimum number of times a piece of paper of size M x N must be scissored.
 
-- 0 < A의 길이 = B의 길이 < 100
-- A, B는 알파벳 소문자로 이루어져 있습니다.
+#### Restrictions
 
-#### 입출력 예시
+- 0 < M, N < 100
+- Paper cannot be overlapped and cut.
+
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| A       | B       | result |
-| ------- | ------- | ------ |
-| "hello" | "ohell" | 1      |
-| "apple" | "elppa" | -1     |
-| "atat"  | "tata"  | 1      |
-| "abc"   | "abc"   | 0      |
+| M   | N   | result |
+| --- | --- | ------ |
+| 2   | 2   | 3      |
+| 2   | 5   | 9      |
+| 1   | 1   | 0      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(String A, String B) {
-        int answer = -1;
-        StringBuilder sb = new StringBuilder(A);
-        char[] chArr = A.toCharArray();
-        int repeatCount = 1;
-
-        if(A.equals(B)){
-            return 0;
-        }
-
-        for(int i = chArr.length - 1; i >= 0; i--){
-            sb.replace(0,0,Character.toString(chArr[i]));
-            sb.deleteCharAt(sb.length() - 1);
-            if(sb.toString().equals(B)){
-                return repeatCount;
-            }
-            repeatCount++;
-        }
-
-
-        return answer;
-    }
+ public int solution(int M, int N) {
+ int answer = (M * N) - 1;
+ return answer;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solution review
 
-문자열을 회전시켜서 원하는 문자열을 만들기 위한 최소 회전 횟수를 구하는 문제를 해결하기 위해 문자열을 조작하는 방식을 사용합니다.
+This is a function that calculates the number of cells remaining in a grid-shaped area excluding one cell using the given M and N.
 
-위의 코드는 두 문자열 A와 B가 주어졌을 때, 문자열 A를 순환 이동하여 B와 동일한 문자열을 만들기 위해 필요한 최소 회전 횟수를 계산하는 함수입니다.
+First, declare the variable answer and initialize it to `(M * N) - 1`.
 
-먼저, 입력된 문자열 A와 B가 동일한 경우에는 회전할 필요가 없으므로 0을 반환합니다.
+This is the total number of cells in the grid minus one.
 
-그렇지 않은 경우, 문자열 A를 StringBuilder를 사용하여 문자열을 조작합니다.
-
-문자열 A의 문자 배열을 만들어서 뒤에서부터 앞으로 순차적으로 문자열을 조작합니다.
-
-각 회전마다 문자열 A를 순환 이동하여 B와 비교합니다.
-
-문자열 A가 B와 동일해지는 순간에는 현재까지의 회전 횟수를 반환합니다.
-만약 문자열 A를 순환 이동하여 B와 동일한 문자열을 찾지 못하면, -1을 반환합니다.
+Finally, it returns an answer.
