@@ -39,61 +39,71 @@ date: 2024-05-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "종이 자르기 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "Sum of consecutive numbers (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-머쓱이는 큰 종이를 1 x 1 크기로 자르려고 합니다.
+Three consecutive integers that add up to 12 are 3, 4, and 5.
 
-예를 들어 2 x 2 크기의 종이를 1 x 1 크기로 자르려면 최소 가위질 세 번이 필요합니다.
+You are given two integers num and total.
 
-정수 M, N이 매개변수로 주어질 때, M x N 크기의 종이를 최소로 가위질 해야하는 횟수를 return 하도록 solution 함수를 완성해보세요.
+Complete the solution function so that when the sum of num consecutive numbers becomes total, it returns an array of integers in ascending order.
 
-#### 제한사항
+#### Restrictions
 
-- 0 < M, N < 100
-- 종이를 겹쳐서 자를 수 없습니다.
+- 1 ≤ num ≤ 100
+- 0 ≤ total ≤ 1000
+- There is no test case in which total cannot be obtained by adding num consecutive numbers.
 
-#### 입출력 예시
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| M   | N   | result |
-| --- | --- | ------ |
-| 2   | 2   | 3      |
-| 2   | 5   | 9      |
-| 1   | 1   | 0      |
+| num | total | result           |
+| --- | ----- | ---------------- |
+| 3   | 12    | [3, 4, 5]        |
+| 5   | 15    | [1, 2, 3, 4, 5]  |
+| 4   | 14    | [2, 3, 4, 5]     |
+| 5   | 5     | [-1, 0, 1, 2, 3] |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int solution(int M, int N) {
-        int answer = (M * N) - 1;
-        return answer;
-    }
+ public int[] solution(int num, int total) {
+ int[] answer = new int[num];
+ int startNum = total / num - (num - 1) / 2;
+
+ for(int i = 0; i < num; i++){
+ answer[i] = startNum++;
+ }
+ return answer;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solution review
 
-주어진 M과 N을 이용하여 격자 모양의 영역에서 하나의 셀을 제외한 나머지 셀의 개수를 계산하는 함수입니다.
+This function generates numbers at regular intervals starting from the starting number, given the sum of the starting number and the total number.
 
-먼저, 변수 answer를 선언하고, `(M * N) - 1`로 초기화합니다.
+The solution function takes two parameters: num and total.
 
-이것은 격자의 총 셀 개수에서 하나를 제외한 값입니다.
+First, we create an array answer to store the results. The length of this array is set to num.
 
-최종적으로 answer를 반환합니다.
+Initialize the startNum variable to calculate the starting number. This value is calculated by dividing the given total number by the given number and then subtracting (number of numbers - 1) / 2 from that value. This allows numbers to be generated at regular intervals.
+
+Use loops to assign each element a value that starts with a starting number and increases at regular intervals.
+Returns the result array answer.
