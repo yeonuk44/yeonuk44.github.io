@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Paper_Cutting
-title: Paper Cutting (with.Java)
-# title: Paper Cutting (with.Java)
+lng_pair: id_About_Sum_Of_Consecutive_Numbers
+title: Sum of consecutive numbers (with.Java)
+# title: Sum of consecutive numbers (with.Java)
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
@@ -15,7 +15,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2024-05-27 09:00:00 +0900
+date: 2024-05-28 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
