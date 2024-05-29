@@ -39,71 +39,66 @@ date: 2024-05-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "연속된 수의 합 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article looking at the "Next Number (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-연속된 세 개의 정수를 더해 12가 되는 경우는 3, 4, 5입니다.
+When an arithmetic sequence or a geometric sequence common is given as a parameter, complete the solution function to return the number that comes after the last element.
 
-두 정수 num과 total이 주어집니다.
+#### Restrictions
 
-연속된 수 num개를 더한 값이 total이 될 때, 정수 배열을 오름차순으로 담아 return하도록 solution함수를 완성해보세요.
+- 2 < length of common < 1,000
+- -1,000 < element of common < 2,000
+- All elements of common are integers.
+- There is no case where it is not an arithmetic sequence or a geometric sequence.
+- In the case of a geometric sequence, the common ratio is an integer other than 0.
 
-#### 제한사항
-
-- 1 ≤ num ≤ 100
-- 0 ≤ total ≤ 1000
-- num개의 연속된 수를 더하여 total이 될 수 없는 테스트 케이스는 없습니다.
-
-#### 입출력 예시
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| num | total | result           |
-| --- | ----- | ---------------- |
-| 3   | 12    | [3, 4, 5]        |
-| 5   | 15    | [1, 2, 3, 4, 5]  |
-| 4   | 14    | [2, 3, 4, 5]     |
-| 5   | 5     | [-1, 0, 1, 2, 3] |
+| common       | result |
+| ------------ | ------ |
+| [1, 2, 3, 4] | 5      |
+| [2, 4, 8]    | 16     |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 class Solution {
-    public int[] solution(int num, int total) {
-        int[] answer = new int[num];
-        int startNum = total / num - (num - 1) / 2;
-
-        for(int i = 0; i < num; i++){
-            answer[i] = startNum++;
-        }
-        return answer;
-    }
+ public int solution(int[] common) {
+ int answer = 0;
+ if(common[1] - common[0] == common[2] - common[1]){
+ answer = common[common.length - 1] + (common[1] - common[0]);
+ }else{
+ answer = common[common.length - 1] * (common[1] / common[0]);
+ }
+ return answer;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solution review
 
-시작 숫자와 총 숫자의 합계가 주어졌을 때, 시작 숫자부터 시작하여 일정한 간격으로 숫자를 생성하는 함수입니다.
+This is a function that determines whether it is an arithmetic sequence or an arithmetic sequence and calculates the next term.
 
-solution 함수는 num과 total 두 개의 매개변수를 받습니다.
+Checks whether the values ​​corresponding to indices 0, 1, and 2 of a given array form an arithmetic or geometric sequence.
 
-먼저, 결과를 저장할 배열 answer를 생성합니다. 이 배열의 길이는 num으로 설정됩니다.
+If it is an arithmetic sequence, the next term is obtained by adding (the arithmetic value) to the last element of the array.
 
-시작 숫자를 계산하기 위해 startNum 변수를 초기화합니다. 이 값은 주어진 총 숫자를 주어진 숫자로 나눈 후, 그 값에서 (숫자의 개수 - 1) / 2를 뺀 것입니다. 이렇게 함으로써 숫자를 일정한 간격으로 생성할 수 있습니다.
+If it is a geometric sequence, multiply the last element of the array by (the value of the common ratio) to get the next term.
 
-반복문을 사용하여 각 요소에 시작 숫자부터 시작하여 일정한 간격으로 증가하는 값을 할당합니다.
-결과 배열 answer를 반환합니다.
+Returns the obtained value.
