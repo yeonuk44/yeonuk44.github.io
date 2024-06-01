@@ -1,0 +1,125 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_Athletes_Problem
+title: 완주하지 못한 선수 (with.Java)
+# title: Athletes who did not finish the race (with.Java)
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test, hash]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2024-06-01 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## "완주하지 못한 선수 (with.Java)" 문제에 대하여 알아본 글입니다.
+
+코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+
+문제에 대해 먼저 알아보겠습니다.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### 문제
+
+수많은 마라톤 선수들이 마라톤에 참여하였습니다.
+
+단 한 명의 선수를 제외하고는 모든 선수가 마라톤을 완주하였습니다.
+
+마라톤에 참여한 선수들의 이름이 담긴 배열 participant와 완주한 선수들의 이름이 담긴 배열 completion이 주어질 때, 완주하지 못한 선수의 이름을 return 하도록 solution 함수를 작성해주세요.
+
+#### 제한사항
+
+- 마라톤 경기에 참여한 선수의 수는 1명 이상 100,000명 이하입니다.
+- completion의 길이는 participant의 길이보다 1 작습니다.
+- 참가자의 이름은 1개 이상 20개 이하의 알파벳 소문자로 이루어져 있습니다.
+- 참가자 중에는 동명이인이 있을 수 있습니다.
+
+#### 입출력 예시
+
+<!--
+| lines                     | result |
+| ------------------------- | ------ |
+| [[0, 1], [2, 5], [3, 9]]  | 2      |
+| [[-1, 1], [1, 3], [3, 9]] | 0      |
+| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+
+| participant                                       | completion                               | return   |
+| ------------------------------------------------- | ---------------------------------------- | -------- |
+| ["leo", "kiki", "eden"]                           | ["eden", "kiki"]                         | "leo"    |
+| ["marina", "josipa", "nikola", "vinko", "filipa"] | ["josipa", "filipa", "marina", "nikola"] | "vinko"  |
+| ["mislav", "stanko", "mislav", "ana"]             | ["stanko", "ana", "mislav"]              | "mislav" |
+
+### 문제에 대한 나의 풀이
+
+```java
+import java.util.*;
+
+class Solution {
+    public String solution(String[] participant, String[] completion) {
+        String answer = "";
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for(String temp1 : participant){
+            map.put(temp1, map.getOrDefault(temp1, 0) + 1);
+        }
+        for(String temp2 : completion){
+            map.put(temp2, map.get(temp2) - 1);
+        }
+
+        for(String key : map.keySet()){
+            if(map.get(key) > 0){
+                answer = key;
+            }
+        }
+        return answer;
+    }
+}
+```
+
+### 풀이 리뷰
+
+solution 메서드는 participant 배열과 completion 배열을 입력으로 받습니다.
+
+answer 변수를 초기화하고, 누락된 참가자의 이름을 저장할 것입니다.
+
+HashMap<String, Integer> 객체 map을 생성합니다. 여기서 String은 참가자의 이름이고, Integer는 해당 이름의 출현 횟수를 나타냅니다.
+
+첫 번째 for 루프에서는 participant 배열의 각 요소를 순회하면서 map에 이름을 키로 사용하고, 해당 이름의 출현 횟수를 값으로 저장합니다. 이미 해당 이름이 map에 존재한다면 출현 횟수를 증가시킵니다.
+
+두 번째 for 루프에서는 completion 배열의 각 요소를 순회하면서 map에 해당 이름이 존재한다면 출현 횟수를 감소시킵니다.
+
+세 번째 for 루프에서는 map의 모든 키를 순회하면서 출현 횟수가 0보다 큰 경우, 즉 완주하지 못한 참가자의 이름을 찾습니다. 이 이름을 answer에 저장합니다.
+
+마지막으로 answer를 반환합니다.
+
+즉, 이 코드는 참가자와 완주자의 이름을 비교하여 누락된 참가자를 찾아내는 문제를 해결하는데 사용됩니다.
