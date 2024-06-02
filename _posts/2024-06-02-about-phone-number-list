@@ -39,87 +39,128 @@ date: 2024-06-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "완주하지 못한 선수 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "Phone number list (with.Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-수많은 마라톤 선수들이 마라톤에 참여하였습니다.
+I want to check if one of the phone numbers listed in the phone book is a prefix for another number.
 
-단 한 명의 선수를 제외하고는 모든 선수가 마라톤을 완주하였습니다.
+If the phone number is as follows, the rescue team's phone number is the prefix of Youngseok's phone number.
 
-마라톤에 참여한 선수들의 이름이 담긴 배열 participant와 완주한 선수들의 이름이 담긴 배열 completion이 주어질 때, 완주하지 못한 선수의 이름을 return 하도록 solution 함수를 작성해주세요.
+- Rescue team: 119
+- Park Jun-young: 97 674 223
+- Ji Young-seok: 11 9552 4421
 
-#### 제한사항
+When phone_book, an array containing phone numbers written in the phone book, is given as a parameter to the solution function, write the solution function to return false if one number is a prefix of another number, and true otherwise.
 
-- 마라톤 경기에 참여한 선수의 수는 1명 이상 100,000명 이하입니다.
-- completion의 길이는 participant의 길이보다 1 작습니다.
-- 참가자의 이름은 1개 이상 20개 이하의 알파벳 소문자로 이루어져 있습니다.
-- 참가자 중에는 동명이인이 있을 수 있습니다.
+#### Restrictions
 
-#### 입출력 예시
+- The length of phone_book must be between 1 and 1,000,000.
+- The length of each phone number must be between 1 and 20.
+- The same phone number is not included repeatedly.
+
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| participant                                       | completion                               | return   |
-| ------------------------------------------------- | ---------------------------------------- | -------- |
-| ["leo", "kiki", "eden"]                           | ["eden", "kiki"]                         | "leo"    |
-| ["marina", "josipa", "nikola", "vinko", "filipa"] | ["josipa", "filipa", "marina", "nikola"] | "vinko"  |
-| ["mislav", "stanko", "mislav", "ana"]             | ["stanko", "ana", "mislav"]              | "mislav" |
+| phone_book                        | return |
+| --------------------------------- | ------ |
+| ["119", "97674223", "1195524421"] | false  |
+| ["123", "456","789"]              | true   |
+| ["12", "123","1235","567","88"]   | false  |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 import java.util.*;
 
 class Solution {
-    public String solution(String[] participant, String[] completion) {
-        String answer = "";
-        HashMap<String, Integer> map = new HashMap<>();
+ public boolean solution(String[] phoneBook) {
+ Map<String, Integer> map = new HashMap<>();
 
-        for(String temp1 : participant){
-            map.put(temp1, map.getOrDefault(temp1, 0) + 1);
-        }
-        for(String temp2 : completion){
-            map.put(temp2, map.get(temp2) - 1);
-        }
+ for (int i = 0; i < phoneBook.length; i++){
+ map.put(phoneBook[i], i);
+ }
 
-        for(String key : map.keySet()){
-            if(map.get(key) > 0){
-                answer = key;
-            }
-        }
-        return answer;
-    }
+ for (int i = 0; i < phoneBook.length; i++){
+ for (int j = 0; j < phoneBook[i].length(); j++){
+ if (map.containsKey(phoneBook[i].substring(0, j))){
+ return false;
+ }
+ }
+ }
+
+ return true;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solved review
 
-solution 메서드는 participant 배열과 completion 배열을 입력으로 받습니다.
+The solution method takes as input a string array phoneBook.
 
-answer 변수를 초기화하고, 누락된 참가자의 이름을 저장할 것입니다.
+Creates a Map<String, Integer> object map.
 
-HashMap<String, Integer> 객체 map을 생성합니다. 여기서 String은 참가자의 이름이고, Integer는 해당 이름의 출현 횟수를 나타냅니다.
+This map has each phone number as a key and the index of that phone number as a value.
 
-첫 번째 for 루프에서는 participant 배열의 각 요소를 순회하면서 map에 이름을 키로 사용하고, 해당 이름의 출현 횟수를 값으로 저장합니다. 이미 해당 이름이 map에 존재한다면 출현 횟수를 증가시킵니다.
+The first for loop traverses the phone book and adds each phone number to the map. Use the phone number as the key and the index as the value.
 
-두 번째 for 루프에서는 completion 배열의 각 요소를 순회하면서 map에 해당 이름이 존재한다면 출현 횟수를 감소시킵니다.
+A second for loop generates each phone number's prefix one by one and checks whether it is in the map.
 
-세 번째 for 루프에서는 map의 모든 키를 순회하면서 출현 횟수가 0보다 큰 경우, 즉 완주하지 못한 참가자의 이름을 찾습니다. 이 이름을 answer에 저장합니다.
+Use phoneBook[i].substring(0, j) to create a substring from the beginning to the jth character of the current phone number.
 
-마지막으로 answer를 반환합니다.
+It checks if this substring is in the map and returns false because a duplicate prefix exists.
 
-즉, 이 코드는 참가자와 완주자의 이름을 비교하여 누락된 참가자를 찾아내는 문제를 해결하는데 사용됩니다.
+Returns true if there are no duplicate prefixes for all phone numbers.
+
+Let's solve it as an array as well.
+
+#### My solution to the problem
+
+```java
+import java.util.*;
+
+class Solution {
+ public boolean solution(String[] phoneBook) {
+ boolean answer = true;
+ Arrays.sort(phoneBook);
+
+ for (int i = 0; i < phoneBook.length - 1; i++){
+ if (phoneBook[i + 1].startsWith(phoneBook[i])){
+ answer = false;
+ }
+ }
+
+ return answer;
+ }
+}
+```
+
+##### Solved review
+
+The solution method takes as input a string array phoneBook.
+
+Initialize the answer variable and set its initial value to true.
+
+This variable will change to false if there is a number with a prefix relationship.
+
+Sort the phone book lexicographically using Arrays.sort(phoneBook). By doing this, numbers with a prefix relationship become adjacent.
+
+Compare adjacent phone numbers through a for loop.
+
+Compare phoneBook[i] and phoneBook[i + 1] and change the answer to false if the former is a prefix of the latter, i.e. phoneBook[i + 1] starts with phoneBook[i].
+
+Finally, it returns the answer value.
