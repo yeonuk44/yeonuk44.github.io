@@ -1,0 +1,166 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id_About_Costume
+title: 의상 (with.Java)
+# title: Costume (with.Java)
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test, hash]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2024-06-03 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## "전화번호 목록 (with.Java)" 문제에 대하여 알아본 글입니다.
+
+코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+
+문제에 대해 먼저 알아보겠습니다.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### 문제
+
+전화번호부에 적힌 전화번호 중, 한 번호가 다른 번호의 접두어인 경우가 있는지 확인하려 합니다.
+
+전화번호가 다음과 같을 경우, 구조대 전화번호는 영석이의 전화번호의 접두사입니다.
+
+- 구조대 : 119
+- 박준영 : 97 674 223
+- 지영석 : 11 9552 4421
+
+전화번호부에 적힌 전화번호를 담은 배열 phone_book 이 solution 함수의 매개변수로 주어질 때, 어떤 번호가 다른 번호의 접두어인 경우가 있으면 false를 그렇지 않으면 true를 return 하도록 solution 함수를 작성해주세요.
+
+#### 제한사항
+
+- phone_book의 길이는 1 이상 1,000,000 이하입니다.
+- 각 전화번호의 길이는 1 이상 20 이하입니다.
+- 같은 전화번호가 중복해서 들어있지 않습니다.
+
+#### 입출력 예시
+
+<!--
+| lines                     | result |
+| ------------------------- | ------ |
+| [[0, 1], [2, 5], [3, 9]]  | 2      |
+| [[-1, 1], [1, 3], [3, 9]] | 0      |
+| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+
+| phone_book                        | return |
+| --------------------------------- | ------ |
+| ["119", "97674223", "1195524421"] | false  |
+| ["123", "456","789"]              | true   |
+| ["12", "123","1235","567","88"]   | false  |
+
+### 문제에 대한 나의 풀이
+
+```java
+import java.util.*;
+
+class Solution {
+    public boolean solution(String[] phoneBook) {
+        Map<String, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < phoneBook.length; i++){
+            map.put(phoneBook[i], i);
+        }
+
+        for (int i = 0; i < phoneBook.length; i++){
+            for (int j = 0; j < phoneBook[i].length(); j++){
+                if (map.containsKey(phoneBook[i].substring(0, j))){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+### 풀이 리뷰
+
+solution 메서드는 문자열 배열 phoneBook을 입력으로 받습니다.
+
+Map<String, Integer> 객체 map을 생성합니다.
+
+이 map은 각 전화번호를 키로 가지고, 해당 전화번호의 인덱스를 값으로 가집니다.
+
+첫 번째 for 루프를 통해 전화번호부를 순회하면서 각 전화번호를 map에 추가합니다. 전화번호를 키로 하고, 인덱스를 값으로 합니다.
+
+두 번째 for 루프를 통해 각 전화번호의 접두사를 하나씩 생성하여 map에 있는지 확인합니다.
+
+phoneBook[i].substring(0, j)를 사용하여 현재 전화번호의 처음부터 j번째 문자까지의 부분 문자열을 생성합니다.
+
+이 부분 문자열이 map에 있는지 확인하여 있다면 중복된 접두사가 존재하므로 false를 반환합니다.
+
+모든 전화번호에 대해 접두사 중복이 없다면 true를 반환합니다.
+
+배열로도 풀어보겠습니다.
+
+#### 문제에 대한 나의 풀이
+
+```java
+import java.util.*;
+
+class Solution {
+    public boolean solution(String[] phoneBook) {
+        boolean answer = true;
+        Arrays.sort(phoneBook);
+
+        for (int i = 0; i < phoneBook.length - 1; i++){
+            if (phoneBook[i + 1].startsWith(phoneBook[i])){
+                answer = false;
+            }
+        }
+
+        return answer;
+    }
+}
+```
+
+##### 풀이 리뷰
+
+solution 메서드는 문자열 배열 phoneBook을 입력으로 받습니다.
+
+answer 변수를 초기화하고, 초기값을 true로 설정합니다.
+
+이 변수는 접두어 관계가 있는 번호가 있을 경우 false로 변경됩니다.
+
+Arrays.sort(phoneBook)을 사용하여 전화번호부를 사전식으로 정렬합니다. 이렇게 함으로써, 접두어 관계가 있는 번호들이 인접하게 됩니다.
+
+for 루프를 통해 인접한 전화번호들을 비교합니다.
+
+phoneBook[i]와 phoneBook[i + 1]을 비교하여 만약 전자가 후자의 접두어라면, 즉 phoneBook[i + 1]이 phoneBook[i]로 시작한다면, answer를 false로 변경합니다.
+
+마지막으로 answer 값을 반환합니다.
