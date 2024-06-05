@@ -39,116 +39,131 @@ date: 2024-06-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "베스트앨범 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This article looks into the problem of “I don’t like numbers that are the same (with.Java)”.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-스트리밍 사이트에서 장르 별로 가장 많이 재생된 노래를 두 개씩 모아 베스트 앨범을 출시하려 합니다.
+You are given an array arr.
 
-노래는 고유 번호로 구분하며, 노래를 수록하는 기준은 다음과 같습니다.
+Each element of the array arr consists of the numbers 0 to 9.
 
-- 속한 노래가 많이 재생된 장르를 먼저 수록합니다.
-- 장르 내에서 많이 재생된 노래를 먼저 수록합니다.
-- 장르 내에서 재생 횟수가 같은 노래 중에서는 고유 번호가 낮은 노래를 먼저 수록합니다.
-- 노래의 장르를 나타내는 문자열 배열 genres와 노래별 재생 횟수를 나타내는 정수 배열 plays가 주어질 때, 베스트 앨범에 들어갈 노래의 고유 번호를 순서대로 return 하도록 solution 함수를 완성하세요.
+At this time, we want to remove all but one number that appears consecutively in the array arr.
 
-#### 제한사항
+However, when returning the remaining numbers after removal, the order of the elements of the array arr must be maintained.
 
-- genres[i]는 고유번호가 i인 노래의 장르입니다.
-- plays[i]는 고유번호가 i인 노래가 재생된 횟수입니다.
-- genres와 plays의 길이는 같으며, 이는 1 이상 10,000 이하입니다.
-- 장르 종류는 100개 미만입니다.
-- 장르에 속한 곡이 하나라면, 하나의 곡만 선택합니다.
-- 모든 장르는 재생된 횟수가 다릅니다.
+For example
 
-#### 입출력 예시
+- If arr = [1, 1, 3, 3, 0, 1, 1], it returns [1, 3, 0, 1].
+- If arr = [4, 4, 4, 3, 3], it returns [4, 3].
+- Complete the solution function that removes consecutive numbers from the array arr and returns the remaining numbers.
+
+#### Restrictions
+
+- Size of array arr: natural number less than 1,000,000
+- Size of element of array arr: integer greater than or equal to 0 and less than or equal to 9
+
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| genres                                          | plays                      | return       |
-| ----------------------------------------------- | -------------------------- | ------------ |
-| ["classic", "pop", "classic", "classic", "pop"] | [500, 600, 150, 800, 2500] | [4, 1, 3, 0] |
+| arr             | answer    |
+| --------------- | --------- |
+| [1,1,3,3,0,1,1] | [1,3,0,1] |
+| [4,4,4,3,3]     | [4,3]     |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 import java.util.*;
 
-class Solution {
-    public int[] solution(String[] genres, int[] plays) {
-        HashMap<String, Integer> map = new HashMap<>();
-        for(int i = 0; i < genres.length; i++){
-            map.put(genres[i], map.getOrDefault(genres[i], 0) + plays[i]);
-        }
+public class Solution {
+ public int[] solution(int []arr) {
+ Stack<Integer> stack = new Stack<Integer>();
+ stack.push(arr[0]);
+ for(int i = 1; i < arr.length; i++){
+ if(stack.peek() != arr[i]){
+ stack.push(arr[i]);
+ }
+ }
 
-        ArrayList<String> arrStringList = new ArrayList<>();
-        for(String key : map.keySet()){
-            arrStringList.add(key);
-        }
-        Collections.sort(arrStringList, (key_1, key_2) -> map.get(key_2) - map.get(key_1));
+ int[] answer = new int[stack.size()];
+ for(int i = stack.size() - 1; i >= 0; i--){
+ answer[i] = stack.pop();
+ }
 
-        ArrayList<Integer> arrIntegerList = new ArrayList<>();
-        for(int i = 0; i < arrStringList.size(); i++){
-            String str = arrStringList.get(i);
-            int max = 0;
-            int idx_0 = -1;
-            for(int j = 0; j < genres.length; j++){
-                if(str.equals(genres[j]) && max < plays[j]){
-                    max = plays[j];
-                    idx_0 = j;
-                }
-            }
-
-            max = 0;
-            int idx_1 = -1;
-            for(int j = 0; j < genres.length; j++){
-                if(str.equals(genres[j]) && max < plays[j] && idx_0 != j){
-                    max = plays[j];
-                    idx_1 = j;
-                }
-            }
-
-            arrIntegerList.add(idx_0);
-            if(idx_1 > -1){
-                arrIntegerList.add(idx_1);
-            }
-        }
-
-        int[] answer = new int[arrIntegerList.size()];
-        for(int i = 0; i < arrIntegerList.size(); i++){
-            answer[i] = arrIntegerList.get(i);
-        }
-        return answer;
-    }
+ return answer;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solved review
 
-solution 메서드는 두 개의 배열 genres와 plays를 입력으로 받습니다.
+The solution method takes an integer array arr as input.
 
-첫 번째 for 루프에서는 각 장르별로 총 재생 횟수를 계산하기 위해 HashMap<String, Integer> 객체 map을 사용합니다. 여기서 key는 장르를, value는 해당 장르의 총 재생 횟수를 나타냅니다.
+Creates a stack of Stack<Integer> objects to remove duplicate values ​​and maintain order.
 
-두 번째 for 루프에서는 map에 저장된 장르를 재생 횟수에 따라 내림차순으로 정렬하기 위해 ArrayList<String>에 장르를 추가합니다.
+Adds the first element of the given array to the stack.
 
-내림차순 정렬은 Collections.sort()를 사용하고, 람다식을 활용하여 정렬 기준을 설정합니다.
+This is because during the process of removing duplicate values, the first element is treated as a non-duplicate value.
 
-세 번째 for 루프에서는 각 장르별로 가장 많이 재생된 노래와 그 다음으로 많이 재생된 노래의 인덱스를 찾습니다. 이를 위해 각 장르에 대해 가장 많이 재생된 노래와 그 다음으로 많이 재생된 노래의 인덱스를 찾습니다.
+The second for loop iterates through the array, adding to the stack only if the top element of the stack is different from its current value. This will help you remove duplicate values.
 
-각 장르별로 가장 많이 재생된 노래의 인덱스를 ArrayList<Integer>에 추가하고, 그 다음으로 많이 재생된 노래의 인덱스도 추가합니다.
+After duplicate values ​​are removed, when inserting the values ​​stored in the stack into an array, the pop() method is used to retrieve and store the values ​​in reverse order.
 
-마지막으로 ArrayList<Integer>를 배열로 변환하여 결과를 반환합니다.
-이 코드는 각 장르별로 가장 많이 재생된 노래와 그 다음으로 많이 재생된 노래의 인덱스를 찾아 반환하는 문제를 해결합니다.
+Finally, it returns the array stored in reverse order.
+
+This code removes duplicate values ​​and uses a stack to maintain order, leaving only one duplicate value and removing the rest.
+
+Let's solve it as an array as well.
+
+#### My solution to the problem
+
+```java
+import java.util.*;
+
+public class Solution {
+ public int[] solution(int []arr) {
+ ArrayList<Integer> list = new ArrayList<>();
+ list.add(arr[0]);
+ for(int i = 1; i < arr.length; i++){
+ if(arr[i - 1] != arr[i]){
+ list.add(arr[i]);
+ }
+ }
+
+ int[] answer = new int[list.size()];
+ for(int i = 0; i < answer.length; i++){
+ answer[i] = list.get(i);
+ }
+
+ return answer;
+ }
+}
+```
+
+##### Solved review
+
+The solution method takes an integer array arr as input.
+
+Create an ArrayList<Integer> object list to store the results of removing duplicate values.
+
+Adds the first element of the given array to list. This is because during the process of removing duplicate values, the first element is treated as a non-duplicate value.
+
+The second for loop iterates through the array, adding to the list only if the previous and current values ​​are different. This will help you remove duplicate values.
+
+Finally, the values ​​stored in the list are converted to an array and returned.
+
+This code uses a simple method to remove duplicate values, using an ArrayList to leave only one duplicate value and remove the rest.
