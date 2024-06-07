@@ -39,187 +39,162 @@ date: 2024-06-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "기능개발 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This article looks into the "Spicier (with.Java)" issue.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to learn more.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-프로그래머스 팀에서는 기능 개선 작업을 수행 중입니다.
+Leo, who likes spicy food, wants all his food to have a Scoville rating of K or higher.
 
-각 기능은 진도가 100%일 때 서비스에 반영할 수 있습니다.
+To make all foods have a Scoville rating of K or higher, Leo creates a new food by mixing the two foods with the lowest Scoville ratings in a special way as shown below.
 
-또, 각 기능의 개발속도는 모두 다르기 때문에 뒤에 있는 기능이 앞에 있는 기능보다 먼저 개발될 수 있고, 이때 뒤에 있는 기능은 앞에 있는 기능이 배포될 때 함께 배포됩니다.
+`Scoville number of mixed foods = Scoville number of least spicy food + (Scoville number of second least spicy food * 2)`
 
-먼저 배포되어야 하는 순서대로 작업의 진도가 적힌 정수 배열 progresses와 각 작업의 개발 속도가 적힌 정수 배열 speeds가 주어질 때 각 배포마다 몇 개의 기능이 배포되는지를 return 하도록 solution 함수를 완성하세요.
+Leo mixes repeatedly until all the foods have a Scoville rating of K or higher.
 
-#### 제한사항
+Given the array scoville containing the Scoville index of the food Leo has and the desired Scoville index K, write a solution function to return the minimum number of times that must be mixed to make the Scoville index of all foods greater than K.
 
-- 작업의 개수(progresses, speeds배열의 길이)는 100개 이하입니다.
-- 작업 진도는 100 미만의 자연수입니다.
-- 작업 속도는 100 이하의 자연수입니다.
-- 배포는 하루에 한 번만 할 수 있으며, 하루의 끝에 이루어진다고 가정합니다. 예를 들어 진도율이 95%인 작업의 개발 속도가 하루에 4%라면 배포는 2일 뒤에 이루어집니다.
+#### Restrictions
 
-#### 입출력 예시
+- The length of the scoville is not less than 2 but not more than 1,000,000.
+- K is between 0 and 1,000,000,000.
+- The scoville elements are between 0 and 1,000,000.
+- If the Scoville index of all foods cannot be made above K, -1 is returned.
+
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| progresses               | speeds             | return    |
-| ------------------------ | ------------------ | --------- |
-| [93, 30, 55]             | [1, 30, 5]         | [2, 1]    |
-| [95, 90, 99, 99, 80, 99] | [1, 1, 1, 1, 1, 1] | [1, 3, 2] |
+| scoville             | K   | return |
+| -------------------- | --- | ------ |
+| [1, 2, 3, 9, 10, 12] | 7   | 2      |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 class Solution {
-    public int[] solution(int[] progresses, int[] speeds) {
-        Queue<Integer> que = new LinkedList<>();
+ public int solution(int[] scoville, int K) {
+ PriorityQueue<Integer> que = new PriorityQueue<>();
+ for(int i : scoville){
+ que.add(i);
+ }
 
-        for(int i = 0; i < progresses.length; i++){
-            int temp = 100 - progresses[i];
-            if(temp % speeds[i] == 0){
-                que.add(temp / speeds[i]);
-            }else{
-                que.add(temp / speeds[i] + 1);
-            }
-        }
+ int answer = 0;
+ while(que.peek() < K){
+ que.add(que.poll() + (que.poll() * 2));
+ answer++;
+ if(que.size() == 1 && que.peek() < K){
+ return -1;
+ }
+ }
 
-        int compare = que.poll();
-        int count = 1;
-        ArrayList<Integer> list = new ArrayList<>();
-        while(!que.isEmpty()){
-            if(compare >= que.peek()){
-                count++;
-                que.remove();
-
-            }else{
-                list.add(count);
-                count = 1;
-                compare = que.poll();
-            }
-        }
-        list.add(count);
-
-        int[] answer = new int[list.size()];
-        for(int i = 0; i < list.size(); i++){
-            answer[i] = list.get(i);
-        }
-
-        return answer;
-    }
+ return answer;
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solved review
 
-solution 메서드는 두 개의 배열 progresses와 speeds를 입력으로 받습니다.
+The solution method takes as input two arrays progresses and speeds.
 
-작업의 진행 상황과 속도를 이용하여 각 작업이 완료되는 데 필요한 일 수를 계산합니다.
+It uses the progress and speed of tasks to calculate the number of days each task will need to be completed.
 
-Queue<Integer> 객체 que를 생성하여 각 작업의 완료까지 걸리는 일 수를 저장합니다.
+Creates a Queue<Integer> object que to store the number of days it will take for each task to complete.
 
-첫 번째 for 루프를 통해 각 작업에 대해 필요한 일 수를 계산하고, 이를 que에 저장합니다. 만약 속도에 따라 작업 완료까지 걸리는 일 수가 소수점으로 나누어 떨어지지 않으면 올림하여 계산합니다.
+The first for loop calculates the number of days needed for each task and stores it in que. If the number of days it takes to complete a task depending on the speed is not divisible by a decimal point, it is rounded up.
 
-compare 변수에 첫 번째 작업의 필요한 일 수를 저장하고, count 변수를 초기화합니다.
+Store the required number of days for the first task in the compare variable and initialize the count variable.
 
-두 번째 while 루프를 통해 que가 빌 때까지 반복하며 각 작업의 완료까지 걸리는 일 수를 비교하여 처리합니다.
+Through the second while loop, it repeats until que is empty and compares the number of days it takes to complete each task.
 
-compare와 현재 작업의 필요한 일 수를 비교하여 작거나 같으면 작업을 완료했으므로 count를 증가시키고 que에서 작업을 제거합니다.
+Compare compare with the number of days required for the current task and if it is less than or equal we have completed the task so we increment the count and remove the task from the que.
 
-그렇지 않으면 새로운 작업이 시작되었으므로 list에 현재까지 완료된 작업의 수를 추가하고 count를 초기화합니다. 또한 compare를 업데이트합니다.
+Otherwise, since a new task has been started, we add the number of tasks completed so far to the list and initialize count. It also updates compare.
 
-마지막으로 list에 저장된 값을 배열로 변환하여 반환합니다.
+Finally, the values ​​stored in the list are converted to an array and returned.
 
-이 코드는 각 작업이 완료되는 데 필요한 일 수를 계산하고, 각 날짜별로 완료되는 기능의 수를 계산하여 반환하는 문제를 해결합니다.
+This code solves the problem of calculating the number of days required for each task to complete, and calculating and returning the number of features completed for each day.
 
-배열로도 풀어보겠습니다.
+Let's solve it as an array as well.
 
-#### 문제에 대한 나의 풀이
+#### My solution to the problem
 
 ```java
 import java.util.ArrayList;
 
 class Solution {
-    public int[] solution(int[] progresses, int[] speeds) {
+ public int[] solution(int[] progresses, int[] speeds) {
 
-        ArrayList<Integer> list = new ArrayList<>();
-        int day = 0;
-        int count = 1;
-        int idx = 0;
-        for(int i = 0; i < progresses.length; i++){
-            if(day * speeds[i] + progresses[i] >= 100){
-                count++;
-            }else if(i != 0){
-                list.add(count);
-                count = 1;
-            }
-            int temp = 100 - progresses[i];
-            if(temp % speeds[i] == 0){
-                int temp2 = temp / speeds[i];
-                if(day < temp2){
-                    day = temp2;
-                }
-            }else{
-                int temp2 = temp / speeds[i] + 1;
-                if(day < temp2){
-                    day = temp2;
-                }
-            }
-        }
-        if(day * speeds[progresses.length - 1] + progresses[progresses.length - 1] >= 100){
-            list.add(count);
-        }
+ ArrayList<Integer> list = new ArrayList<>();
+ int day = 0;
+ int count = 1;
+ int idx = 0;
+ for(int i = 0; i < progresses.length; i++){
+ if(day * speeds[i] + progresses[i] >= 100){
+ count++;
+ }else if(i != 0){
+ list.add(count);
+ count = 1;
+ }
+ int temp = 100 - progresses[i];
+ if(temp % speeds[i] == 0){
+ int temp2 = temp / speeds[i];
+ if(day < temp2){
+ day = temp2;
+ }
+ }else{
+ int temp2 = temp / speeds[i] + 1;
+ if(day < temp2){
+ day = temp2;
+ }
+ }
+ }
+ if(day * speeds[progresses.length - 1] + progresses[progresses.length - 1] >= 100){
+ list.add(count);
+ }
 
 
 
-        int[] answer = new int[list.size()];
-        for(int i = 0; i < list.size(); i++){
-            answer[i] = list.get(i);
-        }
+ int[] answer = new int[list.size()];
+ for(int i = 0; i < list.size(); i++){
+ answer[i] = list.get(i);
+ }
 
-        return answer;
-    }
+ return answer;
+ }
 }
 ```
 
-##### 풀이 리뷰
+##### Solved review
 
-solution 메서드는 두 개의 배열 progresses와 speeds를 입력으로 받습니다.
+The solution method takes as input the integer array scoville and the integer K.
 
-작업의 진행 상황과 속도를 이용하여 각 작업이 완료되는 데 필요한 일 수를 계산하고, 이를 기준으로 각 날짜별로 완료되는 기능의 수를 계산합니다.
+Creates a priority queue PriorityQueue<Integer>.
 
-먼저 ArrayList<Integer> 객체 list를 생성합니다. 이 리스트에는 각 날짜별 완료되는 기능의 수가 저장됩니다.
+Inserts each element of the scoville array into the priority queue.
 
-day, count, idx 변수를 초기화합니다. day는 이전까지의 최대 완료 일 수를 저장하는 변수이고, count는 현재까지 진행된 기능의 수를 나타내는 변수입니다.
+Initialize the answer variable and repeat until the Scoville index is greater than or equal to K.
 
-for 루프를 통해 각 작업에 대해 처리를 시작합니다.
+Within the loop, if the first element of the current priority queue is less than K, the two smallest values ​​are taken out, shuffled, and then reinserted into the queue. At this time, the shuffled result is calculated as the first value + (second value \* 2).
 
-각 작업이 완료되는 데 필요한 일 수를 계산하고, 이를 통해 count 변수를 업데이트합니다.
+Increase the number of shuffles by 1 in answer.
 
-만약 이전 작업이 완료되었으면 (day \* speeds[i] + progresses[i] >= 100), count를 증가시킵니다.
+If the Scoville index has not exceeded K by the end of the loop, -1 is returned.
 
-그렇지 않으면 (i != 0), count를 리스트에 추가하고 count를 1로 초기화합니다.
+Otherwise it returns answer.
 
-각 작업의 완료까지 걸리는 일 수를 계산하고, 이를 통해 day를 업데이트합니다.
-
-속도에 따른 작업 완료까지 걸리는 일 수를 계산하고, 이전까지의 최대 일 수보다 큰 경우에만 day를 업데이트합니다.
-
-마지막으로 마지막 작업에 대한 처리를 진행합니다. 모든 작업에 대해 반복문이 끝난 후 마지막 작업이 완료되었으면 count를 리스트에 추가합니다.
-
-list에 저장된 값을 배열로 변환하여 반환합니다.
+This code solves the problem of calculating the minimum number of times food must be mixed based on given conditions.
