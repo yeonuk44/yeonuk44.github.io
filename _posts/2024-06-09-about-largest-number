@@ -39,84 +39,82 @@ date: 2024-06-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-## "K번째수 (with.Java)" 문제에 대하여 알아본 글입니다.
+## This is an article about the "largest number (with. Java)" problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+As I solve coding test problems, I look back on the problems I solved and look into different solution methods to get to know myself.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's look at the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### problem
 
-배열 array의 i번째 숫자부터 j번째 숫자까지 자르고 정렬했을 때, k번째에 있는 수를 구하려 합니다.
+Given 0 or a positive integer, find the largest number that can be created by concatenating the integers.
 
-예를 들어 array가 [1, 5, 2, 6, 3, 7, 4], i = 2, j = 5, k = 3이라면
+For example, given the integers [6, 10, 2], we can create [6102, 6210, 1062, 1026, 2610, 2106], of which the largest number is 6210.
 
-array의 2번째부터 5번째까지 자르면 [5, 2, 6, 3]입니다.
+When an array numbers containing 0 or positive integers is given as a parameter, write a solution function to convert the largest number that can be created by rearranging the order into a string and return it.
 
-1에서 나온 배열을 정렬하면 [2, 3, 5, 6]입니다.
+#### Restrictions
 
-2에서 나온 배열의 3번째 숫자는 5입니다.
+- The length of numbers must be between 1 and 100,000.
+- The elements of numbers are between 0 and 1,000.
+- The correct answer may be too large, so convert it to a string and return it.
 
-배열 array, [i, j, k]를 원소로 가진 2차원 배열 commands가 매개변수로 주어질 때, commands의 모든 원소에 대해 앞서 설명한 연산을 적용했을 때 나온 결과를 배열에 담아 return 하도록 solution 함수를 작성해주세요.
-
-#### 제한사항
-
-- array의 길이는 1 이상 100 이하입니다.
-- array의 각 원소는 1 이상 100 이하입니다.
-- commands의 길이는 1 이상 50 이하입니다.
-- commands의 각 원소는 길이가 3입니다.
-
-#### 입출력 예시
+#### Input/Output Example
 
 <!--
-| lines                     | result |
+| lines | result |
 | ------------------------- | ------ |
-| [[0, 1], [2, 5], [3, 9]]  | 2      |
-| [[-1, 1], [1, 3], [3, 9]] | 0      |
-| [[0, 5], [3, 9], [1, 10]] | 8      | -->
+| [[0, 1], [2, 5], [3, 9]] | 2 |
+| [[-1, 1], [1, 3], [3, 9]] | 0 |
+| [[0, 5], [3, 9], [1, 10]] | 8 | -->
 
-| array                 | commands                          | return    |
-| --------------------- | --------------------------------- | --------- |
-| [1, 5, 2, 6, 3, 7, 4] | [[2, 5, 3], [4, 4, 1], [1, 7, 3]] | [5, 6, 3] |
+| numbers           | return    |
+| ----------------- | --------- |
+| [6, 10, 2]        | "6210"    |
+| [3, 30, 34, 5, 9] | "9534330" |
 
-### 문제에 대한 나의 풀이
+### My solution to the problem
 
 ```java
 import java.util.Arrays;
 
 class Solution {
-    public int[] solution(int[] array, int[][] commands) {
-        int[] answer = new int[commands.length];
-        for(int i = 0; i < commands.length; i++){
-            int[] tempArr = Arrays.copyOfRange(array, commands[i][0] - 1, commands[i][1]);
-            Arrays.sort(tempArr);
-            answer[i] = tempArr[commands[i][2] - 1];
-        }
-        return answer;
-    }
+ public String solution(int[] numbers) {
+ String[] answer = new String[numbers.length];
+
+ for(int i = 0; i < numbers.length; i++){
+ answer[i] = String.valueOf(numbers[i]);
+ }
+
+ Arrays.sort(answer, (m1, m2) -> (m2 + m1).compareTo(m1 + m2));
+
+ if(answer[0].equals("0")){
+ return "0";
+ }
+
+ return String.join("", answer);
+ }
 }
 ```
 
-### 풀이 리뷰
+### Solved review
 
-solution 메서드는 정수 배열 array와 2차원 정수 배열 commands를 입력으로 받습니다.
+The solution method takes the integer array numbers as input.
 
-결과를 저장할 정수 배열 answer를 생성합니다. commands 배열의 크기와 동일한 크기로 설정됩니다.
+Create a string array answer to store the results. The size of this array is equal to the length of the numbers array.
 
-commands 배열을 순회하면서 각 명령어에 대해 처리를 진행합니다.
+Use a for loop to convert each element of the numbers array to a string and store it in the answers array.
 
-각 명령어는 배열을 특정 구간으로 자르고, 그 구간을 정렬한 후에 특정 위치의 값을 추출하는 것입니다.
+Sort the answer array using Arrays.sort(). The sorting criteria compares the sizes of numbers created by combining given numbers.
 
-Arrays.copyOfRange() 메서드를 사용하여 주어진 배열에서 해당하는 구간을 복사하여 새로운 배열을 생성합니다.
+The comparison standard is set so that when two strings are combined and compared, the larger value comes first. That is, it compares m2 + m1 and m1 + m2 and sorts them in descending order.
 
-복사한 배열을 Arrays.sort() 메서드를 사용하여 정렬합니다.
+If the first element of the sorted array is "0", it returns "0" because the given number consists of all 0's.
 
-정렬된 배열에서 commands[i][2] - 1 위치에 있는 값을 answer[i]에 저장합니다. 주의할 점은 배열의 인덱스는 0부터 시작하므로 명령어의 위치 값에서 1을 빼줘야 합니다.
+Otherwise, use the String.join() method to join the sorted array and return it.
 
-모든 명령어에 대한 처리가 끝나면 answer 배열을 반환합니다.
-
-이 코드는 각 명령어에 따라 배열을 잘라내고 정렬한 후에 특정 위치의 값을 추출하여 반환하는 문제를 해결합니다.
+This code solves the problem of returning the largest number that can be created by combining a given array of numbers as a string.
