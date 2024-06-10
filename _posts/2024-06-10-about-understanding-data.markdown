@@ -39,68 +39,41 @@ date: 2024-06-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 코드 오류와 스택 가드(Stack Guard)에 대하여 알아본 글입니다.
+## This is an article about understanding data.
 
-안녕하세요!
+hello!
 
-오늘은 코드 오류와 스택 가드(Stack Guard)에 대해 알아보려고 합니다.
-
-글을 본격적으로 시작하기에 앞서,
-
-**---오늘의 TMI---**
-
-오늘 저녁은 '돼지 후라이드' 입니다! 예전부터 탕수육도 아닌 치킨을 만들듯이 돼지를 튀긴 거라 궁금했는데 기회가 돼서 한 번 시켜봤습니다! 너무 궁금하네요! 맛있으면 다음 글에서 한 번 더 언급하겠습니다. ㅎㅎ
-
-**---TMI 끝---**
-
-글로 돌아가겠습니다!
+Today we will learn about understanding data, its definition, types, and the interaction between tacit and explicit knowledge.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 코드 오류
+### Definition of data
 
-코드 오류는 프로그램 실행 중 발생하는 문제로, 버그, 예외 상황, 메모리 오버플로우 등 다양한 형태로 나타날 수 있습니다.
+Data is a factual record or information that represents facts or meaning, expressed in the form of numbers, text, or images.
 
-이러한 코드 오류는 프로그램의 안정성과 보안에 영향을 미칠 수 있습니다.
+Data is information expressed for processing or communication by a computer or other device.
 
-이를 방지하기 위해 스택 가드(Stack Guard)라는 기술이 사용됩니다.
+Data is a record of events, facts, and concepts that occur in the real world and is used as an important resource in information systems.
 
-### 스택 가드(Stack Guard)
+### Type of data
 
-스택 가드는 프로그램의 스택 영역을 보호하기 위해 사용되는 메커니즘입니다.
+- Structured data: Used in tables, spreadsheets, etc. in a structured form and stored in relational databases. Structured data has a fixed format and can be easily analyzed and processed.
+- Semi-structured data: Data that is unstructured but organized according to certain rules and is expressed in formats such as XML and JSON. Semi-structured data contains some structured information and can be used for data analysis.
+- Unstructured data: Data that is unstructured and does not have a certain format, such as text, images, videos, etc. Unstructured data is difficult to analyze and process, but is valuable because it contains a variety of information.
 
-스택은 함수 호출과 관련된 정보를 저장하는 메모리 영역으로, 버퍼 오버플로우와 같은 공격으로부터 보호되어야 합니다.
+### Interaction between tacit and explicit knowledge
 
-스택 가드는 스택의 끝에 특정 값을 저장하고, 함수 호출 시 이 값을 검사하여 스택 오버플로우를 감지하는 역할을 합니다.
+- Tacit knowledge: refers to internalized information such as experience, know-how, and knowledge that exists within an individual or organization. This tacit knowledge is knowledge acquired through experience and is information in an unformalized form.
+- Format: This refers to information in a clear format, such as documents, reports, databases, etc. This explicit knowledge is used as a means of sharing and disseminating tacit knowledge to the outside world.
 
-스택 가드는 다양한 방식으로 구현될 수 있습니다.
+Tacit knowledge and explicit knowledge play a complementary role, and the creation and dissemination of knowledge is achieved by converting tacit knowledge into explicit knowledge and internalizing formal knowledge into tacit knowledge.
 
-가장 일반적인 방법은 스택 가드 페이지를 사용하는 것입니다.
+## Conclusion
 
-스택 가드 페이지는 메모리 페이지의 끝에 위치하며, 스택 오버플로우 시 해당 페이지에 접근하려는 시도가 발생하면 예외가 발생하여 프로그램이 중단됩니다.
+Above, we briefly looked at the definition and types of data, and the interaction between tacit and explicit knowledge.
 
-이를 통해 스택 오버플로우 공격을 탐지하고 대응할 수 있습니다.
+Data is recognized as an important resource in modern society, and it is important to understand and utilize it properly.
 
-스택 가드는 프로그램의 안정성과 보안을 향상시키는 중요한 역할을 합니다.
-
-하지만 스택 가드만으로 모든 코드 오류를 방지할 수는 없습니다.
-
-따라서 개발자는 스택 가드 외에도 코드 검증, 입력 검증, 적절한 예외처리 등 다양한 방법을 사용하여 코드 오류를 예방하고 처리해야 합니다.
-
-또한, 스택 가드는 성능에 약간의 영향을 미칠 수 있습니다.
-
-스택 가드 페이지에 접근하는 추가적인 검사 과정이 필요하기 때문입니다.
-
-하지만 이는 보안과 안정성을 향상시키는 측면에서는 적절한 투자라고 볼 수 있습니다.
-
-## 마치며
-
-이상으로 오늘은 코드 오류와 스택 가드(Stack Guard)에 대해 알아보았습니다.
-
-코드 오류는 프로그램의 안정성과 보안에 영향을 미치므로, 스택 가드와 같은 보호 메커니즘을 활용하여 예방하고 처리하는 것이 중요합니다.
-
-개발자들은 안전한 코드를 작성하고, 보안에 신경써야 한다는 점을 명심해야 합니다.
-
-감사합니다.
+thank you!
