@@ -39,36 +39,42 @@ date: 2024-06-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-## DW와 Data Lake에 대하여 알아본 글입니다.
+## This is an article about big data.
 
-안녕하세요!
+hello!
 
-오늘은 DW와 Data Lake에 대해 알아보겠습니다.
+Today we will learn about Big Data.
 
-물리적으로나 논리적으로 통합된 데이터를 저장하고 관리하는 데이터베이스의 활용은 기업의 의사결정 및 비즈니스 인텔리전스에 매우 중요한 역할을 합니다.
+The emergence of big data has revolutionized our understanding of the value and future of data.
 
-여기서 데이터 웨어하우스(DW)와 데이터 레이크(Data Lake)에 대해 알아보겠습니다.
+To understand this, let's look at the background of the emergence of big data, metaphors related to the 3Vs (variety, velocity, and scale), and the changes that big data brings.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 데이터 레이크 (Data Lake)
+### Background of the emergence of big data
 
-데이터 레이크는 기업 내외부의 모든 종류의 데이터를 저장하는 중앙 저장소로, 정형, 반정형, 비정형 데이터를 모두 수용할 수 있습니다.
+The background of the emergence of big data was the rapid increase in the amount, variety, and speed of data, which led to the limitations of existing data processing technologies.
 
-데이터의 원천 형태를 그대로 보존하여 저장하며, 스키마 없이 데이터를 적재하고, 필요 시에 스키마를 적용하여 분석하거나 활용할 수 있습니다.
+In addition, the spread of the Internet and mobile devices, and the development of the Internet of Things (IoT) have accelerated the increase in big data.
 
-주로 대규모의 다양한 데이터를 저장하고, 빅데이터 분석, 머신러닝, IoT 데이터 수집, 데이터 과학 등에 활용됩니다.
+### Metaphors related to the 3Vs (Variety, Velocity, and Scale)
 
-데이터의 다양성, 유연성, 확장성을 중시하며, 비정형 데이터나 실시간 데이터 분석 등에 적합한 특징을 가지고 있습니다.
+- Diversity: Big data deals with various types of data, including structured, semi-structured, and unstructured data. This can be compared to the coexistence of various creatures in the sea.
+- Velocity: Big data has the characteristic of generating and processing hundreds of thousands of pieces of data per second in real time. This can be likened to big data constantly flowing like a fast-flowing river.
+- Volume: Big data has the characteristic of handling large-scale data ranging from tens of terabytes to tens of petabytes or more. This can be likened to big data containing a vast amount of data, like clouds covering an endless sky.
 
-## 마치며
+### Changes brought about by big data
 
-이상으로 DW와 DL에 대해 간략히 살펴보았습니다.
+By overcoming the limitations of existing data processing technologies and methodologies, creating new business models and innovating existing business models, the value of data has been newly recognized.
 
-데이터 웨어하우스는 정형 데이터를 중심으로 안정적이고 일관된 분석을 지원하는 데 활용되며, 데이터 레이크는 다양한 종류의 데이터를 수용하여 유연한 분석과 활용을 지원하는 데 활용됩니다.
+Big data analysis is used to make real-time predictions, provide personalized services, and make business decisions, and plays an important role in increasing a company's competitiveness and creating new value.
 
-두 가지 데이터 저장소는 기업의 데이터 관리와 활용을 위해 상호 보완적으로 사용되고 있습니다.
+## Conclusion
 
-감사합니다!
+Above, we learned about the background of the emergence of big data, metaphors related to the 3Vs, and the changes that big data brings.
+
+Big data is becoming an important driver of future business and technology, redefining the value and usability of data.
+
+thank you!
