@@ -39,56 +39,60 @@ date: 2024-06-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 미래의 빅데이터 종류에 대하여 알아본 글입니다.
+## This article explores the main analysis techniques of big data.
 
-안녕하세요!
+hello!
 
-오늘은 미래의 빅데이터 종류에 대해 알아보겠습니다.
+Today we will learn about the main analysis techniques of big data.
 
-미래의 빅데이터는 기존에는 경험하지 못했던 다양한 형태와 규모로 발전하고 있습니다.
+Big data analysis is used to extract useful information from data and create value by utilizing various techniques and tools.
 
-여러 산업 분야에서 다양한 종류의 데이터가 수집되고 분석될 것으로 예상됩니다.
+Major big data analysis techniques include:
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 미래의 빅데이터 종류에 대하여
+### About major analysis techniques of big data
 
-#### IoT 데이터
+#### Data Mining
 
-사물인터넷(IoT) 기기로부터 발생하는 데이터는 미래의 빅데이터의 중요한 출처가 될 것으로 예상됩니다.
+Data mining is used to discover patterns or rules in large data sets and build predictive models.
 
-스마트 시티, 스마트 홈, 산업용 센서 등을 통해 발생하는 센서 데이터는 거대한 규모를 갖게 될 것입니다.
+This is used to analyze and predict customer behavior, market trends, business performance, etc.
 
-#### 비디오 및 이미지 데이터
+#### Machine Learning
 
-영상 및 이미지 데이터의 양은 계속해서 증가하고 있습니다.
+Machine learning is used by computer systems to learn from data and recognize patterns to make predictions, classification, clustering, etc.
 
-빅데이터 분석을 통해 영상 내 정보 추출, 객체 인식, 얼굴 인식 등 다양한 분야에 활용될 것으로 예상됩니다.
+This is used to extract meaningful information from data and build predictive models.
 
-#### 소셜 미디어 및 웹 데이터
+#### Natural Language Processing (NLP)
 
-소셜 미디어 상에서 발생하는 텍스트, 이미지, 영상 데이터 또한 빅데이터의 일부로 포함될 것입니다.
+Natural language processing is used to understand and interpret text data.
 
-이러한 데이터는 고객 인사이트, 마케팅 트렌드 등을 분석하는 데 활용될 것으로 예상됩니다.
+This is used to extract information from text data and perform sentiment analysis, topic modeling, and document classification.
 
-이는 잘못된 분석 결과를 가져올 수 있습니다.
+#### Real-time Analytics
 
-#### 생물학적 데이터
+Real-time analytics is used to support decision-making in real-time by analyzing data generated in real-time.
 
-생명과학, 의학 분야에서는 유전체 분석, 단백질 서열 분석, 생체 센서 데이터 등 다양한 생물학적 데이터가 빅데이터의 일부로 발전할 것으로 예상됩니다.
+This is used to extract value from data in an environment that changes in real time.
 
-#### 금융 및 거래 데이터
+#### Visualization
 
-금융 거래, 결제, 거래소 등에서 발생하는 대규모의 금융 데이터는 금융 분야에서 빅데이터의 중요한 요소로 활용될 것으로 예상됩니다.
+Data visualization is used to visually represent data for intuitive understanding and use in decision-making.
 
-#### 환경 및 기후 데이터
+It is used to identify data characteristics and trends through various charts, graphics, dashboards, etc.
 
-기후 변화, 환경 오염, 자연 재해 등에 대한 데이터는 지구 환경 및 지속가능성 분야에서 빅데이터의 중요한 부분을 이룰 것으로 예상됩니다.
+#### Predictive Analytics
 
-## 마치며
+Predictive analytics is used to predict future events or outcomes based on past data.
 
-미래의 빅데이터는 기존의 정형 데이터뿐만 아니라 비정형 데이터와 다양한 소스에서 발생하는 데이터를 포함하고 있으며, 이러한 데이터의 종류가 지속적으로 다양화될 것으로 전망됩니다.
+This is used to predict future trends and support decision-making.
 
-감사합니다!
+## Conclusion
+
+The above various analysis techniques are used to extract meaningful information from big data and create value.
+
+thank you!
