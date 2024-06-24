@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Data_Science_Definition
-title: 데이터 사이언스 정의
-# title: Data Science Definition
+lng_pair: id_About_Capabilities_Of_Data_Scientist
+title: About the capabilities of a data scientist
+# title: About the capabilities of a data scientist
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
@@ -15,7 +15,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2024-06-23 09:00:00 +0900
+date: 2024-06-24 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900

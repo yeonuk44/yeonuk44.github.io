@@ -6,9 +6,9 @@ title: Data Science Definition
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
-category: Data
+category: BigData
 # multiple tag entries are possible
-tags: [data]
+tags: [bigdata]
 # thumbnail image for post
 img: ":post_pic1.jpg"
 # disable comments on this page
