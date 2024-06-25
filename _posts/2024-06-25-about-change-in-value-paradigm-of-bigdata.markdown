@@ -39,58 +39,50 @@ date: 2024-06-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 데이터 사이언티스트의 역량에 대하여 알아본 글입니다.
+## This article explores the change in the value paradigm of big data.
 
-안녕하세요!
+hello!
 
-오늘은 데이터 사이언티스트의 역량에 대해 알아보겠습니다.
+Today, we will learn about the change in the value paradigm of big data.
 
-데이터 사이언티스트는 데이터를 분석하고 해석하여 비즈니스나 조직에 가치를 제공하는 전문가로, 다양한 역량과 기술을 보유해야 합니다.
+In the past, data was primarily seen as a cost and burden.
+
+It was expensive for companies to collect and store data, and there were limits to realizing the value of data.
+
+However, with the advent of big data, the value paradigm of data has changed.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 데이터 사이언티스트의 역량
+### Change in the value paradigm of big data
 
-#### 통계 및 수학적 지식
+#### New perception of data
 
-데이터 사이언스의 기초가 되는 통계학과 수학적 이해가 필요합니다.
+In the past, data was thought to have no deterministic or predictive value.
 
-데이터 분포, 확률 이론, 추론, 회귀 분석 등에 대한 지식이 요구됩니다.
+However, big data enables new insights and predictions and is recognized as an important asset that can have a significant impact on corporate strategy and decision-making.
 
-#### 프로그래밍 언어
+# Innovation in business model
 
-데이터 분석을 위한 프로그래밍 언어인 Python, R 등을 능숙하게 다룰 수 있어야 합니다.
+With the advent of big data, existing business models are undergoing repeated innovation.
 
-SQL과 같은 데이터베이스 쿼리 언어에 대한 이해도 필요합니다.
+Data-driven business models are emerging, and companies are leveraging data to create new value.
 
-#### 기계 학습 및 데이터 마이닝
+#### Customer-centered approach
 
-다양한 기계 학습 및 데이터 마이닝 기술을 이해하고, 분류, 군집화, 예측 모델 등을 구축할 수 있어야 합니다.
+Big data provides companies with the opportunity to better understand and predict their customers.
 
-#### 빅데이터 도구 및 기술
+Customer-centered, data-based strategies are being emphasized and are being used to provide personalized services by identifying customer needs and behavior through data.
 
-빅데이터를 다루기 위한 Hadoop, Spark, NoSQL 등의 도구와 기술에 대한 이해가 필요합니다.
+#### Rapid decision-making and innovation
 
-#### 시각화 및 커뮤니케이션
+Big data provides companies with the opportunity to respond to rapidly changing market environments and make decisions quickly.
 
-데이터를 시각적으로 표현하고 비즈니스 의사결정에 활용하기 위해 시각화 도구 및 커뮤니케이션 능력이 필요합니다.
+Big data analysis is being used to innovate existing ways of thinking and discover new ideas.
 
-#### 도메인 지식
+## Conclusion
 
-분석 대상 도메인에 대한 전문 지식이 있으면 분석 결과를 비즈니스에 적용하는 데 도움이 됩니다.
+As mentioned above, these changes are greatly improving the impact of data on a company's competitiveness and performance, and the value paradigm of big data is changing from considering data as a cost to recognizing data as a valuable asset.
 
-#### 문제 해결 능력
-
-복잡한 데이터 문제를 식별하고 해결할 수 있는 분석적 사고와 문제 해결 능력이 필요합니다.
-
-#### 윤리적 고려
-
-데이터 처리와 분석 과정에서 윤리적인 측면을 고려하고 개인정보 보호에 대한 이해가 필요합니다.
-
-## 마치며
-
-위와 같이 다양한 역량과 기술을 보유한 데이터 사이언티스트는 데이터를 활용하여 가치 있는 통찰력을 얻고, 비즈니스 의사결정에 기여할 수 있습니다.
-
-감사합니다!
+thank you!
