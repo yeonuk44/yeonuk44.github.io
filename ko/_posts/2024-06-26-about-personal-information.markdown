@@ -1,6 +1,6 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_personal_information
+lng_pair: id_About_Personal_Information
 title: 개인정보 비식별화에 대하여
 # title: About de-identification of personal information
 # if not specified, .name will be used from _data/owner/[language].yml
