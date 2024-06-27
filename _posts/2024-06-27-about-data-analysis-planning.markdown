@@ -39,70 +39,52 @@ date: 2024-06-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 데이터 분석 기획에 대하여 알아본 글입니다.
+## This is an article about data analysis planning.
 
-안녕하세요!
+hello!
 
-오늘은 데이터 분석 기획에 대하여 알아보겠습니다.
+Today we will learn about data analysis planning.
 
-개인정보 비식별화는 민감한 개인정보를 보호하기 위해 사용되는 중요한 기술적 접근 방법입니다.
-
-이를 통해 개인정보의 보호와 데이터 활용의 양립을 도모할 수 있습니다.
+Data analysis planning refers to the process of establishing plans and strategies necessary for effective data analysis.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 개인정보 비식별화의 개념
+### Goal setting
 
-개인정보 비식별화란, 개인을 특정할 수 있는 정보를 제거하거나 변형하여 식별이 불가능하도록 만드는 기술적 절차를 의미합니다.
+The first step in data analysis planning is setting goals.
 
-이를 통해 데이터의 유용성을 유지하면서도 개인정보 보호를 실현할 수 있습니다.
+You must be clear about the information and goals you want to obtain through analysis and check whether they are consistent with your business goals.
 
-### 주요 기술적 방법
+### Data collection and processing plan
 
-#### 익명화 (Anonymization)
+You need to collect the necessary data, assess its quality, and develop a plan for processing and preprocessing.
 
-개인을 특정할 수 없도록 식별자를 제거하거나 암호화하여 식별 불가능한 상태로 만드는 방법입니다.
+### Selection of analysis methods and tools
 
-#### 익명처리 (Pseudonymization)
+You need to decide which analysis method to use and which tools to utilize.
 
-개인을 식별하는데 사용되는 직접적인 식별자를 다른 값으로 치환하는 기술적 방법입니다.
+Appropriate methods and tools must be selected by considering statistical analysis, machine learning, visualization, etc.
 
-#### 일방향 암호화 (One-way Hashing)
+### Schedule and resource planning
 
-데이터를 암호화하여 원본 데이터를 복원할 수 없는 상태로 만드는 방법입니다.
+You need to plan and coordinate the schedule and necessary resources (people, equipment, budget, etc.) for your data analytics project.
 
-#### 일반화 (Generalization)
+### Run analysis and build models
 
-데이터의 상세한 부분을 제거하고 범주화하여 일반적인 형태로 변환하는 방법입니다.
+This is the stage where data analysis is performed and the analysis results are evaluated to build and verify the model.
 
-### 필요성과 장점
+### Interpretation and visualization of results
 
-#### 개인정보 보호 강화
+You must develop a plan to interpret the analysis results, visualize them, and communicate them in an easy-to-understand manner.
 
-민감한 개인정보를 보호하여 개인의 권리를 보장하고, 개인정보 유출로 인한 문제를 예방합니다.
+### Interpretation and visualization of results
 
-#### 규정 및 규제 준수
+You must develop a plan to interpret the analysis results, visualize them, and communicate them in an easy-to-understand manner.
 
-GDPR 및 개인정보보호법과 같은 규정 및 규제를 준수하기 위한 필수적인 요소입니다.
+## Conclusion
 
-#### 데이터 활용성 유지
+As shown above, data analysis planning is a task that requires a strategic approach, and it is important to systematically establish a plan to utilize data to achieve business goals.
 
-개인정보 비식별화를 통해 데이터의 유효성과 유용성을 유지하면서도 개인정보 보호를 실현할 수 있습니다.
-
-### 한계와 주의사항
-
-#### 재식별화 가능성
-
-고도의 기술과 전문적인 지식을 보유한 자에 의해 재식별화가 가능할 수 있는 점에 주의해야 합니다.
-
-#### 비식별화 오류
-
-오용된 비식별화 기법은 개인정보 보호를 보장하지 못할 수 있으므로, 적절한 기술과 전략이 필요합니다.
-
-## 마치며
-
-위와 같이 이러한 개인정보 비식별화는 개인정보 보호와 데이터 활용의 균형을 이루는 데 중요한 기술적 접근 방법으로, 적절한 기술과 전략을 통해 실현되어야 합니다.
-
-감사합니다!
+thank you!
