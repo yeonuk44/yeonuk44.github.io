@@ -1,21 +1,21 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_About_Personal_Information
-title: 개인정보 비식별화에 대하여
-# title: About de-identification of personal information
+lng_pair: id_About_Data_Analysis_Planning
+title: About data analysis planning
+# title: About data analysis planning
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
-category: Data
+category: Planning
 # multiple tag entries are possible
-tags: [data]
+tags: [planning]
 # thumbnail image for post
 img: ":post_pic1.jpg"
 # disable comments on this page
 # comments_disable: true
 
 # publish date
-date: 2024-06-26 09:00:00 +0900
+date: 2024-06-27 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -39,11 +39,11 @@ date: 2024-06-26 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 개인정보 비식별화에 대하여 알아본 글입니다.
+## 데이터 분석 기획에 대하여 알아본 글입니다.
 
 안녕하세요!
 
-오늘은 개인정보 비식별화에 대하여 알아보겠습니다.
+오늘은 데이터 분석 기획에 대하여 알아보겠습니다.
 
 개인정보 비식별화는 민감한 개인정보를 보호하기 위해 사용되는 중요한 기술적 접근 방법입니다.
 
