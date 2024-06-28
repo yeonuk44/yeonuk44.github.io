@@ -39,52 +39,48 @@ date: 2024-06-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 데이터 분석 방법론에 대하여 알아본 글입니다.
+## This is an article about data analysis methodology.
 
-안녕하세요!
+hello!
 
-오늘은 데이터 분석 방법론에 대하여 알아보겠습니다.
+Today we will learn about data analysis methodology.
 
-데이터 분석 기획은 효과적인 데이터 분석을 위해 필요한 계획과 전략을 수립하는 과정을 의미합니다.
+Data analysis methodology refers to methods and procedures for systematically carrying out the process of collecting, cleaning, and analyzing data to derive useful insights.
+
+There are a variety of data analysis methodologies, let's take a look at some of the most representative ones.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 목표 설정
+### CRISP-DM (Cross-Industry Standard Process for Data Mining)
 
-데이터 분석 기획의 첫 단계는 목표를 설정하는 것입니다.
+CRISP-DM is a process for data mining and analytics projects that consists of the following steps: business understanding, data understanding, data preparation, modeling, evaluation, and deployment.
 
-분석을 통해 얻고자 하는 정보와 목표를 명확히 하고, 비즈니스 목표와 부합하는지 확인해야 합니다.
+This methodology is widely used in practice and has iterative and complementary characteristics.
 
-### 데이터 수집 및 가공 계획
+### KDD (Knowledge Discovery in Databases)
 
-필요한 데이터를 수집하고, 데이터의 품질을 평가하며, 가공 및 전처리를 위한 계획을 수립해야 합니다.
+KDD is a methodology that describes the process for extracting knowledge from large-scale data, and includes processes such as data selection, preprocessing, transformation, data mining, and interpretation.
 
-### 분석 방법 및 도구 선정
+It was widely used as an early methodology in data mining.
 
-어떤 분석 방법을 사용할지, 어떤 도구를 활용할지를 결정해야 합니다.
+### TDSP (Team Data Science Process)
 
-통계 분석, 머신 러닝, 시각화 등을 고려하여 적합한 방법과 도구를 선택해야 합니다.
+TDSP is a process for data science projects and consists of the following steps: business understanding, data collection, modeling, deployment, and maintenance.
 
-### 일정 및 리소스 계획
+It is a methodology that specifically focuses on helping data science teams collaborate to carry out projects.
 
-데이터 분석 프로젝트의 일정과 필요한 리소스(인력, 장비, 예산 등)를 계획하고 조정해야 합니다.
+### Bayesian Methods
 
-### 분석 실행 및 모델 구축
+Bayesian methodology is a methodology that deals with uncertainty through probabilistic inference and probability modeling, and is used for decision-making by updating prior information with posterior inference.
 
-데이터 분석을 실행하고, 분석 결과를 평가하여 모델을 구축하고 검증하는 단계입니다.
+### Machine Learning Methods
 
-### 결과 해석 및 시각화
+Machine learning methodology is a methodology that learns patterns from data and builds predictive models. There are various methodologies such as supervised learning, unsupervised learning, and reinforcement learning.
 
-분석 결과를 해석하고 이를 시각화하여 이해하기 쉽게 전달하는 계획을 수립해야 합니다.
+## Conclusion
 
-### 결과 해석 및 시각화
+As above, these data analysis methodologies provide guidelines for systematically performing data science and analysis projects, and help extract meaningful information from data and use it for decision-making.
 
-분석 결과를 해석하고 이를 시각화하여 이해하기 쉽게 전달하는 계획을 수립해야 합니다.
-
-## 마치며
-
-위와 같이 데이터 분석 기획은 전략적인 접근이 필요한 작업으로, 비즈니스 목표를 달성하기 위한 데이터 활용 방안을 체계적으로 수립하는 것이 중요합니다.
-
-감사합니다!
+thank you!
