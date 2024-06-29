@@ -39,48 +39,56 @@ date: 2024-06-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 데이터 분석에서 과제 발굴하는 방법에 대하여 대하여 알아본 글입니다.
+## This is an article about how to discover tasks in data analysis.
 
-안녕하세요!
+hello!
 
-오늘은 과제 발굴하는 방법에 대하여 알아보겠습니다.
+Today we will learn about how to discover tasks.
 
-데이터 분석 방법론은 데이터를 수집, 정제, 분석하여 유용한 통찰력을 도출하는 과정을 체계적으로 수행하기 위한 방법과 절차를 의미합니다.
+Identifying challenges for data analysis is a critical step that plays a key role in asking the right questions and setting meaningful analysis goals.
 
-다양한 데이터 분석 방법론이 존재하며, 이 중에서 대표적인 몇 가지를 살펴보겠습니다.
+Below is information on how to uncover challenges in data analysis.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### CRISP-DM (Cross-Industry Standard Process for Data Mining)
+### Understand the Business
 
-CRISP-DM은 데이터 마이닝 및 분석 프로젝트를 위한 프로세스로, 비즈니스 이해, 데이터 이해, 데이터 준비, 모델링, 평가, 배포 등의 단계로 구성됩니다.
+In order to discover data analysis challenges, you first need to understand the relevant business area.
 
-이 방법론은 실무에서 많이 활용되며, 반복적이고 상호 보완적인 특징을 갖고 있습니다.
+You need to gain business goals, challenges, and domain knowledge to understand how data analytics can provide value to your business.
 
-### KDD (Knowledge Discovery in Databases)
+### Problem definition
 
-KDD는 대규모의 데이터로부터 지식을 추출하기 위한 과정을 설명하는 방법론으로, 데이터 선택, 전처리, 변환, 데이터 마이닝, 해석 등의 과정을 포함합니다.
+Based on your business understanding, you must clearly define the problem you want to solve through data analysis.
 
-데이터 마이닝의 초기 방법론으로 널리 사용되었습니다.
+You need to be clear about what question you are trying to answer and what hypothesis you are trying to prove.
 
-### TDSP (Team Data Science Process)
+### Data collection and exploration
 
-TDSP는 데이터 과학 프로젝트를 위한 프로세스로, 비즈니스 이해, 데이터 수집, 모델링, 배포, 유지보수 등의 단계로 구성됩니다.
+You need to determine what data you need for your analysis and evaluate its availability and quality.
 
-특히 데이터 과학 팀이 협업하여 프로젝트를 수행하는 데에 중점을 둔 방법론입니다.
+You also need to explore the data to determine what information you want to extract.
 
-### Bayesian Methods
+### Hypothesis setting
 
-베이지안 방법론은 확률적 추론과 확률 모델링을 통해 불확실성을 다루는 방법론으로, 사전 정보를 사후 추론으로 업데이트하여 의사결정에 활용됩니다.
+After defining the problem, you need to set up a hypothesis about the problem and think about an analysis method to verify it.
 
-### Machine Learning Methods
+You need to think about how you can prove or argue your hypothesis through data.
 
-기계 학습 방법론은 데이터로부터 패턴을 학습하고 예측 모델을 구축하는 방법론으로, 지도학습, 비지도학습, 강화학습 등 다양한 방법론이 있습니다.
+### Verify business value
 
-## 마치며
+Ultimately, you need to consider what business value analytics can create.
 
-위와 같이 이러한 데이터 분석 방법론들은 데이터 과학 및 분석 프로젝트를 체계적으로 수행하기 위한 가이드라인을 제공하며, 데이터로부터 유의미한 정보를 추출하여 의사결정에 활용하는 데 도움을 줍니다.
+We need to determine what decisions can be made through data analysis results and what value can be created through them.
 
-감사합니다!
+### Goal setting
+
+By identifying tasks, you must set goals for analysis and establish a plan to achieve those goals.
+
+## Conclusion
+
+Through these steps as above, you must clearly identify tasks for data analysis and consider analysis methods to solve those tasks.
+
+thank you!
