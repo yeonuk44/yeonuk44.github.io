@@ -39,62 +39,52 @@ date: 2024-07-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 거버넌스 체계 수립에 대하여 알아본 글입니다.
+## This article looks at establishing a governance system.
 
-안녕하세요!
+hello!
 
-오늘은 거버넌스 체계 수립에 대하여 알아보겠습니다.
+Today we will learn about establishing a governance system.
 
-분석 마스터플랜은 기업이나 조직이 데이터 분석을 전략적으로 활용하기 위해 수립하는 계획서를 말합니다.
+Analytics governance refers to a systematic framework for organizations to effectively utilize and manage their data assets.
 
-이는 데이터 분석의 목표, 방향, 전략, 리소스 할당, 프로세스 등을 포괄적으로 담고 있습니다.
-
-아래는 분석 마스터플랜에 대한 내용입니다.
+Below is information on establishing an analysis governance system.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 비즈니스 목표와 데이터 분석의 목표 설정
+### Alignment of business goals and data strategy
 
-분석 마스터플랜의 첫 번째 단계는 비즈니스 목표와 이를 달성하기 위한 데이터 분석의 목표를 설정하는 것입니다.
+Before establishing an analytics governance system, you must clearly define your organization's business goals and strategy to create value through data.
 
-비즈니스 목표와 연계하여 데이터를 통해 어떤 가치를 창출하고자 하는지를 명확히 설정해야 합니다.
+You need to understand the role data analytics plays as a strategic asset to achieve your business goals.
 
-### 데이터 수집 및 가공 전략
+### Clarification of responsibilities and authorities within the organization
 
-어떤 종류의 데이터를 수집하고, 이를 어떻게 가공하여 분석에 활용할 것인지를 명시해야 합니다.
+Responsibilities and authorities for data analysis must be clearly defined, and the roles and responsibilities of each department and individual involved in the data management and analysis process must be specified.
 
-데이터의 수집 원천, 수집 주기, 데이터 품질 관리 전략 등을 포함해야 합니다.
+### Data quality and standardization
 
-### 분석 방법론과 도구 선택
+Analytics governance must establish processes and policies to ensure data quality and maintain consistent data standards.
 
-어떤 분석 방법론과 도구를 활용하여 목표를 달성할 것인지를 명시해야 합니다.
+Measures must be put in place to maintain the accuracy, consistency, completeness, and reliability of data.
 
-통계 분석, 머신 러닝, 비즈니스 인텔리전스 등의 방법론과 분석 도구를 선택하고 이를 활용하는 방안을 제시해야 합니다.
+### Legal regulations and compliance
 
-### 인력 및 리소스 관리
+Measures must be put in place to comply with legal responsibilities and regulations regarding data collection, storage, processing, and sharing.
 
-분석 마스터플랜에서는 필요한 인력과 리소스를 어떻게 확보하고 관리할 것인지를 명시해야 합니다.
+In particular, measures must be put in place to comply with laws such as the Personal Information Protection Act.
 
-데이터 분석팀의 구성, 역할 및 책임, 필요한 교육 및 훈련 계획 등을 포함해야 합니다.
+### Decision support and communication
 
-### 프로젝트 및 일정 관리
+Analytics governance must establish processes and tools to support decision-making using data and strengthen data-based communication.
 
-분석 프로젝트를 위한 일정과 관련된 계획, 프로젝트의 단계별 목표, 마일스톤을 설정하여 프로젝트를 효율적으로 관리할 수 있도록 해야 합니다.
+### Continuous monitoring and improvement
 
-### 품질 및 윤리 관리
+Analytical governance requires establishing a system to evaluate the effectiveness of governance and make necessary improvements through continuous monitoring and performance measurement.
 
-데이터의 품질과 분석 결과의 정확성을 보장하고, 데이터 처리 및 분석에 대한 윤리적인 가이드라인을 마련해야 합니다.
+## Conclusion
 
-데이터의 정확성과 일관성을 유지하고, 분석 결과의 타당성을 확인해야 합니다.
+Establishing an analysis governance system is an important element for effectively utilizing and managing an organization's data assets, and serves as a key element for achieving the organization's data strategy and business goals.
 
-### 변경 관리 및 지속적인 개선
-
-분석 마스터플랜은 변화하는 환경과 요구에 대응하기 위한 변경 관리 및 지속적인 프로세스 개선 계획을 포함해야 합니다.
-
-## 마치며
-
-위와 같이 이러한 분석 마스터플랜은 데이터를 전략적 자산으로 인식하고, 이를 효과적으로 활용하여 비즈니스 가치를 창출하기 위한 계획서로, 기업이나 조직이 데이터를 통해 지속적인 성장과 혁신을 이루어 나갈 수 있도록 도와줍니다.
-
-감사합니다!
+thank you!
