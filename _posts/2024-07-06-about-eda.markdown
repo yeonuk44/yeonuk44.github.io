@@ -39,52 +39,52 @@ date: 2024-07-06 09:00:00 +0900
 
 <!-- outline-start -->
 
-## EDA에 대하여 알아본 글입니다.
+## This is an article about EDA.
 
-안녕하세요!
+hello!
 
-오늘은 EDA에 대하여 알아보겠습니다.
+Today we will learn about EDA.
 
-데이터 전처리는 데이터 분석의 첫 단계로, 초기 데이터를 분석에 적합한 형태로 가공하는 과정을 말합니다.
+Exploratory Data Analysis (EDA) is a process for exploring and understanding data, primarily using visualization and statistical tools to identify data characteristics and develop hypotheses.
 
-아래는 데이터 전처리에 대한 내용입니다.
+Below is information about EDA.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 데이터 수집
+### Understand the structure of data
 
-데이터 전처리는 데이터 수집 이후에 이루어지며, 다양한 소스로부터 수집된 데이터를 활용하기 위해 데이터를 준비하는 과정을 포함합니다.
+The first step in EDA is to determine the structure of the data.
 
-### 결측치 처리
+Understand the characteristics of the data by checking the variables, format, distribution, missing values, and outliers of the data.
 
-데이터에는 종종 결측치가 존재하는데, 이러한 결측치를 처리하여 분석에 활용할 수 있도록 해야 합니다.
+### Data exploration through visualization
 
-결측치를 채우거나 삭제하는 등의 방법을 활용합니다.
+Visualizations are very useful in understanding the characteristics of data.
 
-### 이상치 처리
+Use various visualization techniques such as histograms, box plots, scatter plots, and heat maps to visually understand the distribution, correlation, and outliers of data.
 
-이상치는 데이터 분석 결과를 왜곡시킬 수 있으므로, 이를 식별하고 처리하여 데이터의 정확성을 유지해야 합니다.
+### Basic statistical analysis
 
-### 특성 선택 및 추출
+Understand the characteristics of data through basic statistical analysis such as central tendency, variance, correlation, and frequency of data.
 
-분석에 불필요한 특성을 제거하거나, 의미 있는 특성을 추출하는 과정을 포함합니다.
+### Hypothesis formulation
 
-### 텍스트 및 이미지 데이터 처리
+Through EDA, we identify data characteristics and develop hypotheses.
 
-텍스트 데이터의 토큰화, 정제, 벡터화, 이미지 데이터의 사이즈 조정, 특징 추출 등의 작업을 수행해야 합니다.
+This provides directions for further analysis of the data.
 
-### 데이터 통합
+### Identify patterns and trends
 
-여러 소스로부터 수집된 데이터를 통합하고, 중복을 제거하는 작업을 수행해야 합니다.
+Through EDA, patterns, trends, and clustering of data are identified to understand the inherent characteristics of the data and extract meaningful information.
 
-### 시계열 데이터 처리
+### Visualization and interpretation of results
 
-시계열 데이터의 경우, 시간에 따른 패턴을 분석하기 위해 시간대 별로 데이터를 정리하고 시간에 따른 특성을 추출하는 작업이 필요합니다.
+Visualize and interpret EDA results to improve your understanding of the data and derive insights that can be used for further analysis or decision-making.
 
-## 마치며
+## Conclusion
 
-데이터 전처리는 데이터 분석의 성패를 좌우하는 매우 중요한 단계로, 데이터의 품질을 향상시키고 분석에 활용할 수 있는 형태로 가공하는 과정입니다.
+EDA is the initial stage of data analysis and plays an important role in determining the direction of data analysis by performing tasks such as identifying data characteristics and establishing hypotheses.
 
-감사합니다!
+thank you!
