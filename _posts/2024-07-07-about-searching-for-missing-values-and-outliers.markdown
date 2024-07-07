@@ -39,52 +39,52 @@ date: 2024-07-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-## EDA에 대하여 알아본 글입니다.
+## This is an article about searching for missing values ​​and outliers.
 
-안녕하세요!
+hello!
 
-오늘은 EDA에 대하여 알아보겠습니다.
+Today we will learn about searching for missing values ​​and outliers.
 
-탐색적 데이터 분석(Exploratory Data Analysis, EDA)은 데이터를 탐색하고 이해하기 위한 과정으로, 주로 시각화 및 통계적 도구를 사용하여 데이터의 특성을 파악하고 가설을 세우는 과정을 말합니다.
+Missing values ​​and outliers are major issues in data analysis, and detecting and processing them is important to increase the accuracy and reliability of data.
 
-아래는 EDA에 대한 내용입니다.
+Below is information on searching for missing values ​​and outliers.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 데이터의 구조 파악
+## Search for Missing Values
 
-EDA의 첫 단계는 데이터의 구조를 파악하는 것입니다.
+### Search through visualization
 
-데이터의 변수, 형식, 분포, 결측치, 이상치 등을 확인하여 데이터의 특성을 이해합니다.
+Missing values ​​can be visually identified mainly through heat maps, graphs showing the distribution of missing data, and graphs showing patterns of missing data.
 
-### 시각화를 통한 데이터 탐색
+### Check basic statistics
 
-시각화는 데이터의 특성을 파악하는 데 매우 유용합니다.
+Check the percentage of missing values ​​for each variable, and if there are missing values, check basic statistics such as the mean, median, and standard deviation of the variable to determine the impact of the missing values.
 
-히스토그램, 박스 플롯, 산점도, 히트맵 등 다양한 시각화 기법을 활용하여 데이터의 분포, 상관 관계, 이상치 등을 시각적으로 파악합니다.
+### Missing value pattern analysis
 
-### 기초 통계 분석
+Check whether missing values ​​are random or have a pattern, and determine how missing values ​​are related to other variables.
 
-데이터의 중심 경향성, 분산, 상관 관계, 빈도 등의 기초적인 통계 분석을 통해 데이터의 특성을 이해합니다.
+## Search for outliers
 
-### 가설 수립
+### Search through visualization
 
-EDA를 통해 데이터의 특성을 파악하고, 가설을 세웁니다.
+Visually check the distribution of outliers through boxplots, scatter plots, and histograms.
 
-이를 통해 데이터에 대한 추가적인 분석을 수행할 수 있는 방향을 제시합니다.
+### Check basic statistics
 
-### 패턴 및 경향성 파악
+Check the basic statistics of the variable, especially the mean, standard deviation, minimum value, maximum value, etc. to check the possibility of outliers.
 
-EDA를 통해 데이터의 패턴, 경향성, 군집화 등을 파악하여 데이터에 내재된 특성을 이해하고, 의미 있는 정보를 추출합니다.
+### Outlier pattern analysis
 
-### 결과의 시각화 및 해석
+Check outliers by analyzing whether they have a specific pattern or strange behavior in relationships with other variables.
 
-EDA의 결과를 시각화하고 이를 해석하여 데이터에 대한 이해를 높이며, 추가적인 분석이나 의사결정에 활용할 수 있는 통찰을 도출합니다.
+## Conclusion
 
-## 마치며
+Missing values ​​and outliers are elements that compromise the accuracy and reliability of data, and detecting and processing them is important to improve data quality.
 
-EDA는 데이터 분석의 초기 단계로, 데이터의 특성을 파악하고 가설을 세우는 등의 작업을 수행하여, 데이터 분석의 방향을 결정하는 데 중요한 역할을 합니다.
+You can increase the reliability of data by identifying the characteristics of the data and how to process it.
 
-감사합니다!
+thank you!
