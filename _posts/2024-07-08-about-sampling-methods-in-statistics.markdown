@@ -6,9 +6,9 @@ title: About sampling methods in statistics
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
-category: Data
+category: Statistics
 # multiple tag entries are possible
-tags: [data]
+tags: [statistics]
 # thumbnail image for post
 img: ":post_pic1.jpg"
 # disable comments on this page
@@ -39,52 +39,50 @@ date: 2024-07-08 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 결측값과 이상값 검색에 대하여 알아본 글입니다.
+## This is an article about sampling methods in statistics.
 
-안녕하세요!
+hello!
 
-오늘은 결측값과 이상값 검색에 대하여 알아보겠습니다.
+Today we will learn about sampling methods in statistics.
 
-결측값과 이상값은 데이터 분석에서 주로 다루는 문제로, 이를 검색하고 처리하는 것은 데이터의 정확성과 신뢰성을 높이는 데 중요합니다.
+In statistics, sampling refers to the process of extracting a subset of samples from a population.
 
-아래는 결측값과 이상값 검색에 대한 내용입니다.
+This allows you to obtain information about the entire population and infer the characteristics of the population.
+
+Below is a description of the sampling methods commonly used in statistics.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 결측값(Missing Values) 검색
+### Simple Random Sampling
 
-### 시각화를 통한 검색
+This is a method of sampling in such a way that each object has an equal probability of being selected.
 
-결측값은 주로 히트맵, 누락 데이터의 분포를 보여주는 그래프, 누락 데이터의 패턴을 보여주는 그래프 등을 통해 시각적으로 확인할 수 있습니다.
+This ensures that each individual is selected independently and that the selected sample is unbiased.
 
-### 기초 통계량 확인
+### Systematic Sampling
 
-각 변수별로 결측값의 비율을 확인하고, 결측값이 있는 경우 해당 변수의 평균, 중앙값, 표준편차 등의 기초 통계량을 확인하여 결측값의 영향을 파악합니다.
+This is a method of sampling at regular intervals, in which the first sample is selected at random, and then subsequent samples are selected at regular intervals.
 
-### 결측값 패턴 분석
+### Stratified Sampling
 
-결측값이 무작위인지, 패턴을 가지는지 등을 확인하고, 결측값이 다른 변수와 어떤 관련이 있는지 파악합니다.
+This is a method of dividing the population into several strata and then randomly drawing samples from each stratum.
 
-## 이상값(Outliers) 검색
+Samples from each layer are selected to represent the characteristics of that layer.
 
-### 시각화를 통한 검색
+### Cluster Sampling
 
-상자수염 그림(boxplot), 산점도 그래프, 히스토그램 등을 통해 이상값의 분포를 시각적으로 확인합니다.
+This is a method of dividing the population into several clusters, randomly selecting some clusters, and examining all individuals within those clusters.
 
-### 기초 통계량 확인
+### Resampling of measurements
 
-변수의 기초 통계량을 확인하여, 특히 평균, 표준편차, 최솟값, 최댓값 등을 통해 이상값의 가능성을 확인합니다.
+A method of drawing new samples based on samples that have already been drawn, using methods such as Bootstrap and Jackknife.
 
-### 이상값 패턴 분석
+## Conclusion
 
-이상값이 특정한 패턴을 가지는지, 다른 변수와의 관계에서 이상한 행동을 하는지 등을 분석하여 이상값을 확인합니다.
+It is important that the sampling method selects a sample to represent the characteristics of the population.
 
-## 마치며
+Each method requires sampling by selecting an appropriate method depending on the specific situation or research purpose.
 
-결측값과 이상값은 데이터의 정확성과 신뢰성을 해치는 요소로, 이를 검색하고 처리하는 것은 데이터의 품질을 향상시키는 데 중요합니다.
-
-데이터의 특성을 파악하고, 이를 처리하는 방법을 통해 데이터의 신뢰성을 높일 수 있습니다.
-
-감사합니다!
+thank you!
