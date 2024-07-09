@@ -39,50 +39,74 @@ date: 2024-07-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 통계학에서 표본 추출 방법에 대하여 알아본 글입니다.
+## This article explores data scale classification and basic statistics.
 
-안녕하세요!
+hello!
 
-오늘은 통계학에서 표본 추출 방법에 대하여 알아보겠습니다.
+Today we will learn about data scale classification and basic statistics.
 
-통계학에서 표본 추출은 모집단으로부터 일부 표본을 추출하는 과정을 말합니다.
+Measures of data are distinguished by how the data is measured, and basic statistics are used to summarize and describe the characteristics of the data.
 
-이를 통해 전체 모집단에 대한 정보를 파악하고 모집단의 특성을 추론할 수 있습니다.
-
-아래는 통계학에서 주로 사용되는 표본 추출 방법에 대한 설명입니다.
+Below is information on data scale and basic statistics.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 단순 랜덤 표본 추출 (Simple Random Sampling)
+## Classification of scale of data
 
-각 개체가 선택될 확률이 동일한 방법으로 표본을 추출하는 방법입니다.
+### Nominal Scale
 
-이는 각 개체가 독립적으로 선택되고, 선택된 표본이 편향되지 않도록 하는 방법입니다.
+This data is classified into categories and has no meaning in order or size.
 
-### 계통적 표본 추출 (Systematic Sampling)
+Examples include gender, blood type, etc.
 
-일정한 간격으로 표본을 추출하는 방법으로, 첫 번째 표본을 무작위로 선택한 후, 그 다음부터는 일정한 간격으로 표본을 선택합니다.
+### Ordinal Scale
 
-### 층화 표본 추출 (Stratified Sampling)
+Data that has a relative order or ranking between data.
 
-모집단을 여러 층으로 나눈 후, 각 층에서 무작위로 표본을 추출하는 방법입니다.
+Examples include grades, survey responses, etc.
 
-각 층에서 추출된 표본은 해당 층의 특성을 대표할 수 있도록 선택됩니다.
+### Interval Scale
 
-### 군집 표본 추출 (Cluster Sampling)
+Data in which the relative size and spacing between data have meaning, such as temperature and year.
 
-모집단을 여러 군집으로 나눈 후, 일부 군집을 무작위로 선택하여 해당 군집 내에서 모든 개체를 조사하는 방법입니다.
+The 0 point is chosen arbitrarily and has the characteristic that only relative size differences are valid.
 
-### 측정값의 재표본화 (Resampling)
+### Ratio Scale
 
-Bootstrap 및 Jackknife와 같은 방법을 사용하여, 이미 추출된 표본을 기반으로 한 새로운 표본을 추출하는 방법입니다.
+This is data with an absolute zero point, and the ratio, relative size, and interval all have meaning.
 
-## 마치며
+Examples include length, weight, time, etc.
 
-표본 추출 방법은 모집단의 특성을 대변할 수 있도록 표본을 추출하는 것이 중요합니다.
+## Basic statistics
 
-각 방법은 특정한 상황이나 연구 목적에 따라 적합한 방법을 선택하여 표본을 추출해야 합니다.
+### Mean
 
-감사합니다!
+It is the sum of the data divided by the number and indicates the central tendency of the data.
+
+### Median
+
+When data are listed in order of size, it is the value in the center position and indicates the central tendency of the data.
+
+### Mode
+
+The most frequently occurring value, indicating the central tendency of categorical data.
+
+### Standard Deviation
+
+A measure of how spread out the data is from the mean, indicating the variability of the data.
+
+### Range
+
+The difference between the maximum and minimum values ​​roughly represents the distribution of the data.
+
+### Quartiles
+
+When the data is sorted in order of size, it indicates the values ​​corresponding to 25%, 50%, and 75% and is used to understand the distribution of the data.
+
+## Conclusion
+
+Data scale and basic statistics are important concepts for understanding and summarizing data, and are used to identify and analyze data characteristics.
+
+thank you!
