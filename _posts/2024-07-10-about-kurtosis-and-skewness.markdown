@@ -39,74 +39,44 @@ date: 2024-07-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 자료의 척도 구분 및 기초 통계량에 대하여 알아본 글입니다.
+## This is an article about kurtosis and skewness.
 
-안녕하세요!
+hello!
 
-오늘은 자료의 척도 구분 및 기초 통계량에 대하여 알아보겠습니다.
+Today we will learn about kurtosis and skewness.
 
-자료의 척도는 데이터가 측정되는 방식에 따라 구분되며, 기초 통계량은 데이터의 특성을 요약하고 설명하는 데 사용됩니다.
+Kurtosis and skewness are statistical measures used to describe the shape of a probability distribution.
 
-아래는 자료의 척도와 기초 통계량에 대한 내용입니다.
+Below is information about kurtosis and skewness.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 자료의 척도 구분
+## Skewness
 
-### 명목 척도 (Nominal Scale)
+Skewness is an indicator of the skewness of a probability distribution and measures the degree of asymmetry of the distribution.
 
-카테고리로 분류되며, 순서나 크기의 의미가 없는 데이터입니다.
+The closer the skewness is to 0, the closer the distribution is to symmetry. If it is greater than 0, it indicates a left-skewed asymmetric distribution with a long tail to the right. If it is less than 0, it indicates a right-skewed asymmetric distribution with a long tail to the left.
 
-예를 들어 성별, 혈액형 등이 있습니다.
+Skewness shows how the data is distributed around the mean.
 
-### 서열 척도 (Ordinal Scale)
+### Kurtosis
 
-데이터 간에 상대적인 순서 또는 순위가 있는 데이터입니다.
+Kurtosis is an indicator of the sharpness of a probability distribution and measures the sharpness of the tails of the distribution.
 
-예를 들어 학점, 설문조사 응답 등이 있습니다.
+A kurtosis close to 3 is similar to a normal distribution, a value less than 3 (negative kurtosis) indicates a distribution with flatter tails, and a kurtosis greater than 3 (positive kurtosis) indicates a distribution with sharper tails.
 
-### 간격 척도 (Interval Scale)
+Kurtosis refers to the weight of the tails or the loading of the overlap, and shows how extreme values ​​are distributed.
 
-데이터 간의 상대적인 크기와 간격이 의미를 갖는 데이터로, 온도, 연도 등이 있습니다.
+### uses
 
-0점은 임의로 선택된 것이며, 상대적인 크기 차이만 유효하다는 특성이 있습니다.
+Skewness and kurtosis are mainly used to determine whether data follows a normal distribution and whether it is asymmetric or sharp.
 
-### 비율 척도 (Ratio Scale)
+## Conclusion
 
-절대적인 0점이 있는 데이터로, 비율이나 상대적 크기, 간격 등이 모두 의미를 갖는 데이터입니다.
+These statistical measures help you understand the shape and distribution of data to select appropriate statistical analysis methods or better understand the characteristics of the data.
 
-예를 들어 길이, 무게, 시간 등이 있습니다.
+Kurtosis and skewness are used as important indicators to understand the distribution characteristics of data and confirm the assumption of normality.
 
-## 기초 통계량
-
-### 평균 (Mean)
-
-자료의 합을 개수로 나눈 값으로, 자료의 중심 경향성을 나타냅니다.
-
-### 중앙값 (Median)
-
-자료를 크기 순서대로 나열했을 때 가운데 위치에 있는 값으로, 자료의 중심 경향성을 나타냅니다.
-
-### 최빈값 (Mode)
-
-가장 자주 나타나는 값으로, 범주형 자료의 중심 경향성을 나타냅니다.
-
-### 표준편차 (Standard Deviation)
-
-자료가 평균으로부터 얼마나 퍼져있는지를 나타내는 측도로, 자료의 변이성을 나타냅니다.
-
-### 범위 (Range)
-
-최댓값과 최솟값의 차이로, 자료의 분포를 대략적으로 나타냅니다.
-
-### 사분위수 (Quartiles)
-
-데이터를 크기 순서대로 정렬했을 때, 25%, 50%, 75%에 해당하는 값을 나타내어 자료의 분포를 파악하는 데 사용됩니다.
-
-## 마치며
-
-자료의 척도와 기초 통계량은 데이터를 이해하고 요약하는 데 중요한 개념으로, 데이터의 특성을 파악하고 분석하는 데 활용됩니다.
-
-감사합니다!
+thank you!
