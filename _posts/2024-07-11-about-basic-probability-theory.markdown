@@ -39,44 +39,50 @@ date: 2024-07-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 첨도와 왜도에 대하여 알아본 글입니다.
+## This is an article about basic probability theory.
 
-안녕하세요!
+hello!
 
-오늘은 첨도와 왜도에 대하여 알아보겠습니다.
+Today we will learn about basic probability theory.
 
-첨도와 왜도는 확률 분포의 모양을 설명하기 위한 통계적 측도입니다.
+Basic probability theory is a theory that mathematically deals with the probability of occurrence of stochastic events, and is applied in various fields such as statistics, physics, economics, and engineering.
 
-아래는 첨도와 왜도에 대한 내용입니다.
+Below is information on basic probability theory.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 왜도 (Skewness)
+## Definition of probability
 
-왜도는 확률 분포의 비대칭도를 나타내는 지표로, 분포의 비대칭 정도를 측정합니다.
+Probability is a numerical representation of the likelihood of an event occurring and has a value between 0 and 1.
 
-왜도가 0에 가까울수록 분포가 대칭에 가깝고, 0보다 크면 오른쪽으로 꼬리가 길어진 왼쪽으로 치우친 비대칭 분포를 나타내며, 0보다 작으면 왼쪽으로 꼬리가 길어진 오른쪽으로 치우친 비대칭 분포를 나타냅니다.
+0 represents the probability that the event will not occur, and 1 represents the probability that the event will definitely occur.
 
-왜도는 평균 주위의 데이터가 어떻게 분포하는지를 보여줍니다.
+### Calculation of probability
 
-### 첨도 (Kurtosis)
+Probability is calculated as the number of possible outcomes of an event divided by the total number of possible outcomes.
 
-첨도는 확률 분포의 뾰족한 정도를 나타내는 지표로, 분포의 꼬리 부분의 뾰족함을 측정합니다.
+This calculates the probability that an event will occur.
 
-첨도가 3에 가까우면 정규 분포와 비슷하며, 3보다 작으면 (음의 첨도) 꼬리 부분이 보다 평평한 분포를, 3보다 크면 (양의 첨도) 꼬리 부분이 보다 뾰족한 분포를 나타냅니다.
+### Probability distribution
 
-첨도는 꼬리 부분의 무게나 중첩 부분의 적재를 나타내며, 극단값이 어떻게 분포하는지를 보여줍니다.
+Probability distribution is a function that describes the probability of all values ​​that a random variable can have, and is divided into discrete probability distribution and continuous probability distribution.
 
-### 활용
+### Main probability distribution
 
-왜도와 첨도는 주로 데이터가 정규 분포를 따르는지, 비대칭이나 뾰족한 정도를 파악하는 데 활용됩니다.
+Binomial distribution, normal distribution, Poisson distribution, exponential distribution, and uniform distribution are commonly used probability distributions, and their characteristics and methods of use are being studied.
 
-## 마치며
+### Conditional probability
 
-이러한 통계적 측도들을 통해 데이터의 형태와 분포를 파악하여 적절한 통계 분석 방법을 선택하거나 데이터의 특성을 더 잘 이해할 수 있습니다.
+Conditional probability represents the probability of one event occurring when another event occurs, and the probability of event B occurring when event A occurs is expressed as P(B|A).
 
-첨도와 왜도는 데이터의 분포 특성을 파악하고, 정규성 가정을 확인하는 데 중요한 지표로 활용됩니다.
+### Applications of Probability
 
-감사합니다!
+Probability theory is applied to deal with the uncertainty that occurs when stochastic events occur, and uncertainty is predicted and used in decision-making through probability models.
+
+## Conclusion
+
+Basic probability theory is essential for dealing with uncertainty, and is actively researched and applied in a variety of fields.
+
+thank you!
