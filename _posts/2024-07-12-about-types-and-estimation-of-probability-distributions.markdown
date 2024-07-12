@@ -39,50 +39,56 @@ date: 2024-07-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 확률 분포의 종류와 추정에 대하여 알아본 글입니다.
+## This is an article about the types and estimation of probability distributions.
 
-안녕하세요!
+hello!
 
-오늘은 확률 분포의 종류와 추정에 대하여 알아보겠습니다.
+Today we will learn about the types and estimation of probability distributions.
 
-기초 확률 이론은 확률적 사건의 발생 가능성을 수학적으로 다루는 이론으로, 통계학, 물리학, 경제학, 공학 등 다양한 분야에서 응용됩니다.
+A probability distribution is a function that provides information about the values ​​that a random variable can have and the probability that those values ​​will occur.
 
-아래는 기초 확률 이론에 대한 내용입니다.
+We will explain the types of probability distributions and their estimation below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 확률의 정의
+## Types of probability distributions
 
-확률은 어떤 사건이 발생할 가능성을 수치적으로 나타낸 것으로, 0부터 1 사이의 값을 갖습니다.
+### Discrete Probability Distribution
 
-0은 사건이 발생하지 않을 확률을, 1은 사건이 반드시 발생할 확률을 나타냅니다.
+A discrete probability distribution defines the values ​​that a discrete random variable can take and the probability that those values ​​will occur.
 
-### 확률의 계산
+Representative examples include binomial distribution and Poisson distribution.
 
-확률은 사건의 발생 가능한 결과의 수를 전체 가능한 결과의 수로 나눈 것으로 계산됩니다.
+### Continuous Probability Distribution
 
-이를 통해 사건이 발생할 확률을 계산합니다.
+A continuous probability distribution defines the probability that a continuous random variable falls within a certain interval.
 
-### 확률분포
+Representative examples include normal distribution, exponential distribution, and uniform distribution.
 
-확률분포는 확률 변수가 가질 수 있는 모든 값에 대한 확률을 설명하는 함수로, 이산형 확률분포와 연속형 확률분포로 구분됩니다.
+## Estimation of probability distribution
 
-### 주요 확률분포
+Estimation of probability distribution refers to the process of estimating the shape or parameters of a probability distribution based on given data.
 
-이항분포, 정규분포, 포아송분포, 지수분포, 균일분포 등이 흔히 사용되는 확률분포로, 각각의 특성과 활용 방법에 대해 연구되고 있습니다.
+This allows you to estimate a probability distribution based on data without knowing the actual distribution.
 
-### 조건부 확률
+Representative methods include the following:
 
-조건부 확률은 어떤 사건이 다른 사건이 발생했을 때의 확률을 나타내며, 사건 A가 일어났을 때 사건 B가 일어날 확률을 P(B|A)로 표현합니다.
+### Maximum Likelihood Estimation (MLE)
 
-### 확률의 응용
+MLE is a method of finding the parameter with which the given data has the highest probability, and is mainly used to find the parameter that best fits the given data.
 
-확률 이론은 확률적인 사건이 발생하는 불확실성을 다루는 데 응용되며, 확률 모형을 통해 불확실성을 예측하고 의사결정에 활용됩니다.
+### Least Squares Estimation (LSE)
 
-## 마치며
+LSE is a method of estimating parameters by minimizing the sum of squares of residuals (errors) between given data and a model, and is widely used in regression analysis.
 
-기초 확률 이론은 불확실성을 다루는 데 필수적이며, 다양한 분야에서 활발히 연구되고 응용되고 있습니다.
+### Bayesian Estimation
 
-감사합니다!
+Bayesian estimation is a method of estimating parameters by obtaining a prior distribution and a posterior distribution based on data, and is used to deal with uncertainty probabilistically.
+
+## Conclusion
+
+The type and estimation of probability distributions are important factors in analyzing and modeling data and are used to effectively interpret and model data.
+
+thank you!
