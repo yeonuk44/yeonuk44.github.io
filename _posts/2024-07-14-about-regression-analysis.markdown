@@ -39,60 +39,70 @@ date: 2024-07-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 가설 검정에 대하여 알아본 글입니다.
+## This is an article about regression analysis.
 
-안녕하세요!
+hello!
 
-오늘은 가설 검정에 대하여 알아보겠습니다.
+Today we will learn about regression analysis.
 
-가설 검정은 통계적으로 어떤 가설이 옳은지 여부를 결정하는 과정을 말합니다.
+Regression analysis is a statistical method that analyzes the relationship between a dependent variable and one or more independent variables. It is used to identify correlations between data and build predictive models.
 
-일반적으로 가설 검정은 귀무 가설과 대립 가설을 설정하고, 주어진 데이터를 바탕으로 귀무 가설을 기각하거나 채택하는 과정으로 진행됩니다.
-
-아래는 가설 검정과 함께 문제풀이 예시에 대한 내용입니다.
+Below is information on regression analysis.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 가설 검정의 단계
+## Dependent and independent variables
 
-### 가설 설정
+### Dependent Variable
 
-귀무 가설(H0)과 대립 가설(H1)을 설정합니다.
+A variable that is influenced by other variables and is a variable that is intended to be predicted or explained.
 
-귀무 가설은 일반적인 주장을, 대립 가설은 새로운 주장을 나타냅니다.
+### Independent Variable
 
-### 유의수준 설정
+A variable that affects the dependent variable and explains changes in the dependent variable.
 
-가설을 검정할 때 얼마나 강력한 증거가 필요한지를 결정하는 수준을 설정합니다.
+## Types of regression analysis
 
-일반적으로 0.05 또는 0.01 수준이 많이 사용됩니다.
+### Simple Linear Regression
 
-### 통계량 계산
+It is a method of analyzing the relationship between one independent variable and one dependent variable.
 
-주어진 데이터를 바탕으로 적절한 통계량(예: t-검정, Z-검정, 카이제곱 검정 등)을 계산합니다.
+### Multiple Linear Regression
 
-### P-값 계산
+It is a method of analyzing the relationship between two or more independent variables and one dependent variable.
 
-계산된 통계량에 대한 확률 값을 계산하여, 귀무 가설이 참일 때 주어진 데이터에서 관측된 결과나 더 극단적인 결과를 얻을 확률을 의미합니다.
+### Logistic Regression
 
-### 결정
+This method is used for classification problems by analyzing the relationship between a binary dependent variable and an independent variable.
 
-P-값을 유의수준과 비교하여 귀무 가설을 기각하거나 채택합니다.
+## Use of regression analysis
 
-유의수준보다 작은 P-값을 가진다면 귀무 가설을 기각하고, 그렇지 않다면 귀무 가설을 채택합니다.
+### prediction
 
-### 문제풀이 예시
+It is used to predict future values ​​based on past data.
 
-가설 검정의 문제풀이 예시로는 "어떤 약이 복용 전과 후의 효과에 차이가 있는가?"와 같은 문제가 있을 수 있습니다.
+### Causal analysis
 
-이 경우에는 복용 전과 후의 결과를 측정하여 통계적으로 유의한 차이가 있는지를 검정합니다.
+It is used to determine causal relationships between independent and dependent variables.
 
-가령, 복용 전과 후의 평균 효과를 비교하여 두 그룹 간의 차이가 우연에 의한 것인지를 확인하는 것이 가설 검정의 한 예시입니다.
+### Variable importance assessment
 
-이를 통해 약의 효과에 대한 통계적인 근거를 얻을 수 있습니다.
+It is used to evaluate the impact of each independent variable on the dependent variable.
 
-## 마치며
+## Evaluation of regression analysis
 
-가설 검정은 데이터 분석에서 중요한 단계로, 통계적으로 결과를 검증하고 결론을 도출하는 데 활용됩니다.
+### Residual Analysis
+
+Assess the suitability of a model by analyzing the differences between the model's predicted values ​​and actual values.
+
+### Coefficient of determination (R-squared)
+
+It is an indicator of how much the model explains the total variance in the dependent variable.
+
+## Conclusion
+
+Regression analysis is an important data analysis technique and is actively used to understand relationships between variables and build predictive models.
+
+thank you!
