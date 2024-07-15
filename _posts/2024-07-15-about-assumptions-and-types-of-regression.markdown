@@ -39,70 +39,66 @@ date: 2024-07-15 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 회귀분석의 가정과 종류에 대하여 알아본 글입니다.
+## This article discusses the assumptions and types of regression analysis.
 
-안녕하세요!
+hello!
 
-오늘은 회귀분석의 가정과 종류에 대하여 알아보겠습니다.
+Today we will learn about the assumptions and types of regression analysis.
 
-회귀분석은 종속 변수와 하나 이상의 독립 변수 간의 관계를 분석하는 통계적 방법으로, 데이터 간의 상관성을 파악하고 예측 모델을 구축하는 데 사용됩니다.
+Regression analysis is based on a variety of assumptions, and it is important to ensure that these assumptions are met.
 
-아래는 회귀분석에 대한 내용입니다.
+Additionally, regression analysis is divided into several types depending on the relationship between dependent and independent variables.
+
+Below we will explain the assumptions and types of regression analysis.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 종속 변수와 독립 변수
+## Assumptions of regression analysis
 
-### 종속 변수(Dependent Variable)
+### Linearity
 
-다른 변수들에 의해 영향을 받는 변수로, 예측하거나 설명하고자 하는 변수입니다.
+The relationship between dependent and independent variables must be linear.
 
-### 독립 변수(Independent Variable)
+### Independence
 
-종속 변수에 영향을 주는 변수로, 종속 변수의 변화를 설명하는 변수입니다.
+Each observation must be independent of the other.
 
-## 회귀분석의 종류
+### Homoscedasticity
 
-### 단순 선형 회귀분석(Simple Linear Regression)
+The variance of the error term must be constant. This ensures that the predicted values ​​and residuals do not show a consistent pattern across observations.
 
-하나의 독립 변수와 하나의 종속 변수 간의 관계를 분석하는 방법입니다.
+### Normality
 
-### 다중 선형 회귀분석(Multiple Linear Regression)
+The error term must be normally distributed.
 
-둘 이상의 독립 변수와 하나의 종속 변수 간의 관계를 분석하는 방법입니다.
+### Linear Independence
 
-### 로지스틱 회귀분석(Logistic Regression)
+There should be no multicollinearity among the independent variables.
 
-이항 종속 변수와 독립 변수 간의 관계를 분석하여 분류 문제에 활용되는 방법입니다.
+## Types of regression analysis
 
-## 회귀분석의 활용
+### Linear Regression
 
-### 예측
+There are simple linear regression and multiple linear regression, which analyze the linear relationship between dependent and independent variables.
 
-과거 데이터를 바탕으로 미래 값을 예측하는 데 사용됩니다.
+### Logistic Regression
 
-### 인과 관계 분석
+Used for binomial classification problems, when the dependent variable is binomial.
 
-독립 변수와 종속 변수 간의 인과 관계를 파악하는 데 사용됩니다.
+### Nonlinear Regression
 
-### 변수 중요도 평가
+Analyze nonlinear relationships between dependent and independent variables.
 
-각 독립 변수가 종속 변수에 미치는 영향을 평가하는 데 사용됩니다.
+### Generalized Linear Model (GLM)
 
-## 회귀분석의 평가
+It is applied when the distribution of the dependent variable is not normal, and logistic regression is an example of GLM.
 
-### 잔차 분석(Residual Analysis)
+## Conclusion
 
-모델의 예측값과 실제 값 사이의 차이를 분석하여 모델의 적합성을 평가합니다.
+It is important to meet the assumptions of regression analysis and choose the appropriate type of regression analysis.
 
-### 결정 계수(R-squared)
+This can be used to build reliable models and analyze data.
 
-모델이 종속 변수의 총 변동성을 얼마나 설명하는지를 나타내는 지표입니다.
-
-## 마치며
-
-회귀분석은 데이터 분석의 중요한 기법으로, 변수 간의 관계를 이해하고 예측 모델을 구축하는 데 활발히 활용됩니다.
-
-감사합니다!
+thank you!
