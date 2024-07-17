@@ -39,72 +39,64 @@ date: 2024-07-17 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 다차원 척도법과 주성분 분석에 대하여 알아본 글입니다.
+## This is an article about multidimensional scaling and principal component analysis.
 
-안녕하세요!
+hello!
 
-오늘은 다차원 척도법과 주성분 분석에 대하여 알아보겠습니다.
+Today we will learn about multidimensional scaling and principal component analysis.
 
-회귀 모형의 검정과 최적의 탐색 방법은 모델의 유효성을 평가하고 최적의 모델을 찾는 데 중요합니다.
+Multidimensional Scaling (MDS) and Principal Component Analysis (PCA) are statistical techniques used to reduce the dimensionality of data and visualize it.
 
-아래에서 회귀 모형의 검정과 최적의 탐색 방법에 대해 설명하겠습니다.
+We'll explain each one below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 회귀 모형의 검정
+## Multidimensional Scaling (MDS)
 
-### 모형 유효성 검정
+### concept
 
-회귀 모형의 유효성을 검정하기 위해 F-검정이 사용됩니다.
+MDS is a technique for mapping data in a high-dimensional space to a lower dimension while preserving the relative distances and similarities.
 
-이를 통해 최소한 하나의 독립 변수가 종속 변수에 영향을 미치는지를 확인합니다.
+Used to visually represent similarities between data.
 
-### 모수 검정
+### uses
 
-각 독립 변수의 계수에 대한 t-검정을 통해 해당 독립 변수가 종속 변수에 유의한 영향을 미치는지를 평가합니다.
+MDS is mainly used to visually represent multidimensional data or analyze similarities.
 
-### 잔차 분석
+For example, it is used to analyze how consumers perceive products and the relative distance between geographical locations.
 
-잔차의 정규성, 등분산성, 독립성 등의 가정을 검정하여 모형의 적합성을 평가합니다.
+### type
 
-## 최적의 탐색 방법
+MDS includes non-metric MDS that uses a distance matrix and metric MDS that uses the dot product.
 
-### 변수 선택
+## Principal Component Analysis (PCA)
 
-전진 선택법, 후진 제거법, 단계적 선택법 등을 사용하여 최적의 독립 변수를 선택합니다.
+### concept
 
-### 다항 회귀
+PCA is a technique that reduces the dimensionality of multivariate data and extracts key information. It uses correlations between variables to find new variables that linearly combine existing variables.
 
-비선형 관계를 모델링하기 위해 다항 회귀를 고려할 수 있습니다.
+### uses
 
-## 정규화
+PCA is used in a variety of fields, including dimensionality reduction of multivariate data, discovery of latent factors, data compression, and noise removal.
 
-Ridge, Lasso, Elastic Net 등의 정규화 기법을 사용하여 과적합을 방지하고 모델의 일반화 성능을 향상시킬 수 있습니다.
+### Key concepts
 
-회귀분석이 있으며, 종속 변수와 독립 변수 간의 선형 관계를 분석합니다.
+PCA finds new variables (principal components) that maximize the variance of the data and focuses on preserving the information of the original variables as much as possible.
 
-### 교차 검증
+## Commonalities and differences
 
-데이터를 훈련용과 검증용으로 나누어 모델의 성능을 평가하고 최적의 모델을 선택할 수 있습니다.
+### Commonalities
 
-### 정보 기준
+Both MDS and PCA are used to reduce multidimensional data to low dimensions for visualization or to extract key structures in the data.
 
-AIC (Akaike Information Criterion), BIC (Bayesian Information Criterion) 등의 정보 기준을 사용하여 최적의 모델을 선택할 수 있습니다.
+### difference
 
-## 예측 변수의 변환
+MDS focuses on preserving distances or similarities between data, while PCA focuses on maximizing correlation between variables.
 
-### 로그 변환
+## Conclusion
 
-데이터가 왜곡되어 있을 때, 로그 변환을 통해 정규성을 증가시키고 모델의 정확성을 향상시킬 수 있습니다.
+Multidimensional scaling and principal component analysis are important tools for visualizing and understanding the structure of multivariate data.
 
-### 상호작용 항 추가
-
-변수 간의 상호작용이 있을 경우 이를 고려하여 모델을 구축할 수 있습니다.
-
-## 마치며
-
-회귀 모형의 검정과 최적의 탐색 방법을 통해 신뢰할 수 있는 모델을 구축하고, 데이터를 분석하는 데 활용할 수 있습니다.
-
-감사합니다!
+thank you!
