@@ -39,64 +39,54 @@ date: 2024-07-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 다차원 척도법과 주성분 분석에 대하여 알아본 글입니다.
+## This is an article about correlation analysis in multivariate analysis.
 
-안녕하세요!
+hello!
 
-오늘은 다차원 척도법과 주성분 분석에 대하여 알아보겠습니다.
+Today we will learn about correlation analysis in multivariate analysis.
 
-다차원 척도법(Multidimensional Scaling, MDS)과 주성분 분석(Principal Component Analysis, PCA)은 데이터의 차원을 축소하고 시각화하는 데 사용되는 통계적 기법입니다.
+Correlation analysis is a statistical method that determines the strength and direction of the relationship between two variables, and is one of the important techniques in multivariate analysis.
 
-아래에서 각각에 대해 설명하겠습니다.
+We will explain correlation analysis below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 다차원 척도법 (MDS)
+## Concept of correlation analysis
 
-### 개념
+### Correlation Coefficient
 
-MDS는 고차원 공간에 있는 데이터의 상대적 거리 및 유사성을 보존하면서 저차원으로 사상하는 기법입니다.
+It is a statistical indicator of the strength and direction of a linear relationship between two variables.
 
-데이터 간의 유사성을 시각적으로 표현하는 데 사용됩니다.
+Typically, the Pearson correlation coefficient is used and has a value between -1 and 1.
 
-### 활용
+## Use of correlation analysis
 
-MDS는 주로 다차원적인 데이터를 시각적으로 표현하거나 유사성을 분석하는 데 사용됩니다.
+Identify relationships between variables: Used to understand and explain the interactions and influences between variables.
 
-예를 들어, 소비자들이 제품들을 어떻게 인식하는지, 지리적 위치들 간의 상대적 거리 등을 분석하는 데 활용됩니다.
+### modelling
 
-### 종류
+In multivariate analysis, it is used to build a model and improve predictive power by considering the correlation between variables.
 
-MDS에는 거리 행렬을 이용하는 비메트릭 MDS와 내적을 이용하는 메트릭 MDS 등이 있습니다.
+### caution
 
-## 주성분 분석 (PCA)
+#### Causal fallacy
 
-### 개념
+Correlation analysis shows a relationship between two variables, but does not necessarily imply a causal relationship.
 
-PCA는 다변량 자료의 차원을 축소하고 주요한 정보를 추출하는 기법으로, 변수들 간의 상관관계를 이용하여 기존 변수들을 선형적으로 결합한 새로운 변수들을 찾아냅니다.
+A high correlation between two variables does not necessarily mean there is a causal relationship.
 
-### 활용
+### Non-linear relationship
 
-PCA는 다변량 자료의 차원 축소, 잠재적인 요인의 발견, 데이터 압축, 잡음 제거 등 다양한 분야에서 활용됩니다.
+Correlation analysis only identifies linear relationships and may not identify non-linear relationships.
 
-### 주요 개념
+### Multiple Correlation
 
-PCA는 데이터의 분산을 최대화하는 새로운 변수(주성분)를 찾아내며, 원래 변수들의 정보를 최대한 보존하는데 중점을 둡니다.
+It is a technique to analyze the correlation between three or more variables and is used to identify multivariate relationships between variables.
 
-## 공통점과 차이점
+## Conclusion
 
-### 공통점
+Correlation analysis is an important technique in multivariate analysis and is used to understand and model relationships between variables.
 
-MDS와 PCA 모두 다차원 데이터를 저차원으로 축소하여 시각화하거나 데이터의 주요한 구조를 추출하는 데 사용됩니다.
-
-### 차이점
-
-MDS는 데이터 간의 거리나 유사성을 보존하는 데 중점을 두고, PCA는 변수들 간의 상관관계를 최대화하는 데 중점을 둡니다.
-
-## 마치며
-
-다차원 척도법과 주성분 분석은 다변량 데이터의 시각화와 구조를 이해하는 데 중요한 도구로 활용됩니다.
-
-감사합니다!
+thank you!
