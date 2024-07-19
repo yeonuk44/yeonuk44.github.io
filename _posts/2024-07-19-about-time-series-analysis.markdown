@@ -39,54 +39,70 @@ date: 2024-07-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 시계열 분석에 대하여 알아본 글입니다.
+## This is an article about time series analysis.
 
-안녕하세요!
+hello!
 
-오늘은 시계열 분석에 대하여 알아보겠습니다.
+Today we will learn about time series analysis.
 
-상관분석은 두 변수 간의 관계의 강도와 방향을 파악하는 통계적 방법으로, 다변량 분석에서 중요한 기법 중 하나입니다.
+Time series analysis is a statistical technique that understands and predicts the patterns and structures of data measured at regular time intervals.
 
-아래에서 상관분석에 대해 설명하겠습니다.
+It is mainly used in various fields such as economy, finance, weather, and stock prices.
+
+We will discuss time series analysis in more detail below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 상관분석의 개념
+## Main concepts
 
-### 상관계수(Correlation Coefficient)
+### Time Series Data
 
-두 변수 간의 선형적 관계의 강도와 방향을 나타내는 통계적 지표입니다.
+Data measured at regular intervals of time, which may be daily, monthly, quarterly, or yearly. For example, stock price, sales, temperature, exchange rate, etc.
 
-일반적으로 피어슨 상관계수가 사용되며, -1에서 1 사이의 값을 가집니다.
+### Time Series Model
 
-## 상관분석의 활용
+It is a model that explains and predicts the patterns and structures of time series data, taking into account trends, seasonality, cycles, and random factors.
 
-변수 간의 관계 파악: 변수들 간의 상호작용 및 영향력을 이해하고 설명하는 데 활용됩니다.
+### Stationarity
 
-### 모델링
+It is one of the characteristics of time series data, meaning that statistical characteristics do not change over time.
 
-다변량 분석에서 변수들 간의 상관성을 고려하여 모델을 구축하고 예측력을 향상시키는 데 활용됩니다.
+## Main Techniques
 
-### 주의사항
+### Time Series Decomposition
 
-#### 인과관계의 오류
+This is a method of decomposing time series data into trend, seasonality, cycle, and random factors and analyzing each component.
 
-상관분석은 두 변수 간의 관계를 보여주지만, 반드시 인과관계를 의미하지는 않습니다.
+### Autocorrelation Function (ACF) and Partial Autocorrelation Function (PACF)
 
-두 변수 간의 상관성이 높다고 해서 반드시 인과관계가 있는 것은 아닙니다.
+It is used to identify time series models by analyzing the autocorrelation and partial autocorrelation of time series data.
 
-### 비선형 관계
+### ARIMA model (AutoRegressive Integrated Moving Average Model)
 
-상관분석은 선형적인 관계만을 파악하며, 비선형적인 관계는 파악하지 못할 수 있습니다.
+It is a method of modeling time series data that considers trends, seasonality, autocorrelation, non-stationarity, etc., and is widely used for forecasting.
 
-### 다중 상관분석 (Multiple Correlation)
+## uses
 
-세 개 이상의 변수 간의 상관성을 분석하는 기법으로, 변수들 간의 다변량 관계를 파악하는 데 활용됩니다.
+### prediction
 
-## 마치며
+It is used for decision-making by predicting future values.
 
-상관분석은 다변량 분석에서 중요한 기법으로, 변수들 간의 관계를 이해하고 모델링하는 데 활용됩니다.
+### Trend analysis
 
-감사합니다!
+Identify trends by analyzing trends and cycles in time series data.
+
+### Anomaly detection
+
+Used to detect and prevent outliers.
+
+### Statistical software
+
+You can apply various time series analysis techniques using statistical software such as R, Python, SAS, and SPSS.
+
+## Conclusion
+
+Time series analysis is an important statistical technique for understanding and predicting data patterns over time, and is actively used in a variety of fields.
+
+thank you!
