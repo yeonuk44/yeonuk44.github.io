@@ -39,70 +39,78 @@ date: 2024-07-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 분해시계열에 대하여 알아본 글입니다.
+## This is an article about decomposed time series.
 
-안녕하세요!
+hello!
 
-오늘은 분해시계열에 대하여 알아보겠습니다.
+Today we will learn about decomposed time series.
 
-시계열 분석은 일정 시간 간격으로 측정된 데이터의 패턴과 구조를 이해하고 예측하는 통계적 기법입니다.
+Decomposed time series analysis is a method of decomposing time series data into trend, seasonality, cycle, and random factor (Error) and analyzing each component.
 
-주로 경제, 금융, 기상, 주가 등 다양한 분야에서 활용됩니다.
-
-아래에서 시계열 분석에 대해 자세히 설명하겠습니다.
+We will explain the decomposition time series below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 주요 개념
+## Purpose of decomposed time series analysis
 
-### 시계열 데이터(Time Series Data)
+### Understanding the components:
 
-일정 시간 간격으로 측정된 데이터로, 일별, 월별, 분기별 또는 연도별로 측정될 수 있습니다. 예를 들어, 주가, 매출, 기온, 환율 등이 있습니다.
+Understand the characteristics and volatility of trends, seasonality, cycles, and random factors that make up time series data.
 
-### 시계열 모형(Time Series Model)
+### Building a prediction model
 
-시계열 데이터의 패턴과 구조를 설명하고 예측하는 모델로, 추세(Trend), 계절성(Seasonality), 주기(Cycle), 랜덤 요인 등을 고려합니다.
+Each component is analyzed to build a predictive model and use it to predict future values.
 
-### 시간 역행성(Stationarity)
+### Understand the characteristics of your data
 
-시계열 데이터의 특성 중 하나로, 시간에 따라 통계적 특성이 변하지 않는 성질을 의미합니다.
+By identifying the characteristics of data, we understand trends and cycles and analyze changes according to trends.
 
-## 주요 기법
+## Types of decomposed time series analysis
 
-### 시계열 분해(Time Series Decomposition)
+### Additive Model
 
-시계열 데이터를 추세, 계절성, 주기, 랜덤 요인으로 분해하여 각 구성 요소를 분석하는 방법입니다.
+A method of decomposing a time series into the sum of trend, seasonality, cycle, and random factors, expressed as Y(t) = T(t) + S(t) + C(t) + E(t).
 
-### 자기상관 함수(Autocorrelation Function, ACF) 및 부분자기상관 함수(Partial Autocorrelation Function, PACF)
+### Multiplicative Model
 
-시계열 데이터의 자기상관과 부분자기상관을 분석하여 시계열 모형을 식별하는 데 사용됩니다.
+A method of decomposing a time series into the product of trend, seasonality, cycle, and random factors, expressed as Y(t) = T(t) _ S(t) _ C(t) `*` E(t).
 
-### ARIMA 모형(AutoRegressive Integrated Moving Average Model)
+## Steps of decomposition time series analysis
 
-추세, 계절성, 자기상관, 비정상성 등을 고려하여 시계열 데이터를 모델링하는 방법으로, 예측에 널리 사용됩니다.
+### Visualization of time series data
 
-## 활용
+Identify patterns of trends, seasonality, cycles, and random factors in time series data.
 
-### 예측
+### Trend estimation
 
-미래의 값을 예측하여 의사결정에 활용됩니다.
+Estimate long-term trends from time series data.
 
-### 경향 분석
+### Seasonality estimation
 
-시계열 데이터의 추세와 주기를 분석하여 경향을 파악합니다.
+Infer seasonal patterns from time series data.
 
-### 이상 탐지
+### Cycle estimation
 
-이상치를 탐지하고 예방하는 데 사용됩니다.
+Estimate long-term periodic elements from time series data.
 
-### 통계적 소프트웨어
+### Random factor (Error) analysis
 
-R, Python, SAS, SPSS 등의 통계적 소프트웨어를 활용하여 다양한 시계열 분석 기법을 적용할 수 있습니다.
+Analyzes fluctuations other than trends, seasonality, and cycles.
 
-## 마치며
+## uses
 
-시계열 분석은 시간에 따른 데이터의 패턴을 이해하고 예측하는 데 중요한 통계적 기법으로, 다양한 분야에서 활발히 활용되고 있습니다.
+### Understand the characteristics of time series data
 
-감사합니다!
+Understand the structure of data by identifying the characteristics of data trends, seasonality, cycles, and random factors.
+
+### Building a prediction model
+
+It is used to analyze each component to predict future values ​​and build a predictive model.
+
+## Conclusion
+
+Decomposed time series analysis is an important technique for identifying and predicting patterns and structures of time series data, and is actively used in various fields.
+
+thank you!
