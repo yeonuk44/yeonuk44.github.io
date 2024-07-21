@@ -39,78 +39,66 @@ date: 2024-07-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 정형 데이터 마이닝의 개념과 유형에 대하여 알아본 글입니다.
+## This article explores the concepts and types of structured data mining.
 
-안녕하세요!
+hello!
 
-오늘은 정형 데이터 마이닝의 개념과 유형에 대하여 알아보겠습니다.
+Today we will learn about the concept and types of structured data mining.
 
-분해시계열 분석은 시계열 데이터를 추세(Trend), 계절성(Seasonality), 주기(Cycle), 랜덤 요인(Error)으로 분해하여 각 구성 요소를 분석하는 방법입니다.
+Structured data mining refers to the process of discovering hidden patterns, trends, and correlations in structured data and extracting meaningful information through them.
 
-아래에서 분해시계열에 대해 설명하겠습니다.
+Below we will explain the concepts and types of structured data mining.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 분해시계열 분석의 목적
+## Concept of structured data mining
 
-### 구성 요소의 이해:
+Structured data mining primarily targets structured data such as relational databases, spreadsheets, and tabular data.
 
-시계열 데이터를 구성하는 추세, 계절성, 주기, 랜덤 요인의 특성과 변동성을 이해합니다.
+This data is organized into rows and columns, with each column containing a specific type of data.
 
-### 예측 모델의 구축
+Structured data mining is used to analyze this structured data to extract and understand useful information.
 
-각 구성 요소를 분석하여 예측 모델을 구축하고 미래 값을 예측하는 데 활용합니다.
+## Types of structured data mining
 
-### 데이터의 특성 파악
+### Regression Analysis
 
-데이터의 특성을 파악하여 경향과 주기를 이해하고 추세에 따른 변화를 분석합니다.
+It is used to analyze the correlation between variables to understand and predict the impact of one variable on another.
 
-## 분해시계열 분석의 종류
+### Classification Analysis
 
-### 가법 모형 (Additive Model)
+It is used to classify data into predefined classes or categories and predict which category new data will fall into.
 
-시계열을 추세, 계절성, 주기, 랜덤 요인의 합으로 분해하는 방법으로, Y(t) = T(t) + S(t) + C(t) + E(t)로 나타냅니다.
+### Clustering Analysis
 
-### 승법 모형 (Multiplicative Model)
+It is used to group data with similar characteristics to identify patterns between data and understand differences between different clusters.
 
-시계열을 추세, 계절성, 주기, 랜덤 요인의 곱으로 분해하는 방법으로, Y(t) = T(t) _ S(t) _ C(t) `*` E(t)로 나타냅니다.
+### Association Rule Learning
 
-## 분해시계열 분석의 단계
+It is used to discover relationships between items within a data set and use them to make predictions or derive rules.
 
-### 시계열 데이터의 시각화
+### Anomaly Detection
 
-시계열 데이터의 추세, 계절성, 주기, 랜덤 요인의 패턴을 파악합니다.
+It is used to discover unexpected events or problems by detecting and analyzing outliers that deviate from normal patterns.
 
-### 추세(Trend) 추정
+## uses
 
-시계열 데이터에서 장기적인 추세를 추정합니다.
+### Business Decisions
 
-### 계절성(Seasonality) 추정
+Extract valuable information from data for efficient decision-making in your business.
 
-시계열 데이터에서 계절적인 패턴을 추정합니다.
+### Customer Segmentation
 
-### 주기(Cycle) 추정
+We analyze and segment customer characteristics and establish marketing strategies tailored to specific customer groups.
 
-시계열 데이터에서 장기적인 주기적인 요소를 추정합니다.
+### Financial Forecast
 
-### 랜덤 요인(Error) 분석
+In the financial sector, it is used for stock price prediction, credit scoring, and fraud detection.
 
-추세, 계절성, 주기를 제외한 나머지 변동을 분석합니다.
+## Conclusion
 
-## 활용
+Structured data mining is used to extract useful information from structured data, and plays an important role in decision-making and strategy formulation in various fields.
 
-### 시계열 데이터의 특성 파악
-
-데이터의 추세, 계절성, 주기, 랜덤 요인의 특성을 파악하여 데이터의 구조를 이해합니다.
-
-### 예측 모델의 구축
-
-각 구성 요소를 분석하여 미래 값을 예측하고 예측 모델을 구축하는 데 활용됩니다.
-
-## 마치며
-
-분해시계열 분석은 시계열 데이터의 패턴과 구조를 파악하고 예측하는 데 중요한 기법으로, 다양한 분야에서 활발히 활용되고 있습니다.
-
-감사합니다!
+thank you!
