@@ -39,66 +39,80 @@ date: 2024-07-22 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 데이터 분할에 대하여 알아본 글입니다.
+## This is an article about data division.
 
-안녕하세요!
+hello!
 
-오늘은 데이터 분할에 대하여 알아보겠습니다.
+Today we will learn about data division.
 
-정형 데이터 마이닝은 구조화된 형태의 데이터에서 숨겨진 패턴, 트렌드, 상관 관계 등을 발견하고 이를 통해 의미 있는 정보를 추출하는 과정을 말합니다.
+Data partitioning is an important step in machine learning and statistical modeling. It refers to the process of dividing given data for training, validation, and testing.
 
-아래에서 정형 데이터 마이닝의 개념과 유형에 대해 설명하겠습니다.
+We will explain data partitioning below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 정형 데이터 마이닝의 개념
+## Purpose of data division
 
-정형 데이터 마이닝은 주로 관계형 데이터베이스, 스프레드시트, 테이블 형태의 데이터와 같이 구조화된 형태의 데이터를 대상으로 합니다.
+### Model training
 
-이러한 데이터는 행과 열로 이루어져 있으며, 각 열은 특정한 유형의 데이터를 포함하고 있습니다.
+Provides training data to learn the model.
 
-정형 데이터 마이닝은 이러한 구조화된 데이터를 분석하여 유용한 정보를 추출하고 이해하는 데 사용됩니다.
+### Model validation
 
-## 정형 데이터 마이닝의 유형
+Provides validation data to evaluate model performance.
 
-### 회귀 분석 (Regression Analysis)
+### Model testing
 
-변수 간의 상관 관계를 분석하여 하나의 변수가 다른 변수에 미치는 영향을 이해하고 예측하는 데 사용됩니다.
+Provides test data to evaluate the generalization ability of the model.
 
-### 분류 분석 (Classification Analysis)
+## Types of data division
 
-데이터를 사전에 정의된 클래스 또는 범주로 분류하여 새로운 데이터가 어떤 범주에 속하는지를 예측하는 데 사용됩니다.
+### Training Data
 
-### 군집 분석 (Clustering Analysis)
+This is the data used to train the model and is used to adjust the model's parameters.
 
-유사한 특성을 가진 데이터를 그룹화하여 데이터 간의 패턴을 파악하고 서로 다른 군집 간의 차이점을 이해하는 데 사용됩니다.
+### Validation Data
 
-### 연관 규칙 학습 (Association Rule Learning)
+This is data for evaluating model performance and tuning hyperparameters, and is used to verify performance after training the model.
 
-데이터 집합 내에서 아이템 간의 관계를 발견하고, 이를 통해 예측하거나 규칙을 도출하는 데 사용됩니다.
+### Test Data
 
-### 이상 탐지 (Anomaly Detection)
+It is used to evaluate the generalization ability of a model and determines how well the model performs on data it is not seeing for the first time.
 
-정상적인 패턴에서 벗어난 이상치를 탐지하고 분석하여 예기치 못한 사건이나 문제점을 발견하는 데 사용됩니다.
+## How to split data
 
-## 활용
+### Holdout method
 
-### 비즈니스 의사 결정
+This is the most basic method of dividing data into learning, verification, and testing at a certain rate.
 
-비즈니스에서 효율적인 의사 결정을 위해 데이터로부터 가치 있는 정보를 추출합니다.
+### Cross-Validation
 
-### 고객 세분화
+This is a method of evaluating a model by dividing the data into multiple folds and performing cross-validation. It is used to prevent overfitting and evaluate the stability of the model.
 
-고객의 특성을 분석하여 세분화하고 특정 고객군에 맞는 마케팅 전략을 수립합니다.
+## caution
 
-### 금융 예측
+### Data consistency
 
-금융 분야에서 주가 예측, 신용 스코어링, 사기 탐지 등에 활용됩니다.
+When partitioning data, care must be taken to ensure that the same data samples are not duplicated in different subsets.
 
-## 마치며
+### Data distribution
 
-정형 데이터 마이닝은 구조화된 데이터로부터 유용한 정보를 추출하는 데 활용되며, 다양한 분야에서 의사 결정과 전략 수립에 중요한 역할을 합니다.
+The data for training, validation, and testing must be split so that it well represents the characteristics of the entire data.
 
-감사합니다!
+## uses
+
+### Model evaluation
+
+It is used to evaluate and compare the performance of learned models.
+
+### Hyperparameter tuning
+
+It is utilized to tune hyperparameters to optimize model performance.
+
+## Conclusion
+
+Data partitioning is an important step in appropriately dividing data for model training, validation, and testing. It plays an important role in evaluating the model's generalization ability and increasing model reliability.
+
+thank you!
