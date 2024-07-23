@@ -39,80 +39,64 @@ date: 2024-07-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 로지스틱 회귀 분석에 대하여 알아본 글입니다.
+## This is an article about logistic regression analysis.
 
-안녕하세요!
+hello!
 
-오늘은 로지스틱 회귀 분석에 대하여 알아보겠습니다.
+Today we will learn about logistic regression analysis.
 
-데이터 분할은 기계 학습 및 통계 모델링에서 중요한 단계로, 주어진 데이터를 학습, 검증 및 테스트용으로 나누는 과정을 말합니다.
+Logistic regression is a statistical analysis technique used when the dependent variable is binary (two categories) and is commonly used to deal with binary classification problems.
 
-아래에서 데이터 분할에 대해 설명하겠습니다.
+We will discuss logistic regression below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 데이터 분할의 목적
+## Main concepts
 
-### 모델 학습
+### Binary Classification
 
-모델을 학습하기 위한 훈련 데이터를 제공합니다.
+Logistic regression is primarily utilized when the dependent variable is binary, meaning it falls into one of two categories.
 
-### 모델 검증
+### Logit Function
 
-모델의 성능을 평가하기 위한 검증 데이터를 제공합니다.
+Logistic regression is utilized to predict the probability that a dependent variable falls into a specific category using the logit function.
 
-### 모델 테스트
+### Odds Ratio
 
-모델의 일반화 능력을 평가하기 위한 테스트 데이터를 제공합니다.
+Logistic regression describes the probability of a dependent variable through odds ratios, which determine the effect of independent variables on the dependent variable.
 
-## 데이터 분할의 종류
+### How it works
 
-### 학습용 데이터 (Training Data)
+Logistic regression, unlike linear regression, uses the logit function to predict the probability of the dependent variable.
 
-모델을 학습시키는 데 사용되는 데이터로, 모델의 파라미터를 조정하는 데 활용됩니다.
+The logit function compresses the output of a linear equation into a range between 0 and 1, allowing it to be interpreted as probability.
 
-### 검증용 데이터 (Validation Data)
+This allows us to determine how changes in the independent variable affect the probability of the dependent variable.
 
-모델의 성능을 평가하고 하이퍼파라미터 튜닝을 위한 데이터로, 모델을 학습시킨 후에 성능을 검증하는 데 사용됩니다.
+## uses
 
-### 테스트용 데이터 (Test Data)
+Logistic regression analysis is used in a variety of fields, including medicine, finance, marketing, biology, and social sciences, in the following fields:
 
-모델의 일반화 능력을 평가하는 데 사용되며, 모델이 처음 보는 데이터에 대해 얼마나 잘 동작하는지를 확인하는 데 사용됩니다.
+### Disease Diagnosis
 
-## 데이터 분할 방법
+It is used to predict whether a patient has a specific disease.
 
-### 홀드아웃(Holdout) 방법
+### marketing
 
-일정 비율로 데이터를 학습용, 검증용, 테스트용으로 나누는 방법으로, 가장 기본적인 방법입니다.
+It is used to predict whether a customer will purchase a particular product.
 
-### 교차 검증(Cross-Validation)
+### finance
 
-데이터를 여러 개의 폴드(fold)로 나누어 교차 검증을 수행하여 모델을 평가하는 방법으로, 과적합을 방지하고 모델의 안정성을 평가하는 데 사용됩니다.
+It is used to predict the likelihood of loan default.
 
-## 주의사항
+### caution
 
-### 데이터 일관성
+When using logistic regression, you must consider issues such as multicollinearity, outliers, and overfitting when building your model.
 
-데이터를 분할할 때, 동일한 데이터 샘플이 다른 부분 집합에 중복되지 않도록 주의해야 합니다.
+## Conclusion
 
-### 데이터 분포
+Logistic regression is effective in handling binary classification problems and is actively used in various fields that require probabilistic modeling.
 
-학습용, 검증용, 테스트용 데이터가 전체 데이터의 특성을 잘 대표하도록 분할해야 합니다.
-
-## 활용
-
-### 모델 평가
-
-학습된 모델의 성능을 평가하고 비교하는 데 활용됩니다.
-
-### 하이퍼파라미터 튜닝
-
-모델의 성능을 최적화하기 위해 하이퍼파라미터를 조정하는 데 활용됩니다.
-
-## 마치며
-
-데이터 분할은 모델의 학습, 검증, 테스트를 위해 데이터를 적절하게 나누는 중요한 단계로, 모델의 일반화 능력을 평가하고 모델의 신뢰성을 높이는 데 중요한 역할을 합니다.
-
-감사합니다!
+thank you!
