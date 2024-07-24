@@ -39,64 +39,70 @@ date: 2024-07-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 의사결정트리에 대하여 알아본 글입니다.
+## This is an article about decision trees.
 
-안녕하세요!
+hello!
 
-오늘은 의사결정트리에 대하여 알아보겠습니다.
+Today we will learn about decision trees.
 
-로지스틱 회귀 분석은 종속 변수가 이항적(두 가지 범주)인 경우에 사용되는 통계적 분석 기법으로, 이진 분류 문제를 다루는 데 주로 활용됩니다.
+Decision Tree is one of the supervised learning algorithms used to classify or predict data. It uses a tree structure to classify or predict data according to several rules.
 
-아래에서 로지스틱 회귀 분석에 대해 설명하겠습니다.
+We will explain the decision tree below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 주요 개념
+## Main Features
 
-### 이진 분류 (Binary Classification)
+### Tree structure
 
-로지스틱 회귀는 주로 종속 변수가 이항적인 경우, 즉 두 가지 범주 중 하나에 속하는 경우에 활용됩니다.
+A decision tree has a tree structure consisting of nodes and edges, and each node classifies or branches data according to specific conditions.
 
-### 로짓 함수 (Logit Function)
+### Rule-based learning
 
-로지스틱 회귀는 로짓 함수를 사용하여 종속 변수가 특정 범주에 속할 확률을 예측하는 데 활용됩니다.
+Each node in the tree classifies or predicts data based on specific rules (conditions).
 
-### 오즈 비 (Odds Ratio)
+### Ease of interpretation
 
-로지스틱 회귀는 오즈 비를 통해 종속 변수의 확률을 설명하며, 이를 통해 독립 변수가 종속 변수에 미치는 영향을 파악합니다.
+A decision tree is an intuitive and easy-to-interpret model that makes it easy to visually understand how things are classified based on what conditions.
 
-### 동작 원리
+## How it works
 
-로지스틱 회귀는 선형 회귀와 달리 종속 변수의 확률을 예측하기 위해 로짓 함수를 사용합니다.
+### Select split criteria
 
-로짓 함수는 선형 방정식의 출력을 0과 1 사이의 범위로 압축하여 확률로 해석할 수 있도록 합니다.
+When splitting data, choose the best criteria (conditions) to split it into subgroups with the highest purity possible.
 
-이를 통해 독립 변수의 변화가 종속 변수의 확률에 미치는 영향을 파악할 수 있습니다.
+### Recursive division
 
-## 활용
+Split the data based on the selected criteria, and continue growing the tree by selecting split criteria again for each subgroup.
 
-로지스틱 회귀 분석은 의료, 금융, 마케팅, 생물학, 사회과학 등 다양한 분야에서 다음과 같은 분야에서 활용됩니다.
+### Pruning
 
-### 질병 진단
+Prune the tree at an appropriate level to prevent overfitting and improve generalization ability.
 
-환자가 특정 질병을 가지고 있는지 예측하는 데 사용됩니다.
+## uses
 
-### 마케팅
+### Classification problem
 
-고객이 특정 제품을 구매할지 여부를 예측하는 데 사용됩니다.
+Used to predict a categorical target variable. For example, it is used to predict whether a customer will buy a product.
 
-### 금융
+### Regression problem
 
-대출 채무 불이행 가능성을 예측하는 데 사용됩니다.
+Used to predict a continuous target variable. For example, it is used to predict house prices.
 
-### 주의사항
+## Main Algorithm
 
-로지스틱 회귀 분석을 사용할 때, 다중공선성, 이상치, 과적합 등의 문제를 고려하여 모델을 구축해야 합니다.
+### Classification and Regression Trees (CART)
 
-## 마치며
+It is a decision tree algorithm that can be used for both classification and regression problems.
 
-로지스틱 회귀 분석은 이진 분류 문제를 다루는 데 효과적이며, 확률적인 모델링이 필요한 다양한 분야에서 활발히 활용되고 있습니다.
+### ID3(Iterative Dichotomizer 3)
 
-감사합니다!
+It is an algorithm that divides based on the criterion that maximizes information gain.
+
+## Conclusion
+
+Decision trees have excellent interpretability and are used for classification and prediction problems in a variety of fields.
+
+thank you!
