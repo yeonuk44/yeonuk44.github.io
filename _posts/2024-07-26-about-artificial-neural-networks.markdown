@@ -39,70 +39,82 @@ date: 2024-07-26 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 인공신경망에 대하여 알아본 글입니다.
+## This is an article about artificial neural networks.
 
-안녕하세요!
+Hello!
 
-오늘은 인공신경망에 대하여 알아보겠습니다.
+Today, we're going to learn about artificial neural networks.
 
-앙상블(Ensemble)은 여러 개의 모델을 조합하여 하나의 강력한 모델을 구축하는 기법을 말합니다.
-
-이는 각 모델의 예측을 결합함으로써 개별 모델의 단점을 보완하고 전체적인 성능을 향상시키는 데 사용됩니다.
+Artificial neural networks (ANNs) are machine learning models inspired by the neuronal system of the human brain and are used to learn and predict complex nonlinear relationships.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 주요 개념
+## the main concept
 
-### 약한 학습기(Weak Learner)
+### Neuron
 
-개별 모델이 강력한 예측을 하는 데는 한계가 있지만, 앙상블을 통해 이러한 약한 학습기들을 결합하여 강력한 모델을 만들 수 있습니다.
+Artificial neural networks are models of artificially implemented neurons that receive inputs, multiply weights, and generate outputs through activation functions.
 
-### 다양성(Diversity)
+### Hidden Layer
 
-앙상블의 성능을 향상시키기 위해서는 다양한 모델이 필요하며, 이를 통해 각 모델의 예측이 서로 보완됩니다.
+A layer located between the input layer and the output layer, used to learn nonlinear relationships in the input data.
 
-## 주요 알고리즘
+### Weight
 
-### 랜덤 포레스트(Random Forest)
+A parameter that represents the importance given to the connection between the input and hidden layers and the hidden and output layers.
 
-의사결정트리를 기반으로 하며, 다수의 의사결정트리를 통해 예측을 결합하여 안정적이고 강력한 모델을 만드는 데 사용됩니다.
+## principle of operation
 
-### 부스팅(Boosting)
+### 순전파(Forward Propagation)
 
-여러 개의 약한 학습기를 순차적으로 학습시켜서 강력한 모델을 만드는 알고리즘으로, AdaBoost, Gradient Boosting, XGBoost 등이 있습니다.
+The process by which the input data passes through a neural network and propagates to the output layer, the output is calculated through the weight and activation function of each layer.
 
-### 배깅(Bagging)
+### 역전파(Backward Propagation)
 
-병렬적으로 여러 모델을 학습시켜 그 예측을 결합하는 방법으로, 랜덤 포레스트가 대표적인 예입니다.
+The process of calculating the error between the output and the actual value and propagating the error in reverse to the weight of each layer to adjust the weight.
 
-## 활용
+## a major algorithm
 
-### 분류 및 회귀 문제
+### Multilayer Perceptron (MLP)
 
-앙상블은 분류 및 회귀 문제에 모두 활용됩니다.
+A neural network with multiple layers of concealment, used to solve complex nonlinear problems.
 
-### 이상 탐지(Anomaly Detection)
+### Convolutional Neural Network (CNN)
 
-이상 탐지 문제에서도 앙상블이 효과적으로 사용됩니다.
+A neural network specialized in image classification, object detection, and image processing, used to learn local information through convolution and pooling.
 
-### 텍스트 및 이미지 분석
+### Recurrent Neural Network (RNN)
 
-자연어 처리 및 이미지 분석 분야에서도 앙상블이 효과적으로 사용됩니다.
+It is used to model ordered data (time series data, natural language, etc.), and is effective in maintaining ordered information through memory structures.
 
-## 주의사항
+## Utilization
 
-### 다양성 유지
+### Image recognition
 
-앙상블의 각 모델은 서로 다른 특성을 가져야 하며, 다양성을 유지하는 것이 중요합니다.
+CNN performs tasks such as face recognition, object detection, etc.
 
-### 과적합 방지
+### Natural language processing
 
-앙상블은 과적합을 방지하는 데 효과적이지만, 모델을 조합할 때 과적합에 주의해야 합니다.
+It utilizes RNNs for machine translation, sentence generation, emotional analysis, etc.
 
-## 마치며
+### financial projections
 
-앙상블은 다양한 분야에서 강력한 예측 모델을 구축하는 데 효과적으로 활용되며, 다양한 알고리즘과 기법을 통해 모델의 성능을 향상시킬 수 있습니다.
+It is used for stock price prediction and time series data analysis.
 
-감사합니다!
+## Precautions
+
+### overfitting
+
+In large neural networks, attention should be paid to overfitting problems.
+
+### Adjusting Hyperparameters
+
+Since the performance of neural networks is heavily influenced by various hyperparameters, appropriate adjustments are required.
+
+## at the end of the day
+
+Artificial neural networks are utilized in a variety of fields and are effectively used to solve complex and nonlinear problems.
+
+Thank you!
