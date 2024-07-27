@@ -39,82 +39,57 @@ date: 2024-07-27 09:00:00 +0900
 
 <!-- outline-start -->
 
-## KNN과 SVM에 대하여 알아본 글입니다.
+## This is an article about KNN and SVM.
 
-안녕하세요!
+Hello!
 
-오늘은 KNN과 SVM에 대하여 알아보겠습니다.
-
-인공신경망(Artificial Neural Network, ANN)은 사람의 뇌의 뉴런 체계에서 영감을 받은 기계 학습 모델로, 복잡한 비선형 관계를 학습하고 예측하는데 사용됩니다.
+Today, we will learn about KNN and SVM.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 주요 개념
+### K-Nearest Neighbors (K-Nearest Neighbors, KNN)
 
-### 뉴런(Neuron)
+K-nearest neighbor (KNN) is one of the supervised learning algorithms used for classification and regression problems. We will discuss KNNs below.
 
-인공신경망은 인공적으로 구현된 뉴런으로 이루어진 모델로, 입력을 받아 가중치를 곱하고 활성화 함수를 통해 출력을 생성합니다.
+#### principle of operation
 
-### 은닉층(Hidden Layer)
+- Neighbor's Choice: Select the K nearest neighbors to the new data point.
+- Majority Vote: For classification problems, a majority vote among K neighbors determines the class of new data points. For regression problems, use the average of K neighbors as the predicted value.
 
-입력층과 출력층 사이에 위치한 층으로, 입력 데이터의 비선형 관계를 학습하는 데 사용됩니다.
+#### pros and cons
 
-### 가중치(Weight)
+- Advantages: Simple to implement, fast and intuitive to train.
+- The downside: computational costs can be high as the distance to all training data needs to be calculated during the prediction stage.
 
-입력과 은닉층, 은닉층과 출력층 사이의 연결에 대해 부여된 중요도를 나타내는 매개변수입니다.
+#### Utilization
 
-## 동작 원리
+- Outlier detection: Can be used for outlier detection.
+- Recommendation system: can be used to find similar users or products.
 
-### 순전파(Forward Propagation)
+### Support Vector Machine (SVM)
 
-입력 데이터가 신경망을 통과하여 출력층으로 전파되는 과정으로, 각 층의 가중치와 활성화 함수를 통해 출력이 계산됩니다.
+Support Vector Machine (SVM) is a supervised learning algorithm used for classification and regression problems that maps data into high-dimensional spaces to find the optimal decision boundaries.
 
-### 역전파(Backward Propagation)
+#### principle of operation
 
-출력과 실제 값 사이의 오차를 계산하고, 이 오차를 각 층의 가중치에 역방향으로 전파하여 가중치를 조정하는 과정입니다.
+- Find Decision Boundary: Find the best hyperplane to separate the data.
+- Find Support Vector: Find the support vector that is the closest data point to the hyperplane.
+- Kernel Trick: To solve nonlinear problems, use kernel functions to map data into higher-dimensional spaces.
 
-## 주요 알고리즘
+#### pros and cons
 
-### 다층 퍼셉트론(Multilayer Perceptron, MLP)
+- Advantage: It performs well on high-dimensional data, and can solve nonlinear problems through kernel techniques.
+- Disadvantages: the interpretation of the model is difficult, sensitive to data preprocessing and parameter settings.
 
-여러 개의 은닉층을 가진 신경망으로, 복잡한 비선형 문제를 해결하는 데 사용됩니다.
+#### Utilization
 
-### 합성곱 신경망(Convolutional Neural Network, CNN)
+- Binary and multi-class classification: widely used for classification problems.
+- Outlier detection: Can be used for outlier detection.
 
-이미지 분류, 객체 검출, 영상 처리 등에 특화된 신경망으로, 합성곱과 풀링을 통해 지역적인 정보를 학습하는 데 사용됩니다.
+### at the end of the day
 
-### 순환 신경망(Recurrent Neural Network, RNN)
+KNN and SVM are supervised learning algorithms that are useful for various problems based on their respective features.
 
-순서가 있는 데이터(시계열 데이터, 자연어 등)를 모델링하는 데 사용되며, 기억 구조를 통해 순서 정보를 유지하는 데 효과적입니다.
-
-## 활용
-
-### 이미지 인식
-
-CNN을 통해 얼굴 인식, 물체 감지 등의 작업을 수행합니다.
-
-### 자연어 처리
-
-RNN을 활용하여 기계 번역, 문장 생성, 감성 분석 등에 사용됩니다.
-
-### 금융 예측
-
-주가 예측, 시계열 데이터 분석 등에 활용됩니다.
-
-## 주의사항
-
-### 과적합
-
-큰 규모의 신경망에서는 과적합 문제에 주의해야 합니다.
-
-### 하이퍼파라미터 조정
-
-신경망의 성능은 다양한 하이퍼파라미터에 의해 크게 영향을 받으므로, 적절한 조정이 필요합니다.
-
-## 마치며
-
-인공신경망은 다양한 분야에서 활용되며, 복잡하고 비선형적인 문제를 해결하는 데 효과적으로 사용됩니다.
-
-감사합니다!
+Thank you!
