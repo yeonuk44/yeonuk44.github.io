@@ -39,57 +39,58 @@ date: 2024-07-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 분류모델 평가지표에 대하여 알아본 글입니다.
+## This article examines the classification model evaluation index.
 
-안녕하세요!
+Hello!
 
-오늘은 분류모델 평가지표에 대하여 알아보겠습니다.
+Today, we will look at the classification model evaluation index.
+
+There are several indicators for evaluating the performance of classification models.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### K-최근접 이웃 (K-Nearest Neighbors, KNN)
+### Accuracy
 
-K-최근접 이웃(KNN)은 분류 및 회귀 문제에 사용되는 지도 학습 알고리즘 중 하나입니다. 아래에서 KNN에 대해 설명하겠습니다.
+Accuracy represents the percentage of all predictions correctly predicted and is calculated as (TP + TN) / (TP + TN + FP + FN).
 
-#### 동작 원리
+This represents the percentage of samples that the model correctly predicted; however, it may not be an appropriate indicator for a disproportionate class distribution.
 
-- 이웃의 선택: 새로운 데이터 포인트와 가장 가까운 K개의 이웃을 선택합니다.
-- 다수결 투표: 분류 문제의 경우 K개의 이웃 중 다수결 투표를 통해 새로운 데이터 포인트의 클래스를 결정합니다. 회귀 문제의 경우 K개의 이웃의 평균을 예측값으로 사용합니다.
+### Precision and Recall
 
-#### 장단점
+The precision represents the proportion of what the model is actually positively predicted, and is calculated as TP / (TP + FP).
 
-- 장점: 구현이 간단하며, 훈련 단계가 빠르고 직관적입니다.
-- 단점: 예측 단계에서 모든 훈련 데이터와의 거리를 계산해야 하므로 계산 비용이 높을 수 있습니다.
+Reproducibility represents the proportion of what the model actually predicts as positive, and is calculated as TP / (TP + FN).
 
-#### 활용
+Precision focuses on reducing false positives, while reproducibility focuses on reducing false negatives.
 
-- 이상치 탐지: 이상치 탐지에 사용될 수 있습니다.
-- 추천 시스템: 비슷한 사용자 또는 상품을 찾는 데 사용될 수 있습니다.
+### F1 Score
 
-### 서포트 벡터 머신 (Support Vector Machine, SVM)
+The F1 score is a harmonic average of precision and reproducibility, calculated as 2* (precision * reproducibility) / (precision + reproducibility).
 
-서포트 벡터 머신(SVM)은 분류 및 회귀 문제에 사용되는 지도 학습 알고리즘으로, 데이터를 고차원 공간으로 매핑하여 최적의 결정 경계를 찾는 데 사용됩니다.
+This is an indicator of whether precision and reproducibility are balanced.
 
-#### 동작 원리
+### ROC Curves and AUC
 
-- 초평면(Decision Boundary) 찾기: 데이터를 분리하는 최적의 초평면을 찾습니다.
-- 서포트 벡터(Support Vector) 찾기: 초평면에 가장 가까이 있는 데이터 포인트인 서포트 벡터를 찾습니다.
-- 커널 기법(Kernel Trick): 비선형 문제를 해결하기 위해 커널 함수를 사용하여 데이터를 고차원 공간으로 매핑합니다.
+#### ROC(Receiver Operating Characteristic) 곡선
 
-#### 장단점
+A graph showing the classification performance of the model, which represents the curve of the false positive ratio (FPR) for reproducibility.
 
-- 장점: 고차원 데이터에서 우수한 성능을 보이며, 커널 기법을 통해 비선형 문제를 해결할 수 있습니다.
-- 단점: 모델의 해석이 어려우며, 데이터 전처리와 매개변수 설정에 민감합니다.
+#### AUC(Area Under the Curve)
 
-#### 활용
+The area under the ROC curve is an indicator of the performance of the model comprehensively.
 
-- 이진 및 다중 클래스 분류: 분류 문제에 폭넓게 사용됩니다.
-- 이상치 탐지: 이상치 탐지에 사용될 수 있습니다.
+### Confusion Matrix
 
-### 마치며
+The predicted values of the actual class and model in the two-way classification are tabulated and used to evaluate the classification performance of the model in detail by representing TP, TN, FP, and FN.
 
-KNN과 SVM은 각각의 특징에 따라 다양한 문제에 유용하게 활용되는 지도 학습 알고리즘입니다.
+### Utilization
 
-감사합니다!
+These evaluation metrics are used to comprehensively evaluate the performance of the model and to understand the performance of each model.
+
+### at the end of the day
+
+It is utilized to accurately evaluate the performance of the model and improve the performance of the model by comprehensively considering the evaluation indicators of the classification model.
+
+Thank you!
