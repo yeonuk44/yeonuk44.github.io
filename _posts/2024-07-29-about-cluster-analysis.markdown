@@ -39,58 +39,66 @@ date: 2024-07-29 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 군집분석에 대하여 알아본 글입니다.
+## This is an article about cluster analysis.
 
-안녕하세요!
+Hello!
 
-오늘은 군집분석에 대하여 알아보겠습니다.
+Today, we're going to learn about cluster analysis.
 
-분류 모델의 성능을 평가하기 위한 여러 가지 지표가 있습니다.
+Cluster Analysis is a type of unsupervised learning, which refers to a technique for grouping data with similar characteristics.
+
+This is used to discover hidden structures within the data and to understand them by splitting them into meaningful subsets.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 정확도 (Accuracy)
+### the main concept
 
-정확도는 전체 예측 중 올바르게 예측한 비율을 나타내며, (TP + TN) / (TP + TN + FP + FN)으로 계산됩니다.
+#### Cluster
 
-이는 모델이 올바르게 예측한 샘플의 비율을 나타냅니다. 하지만 불균형한 클래스 분포에서는 적절한 지표가 아닐 수 있습니다.
+A set of data with similar properties, the data in the cluster are similar to each other, and the data between clusters have different characteristics.
 
-### 정밀도 (Precision)과 재현율 (Recall)
+#### Method of measuring similarity
 
-정밀도는 모델이 Positive로 예측한 것 중에서 실제로 Positive인 비율을 나타내며, TP / (TP + FP)으로 계산됩니다.
+In cluster analysis, it is important to measure the similarity between data, so that the data can be grouped properly.
 
-재현율은 실제로 Positive인 것 중에서 모델이 Positive로 예측한 비율을 나타내며, TP / (TP + FN)으로 계산됩니다.
+### Types of cluster analysis
 
-정밀도는 거짓 긍정을 줄이는 데 초점을 두고, 재현율은 거짓 부정을 줄이는 데 초점을 둡니다.
+#### Hierarchical clustering
 
-### F1 점수 (F1 Score)
+It is a method of presenting the data as a hierarchical structure by grouping them sequentially or merges, which is visually represented by a dendrogram.
 
-F1 점수는 정밀도와 재현율의 조화 평균으로, 2 _ (정밀도 _ 재현율) / (정밀도 + 재현율)로 계산됩니다.
+#### Non-hierarchical clustering
 
-이는 정밀도와 재현율이 균형을 이루고 있는지를 나타내는 지표입니다.
+K-means clustering is a typical example of grouping data according to a predetermined number of clusters.
 
-### ROC 곡선과 AUC
+### Utilization
 
-#### ROC(Receiver Operating Characteristic) 곡선
+#### Customer Segmentation
 
-모델의 분류 성능을 나타내는 그래프로, 재현율에 대한 거짓 긍정 비율(FPR)의 곡선을 나타냅니다.
+It is used to divide customers into groups with similar characteristics to establish marketing strategies for each group.
 
-#### AUC(Area Under the Curve)
+#### Outlier detection
 
-ROC 곡선 아래의 면적으로, 모델의 성능을 종합적으로 평가하는 지표입니다.
+It is used to detect abnormal data.
 
-### 혼동 행렬 (Confusion Matrix)
+#### Natural language processing
 
-이원 분류에서 실제 클래스와 모델의 예측값을 표로 나타낸 것으로, TP, TN, FP, FN을 나타내어 모델의 분류 성능을 상세하게 평가하는 데 사용됩니다.
+It is used to classify documents or words into meaningful groups.
 
-### 활용
+### Evaluation
 
-이러한 평가 지표들은 모델의 성능을 종합적으로 평가하고, 모델의 각각의 성능을 이해하는 데 활용됩니다.
+#### Intra-cluster cohesion
 
-### 마치며
+Evaluate the degree of aggregation by measuring the similarity between data in a cluster.
 
-분류 모델의 평가 지표를 종합적으로 고려하여 모델의 성능을 정확하게 평가하고, 모델의 성능을 개선하는 데 활용됩니다.
+#### Variance between clusters
 
-감사합니다!
+Evaluate the variance by measuring the distance between different clusters.
+
+### at the end of the day
+
+Cluster analysis is a useful method for identifying data patterns and classifying them into meaningful groups, which are actively used in various fields.
+
+Thank you!
