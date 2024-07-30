@@ -39,66 +39,52 @@ date: 2024-07-30 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 거리측도와 계층적 군집분석에 대하여 알아본 글입니다.
+## This article examines distance measurements and hierarchical cluster analysis.
 
-안녕하세요!
+Hello!
 
-오늘은 거리측도와 계층적 군집분석에 대하여 알아보겠습니다.
-
-군집분석(Cluster Analysis)은 비지도 학습의 한 유형으로, 유사한 특성을 가진 데이터들을 그룹화하는 기법을 말합니다.
-
-이를 통해 데이터 내의 숨겨진 구조를 발견하고, 데이터를 의미 있는 부분 집합으로 분할하여 이해하는 데 사용됩니다.
+Today, we will learn about distance measurements and hierarchical cluster analysis.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 주요 개념
+### Distance Measure
 
-#### 군집(Cluster)
+An important factor used to measure similarity between data in cluster analysis.
 
-유사한 속성을 가진 데이터들의 집합으로, 군집 내의 데이터들은 서로 비슷하고 군집 간의 데이터들은 서로 다른 특성을 가지게 됩니다.
+It is utilized to determine the similarity between clusters in cluster analysis algorithms by calculating the distance between data.
 
-#### 유사성 측정 방법
+Typical street measures include Euclid Street, Manhattan Street, and cosine similarity.
 
-군집분석에서는 데이터 간의 유사성을 측정하는 방법이 중요한데, 이를 통해 데이터들을 적절히 그룹화할 수 있습니다.
+#### Euclid Street
 
-### 군집분석의 종류
+A method of calculating the distance of a straight line between data points, suitable for continuous variables.
 
-#### 계층적 군집분석 (Hierarchical Clustering)
+#### Manhattan Street
 
-데이터를 순차적 또는 병합적으로 그룹화하여 계층적인 구조로 나타내는 방법으로, 덴드로그램을 통해 시각적으로 표현됩니다.
+A method of calculating vertical and horizontal distances between data points, suitable for continuous variables.
 
-#### 비계층적 군집분석 (Non-hierarchical Clustering)
+#### Cosine similarity
 
-사전에 정해진 군집 개수에 따라 데이터를 그룹화하는 방법으로, K-평균 군집화가 대표적인 예입니다.
+It is a method of measuring similarity using the angle between vectors, which is suitable for text data or sparse data.
 
-### 활용
+#### Conclusion
 
-#### 고객 세분화
+It is important to select a distance measure that fits the characteristics and purpose of the data, as the shape and outcome of the cluster can vary depending on the distance measure selected.
 
-고객들을 비슷한 특성을 가진 그룹으로 나누어 각 그룹에 맞는 마케팅 전략을 수립하는 데 사용됩니다.
+#### Hierarchical clustering
 
-#### 이상치 탐지
+Hierarchical cluster analysis is a method of presenting data in a hierarchical structure by grouping them sequentially or in combination.
 
-비정상적인 데이터를 찾아내는 데 활용됩니다.
+There is a way to group the given data sequentially according to the distance, or to group all the data into one cluster and group the most similar data sequentially.
 
-#### 자연어 처리
+A dendrogram is a visual representation of the results of hierarchical cluster analysis and is used to identify the similarity of data and the structure between clusters.
 
-문서나 단어들을 의미 있는 그룹으로 분류하는 데 사용됩니다.
+Hierarchical cluster analysis can visually identify similarities between clusters and is useful for understanding hierarchical structures between data.
 
-### 평가
+### at the end of the day
 
-#### 군집 내 응집도
+These distance measurements and hierarchical cluster analysis are important methods for measuring similarity between data and forming clusters based on them, and it is important to select them appropriately for the characteristics and purpose of the data.
 
-군집 내 데이터들 간의 유사성을 측정하여 응집도를 평가합니다.
-
-#### 군집 간 분산도
-
-서로 다른 군집들 간의 거리를 측정하여 분산도를 평가합니다.
-
-### 마치며
-
-군집분석은 데이터의 패턴을 파악하고 의미 있는 그룹으로 분류하는 데 유용한 방법으로, 다양한 분야에서 활발히 활용되고 있습니다.
-
-감사합니다!
+Thank you!
