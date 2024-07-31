@@ -39,52 +39,70 @@ date: 2024-07-31 09:00:00 +0900
 
 <!-- outline-start -->
 
-## K평균 군집화에 대하여 알아본 글입니다.
+## This article examines the K-means clustering.
 
-안녕하세요!
+Hello!
 
-오늘은 거리측도와 계층적 군집분석에 대하여 알아보겠습니다.
+Today, we're going to talk about K-Means clustering.
+
+K-means clustering is an algorithm that groups data into K clusters with similar characteristics, a type of unsupervised learning.
+
+We will discuss the K-means clustering below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 거리측도 (Distance Measure)
+### principle of operation
 
-군집분석에서 데이터 간의 유사성을 측정하는 데 사용되는 중요한 요소입니다.
+#### central initialization
 
-데이터 간의 거리를 계산하여 군집 분석 알고리즘에서 군집 간의 유사성을 판단하는 데 활용됩니다.
+First, select or randomly assign K cluster centers.
 
-대표적인 거리측도로는 유클리드 거리, 맨하탄 거리, 코사인 유사도 등이 있습니다.
+#### allocation step
 
-#### 유클리드 거리
+Assign each data to the nearest cluster center.
 
-데이터 포인트 간의 직선 거리를 계산하는 방법으로, 연속형 변수에 적합합니다.
+#### Update Steps
 
-#### 맨하탄 거리
+Update the center of each cluster to the average position of the data points in that cluster.
 
-데이터 포인트 간의 수직 및 수평 거리를 계산하는 방법으로, 연속형 변수에 적합합니다.
+#### Repeat
 
-#### 코사인 유사도
+Repeat the assignment and update steps until the cluster center remains unchanged.
 
-벡터 간의 각도를 이용하여 유사성을 측정하는 방법으로, 텍스트 데이터나 희소한 데이터에 적합합니다.
+### Key Features
 
-#### 결론
+#### Distance-based clustering
 
-선택한 거리측도에 따라 군집의 모양과 결과가 달라질 수 있으므로, 데이터의 특성과 목적에 맞는 거리측도를 선택하는 것이 중요합니다.
+The K-means is a distance-based clustering method that performs clustering using the distance between each data point and the cluster center.
 
-#### 계층적 군집분석 (Hierarchical Clustering)
+#### Selection of the number of clusters K
 
-계층적 군집분석은 데이터를 순차적 또는 병합적으로 그룹화하여 계층적인 구조로 나타내는 방법입니다.
+For the K-means, you must specify the number K of clusters. It is important to select the appropriate K value.
 
-주어진 데이터들을 거리에 따라 순차적으로 묶어나가거나, 모든 데이터를 하나의 군집으로 시작하여 가장 유사한 데이터들을 순차적으로 묶어가는 방법이 있습니다.
+### Utilization
 
-덴드로그램(Dendrogram)은 계층적 군집분석 결과를 시각적으로 나타낸 것으로, 데이터들의 유사성과 군집 간의 구조를 파악하는 데 활용됩니다.
+#### Customer Segmentation
 
-계층적 군집분석은 군집 간의 유사성을 시각적으로 파악할 수 있으며, 데이터 간의 계층적인 구조를 이해하는 데 유용합니다.
+It is used to divide customers into groups with similar characteristics to establish marketing strategies for each group.
 
-### 마치며
+#### Outlier detection
 
-이러한 거리측도와 계층적 군집분석은 데이터 간의 유사성을 측정하고, 이를 토대로 군집을 형성하는 데 중요한 방법들로, 데이터의 특성과 목적에 맞게 적절히 선택하는 것이 중요합니다.
+Data far from cluster centers are likely outliers and can be used to detect them.
 
-감사합니다!
+### Precautions
+
+#### Sensitive to outliers
+
+Because outliers can distort the position of the cluster center, a response is needed.
+
+#### Select an initial center
+
+Note the initialization method, as the initial cluster-centric selection may vary the speed and results of convergence.
+
+### at the end of the day
+
+K-means clustering is a simple yet effective clustering algorithm that is utilized to identify the characteristics of data and classify them into meaningful groups.
+
+Thank you!
