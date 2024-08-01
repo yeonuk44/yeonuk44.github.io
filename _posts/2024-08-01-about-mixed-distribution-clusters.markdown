@@ -39,70 +39,66 @@ date: 2024-08-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 혼합분포군집에 대하여 알아본 글입니다.
+## This is an article about mixed distribution clusters.
 
-안녕하세요!
+Hello!
 
-오늘은 혼합분포군집에 대해 알아보겠습니다.
+Today, we're going to learn about mixed distribution clusters.
 
-K-평균 군집화는 데이터를 유사한 특성을 가진 K개의 군집으로 그룹화하는 알고리즘으로, 비지도 학습의 한 유형입니다.
+Mixed model clustering is an algorithm that clusters data from these mixed distributions assuming that data is generated from multiple probability distributions.
 
-아래에서 K-평균 군집화에 대해 설명하겠습니다.
+We will discuss mixed distribution clusters below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 동작 원리
+### principle of operation
 
-#### 중심 초기화
+#### Mixed model assumptions
 
-먼저 K개의 군집 중심을 임의로 선택하거나 랜덤하게 배정합니다.
+Assuming that the data are generated from multiple probability distributions (such as Gaussian distributions), we estimate the weights and parameters of each distribution.
 
-#### 할당 단계
+#### parameter estimation
 
-각 데이터를 가장 가까운 군집 중심에 할당합니다.
+We estimate the weights and parameters (mean, variance) of each probability distribution through Maximum Likelihood Estimation, etc.
 
-#### 업데이트 단계
+#### Cluster allocation
 
-각 군집의 중심을 해당 군집에 속한 데이터 포인트들의 평균 위치로 업데이트합니다.
+Based on the estimated mixed model, each data is assigned to the most likely cluster.
 
-#### 반복
+### Key Features
 
-할당과 업데이트 단계를 군집 중심이 변화하지 않을 때까지 반복합니다.
+#### stochastic clustering
 
-### 주요 특징
+Mixed distribution clusters are based on probabilistic models, giving the probability that each data belongs to each cluster.
 
-#### 거리 기반 군집화
+#### Model Complexity
 
-K-평균은 거리 기반 군집화 방법으로, 각 데이터 포인트와 군집 중심 사이의 거리를 이용하여 군집화를 수행합니다.
+Mixed distribution clusters can find different forms of clusters by tuning the complexity of the model.
 
-#### 군집 개수 K의 선택
+### Utilization
 
-K-평균은 군집의 개수 K를 사용자가 지정해주어야 합니다. 적절한 K값을 선택하는 것이 중요합니다.
+#### Outlier detection
 
-### 활용
+The mixed distribution cluster takes into account which distribution the data is generated from, so it can be used effectively for outlier detection.
 
-#### 고객 세분화
+#### Natural language processing
 
-고객들을 유사한 특성을 가진 그룹으로 나누어 각 그룹에 맞는 마케팅 전략을 수립하는 데 사용됩니다.
+It can be used to extract topics from a document, such as modeling topics.
 
-#### 이상치 탐지
+### Precautions
 
-군집 중심으로부터 거리가 먼 데이터는 이상치일 가능성이 있으며, 이를 탐지하는 데 사용될 수 있습니다.
+#### Select a Model
 
-### 주의사항
+It is important to select the appropriate number of clusters and the parameters for each distribution.
 
-#### 이상치에 민감
+#### Sensitive to outliers
 
-이상치가 군집 중심의 위치를 왜곡시킬 수 있으므로, 이에 대한 대응이 필요합니다.
+Outliers can affect model estimation, so a response is needed.
 
-#### 초기 중심 선택
+### at the end of the day
 
-초기 군집 중심의 선택에 따라 수렴하는 속도와 결과가 달라질 수 있으므로, 초기화 방법에 주의해야 합니다.
+Mixed distribution clusters are a powerful algorithm for clustering data from these mixed distributions, assuming that data are generated from multiple probability distributions, and are actively used in various fields.
 
-### 마치며
-
-K-평균 군집화는 간단하면서도 효과적인 군집화 알고리즘으로, 데이터의 특성을 파악하고 유의미한 그룹으로 분류하는 데 활용됩니다.
-
-감사합니다!
+Thank you!
