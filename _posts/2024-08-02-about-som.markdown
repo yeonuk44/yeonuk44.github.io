@@ -39,66 +39,66 @@ date: 2024-08-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-## SOM에 대하여 알아본 글입니다.
+## This is an article about SOM.
 
-안녕하세요!
+Hello!
 
-오늘은 SOM에 대해 알아보겠습니다.
+Today, we're going to talk about SOM.
 
-혼합분포군집(Mixture Model Clustering)은 데이터가 여러 개의 확률분포에서 생성된 것으로 가정하고, 이러한 혼합된 분포로부터 데이터를 군집화하는 알고리즘입니다.
+Self-Organizing Map (SOM) is an unsupervised learning algorithm used to embedding high-dimensional data into low-dimensional lattice structures.
 
-아래에서 혼합분포군집에 대해 설명하겠습니다.
+I will explain the SOM below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 동작 원리
+### principle of operation
 
-#### 혼합 모델 가정
+#### competitive learning
 
-데이터가 여러 개의 확률분포(가우시안 분포 등)에서 생성된 것으로 가정하고, 각 분포의 가중치와 매개변수를 추정합니다.
+The nearest neuron (unit) to the input data is selected, and the selected neuron and its surrounding neurons compete and learn from the input data.
 
-#### 모수 추정
+#### Adjusting Neighbourhood Relationships
 
-각 확률분포의 가중치와 매개변수(평균, 분산)를 최대우도추정(Maximum Likelihood Estimation) 등을 통해 추정합니다.
+In the early stages of learning, the connection with the surrounding neurons is strong, and the connection with the surrounding neurons is gradually adjusted to weaken over time.
 
-#### 군집 할당
+#### formation of a map
 
-추정된 혼합 모델을 기반으로 각 데이터를 가장 가능성이 높은 군집에 할당합니다.
+Through this process, we envision the characteristics of the input data in a low-dimensional lattice structure while preserving it, and form a map that allows us to visually grasp the similarities between the input data.
 
-### 주요 특징
+### Key Features
 
-#### 확률적 군집화
+#### a non-linear idea
 
-혼합분포군집은 확률적 모델을 기반으로 하며, 각 데이터가 각 군집에 속할 확률을 제공합니다.
+SOM performs nonlinear ideas, allowing it to project in low dimensions while preserving the structure of complex data.
 
-#### 모델 복잡성
+#### Visualization
 
-혼합분포군집은 모델의 복잡성을 조정하여 여러 가지 형태의 군집을 찾을 수 있습니다.
+As we picture the data in a low-dimensional lattice structure, we form a map that allows us to visually grasp the similarities between the data.
 
-### 활용
+### Utilization
 
-#### 이상치 탐지
+#### pattern recognition
 
-혼합분포군집은 데이터가 어떤 분포에서 생성되었는지를 고려하므로, 이상치 탐지에 효과적으로 사용될 수 있습니다.
+It is used to recognize patterns in data, such as images and speech.
 
-#### 자연어 처리
+#### clustering
 
-토픽 모델링과 같이 문서의 주제를 추출하는 데 사용될 수 있습니다.
+It is used for visual representation by clustering based on the similarity of the data.
 
-### 주의사항
+### Precautions
 
-#### 모델 선택
+#### hyperparameter settings
 
-적절한 군집의 수와 각 분포의 모수를 선택하는 것이 중요합니다.
+Care must be taken as hyperparameter settings, such as SOM's learning rate, neighbor relationship adjustment, etc., can affect the results.
 
-#### 이상치에 민감
+#### Dimension down
 
-이상치가 모델 추정에 영향을 줄 수 있으므로, 이에 대한 대응이 필요합니다.
+The loss of information can occur in the process of mapping high-dimensional data to low-dimensionality, which requires consideration.
 
-### 마치며
+### at the end of the day
 
-혼합분포군집은 데이터가 여러 개의 확률분포에서 생성된 것으로 가정하고, 이러한 혼합된 분포로부터 데이터를 군집화하는 강력한 알고리즘으로, 다양한 분야에서 활발히 활용되고 있습니다.
+Self-organizing maps are utilized to identify and visually represent the structure of data in various fields, and are powerful unsupervised learning algorithms that project data into low dimensions while preserving its characteristics.
 
-감사합니다!
+Thank you!
