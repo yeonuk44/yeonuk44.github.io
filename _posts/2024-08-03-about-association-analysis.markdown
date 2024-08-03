@@ -39,66 +39,68 @@ date: 2024-08-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 연관분석에 대하여 알아본 글입니다.
+## This article examines the association analysis.
 
-안녕하세요!
+Hello!
 
-오늘은 연관분석에 대해 알아보겠습니다.
+Today, we're going to look at the association analysis.
 
-자기조직화지도 (Self-Organizing Map, SOM)는 비지도 학습 알고리즘으로, 고차원의 데이터를 저차원의 격자 구조에 사상시키는 데 사용됩니다.
+Association analysis is one of the data mining techniques that discovers interesting relationships between items in large datasets.
 
-아래에서 SOM에 대해 설명하겠습니다.
+This is used for business decision-making by identifying the relevance of products or deriving rules.
+
+We will discuss the association analysis below.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 동작 원리
+### the main concept
 
-#### 경쟁 학습
+#### Support
 
-입력 데이터와 가장 가까운 뉴런(유닛)을 선택하고, 선택된 뉴런과 그 주변의 뉴런들이 입력 데이터를 통해 경쟁하며 학습합니다.
+Indicates the frequency of the rule's overall appearance, and indicates how many specific sets of items occurred during the entire transaction.
 
-#### 이웃 관계 조정
+#### Confidence
 
-학습 초기에는 주변 뉴런들과의 연결이 강하고, 시간이 지날수록 주변 뉴런들과의 연결이 약해지도록 점진적으로 조정됩니다.
+It represents the probability that A and B will be included simultaneously among the transactions involving A and B, and it represents how strong the relationship between A and B is among the highly supported rules.
 
-#### 맵의 형성
+#### Elevation (Lift)
 
-이러한 과정을 통해 입력 데이터의 특성을 보존하면서 저차원의 격자 구조에 사상시키며, 입력 데이터 간의 유사성을 시각적으로 파악할 수 있는 맵을 형성합니다.
+It indicates how often the relationship between A and B occurs relative to coincidence, and a greater than 1 indicates a positive correlation between the two items.
 
-### 주요 특징
+### Utilization
 
-#### 비선형 사상
+#### Product recommendation system
 
-SOM은 비선형 사상을 수행하므로, 복잡한 데이터의 구조를 보존하면서 저차원으로 투영할 수 있습니다.
+It is used to identify the associations between products and present recommended products to customers.
 
-#### 시각화
+#### Inventory management
 
-저차원의 격자 구조에 데이터를 사상시키므로, 데이터 간의 유사성을 시각적으로 파악할 수 있는 맵을 형성합니다.
+It is used to pre-adjust the inventory of another product when sales of one product increase by identifying the relevance of the product.
 
-### 활용
+### Algorithms
 
-#### 패턴 인식
+#### Apriori algorithm
 
-이미지나 음성과 같은 데이터의 패턴을 인식하는 데 사용됩니다.
+It is used to generate association rules by navigating a set of frequent items, and generates rules based on support and reliability.
 
-#### 클러스터링
+#### FP-Growth Algorithm
 
-데이터의 유사성을 기반으로 군집화하여 시각적으로 표현하는 데 사용됩니다.
+It is used to build a Frequent Pattern Tree (FP-tree) to find frequent patterns and use it to extract frequent item sets.
 
-### 주의사항
+### Precautions
 
-#### 하이퍼파라미터 설정
+#### data preprocessing
 
-SOM의 학습률, 이웃 관계 조정 등의 하이퍼파라미터 설정이 결과에 영향을 줄 수 있으므로 주의가 필요합니다.
+Pre-processing such as removing noise or outliers is required to improve the quality of data.
 
-#### 차원 축소
+#### Pattern Interpretation
 
-고차원의 데이터를 저차원으로 사상하는 과정에서 정보의 손실이 발생할 수 있으므로, 이에 대한 고려가 필요합니다.
+Before applying the association rules found to your business, you must carefully examine their implications and validity.
 
-### 마치며
+### at the end of the day
 
-자기조직화지도는 다양한 분야에서 데이터의 구조를 파악하고 시각적으로 표현하는 데 활용되며, 데이터의 특성을 보존하면서 저차원으로 투영하는 강력한 비지도 학습 알고리즘입니다.
+Association analysis is a powerful data mining technique that is used in product recommendation, marketing strategy establishment, inventory management, etc. in a variety of fields and provides useful insights for the business by discovering efficient rules.
 
-감사합니다!
+Thank you!
