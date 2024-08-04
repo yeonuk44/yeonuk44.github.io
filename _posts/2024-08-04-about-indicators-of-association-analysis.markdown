@@ -39,68 +39,60 @@ date: 2024-08-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 연관분석의 지표에 대하여 알아본 글입니다.
+## This article examines the indicators of association analysis.
 
-안녕하세요!
+Hello!
 
-오늘은 연관분석의 지표에 대하여 알아보겠습니다.
+Today, we're going to look at the indicators of association analysis.
 
-연관분석은 대규모 데이터 세트에서 항목들 간의 흥미로운 관계를 발견하는 데이터 마이닝 기법 중 하나입니다.
+Association analysis uses a variety of indicators to assess the association between products and derive rules.
 
-이를 통해 상품의 연관성을 파악하거나 규칙을 도출하여 비즈니스적인 의사결정에 활용됩니다.
-
-아래에서 연관분석에 대해 설명하겠습니다.
+Below, we will describe the indicators that are mainly used in association analysis.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 주요 개념
+### Support
 
-#### 지지도 (Support)
+An indicator of how often a particular set of items occurs during the entire transaction.
 
-규칙의 전체 출현 빈도를 나타내며, 특정 항목 집합이 전체 거래 중 얼마나 많이 발생했는지를 나타냅니다.
+Support is defined as follows.
 
-#### 신뢰도 (Confidence)
+Support = (number of transactions involving a specific set of items) / (total number of transactions)
 
-A를 포함하는 거래 중 A와 B가 동시에 포함될 확률을 나타내며, 지지도가 높은 규칙들 중에서 A와 B의 관계가 얼마나 강한지를 나타냅니다.
+### Confidence
 
-#### 향상도 (Lift)
+An indicator of the reliability of a rule, which refers to the conditional probability that A and B will be included simultaneously in a transaction containing A.
 
-A와 B의 관계가 우연에 비해 얼마나 자주 발생하는지를 나타내며, 1보다 크면 두 항목 간의 양의 상관관계가 있음을 나타냅니다.
+Reliability is defined as follows.
 
-### 활용
+Reliability = (number of transactions involving A and B) / (number of transactions involving A)
 
-#### 상품 권장 시스템
+### Elevation (Lift)
 
-상품 간의 연관성을 파악하여 고객에게 권장 상품을 제시하는 데 사용됩니다.
+It is an indicator of how strong the relationship between the two products is compared to coincidence.
 
-#### 재고 관리
+Enhancements are defined as follows.
 
-상품의 연관성을 파악하여 한 상품의 판매가 증가할 때 다른 상품의 재고를 미리 조정하는 데 사용됩니다.
+'Advanced = (Support) / (Support for A \* Support for B) '
 
-### 알고리즘
+### Lift (Leverage)
 
-#### Apriori 알고리즘
+An indicator of the difference between the expected number of transactions and the actual number of transactions when the two items are independent.
 
-빈발 항목 집합을 탐색하여 연관 규칙을 생성하는 데 사용되며, 지지도와 신뢰도를 기반으로 규칙을 생성합니다.
+The lift is defined as follows.
 
-#### FP-Growth 알고리즘
+'Lift = (number of transactions including A and B) - (A's approval rating \* B's approval rating)'
 
-빈발 패턴을 찾기 위해 FP-트리(Frequent Pattern Tree)를 구축하고, 이를 이용하여 빈발 항목 집합을 추출하는 데 사용됩니다.
+### Utilization
 
-### 주의사항
+These indicators are used to measure the association between products and to discover useful rules.
 
-#### 데이터 전처리
+For example, a highly reliable rule can be interpreted as having a strong relationship between products, and when the lift is greater than 1, it shows a stronger relationship than a coincidence.
 
-데이터의 품질을 향상시키기 위해 노이즈나 이상치를 제거하는 등의 전처리가 필요합니다.
+### at the end of the day
 
-#### 패턴 해석
+In association analysis, these various indicators are comprehensively used to discover meaningful rules and use them for business decision-making.
 
-발견된 연관 규칙을 비즈니스에 적용하기 전에 그 의미와 타당성을 신중하게 검토해야 합니다.
-
-### 마치며
-
-연관분석은 다양한 분야에서 상품 추천, 마케팅 전략 수립, 재고 관리 등에 활용되며, 효율적인 규칙을 발견하여 비즈니스에 유용한 통찰을 제공하는 강력한 데이터 마이닝 기법입니다.
-
-감사합니다!
+Thank you!
