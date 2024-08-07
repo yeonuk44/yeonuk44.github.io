@@ -40,100 +40,96 @@ date: 2024-08-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 모의고사 (with.Java) 문제에 대하여 알아본 글입니다.
+## This is an article about the mock test (with.Java) question.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고를 해보고자 합니다.
+I would like to solve the coding test problem and reflect on the problem I solved.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-명함 지갑을 만드는 회사에서 지갑의 크기를 정하려고 합니다.
+Spores are the abbreviations of those who gave up mathematics.
 
-다양한 모양과 크기의 명함들을 모두 수납할 수 있으면서, 작아서 들고 다니기 편한 지갑을 만들어야 합니다.
+The trio of bullies are going to take all the math problems on the mock test.
 
-이러한 요건을 만족하는 지갑을 만들기 위해 디자인팀은 모든 명함의 가로 길이와 세로 길이를 조사했습니다.
+The spores are taken from question 1 to the last question as follows.
 
-아래 표는 4가지 명함의 가로 길이와 세로 길이를 나타냅니다.
+- Number one: 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, ...
+- Number two: 1, 2, 3, 2, 4, 5, 2, 1, 2, 3, 2, 3, 4, 5, ...
+- Number three: 3, 1, 1, 2, 4, 5, 3, 1, 3, 1, 2, 4, 5, 3, 1, 2, 2, 4, 5, ...
 
-| 명함번호 | 가로길이 | 세로길이 |
-| -------- | -------- | -------- |
-| 1        | 60       | 50       |
-| 2        | 30       | 70       |
-| 3        | 60       | 30       |
-| 4        | 80       | 40       |
+Given an array of answers in order from question 1 to the last question, write a solution function so that the person who got the most questions right returns in the array.
 
-가장 긴 가로 길이와 세로 길이가 각각 80, 70이기 때문에 80(가로) x 70(세로) 크기의 지갑을 만들면 모든 명함들을 수납할 수 있습니다.
+#### Restrictions
 
-하지만 2번 명함을 가로로 눕혀 수납한다면 80(가로) x 50(세로) 크기의 지갑으로 모든 명함들을 수납할 수 있습니다.
+- The exam consists of up to 10,000 questions.
+- The answer to the question is one of 1, 2, 3, 4, and 5.
+- If there are multiple people with the highest score, please sort the values that you return in ascending order.
 
-이때의 지갑 크기는 4000(=80 x 50)입니다.
+#### Input/Output Examples
 
-모든 명함의 가로 길이와 세로 길이를 나타내는 2차원 배열 sizes가 매개변수로 주어집니다.
+| answers     | return  |
+| ----------- | ------- |
+| [1,2,3,4,5] | [1]     |
+| [1,3,2,4,2] | [1,2,3] |
 
-모든 명함을 수납할 수 있는 가장 작은 지갑을 만들 때, 지갑의 크기를 return 하도록 solution 함수를 완성해주세요.
-
-#### 제한사항
-
-- sizes의 길이는 1 이상 10,000 이하입니다.
-- sizes의 원소는 [w, h] 형식입니다.
-- w는 명함의 가로 길이를 나타냅니다.
-- h는 명함의 세로 길이를 나타냅니다.
-- w와 h는 1 이상 1,000 이하인 자연수입니다.
-
-#### 입출력 예시
-
-| sizes                                         | result    |
-| --------------------------------------------- | --------- | ------- | ------ |
-| [[60, 50], [30, 70], [60, 30], [80, 40]]      | 4000      |
-| [[10, 7], [12, 3], [8, 15], [14, 7], [5, 15]] | 120       |
-| [[14, 4], [19, 6], [6, 16], [18, 7], [7, 11]] | 133       |
-| <!--                                          | start_num | end_num | result |
-| ---------                                     | -------   | ------  |
-| 10                                            | 3         | 0       | -->    |
-
-### 문제에 대한 나의 풀이
+### my solution to the problem
 
 ```java
+import java.util.ArrayList;
+
 class Solution {
-    public int solution(int[][] sizes) {
-        int answer = 0;
-        int temp = 0;
-        int maxRow = 0;
-        int maxCol = 0;
-        for(int i = 0; i < sizes.length; i++){
-            temp = sizes[i][0];
-            if(temp < sizes[i][1]){
-                sizes[i][0] = sizes[i][1];
-                sizes[i][1] = temp;
+    public int[] solution(int[] answers) {
+
+        int[] person1 = {1, 2, 3, 4, 5};
+        int[] person2 = {2, 1, 2, 3, 2, 4, 2, 5};
+        int[] person3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+        ArrayList<Integer> arr = new ArrayList<>();
+        int[] count = new int[3];
+
+        for(int i = 0; i < answers.length; i++){
+            if(person1[i % person1.length] == answers[i]){
+                count[0]++;
             }
-            if(maxRow < sizes[i][0]){
-                maxRow = sizes[i][0];
+            if(person2[i % person2.length] == answers[i]){
+                count[1]++;
             }
-            if(maxCol < sizes[i][1]){
-                maxCol = sizes[i][1];
+            if(person3[i % person3.length] == answers[i]){
+                count[2]++;
             }
         }
-        answer = maxRow * maxCol;
+
+        int maxNum = Math.max(count[0], Math.max(count[1], count[2]));
+
+        for(int i = 0; i < count.length; i++){
+            if(maxNum == count[i]){
+                arr.add(i + 1);
+            }
+        }
+
+        int[] answer = new int[arr.size()];
+        for(int i = 0; i < arr.size(); i++){
+            answer[i] = arr.get(i);
+        }
         return answer;
     }
 }
 ```
 
-### 풀이 설명
+### Solution Description
 
-- solution 메서드는 2차원 정수 배열 sizes를 입력으로 받습니다.
-- 변수 answer를 초기화하고, 사각형을 가로로 배치할 때의 최대 가로 길이를 나타내는 변수 maxRow와 세로로 배치할 때의 최대 세로 길이를 나타내는 변수 maxCol을 초기화합니다.
-- for 루프를 사용하여 각 사각형의 가로와 세로 길이를 순회합니다.
-- 각 사각형에 대해 가로 길이와 세로 길이를 비교하여 가로가 세로보다 작다면 가로와 세로를 서로 교환합니다. 이는 가로가 항상 세로보다 크거나 같도록 만들기 위함입니다.
-- 가로와 세로의 최대 길이를 갱신합니다. 이는 모든 사각형이 가로와 세로를 최대한 활용하여 배치되었을 때의 가로와 세로 길이를 의미합니다.
-- 최종적으로 최대 가로 길이와 최대 세로 길이를 곱하여 answer에 저장합니다.
-  answer를 반환합니다.
+- The solution method takes an integer array answer as input.
+- Save the stamping patterns of the three spores in person1, person2, and person3 arrays, respectively.
+- Create an array count to store the number of problems that each blister got right. Size is 3.
+- Use the for loop to traverse the array of correct answers and count the number of correct questions compared to each blister's pattern.
+- Find the maximum value of the number of problems that each spore answered correctly.
+- Save the number of the spores with the same value as the maximum value in the arr list.
+- Returns the contents of the arr list by converting them into arrays.
 
-### 결론
+### Conclusion
 
-이 코드는 각 사각형의 가로와 세로 길이를 고려하여 사각형을 최대한 넓게 배치할 수 있는 경우의 넓이를 구하는 문제를 해결합니다.
+This code solves the problem of finding the person who got the most correct answers compared to the correct answers based on the stamping pattern of each blimp.
