@@ -52,84 +52,78 @@ date: 2024-08-08 09:00:00 +0900
 
 ### 문제
 
-수포자는 수학을 포기한 사람의 준말입니다.
+한자리 숫자가 적힌 종이 조각이 흩어져있습니다.
 
-수포자 삼인방은 모의고사에 수학 문제를 전부 찍으려 합니다.
+흩어진 종이 조각을 붙여 소수를 몇 개 만들 수 있는지 알아내려 합니다.
 
-수포자는 1번 문제부터 마지막 문제까지 다음과 같이 찍습니다.
-
-- 1번 수포자가 찍는 방식: 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, ...
-- 2번 수포자가 찍는 방식: 2, 1, 2, 3, 2, 4, 2, 5, 2, 1, 2, 3, 2, 4, 2, 5, ...
-- 3번 수포자가 찍는 방식: 3, 3, 1, 1, 2, 2, 4, 4, 5, 5, 3, 3, 1, 1, 2, 2, 4, 4, 5, 5, ...
-
-1번 문제부터 마지막 문제까지의 정답이 순서대로 들은 배열 answers가 주어졌을 때, 가장 많은 문제를 맞힌 사람이 누구인지 배열에 담아 return 하도록 solution 함수를 작성해주세요.
+각 종이 조각에 적힌 숫자가 적힌 문자열 numbers가 주어졌을 때, 종이 조각으로 만들 수 있는 소수가 몇 개인지 return 하도록 solution 함수를 완성해주세요.
 
 #### 제한사항
 
-- 시험은 최대 10,000 문제로 구성되어있습니다.
-- 문제의 정답은 1, 2, 3, 4, 5중 하나입니다.
-- 가장 높은 점수를 받은 사람이 여럿일 경우, return하는 값을 오름차순 정렬해주세요.
+- numbers는 길이 1 이상 7 이하인 문자열입니다.
+- numbers는 0~9까지 숫자만으로 이루어져 있습니다.
+- "013"은 0, 1, 3 숫자가 적힌 종이 조각이 흩어져있다는 의미입니다.
 
 #### 입출력 예시
 
-| answers     | return  |
-| ----------- | ------- |
-| [1,2,3,4,5] | [1]     |
-| [1,3,2,4,2] | [1,2,3] |
+| numbers | return |
+| ------- | ------ |
+| "17"    | 3      |
+| "011"   | 2      |
 
 ### 문제에 대한 나의 풀이
 
 ```java
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 class Solution {
-    public int[] solution(int[] answers) {
+    private Set<Integer> numSet = new HashSet();
+    public int solution(String numbers) {
+        char[] numArr = numbers.toCharArray();
+        for(int i = 1; i <= numArr.length; i++)
+            makeCase(numArr, 0, i, new int[numArr.length], new boolean[numArr.length]);
+        return numSet.size();
+    }
 
-        int[] person1 = {1, 2, 3, 4, 5};
-        int[] person2 = {2, 1, 2, 3, 2, 4, 2, 5};
-        int[] person3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
-        ArrayList<Integer> arr = new ArrayList<>();
-        int[] count = new int[3];
-
-        for(int i = 0; i < answers.length; i++){
-            if(person1[i % person1.length] == answers[i]){
-                count[0]++;
-            }
-            if(person2[i % person2.length] == answers[i]){
-                count[1]++;
-            }
-            if(person3[i % person3.length] == answers[i]){
-                count[2]++;
-            }
+    private void makeCase(char[] numArr, int cnt, int size, int[] idxArr, boolean[] visit){
+        if(cnt == size){
+            String numStr = "";
+            for(int i = 0; i < size; i++) numStr += numArr[idxArr[i]];
+            int num = Integer.parseInt(numStr);
+            if(isPrime(num)) numSet.add(num);
+            return;
         }
 
-        int maxNum = Math.max(count[0], Math.max(count[1], count[2]));
-
-        for(int i = 0; i < count.length; i++){
-            if(maxNum == count[i]){
-                arr.add(i + 1);
+        for(int i = 0; i < numArr.length; i++){
+            if(!visit[i]){
+                visit[i] = true; idxArr[cnt] = i;
+                makeCase(numArr, cnt+1, size, idxArr, visit);
+                visit[i] = false;
             }
         }
+    }
 
-        int[] answer = new int[arr.size()];
-        for(int i = 0; i < arr.size(); i++){
-            answer[i] = arr.get(i);
-        }
-        return answer;
+    private boolean isPrime(int n){
+        if(n < 2) return false;
+        for(int i = 2; i <= Math.sqrt(n); i++)
+            if(n % i == 0) return false;
+        return true;
     }
 }
 ```
 
 ### 풀이 설명
 
-- solution 메서드는 정수 배열 answers를 입력으로 받습니다.
-- 세 수포자의 찍기 패턴을 각각 person1, person2, person3 배열에 저장합니다.
-- 각 수포자가 맞힌 문제의 수를 저장할 배열 count를 생성합니다. 크기는 3입니다.
-- for 루프를 사용하여 정답 배열을 순회하며 각 수포자의 패턴과 비교하여 맞힌 문제의 수를 카운트합니다.
-- 각 수포자가 맞힌 문제의 수 중 최대값을 구합니다.
-- 최대값과 같은 값을 가지는 수포자의 번호를 arr 리스트에 저장합니다.
-- arr 리스트의 내용을 배열로 변환하여 반환합니다.
+- solution 메서드는 문자열 numbers를 입력으로 받습니다.
+- numbers를 문자 배열로 변환하여 각 숫자를 쪼갭니다.
+- 각 숫자로 가능한 모든 조합을 생성하기 위해 makeCase 메서드를 호출합니다.
+- makeCase 메서드는 재귀적으로 호출되며, 백트래킹을 사용하여 가능한 모든 조합을 생성합니다.
+- makeCase 메서드 내에서는 현재까지 선택된 인덱스를 저장하는 배열 idxArr과 해당 인덱스가 방문되었는지를 나타내는 배열 visit를 사용합니다.
+- 각 조합이 완성된 후에는 해당 숫자가 소수인지 판별하여 numSet에 추가합니다.
+- isPrime 메서드는 주어진 숫자가 소수인지를 판별합니다.
+- 모든 조합 생성이 완료된 후에는 numSet의 크기를 반환하여 소수의 개수를 구합니다.
 
 ### 결론
 
-이 코드는 각 수포자의 찍기 패턴에 따라 정답과 비교하여 가장 많이 맞힌 사람을 찾는 문제를 해결합니다.
+이 코드는 백트래킹을 사용하여 주어진 숫자로 가능한 모든 조합을 생성하고, 그 중에서 소수인 숫자의 개수를 반환하는 문제를 해결합니다.
