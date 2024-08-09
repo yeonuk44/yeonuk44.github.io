@@ -40,31 +40,31 @@ date: 2024-08-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 카펫 (with.Java) 문제에 대하여 알아본 글입니다.
+## This is an article about the carpet (with.Java) problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고를 해보고자 합니다.
+I would like to solve the coding test problem and reflect on the problem I solved.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-Leo는 카펫을 사러 갔다가 아래 그림과 같이 중앙에는 노란색으로 칠해져 있고 테두리 1줄은 갈색으로 칠해져 있는 격자 모양 카펫을 봤습니다.
+Leo went to buy a carpet and saw a plaid carpet painted yellow in the center and brown in the rim line as shown below.
 
-Leo는 집으로 돌아와서 아까 본 카펫의 노란색과 갈색으로 색칠된 격자의 개수는 기억했지만, 전체 카펫의 크기는 기억하지 못했습니다.
+Leo returned home and remembered the number of yellow and brown colored grids on the carpet he had seen earlier, but not the size of the entire carpet.
 
-Leo가 본 카펫에서 갈색 격자의 수 brown, 노란색 격자의 수 yellow가 매개변수로 주어질 때 카펫의 가로, 세로 크기를 순서대로 배열에 담아 return 하도록 solution 함수를 작성해주세요.
+Write a solution function so that Leo returns the horizontal and vertical sizes of the carpets in order when the number of brown grids and the number of yellow grids are given as parameters in this carpet.
 
-#### 제한사항
+#### Restrictions
 
-- 갈색 격자의 수 brown은 8 이상 5,000 이하인 자연수입니다.
-- 노란색 격자의 수 yellow는 1 이상 2,000,000 이하인 자연수입니다.
-- 카펫의 가로 길이는 세로 길이와 같거나, 세로 길이보다 깁니다.
+- The number of brown grids is a natural number greater than 8 and less than 5,000.
+- The number of yellow grids is a natural number greater than 1 and less than 2,000,000.
+- The width of the carpet is equal to or longer than the length.
 
-#### 입출력 예시
+#### Input/Output Examples
 
 | brown | yellow | return |
 | ----- | ------ | ------ |
@@ -72,35 +72,47 @@ Leo가 본 카펫에서 갈색 격자의 수 brown, 노란색 격자의 수 yell
 | 8     | 1      | [3, 3] |
 | 24    | 24     | [8, 6] |
 
-### 문제에 대한 나의 풀이
+### my solution to the problem
 
 ```java
-makeCase(numArr, cnt+1, size, idxArr, visit);
-                visit[i] = false;
+class Solution {
+    public int[] solution(int brown, int yellow) {
+        int[] answer = new int[2];
+        int length = brown / 2 + 1;
+        int x = length;
+        for(int y = 1; y < length; y++){
+            if(x * y - brown == yellow){
+                answer[0] = x;
+                answer[1] = y;
+                break;
             }
+            x--;
         }
-    }
-
-    private boolean isPrime(int n){
-        if(n < 2) return false;
-        for(int i = 2; i <= Math.sqrt(n); i++)
-            if(n % i == 0) return false;
-        return true;
+        return answer;
     }
 }
 ```
 
-### 풀이 설명
+### Solution Description
 
-- solution 메서드는 문자열 numbers를 입력으로 받습니다.
-- numbers를 문자 배열로 변환하여 각 숫자를 쪼갭니다.
-- 각 숫자로 가능한 모든 조합을 생성하기 위해 makeCase 메서드를 호출합니다.
-- makeCase 메서드는 재귀적으로 호출되며, 백트래킹을 사용하여 가능한 모든 조합을 생성합니다.
-- makeCase 메서드 내에서는 현재까지 선택된 인덱스를 저장하는 배열 idxArr과 해당 인덱스가 방문되었는지를 나타내는 배열 visit를 사용합니다.
-- 각 조합이 완성된 후에는 해당 숫자가 소수인지 판별하여 numSet에 추가합니다.
-- isPrime 메서드는 주어진 숫자가 소수인지를 판별합니다.
-- 모든 조합 생성이 완료된 후에는 numSet의 크기를 반환하여 소수의 개수를 구합니다.
+- The solution method takes the integer brown and yellow as inputs.
+- The answer array will store the width and length of the rectangle.
+- The length variable stores the horizontal length of the rectangle estimated by the number of brown tiles.
+- Assign a horizontal length to x.
+- Use the for loop to navigate the length from 1 to length.
+- If the value obtained by multiplying each x and y by subtracting the number of brown tiles from the total number of tiles matches the number of yellow tiles, save the corresponding x and y values in the answer array and end the loop.
+- If there are no x and y that satisfy the condition, reduce x and check the condition again.
+  Finally returns the answer array.
+- This code addresses the issue of returning horizontal and vertical lengths when a rectangle can be created using the number of brown and yellow tiles.
 
-### 결론
+To supplement the commentary, the code follows the following logic.
 
-이 코드는 백트래킹을 사용하여 주어진 숫자로 가능한 모든 조합을 생성하고, 그 중에서 소수인 숫자의 개수를 반환하는 문제를 해결합니다.
+- First, to find the horizontal length of a rectangle, add 1 to the number of brown tiles divided by 2. (Since brown tiles fill two horizontal and vertical lines of a rectangle, the horizontal length must be greater than or equal to the vertical length.)
+- Verify that the result of subtracting the number of brown tiles from the value multiplied by the horizontal length x and the vertical length y matches the number of yellow tiles.
+- If it matches, save the corresponding horizontal length x and vertical length y in the answer array and end the iteration.
+- Otherwise, check again, decreasing the horizontal length x one by one.
+- Finally, return the answer array.
+
+### Conclusion
+
+This code uses iterations to search for horizontal and vertical lengths x and y to find out if the conditions given in the problem are met, and it is stored in the answer array to return them.
