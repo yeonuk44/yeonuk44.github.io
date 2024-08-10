@@ -40,79 +40,93 @@ date: 2024-08-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 피로도 (with.Java) 문제에 대하여 알아본 글입니다.
+## This is an article about the fatigue (with.Java) problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고를 해보고자 합니다.
+I would like to solve the coding test problem and reflect on the problem I solved.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-Leo는 카펫을 사러 갔다가 아래 그림과 같이 중앙에는 노란색으로 칠해져 있고 테두리 1줄은 갈색으로 칠해져 있는 격자 모양 카펫을 봤습니다.
+The XX game has a fatigue degree system (expressed in integers above zero), and you can explore dungeons using a certain fatigue degree.
 
-Leo는 집으로 돌아와서 아까 본 카펫의 노란색과 갈색으로 색칠된 격자의 개수는 기억했지만, 전체 카펫의 크기는 기억하지 못했습니다.
+At this point, each dungeon has the "minimum required fatigue" needed to start the expedition and the "consumption fatigue" consumed when the dungeon expedition is completed.
 
-Leo가 본 카펫에서 갈색 격자의 수 brown, 노란색 격자의 수 yellow가 매개변수로 주어질 때 카펫의 가로, 세로 크기를 순서대로 배열에 담아 return 하도록 solution 함수를 작성해주세요.
+"Minimum required fatigue" refers to the minimum fatigue you need to have to explore the dungeon, and "consumption fatigue" refers to the fatigue you consume after exploring the dungeon.
 
-#### 제한사항
+For example, in order to explore dungeons with "minimum required fatigue" of 80 and "consumption fatigue" of 20, the user's current remaining fatigue must be at least 80; after exploring dungeons, the user consumes 20 fatigue.
 
-- 갈색 격자의 수 brown은 8 이상 5,000 이하인 자연수입니다.
-- 노란색 격자의 수 yellow는 1 이상 2,000,000 이하인 자연수입니다.
-- 카펫의 가로 길이는 세로 길이와 같거나, 세로 길이보다 깁니다.
+There are several dunes in this game that you can explore once a day, and one user is trying to explore them as much as possible today.
 
-#### 입출력 예시
+Complete the solution function to return the maximum number of throws the user can explore, given the user's current fatigue k and the two-dimensional arrangement dungeons containing "minimum required fatigue" and "consumption fatigue" for each dungeon as parameters.
 
-| brown | yellow | return |
-| ----- | ------ | ------ |
-| 10    | 2      | [4, 3] |
-| 8     | 1      | [3, 3] |
-| 24    | 24     | [8, 6] |
+#### Restrictions
 
-### 문제에 대한 나의 풀이
+- k is a natural number greater than 1 and less than 5,000.
+- The length (row) of the dungeons (i.e., the number of dungeons) is 1 or more and 8 or less.
+- The distance (column) of the dungeons is 2.
+- Each row of the dungeons is ["Minimum Required Fatigue", "Consumption Fatigue"] for each dungeon.
+- "Minimum required fatigue" is always greater than or equal to "consumption fatigue".
+- "Minimum required fatigue" and "consumption fatigue" are natural numbers greater than 1 and less than 1,000.
+- The different dungeons ["Minimum Required Fatigue" and "Consumption Fatigue"] can be the same.
+
+#### Input/Output Examples
+
+| k   | dungeons                  | result |
+| --- | ------------------------- | ------ |
+| 80  | [[80,20],[50,40],[30,10]] | 3      |
+
+### my solution to the problem
 
 ```java
 class Solution {
-    public int[] solution(int brown, int yellow) {
-        int[] answer = new int[2];
-        int length = brown / 2 + 1;
-        int x = length;
-        for(int y = 1; y < length; y++){
-            if(x * y - brown == yellow){
-                answer[0] = x;
-                answer[1] = y;
-                break;
-            }
-            x--;
-        }
+    public int answer = 0;
+    public boolean[] visit;
+
+    public int solution(int k, int[][] dungeons) {
+        visit = new boolean[dungeons.length];
+
+        dfs(0, k, dungeons);
+
         return answer;
+    }
+
+    public void dfs(int depth, int k, int[][] dungeons) {
+        for (int i = 0; i < dungeons.length; i++) {
+            if(visit[i] || dungeons[i][0] > k){
+                continue;
+            } else{
+                visit[i] = true;
+                dfs(depth + 1, k - dungeons[i][1], dungeons);
+                visit[i] = false;
+            }
+        }
+        answer = Math.max(answer, depth);
     }
 }
 ```
 
-### 풀이 설명
+### Solution Description
 
-- solution 메서드는 정수 brown과 yellow를 입력으로 받습니다.
-- answer 배열은 직사각형의 가로와 세로를 저장할 것입니다.
-- length 변수에는 갈색 타일의 개수를 통해 추정한 직사각형의 가로 길이를 저장합니다.
-- x에는 가로 길이를 할당합니다.
-- for 루프를 사용하여 세로 길이를 1부터 length까지 탐색합니다.
-- 각각의 x와 y를 곱하여 전체 타일의 수에서 갈색 타일의 수를 빼고 난 값이 노란색 타일의 수와 일치하면, 해당 x와 y값을 answer 배열에 저장하고 루프를 종료합니다.
-- 만약 조건을 만족하는 x와 y가 없다면, x를 감소시키고 다시 조건을 확인합니다.
-  최종적으로 answer 배열을 반환합니다.
-- 이 코드는 갈색 타일과 노란색 타일의 수를 이용하여 직사각형을 만들 수 있는 경우의 가로와 세로 길이를 반환하는 문제를 해결합니다.
+[80,20], [50,40], [30,10], which is impossible because the third dungeon cannot be searched, and if the third dungeon is in the order of the least exhausting fatigue, [30,10], [80,20], [50,40] is impossible because the remaining dungeon is 70 when the first dungeon is turned.
 
-해설을 보충하자면, 코드는 다음과 같은 로직을 따릅니다.
+In other words, the only way to search for the number of all cases using complete search was to solve it by DFS using a recursive function.
 
-- 먼저, 직사각형의 가로 길이를 구하기 위해 갈색 타일의 개수인 brown을 2로 나눈 값에 1을 더합니다. (갈색 타일은 직사각형의 가로와 세로 2줄을 각각 채우므로, 가로 길이는 반드시 세로 길이보다 크거나 같아야 합니다.)
-- 가로 길이 x와 세로 길이 y를 곱한 값에서 갈색 타일의 수를 뺀 결과가 노란색 타일의 수와 일치하는지 확인합니다.
-- 만약 일치한다면, 해당 가로 길이 x와 세로 길이 y를 answer 배열에 저장하고 반복문을 종료합니다.
-- 그렇지 않으면, 가로 길이 x를 하나씩 감소시키면서 다시 확인합니다.
-- 마지막으로, answer 배열을 반환합니다.
+The dfs method is recursively called.
 
-### 결론
+Each call takes as an argument the depth of the search to date, the current level (k), and the Dungeons.
 
-이 코드는 반복문을 사용하여 가로 길이 x와 세로 길이 y를 탐색하면서 문제에서 주어진 조건을 만족시키는 경우를 찾아내고, 이를 answer 배열에 저장하여 반환합니다.
+Iterate to explore dungeons where the demand level is below the current level among the non-visited dungeons.
+
+Visit the first undiscovered dungeon and recursively call the demand level of that dungeon to the value minus the current level.
+
+When the recursive call ends, change the visit to false again.
+
+### Conclusion
+
+Record the maximum search depth as you navigate all dunes, and finally return it.
+The code provides a simple way to explore all possible paths using the DFS algorithm and to find the maximum search depth among them.
