@@ -40,93 +40,115 @@ date: 2024-08-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 전력망을 둘로 나누기 (with.Java) 문제에 대하여 알아본 글입니다.
+## This is an article about the problem of dividing the electrical grid into two (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고를 해보고자 합니다.
+I would like to solve the coding test problem and reflect on the problem I solved.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-XX게임에는 피로도 시스템(0 이상의 정수로 표현합니다)이 있으며, 일정 피로도를 사용해서 던전을 탐험할 수 있습니다.
+N transmission towers are connected in the form of a tree through wires.
 
-이때, 각 던전마다 탐험을 시작하기 위해 필요한 "최소 필요 피로도"와 던전 탐험을 마쳤을 때 소모되는 "소모 피로도"가 있습니다.
+You want to break one of these wires and split the current grid network into two.
 
-"최소 필요 피로도"는 해당 던전을 탐험하기 위해 가지고 있어야 하는 최소한의 피로도를 나타내며, "소모 피로도"는 던전을 탐험한 후 소모되는 피로도를 나타냅니다.
+At this time, we want to match the number of transmission towers that the two power grids have as close as possible.
 
-예를 들어 "최소 필요 피로도"가 80, "소모 피로도"가 20인 던전을 탐험하기 위해서는 유저의 현재 남은 피로도는 80 이상 이어야 하며, 던전을 탐험한 후에는 피로도 20이 소모됩니다.
+The number of transmission towers n, and wire information wires are given as parameters.
 
-이 게임에는 하루에 한 번씩 탐험할 수 있는 던전이 여러개 있는데, 한 유저가 오늘 이 던전들을 최대한 많이 탐험하려 합니다.
+Complete the solution function to return the difference (absolute value) between the number of transmission towers held by the two grids when one of the wires is cut off and divided into two grids so that the number of transmission towers is as similar as possible.
 
-유저의 현재 피로도 k와 각 던전별 "최소 필요 피로도", "소모 피로도"가 담긴 2차원 배열 dungeons 가 매개변수로 주어질 때, 유저가 탐험할수 있는 최대 던전 수를 return 하도록 solution 함수를 완성해주세요.
+#### Restrictions
 
-#### 제한사항
+- n is a natural number greater than 2 and less than 100.
+- wires is an integer two-dimensional array with length n-1.
+- Each element of wires consists of two natural numbers [v1, v2], which means that the -v1 and v2 transmission towers of the grid are wired.
+- 1 ≤ v1 < v2 ≤ n.
+- If the power grid network is not in the form of a tree, it is not given as an input.
 
-- k는 1 이상 5,000 이하인 자연수입니다.
-- dungeons의 세로(행) 길이(즉, 던전의 개수)는 1 이상 8 이하입니다.
-- dungeons의 가로(열) 길이는 2 입니다.
-- dungeons의 각 행은 각 던전의 ["최소 필요 피로도", "소모 피로도"] 입니다.
-- "최소 필요 피로도"는 항상 "소모 피로도"보다 크거나 같습니다.
-- "최소 필요 피로도"와 "소모 피로도"는 1 이상 1,000 이하인 자연수입니다.
-- 서로 다른 던전의 ["최소 필요 피로도", "소모 피로도"]가 서로 같을 수 있습니다.
+#### Input/Output Examples
 
-#### 입출력 예시
+| n   | wires                                             | result |
+| --- | ------------------------------------------------- | ------ |
+| 9   | [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]] | 3      |
+| 4   | [[1,2],[2,3],[3,4]]                               | 0      |
+| 7   | [[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]             | 1      |
 
-| k   | dungeons                  | result |
-| --- | ------------------------- | ------ |
-| 80  | [[80,20],[50,40],[30,10]] | 3      |
-
-### 문제에 대한 나의 풀이
+### my solution to the problem
 
 ```java
+import java.util.ArrayList;
+
 class Solution {
-    public int answer = 0;
-    public boolean[] visit;
+    static int cnt;
+    static ArrayList<Integer>[] graph;
+    static boolean[] visited;
 
-    public int solution(int k, int[][] dungeons) {
-        visit = new boolean[dungeons.length];
+    public int solution(int n, int[][] wires) {
+        int answer = Integer.MAX_VALUE;
+        int len = wires.length;
 
-        dfs(0, k, dungeons);
+        for(int i = 0; i < len; i++){
+            graph = new ArrayList[n + 1];
 
+            for(int p = 0; p < (n + 1); p++){
+                graph[p] = new ArrayList<>();
+            }
+
+            int temp = 0;
+
+            for(int j = 0; j < len; j++){
+                if(j == i) continue;
+                int key = wires[j][0];
+                int value = wires[j][1];
+                graph[key].add(value);
+                graph[value].add(key);
+                temp = key;
+            }
+
+            cnt = 1;
+            visited = new boolean[n + 1];
+            dfs(temp);
+
+            answer = Math.min(answer, Math.abs(2 * cnt - n));
+        }
         return answer;
     }
 
-    public void dfs(int depth, int k, int[][] dungeons) {
-        for (int i = 0; i < dungeons.length; i++) {
-            if(visit[i] || dungeons[i][0] > k){
-                continue;
-            } else{
-                visit[i] = true;
-                dfs(depth + 1, k - dungeons[i][1], dungeons);
-                visit[i] = false;
-            }
+    public static void dfs(int tempKey){
+        visited[tempKey] = true;
+        for(int i = 0; i < graph[tempKey].size(); i++){
+            int tempValue = graph[tempKey].get(i);
+            if(visited[tempValue]) continue;
+            cnt++;
+            dfs(tempValue);
         }
-        answer = Math.max(answer, depth);
     }
 }
 ```
 
-### 풀이 설명
+### Solution Description
 
-만약 최소 필요도가 큰 순서대로 한다면, [80,20],[50,40],[30,10]인데 3번째 던전을 탐색할 수 없기 때문에 불가능하고, 소모 피로도가 적은 순서대로 한다면, [30,10], [80,20],[50,40]인데 첫 번째 던전을 돌면 남은 필요도는 70이기 때문에 두 번째 던전을 탐색할 수 없기에 불가능합니다.
+- n: Number of transmission towers in the grid
+- wires: a two-dimensional array representing the electrical grid
+- answer: a variable that stores the result value to be finally returned
+- It controls the flow of the entire code and calculates the difference in the number of transmission towers by breaking the power grid one by one.
+- Create a two-dimensional graph by breaking wires one by one
+- graph: Two-dimensional ArrayList arrangement that indicates the connection status between transmission towers
+- We generate a two-dimensional graph that ignores the corresponding wires by breaking the power grid one by one.
+- Counting the number of transmission towers through DFS navigation
+- Counts the number of transmission towers through the dfs method.
+- DFS searches for connected transmission towers based on the transmission tower to check whether they are visiting and count the number of transmission towers.
+- This calculates the number of transmission towers in the entire power grid.
+- Calculate the difference between the transmission towers of the two electrical grids
+- To find a value that minimizes the difference in the number of transmission towers in each power grid, compare the number of transmission towers calculated in each power grid through iterations and update the minimum value.
+- Return Final Results
+- Returns the minimum value of the difference in the number of transmission towers calculated by cutting all power grids one by one.
 
-즉, 완전탐색을 사용해 모든 경우의 수를 탐색하는 방법 밖에 없어 재귀함수를 이용한 DFS로 풀이했습니다.
+### Conclusion
 
-dfs 메서드는 재귀적으로 호출됩니다.
-
-각 호출은 현재까지의 탐색 깊이(depth), 현재 레벨(k), 그리고 던전 정보 배열(dungeons)을 인수로 받습니다.
-
-반복문을 통해 방문하지 않은 던전 중에서 요구 레벨이 현재 레벨 이하인 던전을 탐색합니다.
-
-방문하지 않은 던전 중에서 가장 먼저 발견된 던전을 방문하고, 해당 던전의 요구 레벨을 현재 레벨에서 뺀 값으로 재귀 호출합니다.
-
-재귀 호출이 종료되면 해당 던전의 방문 여부를 다시 false로 변경합니다.
-
-### 결론
-
-모든 던전을 탐색하면서 최대 탐색 깊이를 기록하고, 이를 최종적으로 반환합니다.
-이 코드는 DFS 알고리즘을 이용하여 모든 가능한 경로를 탐색하고, 그 중에서 최대 탐색 깊이를 구하는 간단한 방법을 제시합니다.
+In this way, the code calculates the number of transmission towers by breaking the entire power grid one by one to solve the given problem, and finds a value that minimizes the difference in the number of transmission towers between the two power grids.
