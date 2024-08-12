@@ -40,109 +40,87 @@ date: 2024-08-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 모음 사전 (with.Java) 문제에 대하여 알아본 글입니다.
+## This is an article about the vowel dictionary (with.Java) problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고를 해보고자 합니다.
+I would like to solve the coding test problem and reflect on the problem I solved.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-사전에 알파벳 모음 'A', 'E', 'I', 'O', 'U'만을 사용하여 만들 수 있는, 길이 5 이하의 모든 단어가 수록되어 있습니다. 사전에서 첫 번째 단어는 "A"이고, 그다음은 "AA"이며, 마지막 단어는 "UUUUU"입니다.
+The dictionary contains all words less than 5 in length that can be made using only the alphabetic vowels 'A', 'E', 'I', 'O', and 'U'.
 
-단어 하나 word가 매개변수로 주어질 때, 이 단어가 사전에서 몇 번째 단어인지 return 하도록 solution 함수를 완성해주세요.
+In the dictionary, the first word is "A", then "AA", and the last word is "UUUUUU".
 
-#### 제한사항
+When a word is given as a parameter, complete the solution function so that it returns the number of words in the dictionary.
 
-- n은 2 이상 100 이하인 자연수입니다.
-- wires는 길이가 n-1인 정수형 2차원 배열입니다.
-- wires의 각 원소는 [v1, v2] 2개의 자연수로 이루어져 있으며, 이는 전력망의 - v1번 송전탑과 v2번 송전탑이 전선으로 연결되어 있다는 것을 의미합니다.
-- 1 ≤ v1 < v2 ≤ n 입니다.
-- 전력망 네트워크가 하나의 트리 형태가 아닌 경우는 입력으로 주어지지 않습니다.
+#### Restrictions
 
-#### 입출력 예시
+- The length of the word is 1 or more and 5 or less.
+- The word only consists of the uppercase letters 'A', 'E', 'I', 'O', and 'U'.
 
-| n   | wires                                             | result |
-| --- | ------------------------------------------------- | ------ |
-| 9   | [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]] | 3      |
-| 4   | [[1,2],[2,3],[3,4]]                               | 0      |
-| 7   | [[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]             | 1      |
+#### Input/Output Examples
 
-### 문제에 대한 나의 풀이
+| word    | result |
+| ------- | ------ |
+| "AAAAE" | 6      |
+| "AAAE"  | 10     |
+| "I"     | 1563   |
+| "EIO"   | 1189   |
+
+### my solution to the problem
 
 ```java
 import java.util.ArrayList;
 
 class Solution {
-    static int cnt;
-    static ArrayList<Integer>[] graph;
-    static boolean[] visited;
+    static ArrayList<String> list;
+    static String[] words = {"A", "E", "I", "O", "U"};
 
-    public int solution(int n, int[][] wires) {
-        int answer = Integer.MAX_VALUE;
-        int len = wires.length;
+    public int solution(String word) {
+        int answer = 0;
+        list = new ArrayList<>();
 
-        for(int i = 0; i < len; i++){
-            graph = new ArrayList[n + 1];
+        dfs("", 0);
+        int size = list.size();
 
-            for(int p = 0; p < (n + 1); p++){
-                graph[p] = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            if (list.get(i).equals(word)) {
+                answer = i;
+                break;
             }
-
-            int temp = 0;
-
-            for(int j = 0; j < len; j++){
-                if(j == i) continue;
-                int key = wires[j][0];
-                int value = wires[j][1];
-                graph[key].add(value);
-                graph[value].add(key);
-                temp = key;
-            }
-
-            cnt = 1;
-            visited = new boolean[n + 1];
-            dfs(temp);
-
-            answer = Math.min(answer, Math.abs(2 * cnt - n));
         }
+
         return answer;
     }
 
-    public static void dfs(int tempKey){
-        visited[tempKey] = true;
-        for(int i = 0; i < graph[tempKey].size(); i++){
-            int tempValue = graph[tempKey].get(i);
-            if(visited[tempValue]) continue;
-            cnt++;
-            dfs(tempValue);
+    static void dfs(String str, int len) {
+        list.add(str);
+        if (len == 5) return;
+
+        for (int i = 0; i < 5; i++) {
+            dfs(str + words[i], len + 1);
         }
     }
 }
 ```
 
-### 풀이 설명
+### Solution Description
 
-- n: 전력망에 있는 송전탑의 개수
-- wires: 전력망을 나타내는 2차원 배열
-- answer: 최종적으로 반환할 결과값을 저장하는 변수
-- 전체 코드의 흐름을 제어하고, 전력망을 하나씩 끊어가며 송전탑의 개수 차이를 계산합니다.
-- 전선을 하나씩 끊으며 2차원 그래프 생성
-- graph: 송전탑 간의 연결 상태를 나타내는 2차원 ArrayList 배열
-- 전력망을 하나씩 끊어가며 해당 전선을 무시한 2차원 그래프를 생성합니다.
-- DFS 탐색을 통한 송전탑 개수 카운팅
-- dfs 메서드를 통해 송전탑 개수를 카운트합니다.
-- 해당 송전탑을 기준으로 연결된 송전탑들을 DFS 탐색하면서 방문 여부를 체크하고 송전탑 개수를 셉니다.
-- 이를 통해 전체 전력망의 송전탑 개수를 구합니다.
-- 두 전력망의 송전탑 차이 계산
-- 각 전력망의 송전탑 개수 차이가 최소가 되는 값을 찾기 위해 반복문을 통해 각각의 전력망에서 계산된 송전탑 개수를 비교하고 최솟값을 업데이트합니다.
-- 최종 결과 반환
-- 모든 전력망을 하나씩 끊어가며 계산한 송전탑 개수 차이 중에서 최솟값을 반환합니다.
+- word: the string you want to find
+- answer: a variable that stores the result
+- After generating all combinations of words, see how many times the given string comes out and return it.
+- Generating words with DFS navigation
+- Generates all combinations of words through the dfs method.
+- Add each vowel to the current string str to generate the next level of string.
+- Create all combinations through the DFS navigation and store them in the list.
+- Check the number of times the given string comes out
+- Check all the generated combinations and return the index if it matches the given string.
 
-### 결론
+### Conclusion
 
-이렇게 코드는 주어진 문제를 해결하기 위해 전체 전력망을 하나씩 끊어가며 송전탑의 개수를 계산하고, 두 전력망의 송전탑 개수 차이가 최소가 되는 값을 찾습니다.
+In this way, the code generates all combinations of words made up of a given collection through DFS navigation, and finds the number of times the given string comes out.
