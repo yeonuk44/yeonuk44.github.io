@@ -40,87 +40,116 @@ date: 2024-08-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 체육복 (with.Java) 문제에 대하여 알아본 글입니다.
+## This is an article about the issue of sportswear (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고를 해보고자 합니다.
+I would like to solve the coding test problem and reflect on the problem I solved.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-사전에 알파벳 모음 'A', 'E', 'I', 'O', 'U'만을 사용하여 만들 수 있는, 길이 5 이하의 모든 단어가 수록되어 있습니다.
+Some students had their gym clothes stolen because they were robbed at lunchtime.
 
-사전에서 첫 번째 단어는 "A"이고, 그다음은 "AA"이며, 마지막 단어는 "UUUUU"입니다.
+Fortunately, a student with extra gym clothes is trying to lend them their gym clothes.
 
-단어 하나 word가 매개변수로 주어질 때, 이 단어가 사전에서 몇 번째 단어인지 return 하도록 solution 함수를 완성해주세요.
+Students' numbers are arranged in order of physique, so you can only lend your gym clothes to the students in the front number or the students in the back number.
 
-#### 제한사항
+For example, student number 4 can only lend their gym clothes to student number 3 or student number 5.
 
-- word의 길이는 1 이상 5 이하입니다.
-- word는 알파벳 대문자 'A', 'E', 'I', 'O', 'U'로만 이루어져 있습니다.
+    Since you can't take classes without gym clothes, you should borrow gym clothes properly and take as many students as possible.
 
-#### 입출력 예시
+Write a solution function to return the maximum value of students who can take PE classes, given the number n of students whose PE uniforms are stolen, the array lost with the number of students who brought extra PE, and the array reserve with the number of students who can take PE classes as parameters.
 
-| word    | result |
-| ------- | ------ |
-| "AAAAE" | 6      |
-| "AAAE"  | 10     |
-| "I"     | 1563   |
-| "EIO"   | 1189   |
+#### Restrictions
 
-### 문제에 대한 나의 풀이
+- The total number of students is 2 or more and 30 or less.
+- The number of students whose gym clothes were stolen is more than 1 and no more than n, and there are no duplicate numbers.
+- The number of students who brought extra gym clothes is more than 1 and no more than n, and there are no duplicate numbers.
+- Only students with extra gym clothes can lend gym clothes to other students.
+- A student who brought extra gym clothes may have had their gym clothes stolen. At this time, the student assumes that only one gym clothes was stolen, and he cannot lend it to another student because he has only one gym clothes left.
+
+#### Input/Output Examples
+
+| n   | lost   | reserve   | return |
+| --- | ------ | --------- | ------ |
+| 5   | [2, 4] | [1, 3, 5] | 5      |
+| 5   | [2, 4] | [3]       | 4      |
+| 3   | [3]    | [1]       | 2      |
+
+### my solution to the problem
 
 ```java
-import java.util.ArrayList;
+import java.util.Arrays;
 
 class Solution {
-    static ArrayList<String> list;
-    static String[] words = {"A", "E", "I", "O", "U"};
-
-    public int solution(String word) {
+    public int solution(int n, int[] lost, int[] reserve) {
         int answer = 0;
-        list = new ArrayList<>();
+        Arrays.sort(reserve);
+        Arrays.sort(lost);
 
-        dfs("", 0);
-        int size = list.size();
+        answer = n - lost.length;
 
-        for (int i = 0; i < size; i++) {
-            if (list.get(i).equals(word)) {
-                answer = i;
-                break;
-            }
+        for (int i = 0; i < lost.length; i++) {
+			for (int j = 0; j < reserve.length; j++) {
+				if (lost[i] == reserve[j]) {
+					answer++;
+					lost[i] = -1;
+					reserve[j] = -1;
+                    break;
+				}
+			}
+		}
+        for(int num : lost){
+            for (int j = 0; j < reserve.length; j++) {
+				if (num - 1 == reserve[j] || num + 1 == reserve[j]) {
+					answer++;
+					reserve[j] = -1;
+					break;
+				}
+			}
         }
 
         return answer;
     }
-
-    static void dfs(String str, int len) {
-        list.add(str);
-        if (len == 5) return;
-
-        for (int i = 0; i < 5; i++) {
-            dfs(str + words[i], len + 1);
-        }
-    }
 }
 ```
 
-### 풀이 설명
+### Solution Description
 
-- word: 찾고자 하는 문자열
-- answer: 결과값을 저장하는 변수
-- 단어들의 모든 조합을 생성한 후, 주어진 문자열이 몇 번째로 나오는지 확인하여 반환합니다.
-- DFS 탐색을 통한 단어 생성
-- dfs 메서드를 통해 단어의 모든 조합을 생성합니다.
-- 현재 문자열 str에 각각의 모음을 추가하여 다음 레벨의 문자열을 생성합니다.
-- DFS 탐색을 통해 모든 조합을 생성하고, 이를 list에 저장합니다.
-- 주어진 문자열이 몇 번째로 나오는지 확인
-- 생성된 모든 조합을 확인하여 주어진 문자열과 일치하는 경우 해당 인덱스를 반환합니다.
+First, arrange the arrangement of students who brought extra gym clothes and the stolen students.
 
-### 결론
+This is to proceed more efficiently during the subsequent comparison process.
 
-이렇게 코드는 DFS 탐색을 통해 주어진 모음으로 구성된 단어들의 모든 조합을 생성하고, 주어진 문자열이 몇 번째로 나오는지를 찾습니다.
+Sets the total number of students to an initial value, excluding the number of stolen students.
+
+For now, the number of stolen students is subtracted from the total number of students, in consideration of the case where the student who brought the extra gym clothes can lend them to the stolen student.
+
+Find the case where the stolen student and the student who brought the extra gym clothes are the same number and deal with them.
+
+These students can take PE classes because the stolen student has lost his or her gym clothes, but he or she has brought extra gym clothes.
+
+In this case, add those students to the total number of students excluding the number of stolen students.
+
+Processed students will change their numbers to -1 to avoid overlapping considerations in the next navigation.
+
+Explore if you can lend your gym clothes, considering that the distance between the students who brought extra gym clothes and the students who were stolen is 1.
+
+If the distance between the students who brought extra gym clothes and the stolen students is 1, you can lend them to each other.
+
+In this case, it adds to the total number of students excluding the number of stolen students.
+
+Processed students will change their numbers to -1 to avoid overlapping considerations in the next navigation.
+
+The total number of students, excluding the last stolen students, is the number of students who can take PE classes. Returns this value.
+
+The code explores the cases in which students can take PE classes according to the conditions given through two iterations, and returns the number.
+
+### Conclusion
+
+The above code implements a process to explore the relationship between students who were stolen and those who brought extra gym clothes under several conditions.
+
+The course is designed in detail to meet the conditions of the given problem, first processing if the stolen and the student who brought the extra gym clothes are the same number, then checking if the distance between the students who brought the extra gym clothes and the stolen students is one.
