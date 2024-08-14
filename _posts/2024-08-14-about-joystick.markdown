@@ -40,116 +40,124 @@ date: 2024-08-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 조이스틱 (with.Java) 문제에 대하여 알아본 글입니다.
+## This is an article about the joystick (with.Java) problem.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고를 해보고자 합니다.
+I would like to solve the coding test problem and reflect on the problem I solved.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-점심시간에 도둑이 들어, 일부 학생이 체육복을 도난당했습니다.
+Complete the alphabet names with joysticks.
 
-다행히 여벌 체육복이 있는 학생이 이들에게 체육복을 빌려주려 합니다.
+At first, it only consists of A.
 
-학생들의 번호는 체격 순으로 매겨져 있어, 바로 앞번호의 학생이나 바로 뒷번호의 학생에게만 체육복을 빌려줄 수 있습니다.
+ex. The name that needs to be completed is AAA if it's three letters, and AAA if it's four letters
 
-예를 들어, 4번 학생은 3번 학생이나 5번 학생에게만 체육복을 빌려줄 수 있습니다.
+If you move the joystick in each direction, it looks like below.
 
-    체육복이 없으면 수업을 들을 수 없기 때문에 체육복을 적절히 빌려 최대한 많은 학생이 체육수업을 들어야 합니다.
+▲ - Next alphabet
 
-전체 학생의 수 n, 체육복을 도난당한 학생들의 번호가 담긴 배열 lost, 여벌의 체육복을 가져온 학생들의 번호가 담긴 배열 reserve가 매개변수로 주어질 때, 체육수업을 들을 수 있는 학생의 최댓값을 return 하도록 solution 함수를 작성해주세요.
+▼ - Previous alphabet (move down from A to Z)
 
-#### 제한사항
+◀ - Move the cursor to the left (if you move to the left from the first position, the cursor to the last character)
 
-- 전체 학생의 수는 2명 이상 30명 이하입니다.
-- 체육복을 도난당한 학생의 수는 1명 이상 n명 이하이고 중복되는 번호는 없습니다.
-- 여벌의 체육복을 가져온 학생의 수는 1명 이상 n명 이하이고 중복되는 번호는 없습니다.
-- 여벌 체육복이 있는 학생만 다른 학생에게 체육복을 빌려줄 수 있습니다.
-- 여벌 체육복을 가져온 학생이 체육복을 도난당했을 수 있습니다. 이때 이 학생은 체육복을 하나만 도난당했다고 가정하며, 남은 체육복이 하나이기에 다른 학생에게는 체육복을 빌려줄 수 없습니다.
+▶ - Move cursor to the right (if you move to the right from the last position, cursor to the first character)
 
-#### 입출력 예시
+For example, you can create a "JAZ" in the following way.
 
-| n   | lost   | reserve   | return |
-| --- | ------ | --------- | ------ |
-| 5   | [2, 4] | [1, 3, 5] | 5      |
-| 5   | [2, 4] | [3]       | 4      |
-| 3   | [3]    | [1]       | 2      |
+- In the first position, operate the joystick up 9 times to complete J.
+- Move the cursor to the last character position by manipulating the joystick to the left once.
+- In the last position, operate the joystick down once to complete Z.
 
-### 문제에 대한 나의 풀이
+So you can move 11 times to make "JAZ", which is the minimum movement.
+
+If the name you want to create is given as a parameter, create a solution function to return the minimum number of joystick operations for the name.
+
+#### Restrictions
+
+- The name consists only of uppercase letters.
+- The length of the name is 1 or more and 20 or less.
+
+#### Input/Output Examples
+
+| name     | return |
+| -------- | ------ |
+| "JEROEN" | 56     |
+| "JAN"    | 23     |
+
+### my solution to the problem
 
 ```java
-import java.util.Arrays;
-
 class Solution {
-    public int solution(int n, int[] lost, int[] reserve) {
+    public int solution(String name) {
         int answer = 0;
-        Arrays.sort(reserve);
-        Arrays.sort(lost);
+        int cursor = name.length() - 1;
 
-        answer = n - lost.length;
-
-        for (int i = 0; i < lost.length; i++) {
-			for (int j = 0; j < reserve.length; j++) {
-				if (lost[i] == reserve[j]) {
-					answer++;
-					lost[i] = -1;
-					reserve[j] = -1;
-                    break;
-				}
-			}
-		}
-        for(int num : lost){
-            for (int j = 0; j < reserve.length; j++) {
-				if (num - 1 == reserve[j] || num + 1 == reserve[j]) {
-					answer++;
-					reserve[j] = -1;
-					break;
-				}
-			}
+        for(int i = 0; i < name.length(); i++){
+            answer += Math.min(name.charAt(i) - 'A', 'Z' - name.charAt(i) + 1);
+            if(i < name.length() - 1 && name.charAt(i + 1) == 'A'){
+                int temp = i + 1;
+                while(temp < name.length() && name.charAt(temp) == 'A'){
+                    temp++;
+                }
+                cursor = Math.min(cursor, (i * 2) + (name.length() - temp));
+                cursor = Math.min(cursor, i + (name.length() - temp) * 2);
+            }
         }
-
-        return answer;
+        return answer + cursor;
     }
 }
 ```
 
-### 풀이 설명
+### Solution Description
 
-먼저 여분의 체육복을 가져온 학생들과 도난당한 학생들의 배열을 정렬합니다.
+First, the answer variable is a variable that accumulates the number of manipulations of a string that must be created by manipulating each character.
 
-이는 이후 비교 과정에서 더 효율적으로 진행하기 위함입니다.
+Examine each character by repeating the string from start to finish.
 
-도난당한 학생 수를 제외한 전체 학생 수를 초기값으로 설정합니다.
+Choose a smaller value between the distance from the current character 'A' and the distance from the current character 'Z' to the current character to calculate the minimum number of operations required to manipulate the character.
 
-여분의 체육복을 가져온 학생이 도난당한 학생에게 체육복을 빌려줄 수 있는 경우를 고려하여 일단 도난당한 학생 수를 전체 학생 수에서 뺍니다.
+For example, if the current character is 'B', you can manipulate 'A' up to one space, so one manipulation is required.
 
-도난당한 학생과 여분의 체육복을 가져온 학생이 같은 번호인 경우를 찾아서 해당 학생들을 처리합니다.
+Alternatively, you can operate one space down from 'Y' to 'Z', so you need one operation.
 
-도난당한 학생이 체육복을 잃어버렸지만 여분의 체육복을 가져온 경우이므로, 이 학생들은 체육 수업을 들을 수 있습니다.
+In this way, each character calculates the number of operations and accumulates them in the answer variable.
 
-이 때, 해당 학생들을 도난당한 학생 수를 제외한 전체 학생 수에 더해줍니다.
+Next, if you meet successive 'A', calculate the additional number of moves.
 
-처리된 학생들은 다음 탐색에서 중복하여 고려되지 않도록 해당 학생들의 번호를 -1로 변경합니다.
+If you encounter the part leading to 'A', you should consider the additional number of operations as you move next.
 
-여분의 체육복을 가져온 학생들과 도난당한 학생들 사이의 거리가 1인 경우를 고려하여 체육복을 빌려줄 수 있는지를 탐색합니다.
+This is because when you meet consecutive 'A', the number of manipulations will also occur when you go back.
 
-여분의 체육복을 가져온 학생들과 도난당한 학생들 사이의 거리가 1이면 서로 체육복을 빌려줄 수 있습니다.
+Therefore, if you encounter a continuous 'A' after the current character, you calculate the number of additional operations until the next move.
 
-이 경우, 도난당한 학생 수를 제외한 전체 학생 수에 더해줍니다.
+Use the cursor variable for this.
 
-처리된 학생들은 다음 탐색에서 중복하여 고려되지 않도록 해당 학생들의 번호를 -1로 변경합니다.
+The cursor variable stores the minimum number of additional operations when meeting successive 'A' and moving on.
 
-최종적으로 도난당한 학생을 제외한 전체 학생 수가 체육 수업을 들을 수 있는 학생 수입니다. 이 값을 반환합니다.
+To initialize this, initialize the cursor to the length of the name -1.
 
-이 코드는 두 번의 반복문을 통해 주어진 조건에 따라 학생들이 체육 수업을 들을 수 있는 경우를 탐색하고, 그 수를 반환합니다.
+This is because we assume that one move to the end of the string is the worst case.
 
-### 결론
+If you meet successive 'A', calculate the number of operations until the next move.
 
-위 코드에는 여러 조건에 따라 도난당한 학생과 여분의 체육복을 가져온 학생 사이의 관계를 탐색하는 과정이 구현되어 있습니다.
+At this time, compare the two cases and choose a smaller value.
 
-이 과정은 주어진 문제의 조건에 맞게 상세히 설계되었으며, 먼저 도난당한 학생과 여분의 체육복을 가져온 학생이 같은 번호인 경우를 처리하고, 그 다음으로는 여분의 체육복을 가져온 학생들과 도난당한 학생들 사이의 거리가 1인 경우를 고려하여 체육복을 빌려줄 수 있는지를 확인합니다.
+Move from the current character position i to the position where the successive 'A' ends, then add the distance from the end to the current position and the distance to the current position.
+
+Alternatively, add the distance to the current position and the distance from the position where the successive 'A' ends to the end and then back again.
+
+In this case, the distance to the current position is doubled by the distance from the position where the successive 'A' ends to the end.
+
+Save the additional number of movements calculated in this way in the cursor variable.
+
+Finally, add the accumulated number of text operations to the answer and the additional number of movements (cursor) to return the final number of operations.
+
+### Conclusion
+
+In this way, we calculate the minimum number of operations to manipulate a given string to make it a target string.
