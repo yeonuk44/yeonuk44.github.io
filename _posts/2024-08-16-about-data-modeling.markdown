@@ -39,62 +39,70 @@ date: 2024-08-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 데이터 모델링에 대하여 알아본 글입니다.
+## This is an article about data modeling.
 
-안녕하세요!
+Hello!
 
-오늘은 데이터 모델링에 대하여 알아보겠습니다.
+Today, we will learn about data modeling.
 
-데이터가 현대 비즈니스의 핵심 자산으로 자리 잡으면서, 데이터를 효과적으로 이해하고 관리하는 것이 매우 중요해졌습니다. 이러한 데이터 관리를 위한 핵심 도구 중 하나가 바로 데이터 모델링입니다. 데이터 모델링이 무엇인지, 왜 중요한지, 그리고 어떻게 수행되는지에 대해 알아보겠습니다.
+As data has become a key asset in modern business, it has become critical to understand and manage it effectively.
+
+One of the key tools for managing such data is data modeling.
+
+We'll learn what data modeling is, why it's important, and how it's done.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 다차원 척도법 (MDS)
+## What is data modeling
 
-### 개념
+Data modeling is the process of organizing and organizing data systematically.
 
-MDS는 고차원 공간에 있는 데이터의 상대적 거리 및 유사성을 보존하면서 저차원으로 사상하는 기법입니다.
+It is used to design database systems by visually representing the characteristics and relationships of the data.
 
-데이터 간의 유사성을 시각적으로 표현하는 데 사용됩니다.
+Data modeling is typically divided into three main steps.
 
-### 활용
+### Conceptual Data Modeling
 
-MDS는 주로 다차원적인 데이터를 시각적으로 표현하거나 유사성을 분석하는 데 사용됩니다.
+Define the overall structure of data reflecting business requirements at a high level.
 
-예를 들어, 소비자들이 제품들을 어떻게 인식하는지, 지리적 위치들 간의 상대적 거리 등을 분석하는 데 활용됩니다.
+Mainly uses an entity (ERD) and an entity-relationhip diagram (ERD) that represents the relationship between them.
 
-### 종류
+### Logical Data Modeling
 
-MDS에는 거리 행렬을 이용하는 비메트릭 MDS와 내적을 이용하는 메트릭 MDS 등이 있습니다.
+We detail the logical structure of the data based on conceptual models.
 
-## 주성분 분석 (PCA)
+This step defines tables, columns, data types, etc., and minimizes data duplication through the normalization process.
 
-### 개념
+### Physical Data Modeling
 
-PCA는 다변량 자료의 차원을 축소하고 주요한 정보를 추출하는 기법으로, 변수들 간의 상관관계를 이용하여 기존 변수들을 선형적으로 결합한 새로운 변수들을 찾아냅니다.
+We design a physical structure for implementing logical models in a real database.
 
-### 활용
+This includes index design, partitioning, and storage settings that take into account the performance of the database.
 
-PCA는 다변량 자료의 차원 축소, 잠재적인 요인의 발견, 데이터 압축, 잡음 제거 등 다양한 분야에서 활용됩니다.
+## The Importance of Data Modeling
 
-### 주요 개념
+### Ensuring Data Integrity
 
-PCA는 데이터의 분산을 최대화하는 새로운 변수(주성분)를 찾아내며, 원래 변수들의 정보를 최대한 보존하는데 중점을 둡니다.
+Data modeling plays an important role in maintaining data consistency and integrity.
 
-## 공통점과 차이점
+A systematic data structure minimizes data redundancy and ensures the accuracy of the data.
 
-### 공통점
+### Efficient Data Management
 
-MDS와 PCA 모두 다차원 데이터를 저차원으로 축소하여 시각화하거나 데이터의 주요한 구조를 추출하는 데 사용됩니다.
+Organizing data systematically through data modeling improves database performance and facilitates management.
 
-### 차이점
+This allows tasks such as lookup, insertion, update, and deletion of data to be performed more efficiently.
 
-MDS는 데이터 간의 거리나 유사성을 보존하는 데 중점을 두고, PCA는 변수들 간의 상관관계를 최대화하는 데 중점을 둡니다.
+### Reflect business requirements
 
-## 마치며
+By clearly identifying and reflecting business requirements in the data modeling process and data structures, databases can be designed for real business environments.
 
-다차원 척도법과 주성분 분석은 다변량 데이터의 시각화와 구조를 이해하는 데 중요한 도구로 활용됩니다.
+This goes a long way to support data-driven decision-making.
 
-감사합니다!
+## at the end of the day
+
+We've learned about modeling the ideal data.
+
+Have a great day!
