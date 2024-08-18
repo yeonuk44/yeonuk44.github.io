@@ -39,53 +39,98 @@ date: 2024-08-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 데이터 독립성 요소에 대하여 알아본 글입니다.
+## This article examines the data independence factor.
 
-안녕하세요!
+Hello!
 
-오늘은 데이터 독립성 요소에 대하여 알아보겠습니다.
+Database Management Systems (DBMS) are one of the core infrastructures of modern business, requiring a variety of concepts and technologies for efficient data management.
+
+Among them, data independence is an important concept that increases the flexibility and maintenance of database systems.
+
+In this post, we will look at what data independence is, its importance, and the elements to implement it.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 데이터 모델링의 주요 기법
+## What is data independence?
 
-### ERD (Entity-Relationship Diagram)
+Data independence means keeping the logical and physical structures of the database independent.
 
-ERD는 데이터 모델링의 가장 기본적인 도구 중 하나로, 엔티티와 이들 간의 관계를 시각적으로 표현합니다.
+This allows the database system to modify the physical storage structure without changing the logical definition of the data, and conversely, to change the logical structure without changing the physical structure.
 
-엔티티는 데이터베이스에서 관리되는 객체(예: 고객, 주문 등)를 나타내고, 관계는 이러한 객체들 간의 상호작용을 나타냅니다.
+Data independence can be divided into two levels
 
-### 정규화 (Normalization)
+### Logical Data Independence
 
-정규화는 데이터베이스를 설계할 때 데이터의 중복을 최소화하고, 무결성을 유지하기 위한 방법론입니다.
+Changing the logical structure (skima) of the database does not affect the application.
 
-제1정규형부터 제5정규형까지 여러 단계가 있으며, 각 단계는 데이터의 구조를 더 체계적으로 만듭니다.
+### Physical Data Independence
 
-### UML (Unified Modeling Language)
+Changing the physical storage structure of the database does not affect the logical structure or application.
 
-UML은 소프트웨어 공학에서 널리 사용되는 모델링 언어로, 데이터 모델링에서도 유용하게 사용됩니다.
+## The Importance of Data Independence
 
-클래스 다이어그램은 데이터베이스 테이블과 유사하게 엔티티와 속성을 표현하며, 이들 간의 관계를 나타낼 수 있습니다.
+### Ease of maintenance
 
-## 데이터 모델링 도구
+Data independence facilitates maintenance of database systems.
 
-현대 데이터 모델링 작업은 다양한 소프트웨어 도구를 통해 수행됩니다. 대표적인 데이터 모델링 도구로는 다음과 같은 것들이 있습니다.
+System administrators can manage databases more efficiently because changes in logical or physical structure can minimize the impact on applications.
 
-- ER/Studio: 강력한 데이터 모델링 도구로, 대규모 데이터베이스 설계에 적합합니다.
-- IBM InfoSphere Data Architect: IBM의 데이터 관리 솔루션으로, 다양한 데이터 소스와의 통합이 용이합니다.
-- Oracle SQL Developer Data Modeler: Oracle 데이터베이스 환경에 최적화된 모델링 도구입니다.
-- Microsoft Visio: 일반적으로 다이어그램 작성 도구로 사용되지만, 데이터 모델링에도 활용할 수 있습니다.
+### Flexible Data Management
 
-## 마치며
+Data independence allows database systems to respond more flexibly to changes in different requirements.
 
-데이터 모델링은 데이터베이스 설계의 핵심 단계로, 데이터의 구조를 체계적으로 정의하고 관리하는 데 중요한 역할을 합니다.
+Whether new data requirements arise or existing requirements change, you can adapt without significant system-wide modifications.
 
-이를 통해 데이터의 무결성을 확보하고, 비즈니스 요구사항을 충족시키며, 효율적인 데이터 관리를 실현할 수 있습니다.
+### Reduce costs
 
-데이터 모델링 기법과 도구를 잘 활용하면, 데이터 중심의 비즈니스 환경에서 경쟁력을 높일 수 있습니다.
+Data independence helps reduce the cost of changing and scaling systems.
 
-여러분의 데이터베이스 설계 과정에서 데이터 모델링의 중요성을 이해하고, 이를 효과적으로 활용해 보세요.
+Low structural changes and minimal application modifications result in lower overall administrative costs.
 
-데이터의 가치를 최대화하고, 더 나은 데이터 기반 의사결정을 내리는 데 큰 도움이 될 것입니다.
+## Elements for Implementing Data Independence
+
+### Database Schema
+
+A database schema is a blueprint that defines the structure and relationship of data.
+
+Schema clearly defines the logical structure of the database, supporting logical data independence.
+
+Database schema is typically divided into external schema (user perspective), conceptual schema (whole logical structure), and internal schema (physical storage structure).
+
+### Database Management System (DBMS)
+
+DBMS is a key technology that supports data independence.
+
+Modern DBMS provides a variety of features that support logical and physical data independence.
+
+For example, functions such as index, partitioning, and storage management are used to implement physical independence, and functions such as View and Stored Procedure are used to implement logical independence.
+
+### Database Interface
+
+The interface between the application and the database is an important factor in realizing data independence.
+
+Interfaces such as Application Programming Interface (API) or Structured Query Language (SQL) allow applications to query and manipulate data without having to know the internal structure of the database.
+
+### data abstraction
+
+Data abstraction is another important concept that implements data independence.
+
+Data abstraction is the representation of data in high-level logical structures, hiding physical details.
+
+This is achieved through logical modeling of the data, enabling database users and developers to understand and use the data without worrying about the physical implementation of the data.
+
+## at the end of the day
+
+Data independence is an important concept that increases the flexibility and maintenance of database systems.
+
+Logical data independence and physical data independence minimize the impact of database structure changes on applications.
+
+For this, elements such as database schema, DBMS, database interface, and data abstraction play an important role.
+
+A good implementation of data independence will maximize the efficiency of database systems, which will soon lead to a stronger business competitiveness.
+
+Always be mindful of data independence in database management and actively utilize it.
+
+Database systems will become more powerful and flexible.
