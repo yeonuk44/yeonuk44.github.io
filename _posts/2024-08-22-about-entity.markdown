@@ -43,8 +43,6 @@ date: 2024-08-22 09:00:00 +0900
 
 Hello!
 
-Hello!
-
 Today, we're going to talk about one of the key concepts of database design: **Entity**.
 
 Entities play an important role in databases and are essential for managing and organizing data systematically.
