@@ -39,122 +39,110 @@ date: 2024-08-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-## Entity의 분류에 대하여 알아본 글입니다.
+## This article examines the classification of Entity.
 
-안녕하세요!
+Hello!
 
-오늘은 데이터베이스 설계의 기본 개념인 **엔터티(Entity)**의 특징에 대해 알아보겠습니다.
+Today, we're going to learn about the classification of **Entertainment**, an important concept in database design.
 
-엔터티는 데이터베이스에서 중요한 역할을 하며, 데이터를 체계적으로 관리하고 조직화하는 데 필수적입니다.
+An entity is a basic component of a database, which can be categorized according to a number of criteria.
 
-엔터티의 특징을 잘 이해하면, 더 효율적이고 일관성 있는 데이터 모델을 설계할 수 있습니다.
-
-그럼 엔터티의 주요 특징들을 하나씩 살펴보겠습니다.
+In this post, let's take a closer look at how we can categorize entities based on **EntityType** and **Entity Occurrence**.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 고유성 (Uniqueness)
+## Types of Entertainment (Tangible Entertainment vs Intangible Entertainment)
 
-### 설명
+### Tangible Entities
 
-엔터티는 데이터베이스에서 고유한 객체를 나타내야 합니다.
+#### Definition
 
-이는 엔터티의 각 인스턴스가 서로 구별될 수 있도록 고유한 식별자를 가져야 함을 의미합니다.
+A tangible entity represents a physical entity.
 
-이 식별자는 **기본 키(Primary Key)**로 정의됩니다.
+These entities are objects that can actually be observed or measured, and they have physical forms in the real world.
 
-### 예시
+#### Example
 
-- **고객 엔터티**: 고객 ID가 고유해야 하며, 이를 통해 각 고객을 구분할 수 있습니다.
-- **제품 엔터티**: 제품 ID가 고유해야 하며, 이를 통해 각 제품을 식별할 수 있습니다.
+- **Customer**: Contains information such as the customer's name, contact information, and address.
+- **Product**: Contains information such as product name, price, manufacturer, etc.
+- **Building**: Contains information on the address, size, purpose, etc. of the building.
 
-## 속성 (Attributes)
+#### Characteristics
 
-### 설명
+- It is physically present, and can be observed directly in the real world.
+- It mainly plays an important role in managing the company's assets and inventory.
 
-엔터티는 여러 개의 속성으로 구성됩니다.
+### Intangible Entities
 
-속성은 엔터티의 특성을 나타내며, 각 속성은 엔터티의 특정 정보를 담고 있습니다.
+#### Definition
 
-속성은 엔터티의 데이터 요소를 설명하는 중요한 구성 요소입니다.
+An intangible entity represents an entity that is not physically present but is conceptually important.
 
-### 예시
+These entities have no physical form, but they are managed as important information in the database.
 
-- **고객 엔터티**: 이름, 연락처, 주소 등의 속성을 가질 수 있습니다.
-- **제품 엔터티**: 이름, 가격, 제조사 등의 속성을 가질 수 있습니다.
+#### Example
 
-## 관계 (Relationships)
+- **Contract**: Includes information such as contract number, contract date, contract terms, etc.
+- **Insurance**: Includes information such as insurance number, type of insurance, amount of insurance, etc.
+- **Order**: Include information such as order number, order date, customer ID, product ID, etc.
 
-### 설명
+#### Characteristics
 
-엔터티는 다른 엔터티와 관계를 맺을 수 있습니다.
+- There is no physical form, but it plays an important role in the business process.
+- It is mainly used in various fields such as finance, law, and administration.
 
-이러한 관계는 데이터베이스 내에서 엔터티 간의 연관성을 나타냅니다.
+## When an entity occurs (static entity vs dynamic entity)
 
-관계는 데이터의 일관성을 유지하고, 데이터 간의 연결성을 보장하는 데 중요합니다.
+### Static Entities
 
-### 예시
+#### Definition
 
-- **고객과 주문 간의 관계**: 고객은 여러 주문을 할 수 있으며, 각 주문은 하나의 고객에 속합니다.
-- **제품과 주문 간의 관계**: 하나의 주문에는 여러 제품이 포함될 수 있으며, 각 제품은 여러 주문에 포함될 수 있습니다.
+Static entity refers to an entity that does not change or fluctuate with time.
 
-## 식별 가능성 (Identifiability)
+These entities rarely change once they are registered in the database.
 
-### 설명
+#### Example
 
-엔터티는 고유하게 식별될 수 있어야 합니다.
+- **Country**: Contains information such as country code, country name, continent, etc.
+- **Currency**: Contains information such as currency code, currency name, exchange rate, etc.
+- **Product Category**: Contains information such as category ID, category name, etc.
 
-이는 각 엔터티 인스턴스가 고유한 속성을 가져야 함을 의미합니다.
+#### Characteristics
 
-이러한 식별 가능성을 보장하는 것이 **기본 키**입니다.
+- With little variation in the data, maintenance is relatively easy.
+- It is primarily used as reference data.
 
-기본 키는 엔터티의 각 인스턴스를 고유하게 식별할 수 있는 속성 또는 속성들의 집합입니다.
+### Dynamic Entities
 
-### 예시
+#### Definition
 
-- **고객 엔터티**: 고객 ID는 각 고객을 고유하게 식별할 수 있는 기본 키입니다.
-- **주문 엔터티**: 주문 ID는 각 주문을 고유하게 식별할 수 있는 기본 키입니다.
+Dynamic entity refers to an entity whose data changes frequently over time.
 
-## 데이터 무결성 (Data Integrity)
+These entities are constantly changed by business activities or external factors.
 
-### 설명
+#### Example
 
-엔터티는 데이터 무결성을 유지해야 합니다.
+- **Order**: Information such as order status, order date, customer information, etc. will change frequently.
+- **Customer**: Information such as the customer's address, contact information, and order history will change frequently.
+- **Inventory**: Information such as inventory quantity, warehousing date, and release date will change frequently.
 
-이는 엔터티의 데이터가 정확하고 일관되게 유지됨을 의미합니다.
+#### Characteristics
 
-데이터 무결성을 유지하기 위해서는 데이터베이스 내에서 적절한 **제약 조건**을 설정해야 합니다.
+- Data changes frequently, so care must be taken to maintain database performance and consistency.
+- It is primarily used as transaction data.
 
-### 예시
+## at the end of the day
 
-- **고객 엔터티**: 고객의 이메일 주소는 고유해야 하며, 중복되지 않아야 합니다.
-- **제품 엔터티**: 제품의 가격은 0보다 커야 하며, 음수가 될 수 없습니다.
+An entity is a key component of database design and can be categorized according to a variety of criteria.
 
-## 추상화 (Abstraction)
+Depending on the type, the entity can be classified into **typed entity** and **intangible entity** and **static entity** and **dynamic entity** depending on the time of occurrence.
 
-### 설명
+This classification helps you understand and manage the characteristics of the entity when designing the database.
 
-엔터티는 현실 세계의 객체를 추상화하여 데이터베이스 내에서 관리할 수 있도록 합니다.
+Build a more efficient and consistent data model by considering the type of entity and when it occurs when designing the database.
 
-추상화는 복잡한 현실 세계의 객체를 데이터베이스 내에서 관리하기 쉽게 단순화하는 과정입니다.
+This will make it easier to manage and utilize your data.
 
-### 예시
-
-- **고객 엔터티**: 현실 세계의 고객을 추상화하여 데이터베이스 내에서 이름, 연락처, 주소 등의 속성으로 관리합니다.
-- **제품 엔터티**: 현실 세계의 제품을 추상화하여 데이터베이스 내에서 이름, 가격, 제조사 등의 속성으로 관리합니다.
-
-## 마치며
-
-엔터티는 데이터베이스 설계의 기본 단위로, 고유성, 속성, 관계, 식별 가능성, 데이터 무결성, 추상화 등의 특징을 가지고 있습니다.
-
-이러한 특징들을 잘 이해하고 활용하면, 더 효율적이고 일관성 있는 데이터 모델을 설계할 수 있습니다.
-
-엔터티의 특징을 고려하여 데이터베이스를 설계하면, 데이터의 관리와 활용이 훨씬 수월해질 것입니다.
-
-이번 포스팅에서 엔터티의 주요 특징들에 대해 알아보았습니다.
-
-다음 포스팅에서는 엔터티 간의 관계와 이를 효과적으로 설계하는 방법에 대해 다뤄보겠습니다.
-
-많은 기대 부탁드립니다!
+I hope this post helped me understand the classification of the entity.
