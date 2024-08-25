@@ -39,110 +39,83 @@ date: 2024-08-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-## Attribute에 대하여 알아본 글입니다.
+## This is an article about attributes.
 
-안녕하세요!
+Hello!
 
-오늘은 데이터베이스 설계에서 중요한 개념인 **엔터티(Entity)**의 분류에 대해 알아보겠습니다.
+Today, we're going to talk about one of the key elements of database design: **Attribute**.
 
-엔터티는 데이터베이스의 기본 구성 요소로, 여러 가지 기준에 따라 분류될 수 있습니다.
+Attributes are the basic elements that represent the characteristics of data within a database, representing the specific information each entity has.
 
-이번 포스팅에서는 엔터티를 **유형(Entity Type)**과 **발생시점(Entity Occurrence)**에 따라 어떻게 분류할 수 있는지 자세히 살펴보겠습니다.
+In this post, let's take a closer look at what properties are, and how they are defined and used.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 엔터티의 유형 (유형 엔터티 vs 무형 엔터티)
+## What are properties?
 
-### 유형 엔터티 (Tangible Entity)
+### Definition
 
-#### 정의
+An attribute is a data element that represents the characteristics of an entity.
 
-유형 엔터티는 물리적으로 존재하는 실체를 나타냅니다.
+Each entity consists of multiple attributes, which come together to form specific information about the entity.
 
-이러한 엔터티는 실제로 관찰하거나 측정할 수 있는 객체로, 현실 세계에서 물리적 형태를 가지고 있습니다.
+For example, the attributes of a student's entity may include the student's student number, name, and major.
 
-#### 예시
+### Example
 
-- **고객(Customer)**: 고객의 이름, 연락처, 주소 등의 정보를 포함합니다.
-- **제품(Product)**: 제품의 이름, 가격, 제조사 등의 정보를 포함합니다.
-- **건물(Building)**: 건물의 주소, 크기, 용도 등의 정보를 포함합니다.
+- **Student**: You may have attributes such as student number, name, major, grade, etc.
+- **Product**: Properties such as product code, product name, price, manufacturer, etc.
+- **Order**: You may have attributes such as order number, order date, customer ID, product ID, etc.
 
-#### 특징
+## Types of properties
 
-- 물리적으로 존재하며, 현실 세계에서 직접 관찰할 수 있습니다.
-- 주로 기업의 자산 관리, 재고 관리 등에서 중요한 역할을 합니다.
+### Simple Attribute
 
-### 무형 엔터티 (Intangible Entity)
+#### Definition
 
-#### 정의
+The default property is a single property that is no longer divisible.
 
-무형 엔터티는 물리적으로 존재하지 않지만 개념적으로 중요한 실체를 나타냅니다.
+In other words, it represents the smallest unit of data that properties can no longer be subdivided or decomposed.
 
-이러한 엔터티는 물리적 형태는 없지만 데이터베이스에서 중요한 정보로 관리됩니다.
+#### Example
 
-#### 예시
+- **Student ID for students**: Student numbers are a single attribute that can no longer be broken down or subdivided.
+- **Price of the product**: Price is a basic property expressed as a single value.
 
-- **계약(Contract)**: 계약 번호, 계약 날짜, 계약 조건 등의 정보를 포함합니다.
-- **보험(Insurance)**: 보험 번호, 보험 종류, 보험 금액 등의 정보를 포함합니다.
-- **주문(Order)**: 주문 번호, 주문 날짜, 고객 ID, 제품 ID 등의 정보를 포함합니다.
+### Composite Attributes
 
-#### 특징
+#### Definition
 
-- 물리적 형태는 없지만, 비즈니스 프로세스에서 중요한 역할을 합니다.
-- 주로 금융, 법률, 행정 등 다양한 분야에서 사용됩니다.
+A composite property is a property that consists of multiple sub-attributes.
 
-## 엔터티의 발생시점 (정적 엔터티 vs 동적 엔터티)
+That is, the property consists of several parts, which together make up the value of the property.
 
-### 정적 엔터티 (Static Entity)
+#### Example
 
-#### 정의
+- **Address**: Addresses may consist of several sub-properties, such as city, distance, zip code, etc.
+- **Name**: Names can consist of several sub-properties, such as last name, first name, and middle name.
 
-정적 엔터티는 시간에 따라 변하지 않거나 변동이 매우 적은 엔터티를 말합니다.
+### Derived Attributes
 
-이러한 엔터티는 데이터베이스에 한 번 등록되면 거의 변경되지 않습니다.
+#### Definition
 
-#### 예시
+Derivative properties are properties calculated using other properties.
 
-- **국가(Country)**: 국가 코드, 국가 이름, 대륙 등의 정보를 포함합니다.
-- **통화(Currency)**: 통화 코드, 통화 이름, 환율 등의 정보를 포함합니다.
-- **제품 카테고리(Product Category)**: 카테고리 ID, 카테고리 이름 등의 정보를 포함합니다.
+In other words, the value of an attribute is determined by the operation or function of the other attributes.
 
-#### 특징
+#### Example
 
-- 데이터의 변동이 거의 없으므로 유지보수가 상대적으로 쉽습니다.
-- 주로 참조 데이터(Reference Data)로 사용됩니다.
+- **Total Order Amount**: The total order amount is calculated by multiplying the price and quantity of the product you ordered.
+- **Age**: Age may be calculated based on date of birth compared to current date.
 
-### 동적 엔터티 (Dynamic Entity)
+## at the end of the day
 
-#### 정의
+Properties are the basic elements that define the characteristics of data in a database, representing the information each entity has.
 
-동적 엔터티는 시간에 따라 데이터가 자주 변하는 엔터티를 말합니다.
+Designing a database by appropriately leveraging different kinds of properties, such as basic properties, composite properties, and derivative properties, enables more efficient and flexible data models to be built.
 
-이러한 엔터티는 비즈니스 활동이나 외부 요인에 의해 지속적으로 변경됩니다.
+I hope this post helped me understand the properties.
 
-#### 예시
-
-- **주문(Order)**: 주문 상태, 주문 날짜, 고객 정보 등의 정보가 자주 변경됩니다.
-- **고객(Customer)**: 고객의 주소, 연락처, 주문 내역 등의 정보가 자주 변경됩니다.
-- **재고(Inventory)**: 재고 수량, 입고 날짜, 출고 날짜 등의 정보가 자주 변경됩니다.
-
-#### 특징
-
-- 데이터가 자주 변경되므로, 데이터베이스 성능과 일관성 유지에 주의가 필요합니다.
-- 주로 트랜잭션 데이터(Transaction Data)로 사용됩니다.
-
-## 마치며
-
-엔터티는 데이터베이스 설계의 핵심 요소로, 다양한 기준에 따라 분류될 수 있습니다.
-
-유형에 따라 엔터티를 **유형 엔터티**와 **무형 엔터티**로, 발생시점에 따라 **정적 엔터티**와 **동적 엔터티**로 분류할 수 있습니다.
-
-이러한 분류는 데이터베이스를 설계할 때 엔터티의 특성을 이해하고 적절히 관리하는 데 도움이 됩니다.
-
-데이터베이스 설계 시 엔터티의 유형과 발생시점을 고려하여 더 효율적이고 일관성 있는 데이터 모델을 구축해 보세요.
-
-이를 통해 데이터의 관리와 활용이 더욱 쉬워질 것입니다.
-
-이번 포스팅이 엔터티의 분류에 대해 이해하는 데 도움이 되었기를 바랍니다.
+Thank you!
