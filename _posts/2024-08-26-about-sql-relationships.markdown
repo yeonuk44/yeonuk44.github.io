@@ -39,83 +39,123 @@ date: 2024-08-26 09:00:00 +0900
 
 <!-- outline-start -->
 
-## SQL의 관계에 대하여 알아본 글입니다.
+## This article examines the relationship between SQL.
 
-안녕하세요!
+Hello!
 
-오늘은 데이터베이스 설계에서 중요한 요소 중 하나인 **속성(Attribute)**에 대해 알아보겠습니다.
+Today, we're going to talk about relationships in Structured Query Language (SQL).
 
-속성은 데이터베이스 내에서 데이터의 특성을 나타내는 기본 요소로, 각각의 엔터티(Entity)가 가지는 특정 정보를 표현합니다.
+SQL is a powerful language used to manage and manipulate data in databases, and plays an important role in representing and processing relationships between data in relational databases.
 
-이번 포스팅에서는 속성이 무엇이며, 어떻게 정의되고 사용되는지 자세히 살펴보겠습니다.
+In this post, we will look at the main concepts related to how to express relationships in SQL.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 속성이란 무엇인가?
+## relational database model
 
-### 정의
+### Overview
 
-속성은 엔터티(Entity)의 특성을 나타내는 데이터 요소입니다.
+A relational database model is a method of storing and managing data in a table format.
 
-각각의 엔터티는 여러 개의 속성으로 구성되며, 이러한 속성들이 모여 엔터티의 구체적인 정보를 형성합니다.
+In this model, each table represents an entity, and it organizes and manages data through the relationships between the tables.
 
-예를 들어, 학생 엔터티의 속성으로는 학생의 학번, 이름, 전공 등이 있을 수 있습니다.
+### Example
 
-### 예시
+- **Student Table**: Store information such as student's number, name, major, etc.
+- **Subject table**: Store information such as the subject's code, name, and professor in charge.
+- **Enrollment table**: Saves the course relationship between the student and the subject.
 
-- **학생(Student)**: 학번, 이름, 전공, 학년 등의 속성을 가질 수 있습니다.
-- **제품(Product)**: 제품 코드, 제품명, 가격, 제조사 등의 속성을 가질 수 있습니다.
-- **주문(Order)**: 주문 번호, 주문 날짜, 고객 ID, 제품 ID 등의 속성을 가질 수 있습니다.
+## How to express a relationship
 
-## 속성의 종류
+### Primary Key
 
-### 기본 속성 (Simple Attribute)
+The default key is a property used to uniquely identify records in each table.
 
-#### 정의
+The default key must be able to uniquely identify each record in the table and cannot have a NULL value.
 
-기본 속성은 더 이상 나눌 수 없는 단일한 속성입니다.
+```sql
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Major VARCHAR(50)
+);
 
-즉, 속성이 더 이상 세분화되거나 분해될 수 없는 최소한의 데이터 단위를 나타냅니다.
+CREATE TABLE Subjects (
+    SubjectID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Professor VARCHAR(50)
+);
+```
 
-#### 예시
+### Foreign Key
 
-- **학생의 학번(Student ID)**: 학번은 더 이상 분해되거나 세분화될 수 없는 단일한 속성입니다.
-- **제품의 가격(Price)**: 가격은 단일한 값으로 표현되는 기본 속성입니다.
+Foreign keys are properties that refer to the default keys in other tables.
 
-### 복합 속성 (Composite Attribute)
+This allows you to establish and manage relationships between tables.
 
-#### 정의
+```sql
+CREATE TABLE Enrollments (
+    EnrollmentID INT PRIMARY KEY,
+    StudentID INT,
+    SubjectID INT,
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (SubjectID) REFERENCES Subjects(SubjectID)
+);
+```
 
-복합 속성은 여러 개의 하위 속성으로 구성된 속성입니다.
+## Relationship Type
 
-즉, 속성이 여러 부분으로 구성되어 있으며, 이러한 부분들이 함께 속성의 값을 구성합니다.
+### One-to-one relationship
 
-#### 예시
+A relationship in which only one entity's record is associated with another entity's record.
 
-- **주소(Address)**: 주소는 도시, 거리, 우편번호 등 여러 하위 속성으로 구성될 수 있습니다.
-- **이름(Name)**: 이름은 성, 이름, 중간 이름 등 여러 하위 속성으로 구성될 수 있습니다.
+### One-to-Many Relationship
 
-### 파생 속성 (Derived Attribute)
+A relationship in which one entity's records are associated with several other entities' records.
 
-#### 정의
+### Many-to-Many Relationship
 
-파생 속성은 다른 속성을 이용하여 계산된 속성입니다.
+A relationship in which a number of entities' records are associated with several other entities' records.
 
-즉, 속성의 값이 다른 속성들의 연산이나 함수에 의해 결정됩니다.
+This relationship is implemented using an intermediate table.
 
-#### 예시
+## Working with relationships in SQL
 
-- **총 주문 금액(Total Order Amount)**: 총 주문 금액은 주문한 제품의 가격과 수량을 곱한 값으로 계산됩니다.
-- **나이(Age)**: 나이는 생년월일을 기반으로 현재 날짜와 비교하여 계산될 수 있습니다.
+### JOIN
 
-## 마치며
+Join is used to search and combine data by connecting two or more tables.
 
-속성은 데이터베이스에서 데이터의 특성을 정의하는 기본 요소로, 각각의 엔터티가 가지는 정보를 나타냅니다.
+```sql
+SELECT Students.Name, Subjects.Name
+FROM Students
+JOIN Enrollments ON Students.StudentID = Enrollments.StudentID
+JOIN Subjects ON Enrollments.SubjectID = Subjects.SubjectID;
+```
 
-기본 속성, 복합 속성, 파생 속성 등 다양한 종류의 속성을 적절히 활용하여 데이터베이스를 설계하면, 더 효율적이고 유연한 데이터 모델을 구축할 수 있습니다.
+### Subquery
 
-이번 포스팅이 속성에 대해 이해하는 데 도움이 되었기를 바랍니다.
+Subqueries are subqueries that are used to retrieve and use the results of other queries.
 
-감사합니다!
+```sql
+SELECT Name
+FROM Students
+WHERE StudentID IN (SELECT StudentID FROM Enrollments WHERE SubjectID = 1);
+```
+
+## at the end of the day
+
+SQL uses relational database models to represent and process relationships between data.
+
+Use default and foreign keys to establish relationships between tables, and use join and subquery to retrieve and manipulate data.
+
+Understanding relational database models and effectively addressing relationships in SQL requires understanding of primary keys, foreign keys, and different types of relationships.
+
+This allows us to efficiently deal with complex relationships in the database and extract the desired information accurately.
+
+In this post, we took a brief look at the relationship in SQL.
+
+In the next post, we'll go into more detail about the join and subquery in SQL.
+
+I'd appreciate it if you could continue to be interested!
