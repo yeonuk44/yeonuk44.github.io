@@ -43,61 +43,53 @@ date: 2024-08-27 09:00:00 +0900
 
 안녕하세요!
 
-오늘은 SQL(Structured Query Language)에서 관계에 대해 알아보겠습니다.
+오늘은 SQL(Structured Query Language)에서의 식별자에 대해 알아보겠습니다.
 
-SQL은 데이터베이스에서 데이터를 관리하고 조작하기 위해 사용되는 강력한 언어로, 관계형 데이터베이스에서 데이터 간의 관계를 표현하고 처리하는 데 중요한 역할을 합니다.
+SQL에서 식별자는 데이터베이스 내에서 데이터를 고유하게 식별하는 데 사용되는 중요한 개념입니다.
 
-이번 포스팅에서는 SQL에서 관계를 표현하는 방법과 관련된 주요 개념들을 살펴보겠습니다.
+이번 포스팅에서는 SQL에서의 식별자의 종류와 사용 방법에 대해 자세히 살펴보겠습니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 관계형 데이터베이스 모델
+## 기본 키 (Primary Key)
 
 ### 개요
 
-관계형 데이터베이스 모델은 데이터를 테이블 형식으로 저장하고 관리하는 방식입니다.
+기본 키는 각 행을 고유하게 식별하는 데 사용되는 필드입니다.
 
-이 모델에서는 각 테이블이 엔터티를 나타내며, 테이블 간의 관계를 통해 데이터를 조직화하고 관리합니다.
+각 테이블은 하나의 기본 키를 가질 수 있으며, 이는 해당 테이블의 각 행을 고유하게 식별하는 데 사용됩니다.
 
-### 예시
+### 사용 방법
 
-- **학생(Student) 테이블**: 학생의 학번, 이름, 전공 등의 정보를 저장합니다.
-- **과목(Subject) 테이블**: 과목의 코드, 이름, 담당 교수 등의 정보를 저장합니다.
-- **수강(Enrollment) 테이블**: 학생과 과목 간의 수강 관계를 저장합니다.
-
-## 관계 표현 방법
-
-### 기본 키 (Primary Key)
-
-기본 키는 각 테이블의 레코드를 고유하게 식별하는 데 사용되는 속성입니다.
-
-기본 키는 테이블에 있는 각 레코드를 고유하게 식별할 수 있어야 하며, NULL 값을 가질 수 없습니다.
+기본 키는 보통 AUTO_INCREMENT 또는 IDENTITY와 같은 자동 증가 값을 가지며, 각 행이 추가될 때마다 자동으로 증가합니다.
 
 ```sql
 CREATE TABLE Students (
-    StudentID INT PRIMARY KEY,
+    StudentID INT PRIMARY KEY AUTO_INCREMENT,
     Name VARCHAR(50),
     Major VARCHAR(50)
 );
-
-CREATE TABLE Subjects (
-    SubjectID INT PRIMARY KEY,
-    Name VARCHAR(50),
-    Professor VARCHAR(50)
-);
 ```
 
-### 외래 키 (Foreign Key)
+## 외래 키 (Foreign Key)
 
-외래 키는 다른 테이블의 기본 키를 참조하는 속성입니다.
+### 개요
 
-이를 통해 테이블 간의 관계를 설정하고 관리할 수 있습니다.
+외래 키는 다른 테이블의 기본 키를 참조하는 필드입니다.
+
+이를 통해 두 테이블 간의 관계를 설정하고 유지할 수 있습니다.
+
+### 사용 방법
+
+외래 키는 다른 테이블의 기본 키를 참조하여 생성됩니다.
+
+이를 통해 부모 테이블과 자식 테이블 간의 관계를 설정할 수 있습니다.
 
 ```sql
 CREATE TABLE Enrollments (
-    EnrollmentID INT PRIMARY KEY,
+    EnrollmentID INT PRIMARY KEY AUTO_INCREMENT,
     StudentID INT,
     SubjectID INT,
     FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
@@ -105,57 +97,36 @@ CREATE TABLE Enrollments (
 );
 ```
 
-## 관계 유형
+## 유니크 키 (Unique Key)
 
-### 일대일 관계 (One-to-One Relationship)
+### 개요
 
-한 엔터티의 레코드가 다른 엔터티의 레코드와 하나씩만 연결되는 관계입니다.
+유니크 키는 테이블 내에서 중복을 허용하지 않는 필드입니다.
 
-### 일대다 관계 (One-to-Many Relationship)
+각 행의 값이 유일해야 하지만, 기본 키와는 달리 NULL 값을 가질 수 있습니다.
 
-한 엔터티의 레코드가 다른 엔터티의 레코드와 여러 개 연결되는 관계입니다.
+### 사용 방법
 
-### 다대다 관계 (Many-to-Many Relationship)
+유니크 키는 각 행의 값이 중복되지 않아야 하며, NULL 값을 가질 수 있습니다.
 
-다수의 엔터티의 레코드가 다른 엔터티의 레코드와 여러 개 연결되는 관계입니다.
-
-이 관계는 중간 테이블을 사용하여 구현됩니다.
-
-## SQL에서의 관계 조작
-
-### 조인 (JOIN)
-
-조인은 두 개 이상의 테이블을 연결하여 데이터를 검색하고 결합하는 데 사용됩니다.
+이를 통해 특정 필드가 중복되지 않도록 보장할 수 있습니다.
 
 ```sql
-SELECT Students.Name, Subjects.Name
-FROM Students
-JOIN Enrollments ON Students.StudentID = Enrollments.StudentID
-JOIN Subjects ON Enrollments.SubjectID = Subjects.SubjectID;
-```
-
-### 서브쿼리 (Subquery)
-
-서브쿼리는 하위 쿼리로, 다른 쿼리의 결과를 검색하여 사용하는 데 사용됩니다.
-
-```sql
-SELECT Name
-FROM Students
-WHERE StudentID IN (SELECT StudentID FROM Enrollments WHERE SubjectID = 1);
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+    Username VARCHAR(50) UNIQUE,
+    Email VARCHAR(50) UNIQUE
+);
 ```
 
 ## 마치며
 
-SQL에서는 관계형 데이터베이스 모델을 사용하여 데이터 간의 관계를 표현하고 처리합니다.
+SQL에서의 식별자는 데이터를 고유하게 식별하는 데 필수적인 요소입니다.
 
-기본 키와 외래 키를 사용하여 테이블 간의 관계를 설정하고, 조인과 서브쿼리를 사용하여 데이터를 검색하고 조작합니다.
+기본 키, 외래 키, 유니크 키 등 다양한 종류의 식별자를 적절히 활용하여 데이터베이스의 정확성과 일관성을 유지할 수 있습니다.
 
-관계형 데이터베이스 모델을 이해하고 SQL에서의 관계를 효과적으로 다루기 위해서는 기본 키, 외래 키, 다양한 관계 유형에 대한 이해가 필요합니다.
+데이터베이스 설계 시 식별자를 잘 선택하고 활용하여 효율적인 데이터 관리를 할 수 있도록 노력해 보세요.
 
-이를 통해 데이터베이스에서 복잡한 관계를 효율적으로 다룰 수 있고, 원하는 정보를 정확하게 추출할 수 있습니다.
+이번 포스팅이 SQL에서의 식별자에 대해 이해하는 데 도움이 되었기를 바랍니다.
 
-이번 포스팅에서는 SQL에서의 관계에 대해 간략히 살펴보았습니다.
-
-다음 포스팅에서는 SQL에서의 조인과 서브쿼리에 대해 더 자세히 다뤄보겠습니다.
-
-계속해서 관심 가져주시면 감사하겠습니다!
+감사합니다!
