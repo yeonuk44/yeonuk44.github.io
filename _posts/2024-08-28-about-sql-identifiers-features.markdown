@@ -39,94 +39,66 @@ date: 2024-08-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-## SQL의 식별자 특징에 대하여 알아본 글입니다.
+## This article examines the identifier characteristics of SQL.
 
-안녕하세요!
+Hello!
 
-오늘은 SQL(Structured Query Language)에서의 식별자에 대해 알아보겠습니다.
+Today, we will learn about the characteristics of the identifiers used in the database.
 
-SQL에서 식별자는 데이터베이스 내에서 데이터를 고유하게 식별하는 데 사용되는 중요한 개념입니다.
-
-이번 포스팅에서는 SQL에서의 식별자의 종류와 사용 방법에 대해 자세히 살펴보겠습니다.
+Identifiers are important elements used to uniquely identify each row in the database and must have the following characteristics.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 기본 키 (Primary Key)
+## Unique (Unique)
 
-### 개요
+### Overview
 
-기본 키는 각 행을 고유하게 식별하는 데 사용되는 필드입니다.
+Unique means that each identifier value is unique.
 
-각 테이블은 하나의 기본 키를 가질 수 있으며, 이는 해당 테이블의 각 행을 고유하게 식별하는 데 사용됩니다.
+This means that the same value must not appear more than once.
 
-### 사용 방법
+### Example
 
-기본 키는 보통 AUTO_INCREMENT 또는 IDENTITY와 같은 자동 증가 값을 가지며, 각 행이 추가될 때마다 자동으로 증가합니다.
+Each student's student number or each product's unique product code must be unique.
 
-```sql
-CREATE TABLE Students (
-    StudentID INT PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(50),
-    Major VARCHAR(50)
-);
-```
+## Minimum
 
-## 외래 키 (Foreign Key)
+### Overview
 
-### 개요
+Minimal means that the identifier should be as small and concise as possible.
 
-외래 키는 다른 테이블의 기본 키를 참조하는 필드입니다.
+In other words, you should use identifiers to identify your data only as much as you need.
 
-이를 통해 두 테이블 간의 관계를 설정하고 유지할 수 있습니다.
+### Example
 
-### 사용 방법
+It is recommended that you select your student number as an identifier using only the minimum amount of information required to uniquely identify the student.
 
-외래 키는 다른 테이블의 기본 키를 참조하여 생성됩니다.
+There is no need to use the student's name or address additionally other than the student number.
 
-이를 통해 부모 테이블과 자식 테이블 간의 관계를 설정할 수 있습니다.
+## Immutability
 
-```sql
-CREATE TABLE Enrollments (
-    EnrollmentID INT PRIMARY KEY AUTO_INCREMENT,
-    StudentID INT,
-    SubjectID INT,
-    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
-    FOREIGN KEY (SubjectID) REFERENCES Subjects(SubjectID)
-);
-```
+### Overview
 
-## 유니크 키 (Unique Key)
+The invariance means that the identifier value should not change.
 
-### 개요
+This means that the identifier value once specified should remain unchanged.
 
-유니크 키는 테이블 내에서 중복을 허용하지 않는 필드입니다.
+### Example
 
-각 행의 값이 유일해야 하지만, 기본 키와는 달리 NULL 값을 가질 수 있습니다.
+The student's student number or product code of the product should not change once it has been created.
 
-### 사용 방법
+## at the end of the day
 
-유니크 키는 각 행의 값이 중복되지 않아야 하며, NULL 값을 가질 수 있습니다.
+Identifiers are important elements used to uniquely identify each row in the database.
 
-이를 통해 특정 필드가 중복되지 않도록 보장할 수 있습니다.
+These identifiers must have characteristics such as uniqueness, minimum, and invariance to ensure the accuracy and consistency of the database.
 
-```sql
-CREATE TABLE Users (
-    UserID INT PRIMARY KEY AUTO_INCREMENT,
-    Username VARCHAR(50) UNIQUE,
-    Email VARCHAR(50) UNIQUE
-);
-```
+It is important to select and manage identifiers in consideration of these features when designing a database.
 
-## 마치며
+I hope this post helped me understand the features of the identifier.
 
-SQL에서의 식별자는 데이터를 고유하게 식별하는 데 필수적인 요소입니다.
+In the next post, we will take a closer look at the types of identifiers and how to use them.
 
-기본 키, 외래 키, 유니크 키 등 다양한 종류의 식별자를 적절히 활용하여 데이터베이스의 정확성과 일관성을 유지할 수 있습니다.
-
-데이터베이스 설계 시 식별자를 잘 선택하고 활용하여 효율적인 데이터 관리를 할 수 있도록 노력해 보세요.
-
-이번 포스팅이 SQL에서의 식별자에 대해 이해하는 데 도움이 되었기를 바랍니다.
-
-감사합니다!
+Let's study together!
