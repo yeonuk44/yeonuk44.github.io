@@ -39,66 +39,59 @@ date: 2024-08-30 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 정규화와 반정규화에 대하여 알아본 글입니다.
+## This is an article about normalization and semi-normalization.
 
-안녕하세요!
+Hello!
 
-데이터 모델링은 데이터베이스 설계의 핵심 요소 중 하나입니다.
-
-하지만 단순히 데이터 구조를 정의하는 것 이상으로, 데이터베이스의 성능을 향상시키기 위한 전략을 수립하는 데도 중요한 역할을 합니다.
-
-오늘은 성능 데이터 모델링에 대해 알아보겠습니다.
+Today, we learned about regularization and semi-regularization!
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 데이터 모델링의 목적
+## Normalization
 
-### 데이터 액세스 최적화
+Normalization is a process used in database design to minimize redundancy and to maintain data consistency.
 
-- 데이터 모델링을 통해 적절한 테이블 구조와 인덱스를 설계하여 데이터 액세스를 최적화할 수 있습니다.
-- 불필요한 조인을 최소화하고 쿼리의 실행 속도를 향상시킵니다.
+The main goal is to eliminate data duplication and prevent anomalies that can occur when inserted, updated, or deleted.
 
-### 데이터 저장 및 관리 최적화
+### Goals
 
-- 데이터 모델링을 통해 데이터의 저장 및 관리 방식을 최적화하여 저장 공간을 절약하고 데이터를 효율적으로 관리할 수 있습니다.
-- 필요한 데이터만을 저장하고, 중복을 최소화하여 일관성을 유지합니다.
+1. Minimize data duplication: One data must be stored in one location.
+2. Data Dependency Management: It should be easy to modify or delete data by minimizing dependencies between tables in the database.
+3. Prevent insertion, update, and deletion anomalies: Avoid anomalies (update anomalies, insertion anomalies, deletion anomalies) that can occur when data is inserted, updated, or deleted.
 
-## 성능 데이터 모델링 전략
+### the normalization process
 
-### 정규화(Normalization) 및 역정규화(Denormalization)
+1. 1st Normalization (1NF): All property values must be atomic.
+2. 2nd Normalization (2NF): Remove partial functional dependencies so that all properties must be fully functional dependencies on the candidate key.
+3. 3rd Normalization (3NF): Remove transitional functional dependencies so that all properties are not transitional functional dependencies on candidate keys.
+4. Voice-Code Normalization (BCNF): All determinants must be candidate keys.
 
-- 정규화를 통해 데이터를 중복 없이 관리하고 일관성을 유지합니다.
-- 역정규화를 통해 데이터베이스의 성능을 향상시키고 쿼리의 실행 속도를 개선합니다.
+## Denormalization
 
-### 인덱스 활용
+Semi-normalization is the process of reassembling normalized tables to improve the performance of a database.
 
-- 적절한 인덱스를 설계하여 데이터의 검색 속도를 향상시킵니다.
-- 자주 사용되는 조건에 맞는 인덱스를 생성하여 쿼리의 성능을 최적화합니다.
+It is primarily used in read operations-intensive online analytical processing (OLAP) environments, increasing data duplication and reassembling some normalized tables.
 
-### 파티셔닝(Partitioning)
+### Goals
 
-- 대용량 데이터베이스에서 효율적인 데이터 관리를 위해 파티셔닝을 활용합니다.
-- 파티셔닝을 통해 데이터를 분할하여 관리하고, 쿼리의 실행 속도를 향상시킵니다.
+1. Improved lookup performance: The process of putting regularized tables back together improves the speed of lookup operations.
+2. Reduce response time: Reduce response time when running complex queries on large databases.
+3. Save storage space: Save storage space for redundant data and optimize database capacity.
 
-### 쿼리 최적화
+### a semi-normalization method
 
-- 쿼리 실행 계획을 분석하여 성능을 향상시키는 최적화 작업을 수행합니다.
-- 쿼리의 조인 순서를 최적화하고, 필요한 인덱스를 활용하여 쿼리의 실행 계획을 최적화합니다.
+1. Combining tables: Reunite normalized tables to optimize lookup operations.
+2. Add duplicate data to speed up lookup operations by adding duplicate data.
+3. Add Calculated Fields: Pre-calculates, stores, and uses data that requires complex operations.
 
-## 성능 데이터 모델링의 중요성
+## at the end of the day
 
-데이터 모델링은 데이터베이스의 성능을 향상시키는 데 중요한 역할을 합니다.
+Normalization and semi-normalization are the two main strategies for minimizing duplication of data and improving the performance of databases in database design.
 
-적절한 데이터 모델링 전략을 수립하고 실행함으로써 데이터베이스의 성능을 최적화할 수 있으며, 사용자 경험을 향상시킬 수 있습니다.
+Normalization is used to maintain data consistency and minimize data redundancy, and semi-normalization is the process of recombining data to improve the performance of lookup operations.
 
-성능 데이터 모델링은 데이터베이스 설계의 초기 단계부터 고려되어야 하며, 지속적으로 모니터링하고 개선해야 합니다.
+When designing a database, it is important to optimize the performance of the database by properly combining normalization and semi-normalization.
 
-## 마치며
-
-성능 데이터 모델링은 데이터베이스의 성능을 향상시키는 데 있어서 중요한 전략 중 하나입니다.
-
-데이터 모델링 과정에서 성능 측면을 고려하여 효율적인 데이터베이스 설계를 수립하고 운영하는 것이 중요합니다.
-
-감사합니다!
+Thank you!
