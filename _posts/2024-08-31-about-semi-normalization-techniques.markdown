@@ -39,59 +39,52 @@ date: 2024-08-31 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 반정규화 기법에 대하여 알아본 글입니다.
+## This is an article about semi-normalization techniques.
 
-안녕하세요!
+Hello!
 
-오늘은 정규화와 반정규화에 대해 알아보곘습니다!
+Performance is a critical factor in database design.
+
+Optimizing the performance of lookup operations is critical, especially in large databases or online Analytical Processing (OLAP) environments.
+
+For this, a strategy called semi-normalization is used.
+
+Today, we're going to talk about semi-normalization.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 정규화(Normalization)
+## What is semi-regularization?
 
-정규화는 데이터베이스 설계 과정에서 중복을 최소화하고 데이터의 일관성을 유지하기 위해 사용되는 프로세스입니다.
+Semi-normalization is a technique that improves the performance of lookup operations by re-combining normalized tables.
 
-주요 목표는 데이터의 중복을 제거하고 삽입, 갱신, 삭제 시 발생할 수 있는 이상 현상을 방지하는 것입니다.
+It is mainly used in OLAP environments with many read operations, the process of increasing data redundancy and putting some normalized tables back together.
 
-### 목표
+### the goal of semi-normalization
 
-1. 데이터 중복 최소화: 하나의 데이터는 한 곳에만 저장되어야 합니다.
-2. 데이터 의존성 관리: 데이터베이스의 테이블 간의 종속성을 최소화하여 데이터 수정이나 삭제가 용이해야 합니다.
-3. 삽입, 갱신, 삭제 이상 현상 방지: 데이터 삽입, 갱신, 삭제 시 발생할 수 있는 이상 현상(갱신 이상, 삽입 이상, 삭제 이상)을 방지해야 합니다.
+1. **Improves inquiry performance**: Improves the performance of frequently occurring inquiry operations.
+2. **Reduce response times**: Reduce response times when running complex queries.
+3. **Save storage**: Add redundant data to save storage space and optimize database capacity.
 
-### 정규화 과정
+### Major semi-normalization techniques
 
-1. 제 1 정규화(1NF): 모든 속성 값이 원자적(Atomic)이어야 합니다.
-2. 제 2 정규화(2NF): 부분 함수 종속을 제거하여 모든 속성이 후보 키에 대해 완전 함수적 종속이어야 합니다.
-3. 제 3 정규화(3NF): 이행적 함수 종속을 제거하여 모든 속성이 후보 키에 대해 이행적 함수 종속이 아니어야 합니다.
-4. 보이스-코드 정규화(BCNF): 모든 결정자가 후보 키여야 합니다.
+1. **Pair tables**: Reunite normalized tables to optimize lookup operations.
+2. **Add redundant data**: Adds redundant data to improve lookup performance.
+3. **Add calculated fields**: Perform operations of data in advance, save it, and use it during query.
 
-## 반정규화(Denormalization)
+### Example
 
-반정규화는 데이터베이스의 성능을 향상시키기 위해 정규화된 테이블을 다시 결합하는 프로세스입니다.
+When dealing with customer order data, order information, customer information, and product information are stored separately in a normalized table.
 
-주로 읽기 연산이 많은 OLAP(Online Analytical Processing) 환경에서 사용되며, 데이터의 중복을 증가시키고 일부 정규화된 테이블을 다시 합치는 과정입니다.
+By semi-normalizing this, you can improve the performance of lookup operations by storing customer and product information in duplicate in the order table.
 
-### 목표
+## at the end of the day
 
-1. 조회 성능 향상: 정규화된 테이블을 다시 합치는 과정으로 인해 조회 연산의 속도를 향상시킵니다.
-2. 응답 시간 단축: 대규모 데이터베이스에서 복잡한 쿼리를 실행할 때 응답 시간을 단축시킵니다.
-3. 저장 공간 절약: 중복된 데이터의 저장 공간을 절약하고 데이터베이스의 용량을 최적화합니다.
+Semi-normalization is one of the critical strategies for improving the performance of databases.
 
-### 반정규화 방법
+The user experience can be enhanced by re-combining normalized tables and adding redundant data to optimize lookup performance.
 
-1. 테이블 합치기: 정규화된 테이블을 다시 결합하여 조회 연산을 최적화합니다.
-2. 중복 데이터 추가: 중복 데이터를 추가하여 조회 연산의 속도를 향상시킵니다.
-3. 계산된 필드 추가: 복잡한 연산을 필요로 하는 데이터를 미리 계산하여 저장하고 조회 시 사용합니다.
+However, care must be taken to maintain data consistency and accuracy when applying semi-normalization.
 
-## 마치며
-
-정규화와 반정규화는 데이터베이스 설계에서 데이터의 중복을 최소화하고 데이터베이스의 성능을 향상시키기 위한 두 가지 주요 전략입니다.
-
-정규화는 데이터의 일관성을 유지하고 데이터의 중복을 최소화하는 데 사용되며, 반정규화는 조회 연산의 성능을 향상시키기 위해 데이터를 다시 결합하는 과정입니다.
-
-데이터베이스 설계 시 정규화와 반정규화를 적절히 조합하여 데이터베이스의 성능을 최적화하는 것이 중요합니다.
-
-감사합니다!
+That's it for the introduction of semi-regularization. See you again next time!
