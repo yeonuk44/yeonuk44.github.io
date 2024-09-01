@@ -39,52 +39,68 @@ date: 2024-09-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-## DB 테이블 분할에 대하여 알아본 글입니다.
+## This article examines the division of the DB table.
 
-안녕하세요!
+Hello!
 
-데이터베이스 설계에서 성능은 매우 중요한 요소입니다.
+Table segmentation is one of the most important strategies in improving the performance of databases.
 
-특히 대규모 데이터베이스나 OLAP(Online Analytical Processing) 환경에서는 조회 연산의 성능을 최적화하는 것이 매우 중요합니다.
-
-이를 위해 반정규화라는 전략이 사용됩니다.
-
-오늘은 반정규화에 대해 알아보겠습니다.
+In this article, we will discuss the procedure for segmenting the database table and its importance.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 반정규화란?
+## Split the DB table
 
-반정규화는 정규화된 테이블을 다시 결합하여 조회 연산의 성능을 향상시키는 기법입니다.
+### Set goals
 
-주로 읽기 연산이 많은 OLAP 환경에서 사용되며, 데이터의 중복을 증가시키고 일부 정규화된 테이블을 다시 합치는 과정입니다.
+First, you need to set a goal for table segmentation.
 
-### 반정규화의 목표
+You can set a variety of goals, including performance improvement, ease of maintenance, and efficiency of management, which can change your segmentation strategy.
 
-1. **조회 성능 향상**: 자주 발생하는 조회 연산의 성능을 향상시킵니다.
-2. **응답 시간 단축**: 복잡한 쿼리를 실행할 때 응답 시간을 단축시킵니다.
-3. **저장 공간 절약**: 중복 데이터를 추가하여 저장 공간을 절약하고 데이터베이스의 용량을 최적화합니다.
+### Determination of split criteria
 
-### 주요 반정규화 기법
+Next, you need to determine the criteria by which you want to split the table.
 
-1. **테이블 합치기**: 정규화된 테이블을 다시 결합하여 조회 연산을 최적화합니다.
-2. **중복 데이터 추가**: 중복 데이터를 추가하여 조회 성능을 향상시킵니다.
-3. **계산된 필드 추가**: 데이터의 연산을 미리 수행하여 저장하고 조회 시 사용합니다.
+Mainly horizontal and vertical divisions are used, and you must determine which criteria each table will be divided according to.
 
-### 예시
+### Establishment of a split plan
 
-고객 주문 데이터를 다루는 경우, 정규화된 테이블로는 주문 정보, 고객 정보, 제품 정보가 각각 따로 저장됩니다.
+Plan how to actually divide the table according to the segmentation criteria.
 
-이를 반정규화하여 주문 테이블에 고객 정보와 제품 정보를 중복하여 저장함으로써 조회 연산의 성능을 향상시킬 수 있습니다.
+This may require data movement or reconstruction, which must be done with care.
 
-## 마치며
+### Performing a split operation
 
-반정규화는 데이터베이스의 성능을 향상시키는 데 중요한 전략 중 하나입니다.
+It actually performs the task of dividing the table.
 
-정규화된 테이블을 다시 결합하고 중복 데이터를 추가하여 조회 성능을 최적화함으로써 사용자 경험을 향상시킬 수 있습니다.
+This process may require data movement or reconstruction, and it must be done properly.
 
-하지만 반정규화를 적용할 때는 데이터의 일관성과 정확성을 유지하기 위해 주의해야 합니다.
+### Managing indexes and constraints
 
-이상으로 반정규화에 대한 소개를 마치겠습니다. 다음에 또 만나요!
+Manage the appropriate indexes and constraints for the split table.
+
+Because the segmentation can change the index or constraints, it is important to manage them properly to maintain data consistency and integrity.
+
+### Establishing relationships between split tables
+
+Sets the relationship between the divided tables.
+
+This establishes a relationship to do this efficiently if a join between the split tables is required.
+
+### Monitoring and Optimizing
+
+Perform monitoring while the split table is up and running and, if necessary, perform optimization operations.
+
+When data patterns or usage change, re-evaluate the segmentation strategy and take the necessary action.
+
+## at the end of the day
+
+The task of segmenting tables greatly helps improve the performance of database systems and facilitate maintenance.
+
+Therefore, it is important to consider this during the database design and operational phase.
+
+That's it for the database table segmentation.
+
+See you next time!
