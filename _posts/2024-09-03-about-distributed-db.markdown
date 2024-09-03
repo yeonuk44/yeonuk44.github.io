@@ -39,68 +39,53 @@ date: 2024-09-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 분산 DB에 대하여 알아본 글입니다.
+## This article is about the distributed DB.
 
-안녕하세요!
+Hello!
 
-데이터베이스의 성능을 향상시키는 데 있어서 테이블 분할은 매우 중요한 전략 중 하나입니다.
+A distributed database is a database system that stores and manages data in multiple locations.
 
-이번 글에서는 데이터베이스 테이블을 분할하는 절차와 그 중요성에 대해 알아보겠습니다.
+This increases the flexibility and scalability of your data, and improves high availability and performance.
+
+Now let's talk about distributed databases.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## DB 테이블 분할
+## What is a distributed database?
 
-### 목표 설정
+A distributed database is a database system that integrates and manages data distributed across multiple geographic locations.
 
-먼저, 테이블 분할의 목표를 설정해야 합니다.
+Each location has a database server installed, which is connected over the network to share data.
 
-성능 향상, 유지보수 용이성, 관리의 효율성 등 다양한 목표를 설정할 수 있으며, 이에 따라 분할 전략이 달라질 수 있습니다.
+### Advantages
 
-### 분할 기준 결정
+- **High availability**: Even if one database server fails, another server can provide data to maintain system availability.
+- **Improves performance**: Distribute data across multiple servers to distribute load and reduce response time.
+- **Expandability**: The performance of your system can be scaled as needed; you can expand your database system by adding new servers.
+- **Local processing**: Reduce network latency by storing and processing data in the area where the user is located.
 
-다음으로는 테이블을 분할할 기준을 결정해야 합니다.
+### Components of a distributed database
 
-주로 수평 분할과 수직 분할을 사용하며, 각 테이블이 어떤 기준에 따라 분할될지를 결정해야 합니다.
+- **Distributed Database Management System (DBMS)**: A software system that manages distributed databases.
+- **Distributed database servers**: Servers that are installed in multiple locations to store and process data.
+- **Distributed Transaction Manager**: Responsible for managing and coordinating transactions in a distributed environment.
 
-### 분할 계획 수립
+### How Distributed Database Works
 
-분할 기준에 따라 실제로 테이블을 어떻게 분할할지 계획을 수립합니다.
+1. **Distributed data access**: When a client requests data, DDBMS identifies the location of the data and accesses the server.
+2. **Distributed transaction processing**: Transactions in a distributed environment can occur across multiple servers, requiring a distributed transaction manager to manage them.
+3. **Cloning and synchronizing data**: Replicate data to multiple servers to increase availability and maintain data consistency.
 
-이때 데이터의 이동이나 재구성 등이 필요할 수 있으며, 이러한 작업은 주의 깊게 수행되어야 합니다.
+### Key Technologies and Challenges
 
-### 분할 작업 수행
+- **Data replication and synchronization technology**: Data replication and synchronization technology is required to maintain data consistency.
+- **Distributed transaction management**: There are technical challenges to manage and coordinate transactions across multiple servers.
+- **Security and compliance**: Secure management of distributed data and compliance are also critical challenges.
 
-실제로 테이블을 분할하는 작업을 수행합니다.
+## at the end of the day
 
-이 과정에서는 데이터의 이동이나 재구성이 필요할 수 있으며, 이를 적절히 수행해야 합니다.
+Distributed databases are one of the essential technologies in modern data management systems.
 
-### 인덱스 및 제약 조건 관리
-
-분할된 테이블에 대한 적절한 인덱스 및 제약 조건을 관리합니다.
-
-이때 분할로 인해 인덱스나 제약 조건이 변경될 수 있으므로, 이를 적절히 관리하여 데이터의 일관성과 무결성을 유지해야 합니다.
-
-### 분할된 테이블 간의 관계 설정
-
-분할된 테이블 간의 관계를 설정합니다.
-
-이를 통해 분할된 테이블 간의 조인이 필요한 경우, 이를 효율적으로 수행하기 위한 관계를 설정합니다.
-
-### 모니터링 및 최적화
-
-분할된 테이블이 운영되는 동안 모니터링을 수행하고 필요한 경우 최적화 작업을 수행합니다.
-
-데이터의 패턴이나 사용량이 변경될 경우, 분할 전략을 재평가하고 필요한 조치를 취합니다.
-
-## 마치며
-
-테이블을 분할하는 작업은 데이터베이스 시스템의 성능을 향상시키고 유지보수를 용이하게 하는 데 큰 도움이 됩니다.
-
-따라서 데이터베이스 설계 및 운영 단계에서 이를 고려하는 것이 중요합니다.
-
-이상으로 데이터베이스 테이블 분할에 대한 글을 마치겠습니다.
-
-다음에 또 만나요!
+These technologies, which can increase data flexibility, scalability, high availability, and performance, are used in a variety of industries and are expected to grow further in the future.
