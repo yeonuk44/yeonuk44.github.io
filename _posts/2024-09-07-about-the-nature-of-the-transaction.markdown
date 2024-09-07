@@ -39,56 +39,58 @@ date: 2024-09-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 트랜잭션의 특성에 대하여 알아본 글입니다.
+## This article examines the characteristics of transactions.
 
-안녕하세요!
+Hello!
 
-SQL(Structured Query Language)은 관계형 데이터베이스에서 데이터를 조작하고 관리하기 위한 표준화된 언어입니다.
+A transaction represents a logical unit of work performed in a database.
 
-이를 통해 데이터베이스에서 데이터를 삽입, 조회, 수정, 삭제하는 등의 작업을 수행할 수 있습니다.
+These transactions have the characteristics of ACID, which represent four characteristics: atomicity, consistency, isolation, and persistence.
 
-이제 SQL의 개념과 다양한 종류를 살펴보겠습니다.
+Now let's take a closer look at each characteristic.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## SQL(SQL)의 개념
+## Atomicity
 
-SQL은 데이터베이스와 상호 작용하기 위한 언어로, 데이터를 정의, 조작, 제어하는 데 사용됩니다.
+Transactions must remain consistent with all tasks performed or nothing done.
 
-SQL은 크게 데이터 정의 언어(DDL), 데이터 조작 언어(DML), 데이터 제어 언어(DCL)로 나뉩니다.
+This means that if all tasks are successfully completed, the transaction must be successfully completed, and if even one task fails, it must be rolled back to its previous state.
 
-- **DDL(Data Definition Language)**: 데이터베이스 객체(테이블, 뷰, 인덱스 등)를 정의하고 관리하는 데 사용됩니다.
-- **DML(Data Manipulation Language)**: 데이터를 검색, 삽입, 수정, 삭제하는 데 사용됩니다.
-- **DCL(Data Control Language)**: 데이터베이스에 대한 액세스 권한을 제어하는 데 사용됩니다.
+### Consistency
 
-### SQL의 주요 기능
+The database must remain consistent after the transaction is completed.
 
-- **데이터 검색(SELECT)**: 데이터베이스에서 원하는 데이터를 검색합니다.
-- **데이터 삽입(INSERT)**: 데이터베이스에 새로운 데이터를 삽입합니다.
-- **데이터 수정(UPDATE)**: 데이터베이스의 기존 데이터를 수정합니다.
-- **데이터 삭제(DELETE)**: 데이터베이스에서 데이터를 삭제합니다.
+The consistency of the database must not change before and after the transaction is performed.
 
-### SQL의 종류
+In other words, transactions must ensure the integrity of the database.
 
-SQL은 다양한 종류가 있으며, 주요한 종류로는 다음과 같습니다.
+### Isolation
 
-- **MySQL**: 가장 널리 사용되는 오픈 소스 관계형 데이터베이스 관리 시스템(RDBMS) 중 하나입니다.
-- **PostgreSQL**: 강력한 기능과 확장성을 제공하는 오픈 소스 RDBMS입니다.
-- **Oracle Database**: 대규모 기업 및 기관에서 사용되는 상용 RDBMS입니다.
-- **Microsoft SQL Server**: 마이크로소프트에서 개발한 RDBMS로, Windows 환경에서 널리 사용됩니다.
+When multiple transactions are performed at the same time, each transaction must be performed independently without being affected by the actions of the other transactions.
 
-### SQL의 활용
+In other words, there should be no interference between transactions, and each transaction should not be able to see the actions of other transactions.
 
-SQL은 데이터베이스와의 상호 작용을 위해 다양한 응용 프로그램에서 사용됩니다.
+### DURABILITY
 
-주로 웹 애플리케이션, 모바일 앱, 엔터프라이즈 시스템 등에서 데이터베이스와의 통합을 위해 활용됩니다.
+Once a transaction is complete, changes made by that transaction must be permanently reflected in the database.
 
-## 마치며
+This means that even if the system fails, the database must retain its changes and be recoverable.
 
-SQL은 데이터베이스와의 상호 작용을 위한 필수적인 언어로, 데이터의 정의, 조작, 제어를 위한 다양한 기능을 제공합니다.
+### The Importance of Transactions
 
-다양한 SQL 종류들은 각각의 특성에 따라 다양한 환경에서 활용되고 있으며, 이를 통해 데이터 관리와 분석의 효율성을 높일 수 있습니다.
+Transactions play an important role in ensuring the integrity of the database and maintaining the reliability and consistency of the database system.
 
-감사합니다!
+Transactions that comply with these ACID characteristics ensure that the database system operates reliably and ensures the integrity of the data.
+
+## at the end of the day
+
+A transaction represents a logical unit of action in a database and has the characteristic ACID.
+
+These characteristics ensure that the database system operates reliably and the integrity of the data is maintained.
+
+When designing and operating a database, it is critical to consider the nature of the transaction.
+
+Thank you!
