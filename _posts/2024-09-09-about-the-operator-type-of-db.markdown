@@ -39,58 +39,90 @@ date: 2024-09-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-## DB의 연산자 종류에 대하여 알아본 글입니다.
+## This article examines the operator types of DB.
 
-안녕하세요!
+Hello!
 
-트랜잭션은 데이터베이스에서 수행되는 작업의 논리적 단위를 나타냅니다.
+The database operator represents the operations used to process and manipulate data in the database.
 
-이러한 트랜잭션은 ACID라는 특성을 가지고 있으며, 이는 원자성(Atomicity), 일관성(Consistency), 고립성(Isolation), 지속성(Durability)의 네 가지 특성을 나타냅니다.
+These operators can perform a variety of tasks, including retrieving, inserting, modifying, and deleting data.
 
-이제 각 특성에 대해 자세히 알아보겠습니다.
+Now let's look at the main types of database operators.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 원자성(Atomicity)
+## Select operator (SELECT)
 
-트랜잭션은 모든 작업이 일관성 있는 상태로 수행되거나 아무것도 수행되지 않은 상태로 유지되어야 합니다.
+The SELECT operator is used to retrieve the desired data from the database.
 
-즉, 모든 작업이 성공적으로 완료되면 트랜잭션은 성공적으로 완료되고, 하나의 작업이라도 실패하면 이전 상태로 롤백되어야 합니다.
+Users can select a specific column or row they want to inquire.
 
-### 일관성(Consistency)
+This allows you to extract the information you need from the database.
 
-트랜잭션이 완료된 후에도 데이터베이스는 일관된 상태를 유지해야 합니다.
+### Insert Operator (INSERT)
 
-트랜잭션이 수행되기 전과 후에 데이터베이스의 일관성이 변하지 않아야 합니다.
+The INSERT operator is used to insert new data into the database.
 
-다시 말해, 트랜잭션은 데이터베이스의 무결성을 보장해야 합니다.
+You can add a new row to enter information into the database.
 
-### 고립성(Isolation)
+This allows you to store new data in the database.
 
-동시에 여러 트랜잭션이 수행될 때 각 트랜잭션은 다른 트랜잭션의 작업에 영향을 받지 않고 독립적으로 수행되어야 합니다.
+### Modification Operator (UPDATE)
 
-즉, 트랜잭션 간의 상호 간섭이 없어야 하며, 각 트랜잭션은 다른 트랜잭션의 작업을 볼 수 없어야 합니다.
+The UPDATE operator is used to modify existing data in the database.
 
-### 지속성(Durability)
+You can change the value of a particular row or update the contents of the column.
 
-트랜잭션이 완료되면 해당 트랜잭션에 의한 변경 사항은 영구적으로 데이터베이스에 반영되어야 합니다.
+This allows you to update and change the information in the database.
 
-즉, 시스템이 실패하더라도 데이터베이스는 해당 변경 사항을 유지해야 하며, 복구가 가능해야 합니다.
+### Delete operator (DELETE)
 
-### 트랜잭션의 중요성
+The DELETE operator is used to delete specific rows or columns from the database.
 
-트랜잭션은 데이터베이스의 무결성을 보장하고, 데이터베이스 시스템의 신뢰성과 일관성을 유지하는 데 중요한 역할을 합니다.
+It is used to remove unnecessary data or correct incorrect information.
 
-이러한 ACID 특성을 준수하는 트랜잭션은 데이터베이스 시스템이 안정적으로 운영되고 데이터의 무결성이 보장됨을 보장합니다.
+This allows you to remove unnecessary information from the database.
 
-## 마치며
+### Join operator (JOIN)
 
-트랜잭션은 데이터베이스에서 작업의 논리적 단위를 나타내며, ACID라는 특성을 가지고 있습니다.
+The JOIN operator is used to combine two or more tables into a single set of results.
 
-이러한 특성을 통해 데이터베이스 시스템은 안정적으로 운영되고 데이터의 무결성이 유지됩니다.
+You can connect related data to perform complex queries.
 
-데이터베이스를 설계하고 운영할 때 트랜잭션의 특성을 고려하는 것이 매우 중요합니다.
+There are various types of join operators, such as INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN, etc.
 
-감사합니다!
+### aggregation operator
+
+Aggregation operators are used to create groups of data and perform operations in groups.
+
+Key aggregation functions include COUNT, SUM, AVG, MIN, MAX, etc.
+
+This allows you to calculate statistical information by group in the database.
+
+### Alignment operator (ORDER BY)
+
+The ORDER BY operator is used to sort the search results in the desired order.
+
+You can sort them in ascending order (ASC) or descending order (DESC).
+
+This allows you to view the results in the database in the order you want them to.
+
+### Limiting Operator (LIMIT, TOP)
+
+The restriction operator is used to return only a certain number of rows in the search results.
+
+It is mainly used when a large dataset requires only a fraction of data.
+
+You can use the LIMIT or TOP keywords to limit a specific number of rows.
+
+## at the end of the day
+
+Database operators are utilized as important tools for processing and manipulating data.
+
+You can utilize these operators appropriately to extract and manipulate the information you need from the database.
+
+It is important to understand and utilize these operators well when dealing with databases.
+
+Thank you!
