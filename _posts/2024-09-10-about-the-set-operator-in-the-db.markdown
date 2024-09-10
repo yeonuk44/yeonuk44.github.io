@@ -39,90 +39,66 @@ date: 2024-09-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-## DB의 집합 연산자에 대하여 알아본 글입니다.
+## This article examines the set operator of the DB.
 
-안녕하세요!
+Hello!
 
-데이터베이스 연산자는 데이터베이스에서 데이터를 처리하고 조작하기 위해 사용되는 연산을 나타냅니다.
+In databases, set operators are used to combine or divide data extracted from multiple tables.
 
-이러한 연산자는 데이터의 검색, 삽입, 수정, 삭제 등 다양한 작업을 수행할 수 있습니다.
+These set operators manipulate and combine two or more sets to produce new results.
 
-이제 데이터베이스 연산자의 주요 종류를 살펴보겠습니다.
+Now let's look at the main types of database set operators.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 선택 연산자(SELECT)
+## United operator (UNION)
 
-SELECT 연산자는 데이터베이스에서 원하는 데이터를 검색하기 위해 사용됩니다.
+The UNION operator combines two sets of results to return the result of removing duplicate rows.
 
-사용자가 원하는 특정 열이나 행을 선택하여 조회할 수 있습니다.
+In other words, it creates a result set that contains all rows belonging to both sets.
 
-이를 통해 데이터베이스로부터 필요한 정보를 추출할 수 있습니다.
+This allows you to combine two sets from the database into a single set of results.
 
-### 삽입 연산자(INSERT)
+### Intersection operator (INTERSECT)
 
-INSERT 연산자는 데이터베이스에 새로운 데이터를 삽입하는 데 사용됩니다.
+The INTERSECT operator selects and returns only common rows from the two result sets.
 
-새로운 행을 추가하여 데이터베이스에 정보를 입력할 수 있습니다.
+In other words, it creates a result set that contains only rows that belong to both sets at the same time.
 
-이를 통해 데이터베이스에 새로운 데이터를 저장할 수 있습니다.
+This allows you to find the intersection of two sets in the database.
 
-### 수정 연산자(UPDATE)
+### Difference set operator (EXCEPT or MINUS)
 
-UPDATE 연산자는 데이터베이스의 기존 데이터를 수정하는 데 사용됩니다.
+The EXCEPT or MINUS operator returns a result that excludes the row of the second result set from the first result set.
 
-특정 행의 값을 변경하거나 열의 내용을 갱신할 수 있습니다.
+That is, it creates a result set that contains only rows that belong to the first set and not to the second.
 
-이를 통해 데이터베이스의 정보를 업데이트하고 변경할 수 있습니다.
+This allows you to find a difference set of two sets in the database.
 
-### 삭제 연산자(DELETE)
+### Cross-combination operator (CROSS JOIN or CARTESIAN JOIN)
 
-DELETE 연산자는 데이터베이스에서 특정 행이나 열을 삭제하는 데 사용됩니다.
+The CROSS JOIN operator returns a set created by combining all rows of two tables.
 
-불필요한 데이터를 제거하거나 잘못된 정보를 수정하기 위해 사용됩니다.
+That is, for each row in the first table, all rows in the second table are combined to generate a set of results.
 
-이를 통해 데이터베이스에서 불필요한 정보를 제거할 수 있습니다.
+This allows you to find all possible combinations of two tables in the database.
 
-### 조인 연산자(JOIN)
+### Association Operator (JOIN)
 
-JOIN 연산자는 두 개 이상의 테이블을 결합하여 하나의 결과 집합으로 만드는 데 사용됩니다.
+The JOIN operator is used to combine two or more tables into a single set of results.
 
-서로 관련된 데이터를 연결하여 복잡한 질의를 수행할 수 있습니다.
+Combine tables based on specific conditions and combine data based on specific columns.
 
-INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN 등 다양한 종류의 조인 연산자가 있습니다.
+There are various kinds of combining operators, such as INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN, etc.
 
-### 집계 연산자
+## at the end of the day
 
-집계 연산자는 데이터의 그룹을 만들고 그룹별로 연산을 수행하는 데 사용됩니다.
+The database set operator is utilized as an important tool for combining and segmenting data.
 
-주요 집계 함수로는 COUNT, SUM, AVG, MIN, MAX 등이 있습니다.
+These operators can be appropriately utilized to easily obtain the desired results from the database.
 
-이를 통해 데이터베이스에서 그룹별로 통계적인 정보를 계산할 수 있습니다.
+It is important to understand and utilize the set operator well when dealing with databases.
 
-### 정렬 연산자(ORDER BY)
-
-ORDER BY 연산자는 검색 결과를 원하는 순서로 정렬하는 데 사용됩니다.
-
-오름차순(ASC)이나 내림차순(DESC)으로 정렬할 수 있습니다.
-
-이를 통해 데이터베이스에서 원하는 순서로 결과를 확인할 수 있습니다.
-
-### 제한 연산자(LIMIT, TOP)
-
-제한 연산자는 검색 결과에서 일정한 개수의 행만을 반환하는 데 사용됩니다.
-
-주로 큰 데이터셋에서 일부분의 데이터만 필요한 경우에 사용됩니다.
-
-LIMIT 또는 TOP 키워드를 사용하여 특정 개수의 행을 제한할 수 있습니다.
-
-## 마치며
-
-데이터베이스 연산자는 데이터를 처리하고 조작하는 데 중요한 도구로 활용됩니다.
-
-이러한 연산자들을 적절히 활용하여 데이터베이스에서 필요한 정보를 추출하고 조작할 수 있습니다.
-
-데이터베이스를 다룰 때 이러한 연산자들을 잘 이해하고 활용하는 것이 중요합니다.
-
-감사합니다!
+Thank you!
