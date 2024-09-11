@@ -39,66 +39,58 @@ date: 2024-09-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 절차형 SQL에 대하여 알아본 글입니다.
+## This article is about procedural SQL.
 
-안녕하세요!
+Hello!
 
-데이터베이스에서는 여러 테이블에서 추출된 데이터를 결합하거나 분할하기 위해 집합 연산자가 사용됩니다.
+Procedural SQL is a language that combines the characteristics of Structured Query Language (SQL) and programming languages.
 
-이러한 집합 연산자는 두 개 이상의 집합을 조작하고 결합하여 새로운 결과를 생성합니다.
+This allows complex data processing operations to be performed in databases.
 
-이제 데이터베이스 집합 연산자의 주요 종류를 살펴보겠습니다.
+Now let's talk about the concept, features, and applications of procedural SQL.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 합집합 연산자(UNION)
+## Concept of Procedural SQL\*\*
 
-UNION 연산자는 두 개의 결과 집합을 결합하여 중복된 행을 제거한 결과를 반환합니다.
+Procedural SQL is a language that writes procedural code to perform specific tasks in a database.
 
-즉, 두 집합에 속하는 모든 행을 포함하는 결과 집합을 생성합니다.
+By combining the characteristics of SQL and programming languages, you can efficiently perform repetitive and complex tasks in a database.
 
-이를 통해 데이터베이스에서 두 집합을 합쳐 하나의 결과 집합으로 만들 수 있습니다.
+It is mainly used in the form of storage procedures, triggers, custom functions, and so on.
 
-### 교집합 연산자(INTERSECT)
+### Features of Procedural SQL
 
-INTERSECT 연산자는 두 개의 결과 집합에서 공통된 행만을 선택하여 반환합니다.
+- **Variables and control structures**: Procedural SQL has the characteristics of programming languages, allowing you to use variables and create control structures.
+- **Loop and conditional statement**: Repetitions and conditional statements can be used to repeat or process desired tasks in the database.
+- **Exception handling**: Provides exception handling to handle exception situations to improve database stability.
 
-즉, 두 집합에 동시에 속하는 행들만을 포함하는 결과 집합을 생성합니다.
+### **3. Utilization of procedural SQL**
 
-이를 통해 데이터베이스에서 두 집합의 교집합을 찾을 수 있습니다.
+- **Stored Procedure**: Program-level code that predefined and stored tasks to be performed in the database. It is used to increase reuse, security, and performance.
+- **Trigger**: Code that runs automatically when certain events occur in the database. Used to maintain data consistency or monitor certain conditions.
+- **User-defined Function**: A user-defined function that can be used in the database. Used to perform certain tasks and return results.
 
-### 차집합 연산자(EXCEPT 또는 MINUS)
+### **4. Pros and cons of procedural SQL**
 
-EXCEPT 또는 MINUS 연산자는 첫 번째 결과 집합에서 두 번째 결과 집합의 행을 제외한 결과를 반환합니다.
+- **Advantages**:
 
-즉, 첫 번째 집합에는 속하고 두 번째 집합에는 속하지 않는 행들만을 포함하는 결과 집합을 생성합니다.
+  - You can efficiently perform repetitive and complex tasks in a database.
+  - Increase the reusability of the code and facilitate maintenance.
+  - You can improve the performance of your database and enhance security.
 
-이를 통해 데이터베이스에서 두 집합의 차집합을 찾을 수 있습니다.
+- **Disadvantages**:
+  - It requires complex code writing, and you need to understand both the programming language and the grammar of SQL.
+  - Overhead can occur, and incorrectly written code can degrade database performance.
 
-### 교차 결합 연산자(CROSS JOIN 또는 CARTESIAN JOIN)
+## at the end of the day
 
-CROSS JOIN 연산자는 두 개의 테이블의 모든 행을 결합하여 생성된 집합을 반환합니다.
+Procedural SQL is a powerful tool for efficiently performing repetitive and complex tasks in databases.
 
-즉, 첫 번째 테이블의 각 행에 대해 두 번째 테이블의 모든 행을 결합하여 결과 집합을 생성합니다.
+It is utilized in the form of storage procedures, triggers, custom functions, etc., and plays an important role in improving database performance and enhancing security.
 
-이를 통해 데이터베이스에서 두 테이블의 모든 가능한 조합을 찾을 수 있습니다.
+When dealing with databases, you can utilize procedural SQL appropriately for efficient data processing.
 
-### 결합 연산자(JOIN)
-
-JOIN 연산자는 두 개 이상의 테이블을 결합하여 하나의 결과 집합으로 만드는 데 사용됩니다.
-
-특정 조건에 따라 테이블을 결합하고 특정 열을 기준으로 데이터를 결합합니다.
-
-INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN 등 다양한 종류의 결합 연산자가 있습니다.
-
-## 마치며
-
-데이터베이스 집합 연산자는 데이터의 결합과 분할을 위해 중요한 도구로 활용됩니다.
-
-이러한 연산자를 적절히 활용하여 데이터베이스에서 원하는 결과를 쉽게 얻을 수 있습니다.
-
-데이터베이스를 다룰 때 집합 연산자를 잘 이해하고 활용하는 것이 중요합니다.
-
-감사합니다!
+Thank you!
