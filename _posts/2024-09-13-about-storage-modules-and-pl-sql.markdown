@@ -39,58 +39,56 @@ date: 2024-09-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 저장 모듈과 PL/SQL에 대하여 알아본 글입니다.
+## This article is about the storage module and PL/SQL.
 
-안녕하세요!
+Hello!
 
-절차형 SQL(Procedural SQL)은 SQL(Structured Query Language)과 프로그래밍 언어의 특성을 결합한 형태의 언어입니다.
+Storage modules and PL/SQL are powerful tools used to create and manage procedures in databases.
 
-이를 통해 데이터베이스에서 복잡한 데이터 처리 작업을 수행할 수 있습니다.
+They allow you to efficiently perform tasks and manage your data in the database.
 
-이제 절차형 SQL의 개념과 특징, 그리고 활용에 대해 알아보겠습니다.
+Now let's talk about the storage module and PL/SQL.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 절차형 SQL의 개념\*\*
+## Stored Module
 
-절차형 SQL은 데이터베이스에서 특정 작업을 수행하기 위해 절차적인 코드를 작성하는 언어입니다.
+A storage module is a program-level code that is predefined and stored to perform specific tasks in a database.
 
-SQL과 프로그래밍 언어의 특성을 결합하여 데이터베이스에서 반복적이고 복잡한 작업을 효율적으로 수행할 수 있습니다.
+It is mainly used in the form of storage procedures, storage functions, and storage triggers.
 
-주로 저장 프로시저, 트리거, 사용자 정의 함수 등의 형태로 사용됩니다.
+These storage modules can efficiently manage and execute tasks that are repeatedly performed in the database.
 
-### 절차형 SQL의 특징
+### PL/SQL(Procedural Language/Structured Query Language)
 
-- **변수와 제어 구조**: 절차형 SQL은 프로그래밍 언어의 특성을 가지고 있어 변수를 사용하고 제어 구조를 작성할 수 있습니다.
-- **루프와 조건문**: 반복문과 조건문을 사용하여 데이터베이스에서 원하는 작업을 반복하거나 조건에 따라 처리할 수 있습니다.
-- **예외 처리**: 예외 상황을 처리하기 위한 예외 처리 기능을 제공하여 데이터베이스의 안정성을 향상시킵니다.
+PL/SQL is a procedural programming language developed by Oracle that is used to create and manage procedures in databases.
 
-### **3. 절차형 SQL의 활용**
+By combining the characteristics of SQL statements and programming languages, complex tasks can be performed in databases.
 
-- **저장 프로시저(Stored Procedure)**: 데이터베이스에서 수행할 작업을 미리 정의하여 저장해 둔 프로그램 단위의 코드입니다. 재사용성과 보안성을 높이고, 성능을 향상시키는 데 활용됩니다.
-- **트리거(Trigger)**: 데이터베이스에서 특정 이벤트가 발생했을 때 자동으로 실행되는 코드입니다. 데이터의 일관성을 유지하거나 특정 조건을 감시하기 위해 사용됩니다.
-- **사용자 정의 함수(User-defined Function)**: 사용자가 직접 정의한 함수로, 데이터베이스에서 사용할 수 있습니다. 특정 작업을 수행하고 결과를 반환하는 데 사용됩니다.
+PL/SQL is used in the form of storage procedures, storage functions, and storage triggers.
 
-### **4. 절차형 SQL의 장단점**
+### Utilize storage modules and PL/SQL
 
-- **장점**:
+- **Stored Procedure**: Store procedural code for performing specific tasks and call it when needed. It is used to simplify and increase reuse of tasks in databases.
 
-  - 데이터베이스에서 반복적이고 복잡한 작업을 효율적으로 수행할 수 있습니다.
-  - 코드의 재사용성을 높이고 유지보수가 용이합니다.
-  - 데이터베이스의 성능을 향상시키고 보안성을 강화할 수 있습니다.
+- **Stored Function**: Save a function that returns a specific value and calls it when needed. It can be used by calling as a function in SQL statements and can easily implement complex calculations or logic.
 
-- **단점**:
-  - 복잡한 코드 작성이 필요하며, 프로그래밍 언어와 SQL의 문법을 모두 이해해야 합니다.
-  - 오버헤드가 발생할 수 있으며, 잘못 작성된 코드는 데이터베이스의 성능을 저하시킬 수 있습니다.
+- **Stored Trigger**: Save and use code that runs automatically when a particular event occurs. Used to maintain data consistency or monitor certain conditions.
 
-## 마치며
+### Benefits of storage modules and PL/SQL
 
-절차형 SQL은 데이터베이스에서 반복적이고 복잡한 작업을 효율적으로 수행하기 위한 강력한 도구입니다.
+- **Effective data handling**: Use storage modules and PL/SQL to efficiently handle complex tasks in databases.
+- **Reusable**: Create a written procedure or function can be called and reused whenever necessary, which can reduce development time and facilitate maintenance.
+- **Enhance database performance**: Use storage modules and PL/SQL to improve database performance.
 
-저장 프로시저, 트리거, 사용자 정의 함수 등의 형태로 활용되며, 데이터베이스의 성능을 향상시키고 보안성을 강화하는 데 중요한 역할을 합니다.
+## at the end of the day
 
-데이터베이스를 다룰 때 절차형 SQL을 적절히 활용하여 효율적인 데이터 처리를 할 수 있습니다.
+Storage modules and PL/SQL serve as critical tools for creating and managing procedures in databases.
 
-감사합니다!
+They allow you to efficiently perform tasks and manage data in databases, reduce development time and increase maintenance.
+
+When dealing with databases, it is important to leverage storage modules and PL/SQL appropriately to increase the efficiency of data management.
+
+Thank you!

@@ -53,7 +53,7 @@ Now let's talk about the concept, features, and applications of procedural SQL.
 
 <!-- outline-end -->
 
-## Concept of Procedural SQL\*\*
+## Concept of Procedural SQL
 
 Procedural SQL is a language that writes procedural code to perform specific tasks in a database.
 
