@@ -39,55 +39,48 @@ date: 2024-09-15 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 옵티마이저의 개념과 종류에 대하여 알아본 글입니다.
+## This article examines the concept and type of optimizer.
 
-안녕하세요!
+Hello!
 
-트리거(Trigger)는 데이터베이스에서 특정 이벤트가 발생했을 때 자동으로 실행되는 코드입니다.
+The database optimizer is responsible for optimizing user-written queries in the database to establish the most efficient action plan.
 
-이를 통해 데이터베이스에서의 작업을 자동화하고 데이터의 일관성을 유지할 수 있습니다.
+This improves the performance of the database and reduces the execution time of queries.
 
-이제 데이터베이스 트리거의 개념, 종류, 활용에 대해 알아보겠습니다.
+Now, let's talk about the concepts and types of optimizers.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 트리거의 개념
+## Concept of Optimizer
 
-트리거는 데이터베이스에서 특정 테이블에 대한 INSERT, UPDATE, DELETE 등의 이벤트가 발생했을 때 자동으로 실행되는 코드입니다.
+Optimizers are responsible for determining the best way to run database queries.
 
-이를 통해 특정 조건을 감시하고 원하는 작업을 수행할 수 있습니다.
+Analyze user-created queries and develop action plans to find the most efficient way to retrieve and manipulate data from the database.
 
-주로 데이터의 일관성을 유지하거나 특정 조건을 검사하기 위해 사용됩니다.
+This optimizes the performance of the database and provides quick and accurate results for users.
 
-### 트리거의 종류
+### Types of Optimizer
 
-- **AFTER 트리거**: 이벤트가 발생한 후에 트리거가 실행됩니다. 주로 이벤트에 따른 후속 작업을 수행할 때 사용됩니다.
-- **BEFORE 트리거**: 이벤트가 발생하기 전에 트리거가 실행됩니다. 주로 이벤트를 발생시키기 전에 특정 조건을 검사하거나 수정할 때 사용됩니다.
+There are two main types of optimizers: Rule-based optimizer and Cost-based optimizer.
 
-### 트리거의 활용
+- **Rule-based Optimizer**:
+  - Rule-based optimizers establish action plans according to predefined rules for user-created queries.
+  - Because the query is handled according to predefined rules, it can be effective for simple queries, but it can be difficult to establish an optimal action plan for complex queries.
+- **Cost-based optimizer**:
+  - A cost-based optimizer generates a variety of actionable action plans and calculates the estimated cost for each action plan to select the most efficient action plan.
+  - You can establish a more accurate and optimized action plan by taking into account factors such as the statistics of the query and the presence or absence of an index.
 
-- **데이터의 일관성 유지**: 트리거를 사용하여 데이터베이스에서의 작업을 자동화하고 데이터의 일관성을 유지할 수 있습니다.
-- **제약 조건 추가**: 트리거를 사용하여 특정 조건을 검사하고 제약 조건을 추가할 수 있습니다. 예를 들어, 외래 키 제약 조건을 추가하거나 중복 데이터를 방지할 수 있습니다.
-- **로그 작성**: 트리거를 사용하여 특정 이벤트가 발생했을 때 로그를 작성하거나 알림을 보낼 수 있습니다. 이를 통해 데이터베이스의 변경 이력을 추적하거나 비정상적인 동작을 감지할 수 있습니다.
+### Utilization of Optimizer
 
-### 트리거의 장단점
+- **Improve performance**: Optimizer can be used to improve database performance. Choose the best action plan to speed up query execution and reduce database load.
+- **Automated Optimization**: Optimizer lets you automate the optimization of queries, allowing users to write queries without having to worry about the complex task of developing an action plan.
 
-- **장점**:
+## at the end of the day
 
-  - 데이터의 일관성을 유지하고 데이터베이스의 안정성을 향상시킬 수 있습니다.
-  - 반복적인 작업을 자동화하여 개발 시간을 단축하고 유지보수성을 높일 수 있습니다.
-  - 특정 이벤트에 대한 로그를 작성하거나 알림을 보내는 등의 추가 기능을 제공합니다.
+Optimizers are key features responsible for optimizing queries in databases, with two types: rule-based optimizers and cost-based optimizers.
 
-- **단점**:
-  - 잘못된 트리거 코드 작성으로 인해 데이터베이스의 성능이 저하될 수 있습니다.
-  - 트리거가 복잡해지면 관리와 디버깅이 어려울 수 있습니다.
+Each optimizer has advantages and disadvantages and can be selected and used to improve the performance of the database.
 
-## 마치며
-
-트리거는 데이터베이스에서 특정 이벤트에 반응하여 자동으로 실행되는 코드로, 데이터의 일관성을 유지하고 작업을 자동화하는 데 중요한 역할을 합니다.
-
-데이터베이스를 다룰 때 트리거를 적절히 활용하여 데이터베이스의 안정성과 효율성을 향상시킬 수 있습니다.
-
-감사합니다!
+Thank you!
