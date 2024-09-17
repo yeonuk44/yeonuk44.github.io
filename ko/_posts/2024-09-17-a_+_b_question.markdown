@@ -52,75 +52,52 @@ date: 2024-09-17 09:00:00 +0900
 
 ### 문제
 
-문자열 my_string과 문자 letter이 매개변수로 주어집니다. my_string에서 letter를 제거한 문자열을 return하도록 solution 함수를 완성해주세요.
+두 정수 A와 B를 입력받은 다음, A+B를 출력하는 프로그램을 작성하시오.
 
-#### 제한사항
+#### 입력
 
-1 ≤ my_string의 길이 ≤ 100
+첫째 줄에 A와 B가 주어진다. (0 < A, B < 10)
 
-letter은 길이가 1인 영문자입니다.
+#### 출력
 
-my_string과 letter은 알파벳 대소문자로 이루어져 있습니다.
+첫째 줄에 A+B를 출력한다.
 
-대문자와 소문자를 구분합니다.
+#### 문제 풀이
 
-#### 입출력 예시
+사용자로부터 두 개의 정수를 입력받고, 그 합을 출력합니다.
 
-| my_string | letter | result  |
-| --------- | ------ | ------- |
-| "abcdef"  | "f"    | "abcde" |
-| "CBdbe"   | "B"    | "Cdbe"  |
+이를 위해 Scanner 클래스를 사용하여 입력을 처리하고, 결과를 출력합니다.
 
 ### 문제에 대한 나의 풀이
 
 ```java
-class Solution {
-    public String solution(String my_string, String letter) {
-        StringBuilder result = new StringBuilder();
-        for(char ch : my_string.toCharArray()){
-            if(ch != letter.charAt(0)){
-                result.append(ch);
-            }
-        }
-        return result.toString();
+import java.util.Scanner;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in); // Scanner 객체를 생성하여 입력을 받음
+        int a = scan.nextInt(); // 첫 번째 정수를 입력받아 변수 a에 저장
+        int b = scan.nextInt(); // 두 번째 정수를 입력받아 변수 b에 저장
+        System.out.print(a + b); // a와 b의 합을 출력
+        scan.close(); // Scanner 객체를 닫아 시스템 리소스를 해제
     }
 }
 ```
 
 #### 풀이 설명
 
-이 코드는 문자열 my_string에서 특정 문자 letter를 제외한 문자들로 이루어진 새로운 문자열을 생성하는 함수입니다. 아래는 코드의 주요 부분에 대한 간단한 설명입니다.
+문제를 풀며 Scanner 객체를 닫는 것에 대해 좀 더 알아보았습니다.
 
-주요 코드의 간단한 설명
+Scanner 객체를 닫지 않으면, 프로그램이 종료될 때까지 리소스가 해제되지 않을 수 있습니다.
 
-```java
-class Solution {
-    public String solution(String my_string, String letter) {
-        // StringBuilder 객체를 생성하여 결과 문자열을 누적
-        StringBuilder result = new StringBuilder();
+이는 메모리 누수로 이어질 수 있으며, 특히 장시간 실행되는 프로그램에서는 시스템 리소스를 낭비할 수 있습니다.
 
-        // 문자열 my_string을 문자 배열로 변환하고 각 문자에 대해 반복
-        for (char ch : my_string.toCharArray()) {
-            // 현재 문자가 제외할 문자 letter와 같지 않은 경우에만 결과에 추가
-            if (ch != letter.charAt(0)) {
-                result.append(ch);
-            }
-        }
+### 결론
 
-        // 최종 결과를 문자열로 변환하여 반환
-        return result.toString();
-    }
-}
-```
+이 간단한 프로그램을 통해 Java에서 사용자 입력을 받아 처리하는 방법을 배웠습니다.
 
-해당 코드의 주요 단계:
+Scanner 클래스를 사용하여 입력을 받고, 이를 처리한 후 결과를 출력하는 방법을 이해하는 것은 Java 프로그래밍의 기본입니다.
 
-StringBuilder 객체 result를 생성하여 최종 결과 문자열을 누적합니다.
+또한, 사용한 시스템 리소스를 적절히 해제하기 위해 scan.close()를 사용하는 것도 잊지 마세요.
 
-문자열 my_string을 문자 배열로 변환하고 각 문자에 대해 반복합니다.
-
-현재 문자가 제외할 문자 letter와 같지 않은 경우에만 result에 해당 문자를 추가합니다.
-
-최종적으로 result를 문자열로 변환하여 반환합니다.
-
-예를 들어, solution("hello", "l")을 호출하면 "heo"가 반환됩니다.
+감사합니다!
