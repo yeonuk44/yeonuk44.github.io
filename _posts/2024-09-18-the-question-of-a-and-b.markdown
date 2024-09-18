@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_The_Question_Of_Dividing_A_And_B
-title: Baekjun 1000, The question of dividing A and B
-# title: Baekjun 1000, The question of dividing A and B
+title: Baekjun 1008, The question of dividing A and B
+# title: Baekjun 1008, The question of dividing A and B
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
@@ -40,64 +40,98 @@ date: 2024-09-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 1008번, A/B 문제 (with.Java)에 대하여 알아본 글입니다.
+## Baekjun No. 1008, this is an article about A/B problem (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-두 정수 A와 B를 입력받은 다음, A+B를 출력하는 프로그램을 작성하시오.
+After receiving the two integers A and B, write a program that outputs A/B.
 
-#### 입력
+#### Input
 
-첫째 줄에 A와 B가 주어진다. (0 < A, B < 10)
+A and B are given in the first line. (0 < A, B < 10)
 
-#### 출력
+#### Output
 
-첫째 줄에 A+B를 출력한다.
+Output A/B on the first line.
 
-#### 문제 풀이
+If the absolute or relative error between the actual correct answer and the output value is less than 10-9, it is the correct answer.
 
-사용자로부터 두 개의 정수를 입력받고, 그 합을 출력합니다.
-
-이를 위해 Scanner 클래스를 사용하여 입력을 처리하고, 결과를 출력합니다.
-
-### 문제에 대한 나의 풀이
+### problem solving
 
 ```java
 import java.util.Scanner;
 
-class Main {
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in); // Scanner 객체를 생성하여 입력을 받음
-        int a = scan.nextInt(); // 첫 번째 정수를 입력받아 변수 a에 저장
-        int b = scan.nextInt(); // 두 번째 정수를 입력받아 변수 b에 저장
-        System.out.print(a + b); // a와 b의 합을 출력
-        scan.close(); // Scanner 객체를 닫아 시스템 리소스를 해제
+class Main{
+    public static void main(String[] args){
+        Scanner scan = new Scanner(System.in);
+        double a = scan.nextDouble();
+        double b = scan.nextDouble();
+        scan.close();
+        System.out.print(String.format("%.10f", a / b));
     }
 }
+
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-문제를 풀며 Scanner 객체를 닫는 것에 대해 좀 더 알아보았습니다.
+I was able to solve the problem and think about the difference between float and double.
 
-Scanner 객체를 닫지 않으면, 프로그램이 종료될 때까지 리소스가 해제되지 않을 수 있습니다.
+Java uses two basic data types, double and float, to represent floating-point numbers.
 
-이는 메모리 누수로 이어질 수 있으며, 특히 장시간 실행되는 프로그램에서는 시스템 리소스를 낭비할 수 있습니다.
+These two types differ in the range and precision of the values that can be stored, with different advantages and disadvantages.
 
-### 결론
+##### Differences
 
-이 간단한 프로그램을 통해 Java에서 사용자 입력을 받아 처리하는 방법을 배웠습니다.
+###### Precision and storage range:
 
-Scanner 클래스를 사용하여 입력을 받고, 이를 처리한 후 결과를 출력하는 방법을 이해하는 것은 Java 프로그래밍의 기본입니다.
+float:
 
-또한, 사용한 시스템 리소스를 적절히 해제하기 위해 scan.close()를 사용하는 것도 잊지 마세요.
+- 32-bit (4 bytes) size
+- having a significant number of approximately 7 digits
+- The range of values that can be expressed is approximately ±1.4E-45 to ±3.4E+38
 
-감사합니다!
+double:
+
+- 64 bit (8 bytes) size
+- Have a valid number of approximately 15 digits
+- The range of values that can be expressed is approximately ±4.9E-324 to ±1.8E+308
+
+###### Precision and calculation:
+
+Double has twice the number of bits as float, which allows more valid numbers to be expressed, resulting in higher precision.
+
+This is advantageous when high precision is required, such as scientific and financial calculations.
+
+Floats use less memory and can be advantageous when some graphics applications or memory usage is important, although the precision is relatively low.
+
+##### pros and cons
+
+float:
+
+- Advantage: It is advantageous in environments with large arrays or memory constraints due to low memory usage. It can provide better performance in some graphics programming.
+- Disadvantage: It can be inaccurate when dealing with a large number of valid numbers due to low precision. More errors can occur in calculations.
+
+double:
+
+- Advantage: The precision is high and can accurately handle many valid numbers. This is the default floating point type, so you don't have to specify an explicit type.
+- Cons: Memory usage is twice as high as float.
+  Some performance sensitive applications may be slower.
+
+### Conclusion
+
+For example, in graphical applications, performance can be optimized using float, but in financial calculations, it is important to maintain high precision using double.
+
+When memory constraints are not large and precision is important: use double
+
+When memory usage should be minimized, and precision is relatively less important: use float
+
+Thank you!
