@@ -40,71 +40,77 @@ date: 2024-09-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 2525번 오븐 시계 (with.Java) 에 대하여 알아본 글입니다.
+## This is what we learned about Baekjun 2525 oven clock (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-아래 예제와 같이 고양이를 출력하시오.
+KOI Electronics is trying to develop an AI oven that makes healthy and delicious grilled smoked duck dishes simple.
 
-#### 입력
+The way to use an AI oven is to put the right amount of duck-smoked material into the AI oven.
 
-없음.
+Then, the artificial intelligence oven automatically calculates the time when the oven is finished in minutes.
 
-#### 출력
+Also, on the front of KOI Electronics' AI oven is a digital clock that tells the user when grilled smoked duck cooking ends.
 
-고양이를 출력한다.
+Write a program to calculate the time when the oven is finished, given the time to start the grilled smoked duck and the time required to bake the oven in minutes.
 
-### 문제 풀이
+#### Input
+
+The first line shows the current time.
+
+The current time is given in order with time A (0≤A≤23) and minute B (0≤B≤59) as integers in between.
+
+The second line is given in minutes the time C (0 ≤ C ≤ 1,000) required to cook.
+
+#### Output
+
+The time and minute of the time ending in the first line are output with a space between them.
+
+(However, poetry is an integer from 0 to 23 and minutes is an integer from 0 to 59.
+
+The digital clock will be 0:0 after one minute from 23:59.)
+
+### problem solving
 
 ```java
-class Main {
-	public static void main(String[] args) {
+import java.util.Scanner;
 
-		System.out.println("\\    /\\");
-		System.out.println(" )  ( ')");
-		System.out.println("(  /  )");
-		System.out.println(" \\(__)|");
+class Main{
+    public static void main(String[] args){
+        Scanner scan = new Scanner(System.in);
+        int hour = scan.nextInt();
+        int minute = scan.nextInt();
+        int working_time = scan.nextInt();
 
-	}
+        hour += (minute + working_time) / 60;
+        hour %= 24;
+        minute = (minute + working_time) % 60;
+
+        System.out.print(hour + " " + minute);
+    }
 }
-
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-`\\는 \를 출력합니다.
-()는 괄호를 출력합니다.
-|는 파이프를 출력합니다.`
+Create a scanner object to prepare to receive input from the user.
 
-이 코드는 이스케이프 시퀀스를 사용하여 특수 문자를 출력하고, 각각의 System.out.println 문은 한 줄씩 출력합니다.
+Use the scan.nextInt() method to receive hour, minute, and working_time.
 
-문제를 풀며 이스케이프 시퀀스에 대해 알고 있어야 풀이가 가능했음을 알았습니다.
+Divide the sum of the current minute and working_time by 60 to add to the hour.
 
-이스케이프 시퀀스란
-이스케이프 시퀀스(Escape Sequence)는 문자열 내에서 특수한 의미를 갖는 문자를 표현하기 위해 사용됩니다. 이는 주로 제어 문자 또는 특수 문자를 문자열에 포함시킬 때 사용됩니다. 이스케이프 시퀀스는 백슬래시(`\`)로 시작하며, 뒤에 오는 문자에 따라 다양한 기능을 수행합니다.
+If the calculated hour is more than 24, update it to the remaining value divided by 24 and keep it in 24-hour format.
 
-주요 이스케이프 시퀀스
+Divide the sum of the current minute and working_time by 60 and update the remaining value to the new minute.
 
-`\\ : 백슬래시 (\) 자체를 의미합니다.
-\' : 작은따옴표 (')를 의미합니다.
-\" : 큰따옴표 (")를 의미합니다.
-\n : 줄 바꿈 (새로운 줄로 이동)
-\t : 탭 문자 (일반적으로 4 또는 8 스페이스)
-\r : 캐리지 리턴 (줄의 시작으로 이동)
-\b : 백스페이스 (이전 문자 삭제)
-\f : 폼 피드 (페이지 나누기)
-\uXXXX : 유니코드 문자 (XXXX는 4자리 16진수)`
+Outputs the calculated time and minutes.
 
-### 결론
-
-코드에서 특수한 의미를 갖는 문자를 표현할 때 큰따옴표(")와 역슬래쉬(`\`)가 포함되어 있다면 특수한 의미의 문자 앞에 역슬래쉬 1개를 붙여주면 됩니다.
-
-감사합니다!
+Thank you!
