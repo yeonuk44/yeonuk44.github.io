@@ -40,77 +40,84 @@ date: 2024-09-22 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 2480번, 주사위 세개 (with.Java)에 대하여 알아본 글입니다.
+## This is an article about Baekjun No. 2480 and three dice (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-KOI 전자에서는 건강에 좋고 맛있는 훈제오리구이 요리를 간편하게 만드는 인공지능 오븐을 개발하려고 한다.
+There is a game in which you throw 3 dice with eyes from 1 to 6 and receive a prize according to the following rules.
 
-인공지능 오븐을 사용하는 방법은 적당한 양의 오리 훈제 재료를 인공지능 오븐에 넣으면 된다.
+If three of the same eyes come out, you will receive a prize of 10,000 won + (same eyes) × 1,000 won.
 
-그러면 인공지능 오븐은 오븐구이가 끝나는 시간을 분 단위로 자동적으로 계산한다.
+If only two of the same eyes come out, you will receive a prize of 1,000 won + (same eye) × 100 won.
 
-또한, KOI 전자의 인공지능 오븐 앞면에는 사용자에게 훈제오리구이 요리가 끝나는 시각을 알려 주는 디지털 시계가 있다.
+If all of them have different eyes, they will receive a prize of KRW 100 (the biggest of them).
 
-훈제오리구이를 시작하는 시각과 오븐구이를 하는 데 필요한 시간이 분단위로 주어졌을 때, 오븐구이가 끝나는 시각을 계산하는 프로그램을 작성하시오.
+For example, if three eyes 3, 3, and 6 are given, the prize money is calculated as 1,000+3×100 and received 1,300 won.
 
-#### 입력
+In addition, if three eyes are given as two, two, and two, it is calculated as 10,000+2×1,000 and received 12,000 won.
 
-첫째 줄에는 현재 시각이 나온다.
+If three eyes are given as 6, 2, and 5, the largest value is 6, so it is calculated as 6×100 and 600 won is received as a prize.
 
-현재 시각은 시 A (0 ≤ A ≤ 23) 와 분 B (0 ≤ B ≤ 59)가 정수로 빈칸을 사이에 두고 순서대로 주어진다.
+Write a program that calculates the prize money when you are given three dice eyes.
 
-두 번째 줄에는 요리하는 데 필요한 시간 C (0 ≤ C ≤ 1,000)가 분 단위로 주어진다.
+#### Input
 
-#### 출력
+Three eyes are given in the first row, each with a blank space between them.
 
-첫째 줄에 종료되는 시각의 시와 분을 공백을 사이에 두고 출력한다.
+#### Output
 
-(단, 시는 0부터 23까지의 정수, 분은 0부터 59까지의 정수이다.
+Print the prize money of the game on the first line.
 
-디지털 시계는 23시 59분에서 1분이 지나면 0시 0분이 된다.)
-
-### 문제 풀이
+### problem solving
 
 ```java
 import java.util.Scanner;
-
-class Main{
-    public static void main(String[] args){
+class Main {
+    public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        int hour = scan.nextInt();
-        int minute = scan.nextInt();
-        int working_time = scan.nextInt();
+        int a = scan.nextInt();
+        int b = scan.nextInt();
+        int c = scan.nextInt();
+        int answer = 0;
 
-        hour += (minute + working_time) / 60;
-        hour %= 24;
-        minute = (minute + working_time) % 60;
-
-        System.out.print(hour + " " + minute);
+        if (a == b && b == c) {
+            answer = 10000 + (a * 1000);
+        }else if(a == b || a == c){
+            answer = 1000 + (a * 100);
+        }else if(b == c){
+            answer = 1000 + (b * 100);
+        }else{
+            if(a >= b && a >= c){
+                answer = a * 100;
+            }else if(b >= a && b >= c){
+                answer = b * 100;
+            }else{
+                answer = c * 100;
+            }
+        }
+        System.out.print(answer);
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-Scanner 객체를 생성하여 사용자로부터 입력을 받을 준비를 합니다.
+Initialize the variable to store the result by declaring intanswer = 0.
 
-scan.nextInt() 메서드를 사용하여 시간(hour), 분(minute), 작업 시간(working_time)을 입력받습니다.
+- If all three dice values are the same: if (a == b & b == c) Check through the conditional statement, and store the value 10000 + (a \_1000) in answer.
+- If two dice are equal: store 1000 + (a \_ 100) values in answer if (a == b | | a == c) conditional statement if more than one a is equal. store 1000 + (b \* 100) values in answer if (b == c) conditional statement if b and c are equal.
+- If all three dice values are different: Find the largest of the three numbers in the else block. Compare a, b, and c and store the largest value multiplied by 100 in answer.
 
-현재 분(minute)과 작업 시간(working_time)의 합을 60으로 나누어 시간(hour)에 더합니다.
+This code is a program that calculates the results of a dice game.
 
-계산된 시간(hour)이 24 이상일 경우 24로 나눈 나머지 값으로 갱신하여 24시간 형식으로 유지합니다.
+It receives three dice values and calculates and outputs scores in cases where the three values are equal, the two values are equal, and the three values are all different.
 
-현재 분(minute)과 작업 시간(working_time)의 합을 60으로 나누어 그 나머지 값을 새로운 분(minute)으로 갱신합니다.
-
-계산된 시간과 분을 출력합니다.
-
-감사합니다!
+Thank you!
