@@ -40,32 +40,34 @@ date: 2024-09-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 올바른 괄호 (with.Java)에 대하여 알아본 글입니다.
+## Correct parentheses (with.J)
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+## I've learned about the correct parentheses (with.Java).
 
-문제에 대해 먼저 알아보겠습니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
+
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-괄호가 바르게 짝지어졌다는 것은 '(' 문자로 열렸으면 반드시 짝지어서 ')' 문자로 닫혀야 한다는 뜻입니다. 예를 들어
+Parentheses correctly paired means that if opened with a '(' character, it must be paired and closed with a '') character, for example
 
 ```bash
-"()()" 또는 "(())()" 는 올바른 괄호입니다.
-")()(" 또는 "(()(" 는 올바르지 않은 괄호입니다.
-'(' 또는 ')' 로만 이루어진 문자열 s가 주어졌을 때, 문자열 s가 올바른 괄호이면 true를 return 하고, 올바르지 않은 괄호이면 false를 return 하는 solution 함수를 완성해 주세요.
+"(()" or "((())))()" is the correct parentheses.
+"()()" or "(()()" is an invalid parentheses.
+Given a string s consisting of only '(' or '), complete the solution function that returns true if the string s is correct parentheses and false if it is incorrect parentheses.
 ```
 
-#### 제한사항
+#### Restrictions
 
-- 문자열 s의 길이 : 100,000 이하의 자연수
-- 문자열 s는 '(' 또는 ')' 로만 이루어져 있습니다.
+- Length of string s: natural numbers no more than 100,000
+- String s consists of only '(' or '')'.
 
-#### 입출력 예
+#### Input/output Examples
 
 | s        | answer |
 | -------- | ------ |
@@ -74,7 +76,7 @@ date: 2024-09-23 09:00:00 +0900
 | ")()("   | false  |
 | "(()("   | false  |
 
-### 문제 풀이
+### problem solving
 
 ```java
 import java.util.ArrayDeque;
@@ -110,88 +112,54 @@ class Solution {
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 코드는 문자열 s가 올바른 괄호 문자열인지 확인하는 것입니다.
+This code is to verify that the string s is a valid parentheses string.
 
-올바른 괄호 문자열은 여는 괄호 '('가 항상 닫는 괄호 ')'보다 먼저 등장하고, 여는 괄호의 개수와 닫는 괄호의 개수가 동일해야 합니다.
+A valid parentheses string must appear before the opening parentheses '(' always closing parentheses '), and the number of opening parentheses must be the same as the number of closing parentheses.
 
-코드는 Deque를 이용하여 문자열을 처리하고 이를 통해 괄호의 유효성을 검사합니다.
+The code uses Deque to process strings and validates parentheses.
 
-아래는 코드의 각 부분을 설명한 풀이 리뷰입니다.
+Below is a pool review that describes each part of the code.
 
-Deque 초기화와 문자열 저장:
+Deque initialization and string storage:
 
 Deque<Character> deque = new ArrayDeque<>();
-문자열 s의 각 문자를 Deque에 저장합니다.
+Save each character in string s to Deque.
 
-Deque는 양방향 큐로, 문자 삽입과 삭제에 유리합니다.
+Deque is a bidirectional queue that is advantageous for character insertion and deletion.
 
-Deque에 문자열 문자 추가:
+Add string characters to Deque:
 
 for (int i = 0; i < s.length(); i++) { deque.offer(s.charAt(i)); }
-문자열의 각 문자를 Deque에 추가하여 순차적으로 처리할 준비를 합니다.
+Prepare to process sequentially by adding each character in the string to Deque.
 
-초기 조건 검사:
+Initial condition check:
 
 if (deque.peek() == ')' || deque.peekLast() == '(') { return false; }
-Deque의 첫 번째 문자가 ')'이거나 마지막 문자가 '('이면, 올바른 괄호 문자열이 될 수 없으므로 즉시 false를 반환합니다.
+If the first character of the Deque is '') or the last character is '(), return false immediately because it cannot be a valid parentheses string.
 
-괄호의 유효성 검사:
+Validation of parentheses:
 
 while (!deque.isEmpty()) { ... }
-Deque가 빌 때까지 반복합니다.
+Repeat until Deque begs.
 
-count 변수를 사용하여 여는 괄호와 닫는 괄호의 균형을 맞춥니다.
+Use the count variable to balance the parentheses that you open with the parentheses that you close.
 
-여는 괄호 '('는 count를 증가시키고, 닫는 괄호 ')'는 count를 감소시킵니다.
+The opening parentheses '(' increase the count, and the closing parentheses '') decrease the count.
 
-균형 검사:
+Balance check:
 
 if (count < 0 || count > deque.size()) { return false; }
-count가 0보다 작거나 남은 Deque의 크기보다 크면 올바른 괄호 문자열이 아닙니다.
+If the count is less than 0 or greater than the size of the remaining Deque, it is not a valid parentheses string.
 
-여는 괄호가 너무 많거나 닫는 괄호가 너무 많으면 false를 반환합니다.
+Returns false if there are too many parentheses to open or too many parentheses to close.
 
-최종 반환 값:
+Last return value:
 
-모든 문자를 처리한 후 count가 0이면 올바른 괄호 문자열이므로 true를 반환하고, 그렇지 않으면 false를 반환합니다.
+After processing all characters, if the count is 0, return true because it is a valid parentheses string; otherwise, return false.
 
-문제점 및 개선점
+Problems and Improvements
 
-초기 조건 검사:
-Deque를 사용하여 문자열을 저장하고 조건을 검사하는 대신, 바로 문자열을 검사할 수 있습니다.
-
-예를 들어, 첫 번째 문자가 ')'이거나 마지막 문자가 '('인지를 먼저 검사하면 Deque를 사용할 필요가 없습니다.
-
-Deque의 불필요한 사용:
-Deque를 사용하지 않고, 단순히 문자열을 순차적으로 처리하면서 여는 괄호와 닫는 괄호의 균형을 맞출 수 있습니다.
-
-개선된 접근 방식
-
-Deque를 사용하지 않고, 간단하게 count 변수를 이용하여 여는 괄호와 닫는 괄호의 균형을 맞추는 방법이 더 효율적입니다.
-
-```java
-class Solution {
-    boolean solution(String s) {
-        int count = 0;
-
-        for (char c : s.toCharArray()) {
-            if (c == '(') {
-                count++;
-            } else {
-                count--;
-            }
-
-            if (count < 0) {
-                return false;
-            }
-        }
-
-        return count == 0;
-    }
-}
-
-```
-
-이렇게 하면 코드가 더 간결해지고, Deque를 사용하지 않아도 되므로 성능이 개선됩니다.
+Initial condition check:
+Instead of using Deque to save the string and check the condition, you can check the string immediately.
