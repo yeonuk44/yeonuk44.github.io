@@ -9,7 +9,7 @@ author: Yeonuk
 # multiple category is not supported
 category: Java
 # multiple tag entries are possible
-tags: [java, coding test]
+tags: [java, queue, coding test]
 # thumbnail image for post
 img: ":post_pic1.jpg"
 # disable comments on this page
@@ -52,146 +52,144 @@ date: 2024-09-24 09:00:00 +0900
 
 ### 문제
 
-괄호가 바르게 짝지어졌다는 것은 '(' 문자로 열렸으면 반드시 짝지어서 ')' 문자로 닫혀야 한다는 뜻입니다. 예를 들어
+운영체제의 역할 중 하나는 컴퓨터 시스템의 자원을 효율적으로 관리하는 것입니다.
 
-```bash
-"()()" 또는 "(())()" 는 올바른 괄호입니다.
-")()(" 또는 "(()(" 는 올바르지 않은 괄호입니다.
-'(' 또는 ')' 로만 이루어진 문자열 s가 주어졌을 때, 문자열 s가 올바른 괄호이면 true를 return 하고, 올바르지 않은 괄호이면 false를 return 하는 solution 함수를 완성해 주세요.
-```
+이 문제에서는 운영체제가 다음 규칙에 따라 프로세스를 관리할 경우 특정 프로세스가 몇 번째로 실행되는지 알아내면 됩니다.
+
+1. 실행 대기 큐(Queue)에서 대기중인 프로세스 하나를 꺼냅니다.
+2. 큐에 대기중인 프로세스 중 우선순위가 더 높은 프로세스가 있다면 방금 꺼낸 프로세스를 다시 큐에 넣습니다.
+3. 만약 그런 프로세스가 없다면 방금 꺼낸 프로세스를 실행합니다.
+   3.1 한 번 실행한 프로세스는 다시 큐에 넣지 않고 그대로 종료됩니다.
+   예를 들어 프로세스 4개 [A, B, C, D]가 순서대로 실행 대기 큐에 들어있고, 우선순위가 [2, 1, 3, 2]라면 [C, D, A, B] 순으로 실행하게 됩니다.
+
+현재 실행 대기 큐(Queue)에 있는 프로세스의 중요도가 순서대로 담긴 배열 priorities와, 몇 번째로 실행되는지 알고싶은 프로세스의 위치를 알려주는 location이 매개변수로 주어질 때, 해당 프로세스가 몇 번째로 실행되는지 return 하도록 solution 함수를 작성해주세요.
 
 #### 제한사항
 
-- 문자열 s의 길이 : 100,000 이하의 자연수
-- 문자열 s는 '(' 또는 ')' 로만 이루어져 있습니다.
+- priorities의 길이는 1 이상 100 이하입니다.
+- priorities의 원소는 1 이상 9 이하의 정수입니다.
+- priorities의 원소는 우선순위를 나타내며 숫자가 클 수록 우선순위가 높습니다.
+- location은 0 이상 (대기 큐에 있는 프로세스 수 - 1) 이하의 값을 가집니다.
+- priorities의 가장 앞에 있으면 0, 두 번째에 있으면 1 … 과 같이 표현합니다.
 
 #### 입출력 예
 
-| s        | answer |
-| -------- | ------ |
-| "()()"   | true   |
-| "(())()" | true   |
-| ")()("   | false  |
-| "(()("   | false  |
+| priorities         | location | return |
+| ------------------ | -------- | ------ |
+| [2, 1, 3, 2]       | 2        | 1      |
+| [1, 1, 9, 1, 1, 1] | 0        | 5      |
 
 ### 문제 풀이
 
 ```java
-import java.util.ArrayDeque;
-import java.util.Deque;
-
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Collections;
+import java.util.Arrays;
 class Solution {
-    boolean solution(String s) {
-        Deque<Character> deque = new ArrayDeque<>();
-        for(int i = 0; i < s.length(); i++){
-            deque.offer(s.charAt(i));
-        }
-
+    public int solution(int[] priorities, int location) {
+        int answer = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        int want_num = priorities[location];
         int count = 0;
-        int size = deque.size();
-        if(deque.peek() == ')' || deque.peekLast() == '('){
-            return false;
-        }else{
-            while(!deque.isEmpty()){
-                if(count < 0 || count > deque.size()){
-                    return false;
-                }else{
-                    if(deque.poll() == '('){
-                        count++;
-                    }else{
-                        count--;
-                    }
+        for(int i : priorities){
+            queue.offer(i);
+            if(want_num <= i){
+                count++;
+            }
+        }
+        if(count == 0){
+            return 1;
+        }
+        Integer[] arr = Arrays.stream(priorities).boxed().toArray(Integer[]::new);
+        Arrays.sort(arr, Collections.reverseOrder());
+        int idx = 0;
+        while(!queue.isEmpty()){
+            int temp = 0;
+            if(queue.peek() == arr[idx]){
+                answer++;
+                idx++;
+                queue.poll();
+                if(location == 0){
+                    break;
+                }
+                location--;
+            }else{
+                temp = queue.poll();
+                queue.offer(temp);
+                location--;
+                if(location < 0){
+                    location = queue.size() - 1;
                 }
             }
         }
 
-        return true;
+        return answer;
     }
 }
 ```
 
 #### 풀이 설명
 
-이 코드는 문자열 s가 올바른 괄호 문자열인지 확인하는 것입니다.
+이 코드는 프린터의 작업 우선순위를 처리하는 문제를 해결합니다.
 
-올바른 괄호 문자열은 여는 괄호 '('가 항상 닫는 괄호 ')'보다 먼저 등장하고, 여는 괄호의 개수와 닫는 괄호의 개수가 동일해야 합니다.
+주어진 작업 우선순위 배열과 특정 위치의 작업이 몇 번째로 출력되는지를 계산하는 과정을 다음과 같이 구현합니다.
 
-코드는 Deque를 이용하여 문자열을 처리하고 이를 통해 괄호의 유효성을 검사합니다.
+코드 해설
 
-아래는 코드의 각 부분을 설명한 풀이 리뷰입니다.
+필요한 라이브러리 임포트
 
-Deque 초기화와 문자열 저장:
+Queue, LinkedList, Collections, Arrays 라이브러리를 가져옵니다.
 
-Deque<Character> deque = new ArrayDeque<>();
-문자열 s의 각 문자를 Deque에 저장합니다.
+메서드 정의
 
-Deque는 양방향 큐로, 문자 삽입과 삭제에 유리합니다.
+solution 메서드를 정의하고, int[] priorities와 int location을 입력으로 받습니다.
 
-Deque에 문자열 문자 추가:
+변수 answer를 초기화합니다.
 
-for (int i = 0; i < s.length(); i++) { deque.offer(s.charAt(i)); }
-문자열의 각 문자를 Deque에 추가하여 순차적으로 처리할 준비를 합니다.
+이는 최종적으로 반환할 값으로, 특정 작업이 몇 번째로 출력되는지를 나타냅니다.
 
-초기 조건 검사:
+큐 초기화
 
-if (deque.peek() == ')' || deque.peekLast() == '(') { return false; }
-Deque의 첫 번째 문자가 ')'이거나 마지막 문자가 '('이면, 올바른 괄호 문자열이 될 수 없으므로 즉시 false를 반환합니다.
+Queue<Integer> 타입의 queue를 생성합니다.
 
-괄호의 유효성 검사:
+location 위치의 우선순위를 want_num 변수에 저장합니다.
 
-while (!deque.isEmpty()) { ... }
-Deque가 빌 때까지 반복합니다.
+priorities 배열의 각 요소를 큐에 삽입하면서, want_num보다 크거나 같은 요소의 개수를 count 변수에 저장합니다.
 
-count 변수를 사용하여 여는 괄호와 닫는 괄호의 균형을 맞춥니다.
+만약 count가 0이면, 이는 want_num이 가장 높은 우선순위임을 의미하므로 1을 반환합니다.
 
-여는 괄호 '('는 count를 증가시키고, 닫는 괄호 ')'는 count를 감소시킵니다.
+우선순위 배열 정렬
 
-균형 검사:
+priorities 배열을 내림차순으로 정렬하여 arr 배열에 저장합니다. 이를 통해 가장 높은
+우선순위부터 처리할 수 있습니다.
 
-if (count < 0 || count > deque.size()) { return false; }
-count가 0보다 작거나 남은 Deque의 크기보다 크면 올바른 괄호 문자열이 아닙니다.
+작업 순서 계산
 
-여는 괄호가 너무 많거나 닫는 괄호가 너무 많으면 false를 반환합니다.
+정렬된 배열 arr의 요소와 큐의 앞 요소를 비교하면서 순서대로 처리합니다.
 
-최종 반환 값:
+큐의 앞 요소가 현재 처리할 우선순위와 같으면 answer를 증가시키고, 큐에서 해당 요소를 제거합니다.
 
-모든 문자를 처리한 후 count가 0이면 올바른 괄호 문자열이므로 true를 반환하고, 그렇지 않으면 false를 반환합니다.
+location이 0이면, 이는 우리가 찾는 작업이므로 루프를 종료합니다.
 
-문제점 및 개선점
+큐의 앞 요소가 현재 처리할 우선순위와 다르면 큐의 앞 요소를 뒤로 보내고, location 값을 조정합니다.
 
-초기 조건 검사:
-Deque를 사용하여 문자열을 저장하고 조건을 검사하는 대신, 바로 문자열을 검사할 수 있습니다.
+location이 0 미만이 되면 큐의 마지막으로 이동합니다.
 
-예를 들어, 첫 번째 문자가 ')'이거나 마지막 문자가 '('인지를 먼저 검사하면 Deque를 사용할 필요가 없습니다.
+결과 반환
 
-Deque의 불필요한 사용:
-Deque를 사용하지 않고, 단순히 문자열을 순차적으로 처리하면서 여는 괄호와 닫는 괄호의 균형을 맞출 수 있습니다.
+answer를 반환하여 특정 작업이 몇 번째로 출력되는지를 반환합니다.
 
-개선된 접근 방식
+예제 입력
 
-Deque를 사용하지 않고, 간단하게 count 변수를 이용하여 여는 괄호와 닫는 괄호의 균형을 맞추는 방법이 더 효율적입니다.
+예를 들어, priorities가 [2, 1, 3, 2]이고 location이 2라면, 출력되는 순서는 다음과 같습니다:
 
-```java
-class Solution {
-    boolean solution(String s) {
-        int count = 0;
+3 (위치 2, 첫 번째 출력)
 
-        for (char c : s.toCharArray()) {
-            if (c == '(') {
-                count++;
-            } else {
-                count--;
-            }
+2 (위치 0, 두 번째 출력)
 
-            if (count < 0) {
-                return false;
-            }
-        }
+2 (위치 3, 세 번째 출력)
 
-        return count == 0;
-    }
-}
+1 (위치 1, 네 번째 출력)
 
-```
-
-이렇게 하면 코드가 더 간결해지고, Deque를 사용하지 않아도 되므로 성능이 개선됩니다.
+location이 2인 작업은 첫 번째로 출력되므로, 결과는 1입니다.

@@ -9,7 +9,7 @@ author: Yeonuk
 # multiple category is not supported
 category: Java
 # multiple tag entries are possible
-tags: [java, coding test]
+tags: [java, queue, coding test]
 # thumbnail image for post
 img: ":post_pic1.jpg"
 # disable comments on this page
@@ -40,158 +40,125 @@ date: 2024-09-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 프로세스(with. Java)에 대하여 알아본 글입니다.
+## I learned about the process (with. Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-괄호가 바르게 짝지어졌다는 것은 '(' 문자로 열렸으면 반드시 짝지어서 ')' 문자로 닫혀야 한다는 뜻입니다. 예를 들어
+One of the roles of the operating system is to efficiently manage the resources of the computer system.
 
-```bash
-"()()" 또는 "(())()" 는 올바른 괄호입니다.
-")()(" 또는 "(()(" 는 올바르지 않은 괄호입니다.
-'(' 또는 ')' 로만 이루어진 문자열 s가 주어졌을 때, 문자열 s가 올바른 괄호이면 true를 return 하고, 올바르지 않은 괄호이면 false를 return 하는 solution 함수를 완성해 주세요.
-```
+In this problem, you can figure out how many times a particular process runs if the operating system manages the process according to the following rules.
 
-#### 제한사항
+1. Pull one pending process out of the queue for execution.
+2. If any of the processes that are waiting in the queue have a higher priority, put the processes that were just pulled back into the queue.
+3. If you don't have such a process, run the one you just pulled out.
+   3.1 Once the process has been executed, it will not be queued again, but will still be finished.
+   For example, if four processes [A, B, C, and D] are queued in order, and the priority is [2, 1, 3, 2], they are executed in order [C, D, A, B].
 
-- 문자열 s의 길이 : 100,000 이하의 자연수
-- 문자열 s는 '(' 또는 ')' 로만 이루어져 있습니다.
+Write a solution function to return how many times the process is executed, given array priorities that contain the importance of the process currently in the queue in order, and a location that tells you where the process is to be executed.
 
-#### 입출력 예
+#### Restrictions
 
-| s        | answer |
-| -------- | ------ |
-| "()()"   | true   |
-| "(())()" | true   |
-| ")()("   | false  |
-| "(()("   | false  |
+- The length of priorities is greater than 1 and less than 100.
+- Elements in priorities are integers greater than 1 and less than 9.
+- Elements in priorities indicate priority, and the larger the number, the higher the priority.
+- location has a value greater than or equal to 0 (number of processes in standby queue - 1).
+- 0 if it's at the front of priorities, 1 if it's at the second... It's expressed like this.
 
-### 문제 풀이
+#### Input/output Examples
+
+| priorities         | location | return |
+| ------------------ | -------- | ------ |
+| [2, 1, 3, 2]       | 2        | 1      |
+| [1, 1, 9, 1, 1, 1] | 0        | 5      |
+
+### problem solving
 
 ```java
-import java.util.ArrayDeque;
-import java.util.Deque;
-
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Collections;
+import java.util.Arrays;
 class Solution {
-    boolean solution(String s) {
-        Deque<Character> deque = new ArrayDeque<>();
-        for(int i = 0; i < s.length(); i++){
-            deque.offer(s.charAt(i));
-        }
-
+    public int solution(int[] priorities, int location) {
+        int answer = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        int want_num = priorities[location];
         int count = 0;
-        int size = deque.size();
-        if(deque.peek() == ')' || deque.peekLast() == '('){
-            return false;
-        }else{
-            while(!deque.isEmpty()){
-                if(count < 0 || count > deque.size()){
-                    return false;
-                }else{
-                    if(deque.poll() == '('){
-                        count++;
-                    }else{
-                        count--;
-                    }
+        for(int i : priorities){
+            queue.offer(i);
+            if(want_num <= i){
+                count++;
+            }
+        }
+        if(count == 0){
+            return 1;
+        }
+        Integer[] arr = Arrays.stream(priorities).boxed().toArray(Integer[]::new);
+        Arrays.sort(arr, Collections.reverseOrder());
+        int idx = 0;
+        while(!queue.isEmpty()){
+            int temp = 0;
+            if(queue.peek() == arr[idx]){
+                answer++;
+                idx++;
+                queue.poll();
+                if(location == 0){
+                    break;
+                }
+                location--;
+            }else{
+                temp = queue.poll();
+                queue.offer(temp);
+                location--;
+                if(location < 0){
+                    location = queue.size() - 1;
                 }
             }
         }
 
-        return true;
+        return answer;
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 코드는 문자열 s가 올바른 괄호 문자열인지 확인하는 것입니다.
+This code solves the problem of handling the job priority for the printer.
 
-올바른 괄호 문자열은 여는 괄호 '('가 항상 닫는 괄호 ')'보다 먼저 등장하고, 여는 괄호의 개수와 닫는 괄호의 개수가 동일해야 합니다.
+The process of calculating the given task priority arrangement and the number of times the task in a particular location is output is implemented as follows.
 
-코드는 Deque를 이용하여 문자열을 처리하고 이를 통해 괄호의 유효성을 검사합니다.
+Code description
 
-아래는 코드의 각 부분을 설명한 풀이 리뷰입니다.
+Required Library Import
 
-Deque 초기화와 문자열 저장:
+Gets the Queue, LinkedList, Collections, Arrays library.
 
-Deque<Character> deque = new ArrayDeque<>();
-문자열 s의 각 문자를 Deque에 저장합니다.
+Method definition
 
-Deque는 양방향 큐로, 문자 삽입과 삭제에 유리합니다.
+Defines a solution method and receives int[] priorities and int location as inputs.
 
-Deque에 문자열 문자 추가:
+Initializes the variable answer.
 
-for (int i = 0; i < s.length(); i++) { deque.offer(s.charAt(i)); }
-문자열의 각 문자를 Deque에 추가하여 순차적으로 처리할 준비를 합니다.
+This is the final value to return, which indicates how many times a particular job is output.
 
-초기 조건 검사:
+Queue Initialization
 
-if (deque.peek() == ')' || deque.peekLast() == '(') { return false; }
-Deque의 첫 번째 문자가 ')'이거나 마지막 문자가 '('이면, 올바른 괄호 문자열이 될 수 없으므로 즉시 false를 반환합니다.
+Create a queue of type Queue<Integer>.
 
-괄호의 유효성 검사:
+Store the priority of the location location in the want_num variable.
 
-while (!deque.isEmpty()) { ... }
-Deque가 빌 때까지 반복합니다.
+Insert each element of the priorities array into the queue, and store the number of elements greater than or equal to the want_num in the count variable.
 
-count 변수를 사용하여 여는 괄호와 닫는 괄호의 균형을 맞춥니다.
+If the count is 0, this means that want_num is the highest priority, so return 1.
 
-여는 괄호 '('는 count를 증가시키고, 닫는 괄호 ')'는 count를 감소시킵니다.
+Arrange Priority Arrangements
 
-균형 검사:
-
-if (count < 0 || count > deque.size()) { return false; }
-count가 0보다 작거나 남은 Deque의 크기보다 크면 올바른 괄호 문자열이 아닙니다.
-
-여는 괄호가 너무 많거나 닫는 괄호가 너무 많으면 false를 반환합니다.
-
-최종 반환 값:
-
-모든 문자를 처리한 후 count가 0이면 올바른 괄호 문자열이므로 true를 반환하고, 그렇지 않으면 false를 반환합니다.
-
-문제점 및 개선점
-
-초기 조건 검사:
-Deque를 사용하여 문자열을 저장하고 조건을 검사하는 대신, 바로 문자열을 검사할 수 있습니다.
-
-예를 들어, 첫 번째 문자가 ')'이거나 마지막 문자가 '('인지를 먼저 검사하면 Deque를 사용할 필요가 없습니다.
-
-Deque의 불필요한 사용:
-Deque를 사용하지 않고, 단순히 문자열을 순차적으로 처리하면서 여는 괄호와 닫는 괄호의 균형을 맞출 수 있습니다.
-
-개선된 접근 방식
-
-Deque를 사용하지 않고, 간단하게 count 변수를 이용하여 여는 괄호와 닫는 괄호의 균형을 맞추는 방법이 더 효율적입니다.
-
-```java
-class Solution {
-    boolean solution(String s) {
-        int count = 0;
-
-        for (char c : s.toCharArray()) {
-            if (c == '(') {
-                count++;
-            } else {
-                count--;
-            }
-
-            if (count < 0) {
-                return false;
-            }
-        }
-
-        return count == 0;
-    }
-}
-
-```
-
-이렇게 하면 코드가 더 간결해지고, Deque를 사용하지 않아도 되므로 성능이 개선됩니다.
+in descending order of priorities arrangement
