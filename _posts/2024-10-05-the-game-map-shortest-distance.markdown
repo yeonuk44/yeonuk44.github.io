@@ -40,96 +40,161 @@ date: 2024-10-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 게임 맵 최단거리(with.Java) 에 대하여 알아본 글입니다.
+## This is an article about the shortest distance (with.Java) of the game map.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-n개의 음이 아닌 정수들이 있습니다.
+The ROR game is divided into two teams, and if you destroy the opposing team's camp first, you win.
 
-이 정수들을 순서를 바꾸지 않고 적절히 더하거나 빼서 타겟 넘버를 만들려고 합니다.
+Therefore, it is advantageous for each team to arrive at the opposing team's camp as soon as possible.
 
-예를 들어 [1, 1, 1, 1, 1]로 숫자 3을 만들려면 다음 다섯 방법을 쓸 수 있습니다.
+From now on, you are going to be a team member and proceed with the game.
 
--1+1+1+1+1 = 3
+Here is an example of a 5 x 5 map where your character is in the (row: 1, column: 1) position, and the opposing team camp is in the (row: 5, column: 5) position.
 
-+1-1+1+1+1 = 3
+In the picture above, the black part is blocked by a wall, so you can't go, and the white part is the way to go.
 
-+1+1-1+1+1 = 3
+When the character moves, it moves one space in the east, west, south, and north directions, and the path outside the game map cannot be taken.
 
-+1+1+1-1+1 = 3
+The first method went past 11 compartments and reached the opposing team's camp.
 
-+1+1+1+1-1 = 3
+The second method went past 15 compartments and reached the opposing team's camp.
 
-사용할 수 있는 숫자가 담긴 배열 numbers, 타겟 넘버 target이 매개변수로 주어질 때 숫자를 적절히 더하고 빼서 타겟 넘버를 만드는 방법의 수를 return 하도록 solution 함수를 작성해주세요.
+In the above example, there is no faster way to reach the opposing team's camp than the first, so this is the quickest way to get to the opposing team's camp.
 
-#### 제한사항
+If the opposing team has a wall built around their own team's camp, they may not be able to reach the opposing team's camp.
 
-- 주어지는 숫자의 개수는 2개 이상 20개 이하입니다.
-- 각 숫자는 1 이상 50 이하인 자연수입니다.
-- 타겟 넘버는 1 이상 1000 이하인 자연수입니다.
+For example, your character cannot reach the opposing team camp in the following cases.
 
-#### 입출력 예
+When the status maps of the game map are given as parameters, complete the solution function to return the minimum number of spaces a character must pass to reach the opposing team's camp.
 
-<!-- | prices          | return          |
-| --------------- | --------------- |
-| [1, 2, 3, 2, 3] | [4, 3, 1, 1, 0] | -->
+However, if you can't reach the other team's camp, please return -1.
 
-| numbers         | target | return |
-| --------------- | ------ | ------ |
-| [1, 1, 1, 1, 1] | 3      | 5      |
-| [4, 1, 2, 1]    | 4      | 2      |
+#### Restrictions
 
-### 문제 풀이
+- Maps is a two-dimensional array containing the status of an n x m - sized game map, where n and m are natural numbers greater than 1 and less than 100 respectively.
+- N and m can be the same or different, but if both n and m are 1, they are not given as input.
+- The maps are made up of only 0 and 1, where 0 represents where the wall is and 1 represents where the wall is not.
+- Initially, the character is in the upper left corner of the game map, in the upper left corner of the game map, and the other side is in the lower right corner of the game map, in the lower right corner of the game map, in the (n, m).
+
+#### Input/output Examples
+
+| maps                                                          | answer  |
+| ------------------------------------------------------------- | ------- | ------ | ------ |
+| [[1,0,1,1,1],[1,0,1,0,1],[1,0,1,1,1],[1,1,1,0,1],[0,0,0,0,1]] | 11      |
+| [[1,0,1,1,1],[1,0,1,0,1],[1,0,1,1,1],[1,1,1,0,0],[0,0,0,0,1]] | -1      |
+| <!--                                                          | numbers | target | return |
+| ---------------                                               | ------  | ------ |
+| [1, 1, 1, 1, 1]                                               | 3       | 5      |
+| [4, 1, 2, 1]                                                  | 4       | 2      | -->    |
+
+### problem solving
 
 ```java
+import java.util.Queue;
+import java.util.LinkedList;
+
 class Solution {
-    static int answer;
-    public int solution(int[] numbers, int target) {
-        answer = 0;
-        dfs(numbers, target, 0, 0);
-        return answer;
+    public static int n, m;
+    public static int answer = -1;
+
+    public static int[] dx = {-1, 1, 0, 0};
+    public static int[] dy = {0, 0, -1, 1};
+    public static boolean[][] visited;
+
+    public int solution(int[][] maps) {
+        n = maps.length;
+        m = maps[0].length;
+        visited = new boolean[n][m];
+
+        return bfs(0, 0, maps);
     }
-    public void dfs(int[] numbers, int target, int depth, int total){
-        if(numbers.length == depth){
-            if(total == target){
-                answer++;
+
+    public int bfs(int x, int y, int[][] maps){
+        Queue<int[]> que = new LinkedList<>();
+
+        que.offer(new int[]{x, y, 1});
+        visited[0][0] = true;
+
+        while (!que.isEmpty()) {
+            int temp[] = que.poll();
+            x = temp[0];
+            y = temp[1];
+            int count = temp[2];
+
+            if (x == n - 1 && y == m - 1) {
+                answer = count;
+                break;
             }
-        }else{
-            dfs(numbers, target, depth + 1, total + numbers[depth]);
-            dfs(numbers, target, depth + 1, total - numbers[depth]);
+
+            for (int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+
+                if(nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
+                if(maps[nx][ny] == 0) continue;
+                if(!visited[nx][ny] && maps[nx][ny] == 1) {
+                    visited[nx][ny] = true;
+                    que.offer(new int[]{nx, ny, count + 1});
+                }
+            }
         }
+
+        return answer;
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-1. 클래스와 변수 선언
-   class Solution: 문제를 해결하기 위한 클래스입니다.
-   static int answer: 정적 변수 answer는 타겟 넘버를 만들 수 있는 경우의 수를 저장합니다.
-2. solution 메서드
-   public int solution(int[] numbers, int target): 주어진 숫자 배열 numbers와 목표 숫자 target을 입력으로 받아 타겟 넘버를 만들 수 있는 경우의 수를 반환합니다.
-   answer = 0: 경우의 수를 초기화합니다.
-   dfs(numbers, target, 0, 0): 깊이 우선 탐색을 시작합니다. 초기 깊이는 0, 초기 합계도 0으로 설정합니다.
-   return answer: 최종적으로 계산된 경우의 수를 반환합니다.
-3. dfs 메서드
-   public void dfs(int[] numbers, int target, int depth, int total): 깊이 우선 탐색을 수행하는 재귀 메서드입니다.
-   if(numbers.length == depth): 배열의 끝에 도달했는지 확인합니다.
-   if(total == target): 현재 합계 total이 목표 숫자 target과 같으면 경우의 수를 증가시킵니다.
-   else: 배열의 끝에 도달하지 않았다면 다음 단계로 넘어갑니다.
-   dfs(numbers, target, depth + 1, total + numbers[depth]): 현재 숫자를 더한 경우를 탐색합니다.
-   dfs(numbers, target, depth + 1, total - numbers[depth]): 현재 숫자를 뺀 경우를 탐색합니다.
+This code is a Java code that solves the problem of finding the shortest path on a map in the form of a two-dimensional array starting at the (0, 0) position and going to the (n-1, m-1) position.
 
-#### 결론
+This problem can be resolved by using BFS (width priority navigation).
 
-이 코드는 DFS를 사용하여 모든 가능한 경우를 탐색하고, 목표 숫자와 일치하는 경우의 수를 계산합니다.
+Find the shortest path as you navigate through all possible paths at each stage. This is the code description.
 
-주어진 숫자 배열과 목표 숫자가 주어졌을 때, 이 코드를 통해 타겟 넘버를 만들 수 있는 모든 경우의 수를 효율적으로 구할 수 있습니다.
+n and m represent the sizes of rows and columns in a map array.
+
+answer stores the length of the shortest path to return eventually.
+
+The initial value is set to -1.
+
+The dx and dy arrays represent directional vectors for up, down, left, and right movements.
+
+A visited is a two-dimensional boolean array that stores whether a particular location has been visited.
+
+The solution method takes the map array maps as input and returns the length of the shortest path.
+
+Set n and m to the size of the map array, and initialize the visited array.
+
+Call the bfs method to perform a BFS discovery starting at (0, 0).
+
+The bfs method uses the BFS algorithm to find the shortest path.
+
+Use queues to implement BFS, which stores the current location and the number of moves up to the present in the queue.
+
+Add the start position (0, 0) to the queue and set the visit status to true.
+
+Repeat until the queue is empty, pulling the position out of the queue one by one to get the current position and number of moves.
+
+If the current position is the target position (n-1, m-1), set the answer to the current number of moves and end the navigation.
+
+Check all positions that can be moved up, down, left, and right.
+
+Add to the queue only if it is a path (1) that has not been visited, except if it is outside the map range or is a wall (0), and set whether to visit to true.
+
+Finally, answer is returned.
+
+#### Conclusion
+
+Using BFS, we efficiently find the shortest path on a given map.
+
+BFS is a suitable algorithm for finding shortest paths as it navigates all paths to the same depth.
