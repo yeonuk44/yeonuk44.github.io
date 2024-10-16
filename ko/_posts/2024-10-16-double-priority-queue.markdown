@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id_Double_Priority_Queue
-title: 이중 우선순위큐 (with.Java)
+title: 이중 우선순위 큐 (with.Java)
 # title: Double Priority Queue (with.Java)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -40,7 +40,7 @@ date: 2024-10-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 이중 우선순위큐 (with.Java) 에 대하여 알아본 글입니다.
+## 이중 우선순위 큐 (with.Java) 에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,56 +52,67 @@ date: 2024-10-16 09:00:00 +0900
 
 ### 문제
 
-위와 같은 삼각형의 꼭대기에서 바닥까지 이어지는 경로 중, 거쳐간 숫자의 합이 가장 큰 경우를 찾아보려고 합니다.
+이중 우선순위 큐는 다음 연산을 할 수 있는 자료구조를 말합니다.
 
-아래 칸으로 이동할 때는 대각선 방향으로 한 칸 오른쪽 또는 왼쪽으로만 이동 가능합니다.
+D 1 큐에서 최댓값을 삭제합니다.
 
-예를 들어 3에서는 그 아래칸의 8 또는 1로만 이동이 가능합니다.
+D -1 큐에서 최솟값을 삭제합니다.
 
-삼각형의 정보가 담긴 배열 triangle이 매개변수로 주어질 때, 거쳐간 숫자의 최댓값을 return 하도록 solution 함수를 완성하세요
+이중 우선순위 큐가 할 연산 operations가 매개변수로 주어질 때, 모든 연산을 처리한 후 큐가 비어있으면 [0,0] 비어있지 않으면 [최댓값, 최솟값]을 return 하도록 solution 함수를 구현해주세요.
 
 #### 제한사항
 
-- 삼각형의 높이는 1 이상 500 이하입니다.
-- 삼각형을 이루고 있는 숫자는 0 이상 9,999 이하의 정수입니다.
+- operations는 길이가 1 이상 1,000,000 이하인 문자열 배열입니다.
+- operations의 원소는 큐가 수행할 연산을 나타냅니다.
+- 원소는 “명령어 데이터” 형식으로 주어집니다.- 최댓값/최솟값을 삭제하는 연산에서 최댓값/최솟값이 둘 이상인 경우, 하나만 삭제합니다.
+- 빈 큐에 데이터를 삭제하라는 연산이 주어질 경우, 해당 연산은 무시합니다.
 
 #### 입출력 예
 
-| triangle                                                | result |
-| ------------------------------------------------------- | ------ |
-| [[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]] | 30     |
+| operations                                                                  | return     |
+| --------------------------------------------------------------------------- | ---------- |
+| ["I 16", "I -5643", "D -1", "D 1", "D 1", "I 123", "D -1"]                  | [0,0]      |
+| ["I -45", "I 653", "D 1", "I -642", "I 45", "I 97", "D 1", "D -1", "I 333"] | [333, -45] |
 
 ### 문제 풀이
 
 ```java
-class Solution {
-    public int solution(int[][] triangle) {
-        int answer = 0;
+import java.util.ArrayList;
+import java.util.Collections;
 
-        for(int i = 1; i < triangle.length; i++){
-            for(int j = 0; j < triangle[i].length; j++){
-                // 왼쪽 계산
-                if(j == 0){
-                    triangle[i][j] += triangle[i - 1][j];
-                }
-                // 오른쪽 계산
-                // 1 1 = 0 0
-                else if(j == i){
-                    triangle[i][j] += triangle[i - 1][j - 1];
-                }
-                // 중앙 계산
-                else{
-                    // 2 1 = 1 0 | 1 1
-                    // 3 1 = 2 0 | 2 1
-                    triangle[i][j] += Math.max(triangle[i - 1][j - 1], triangle[i - 1][j]);
+class Solution {
+    public int[] solution(String[] operations) {
+        int[] answer = {Integer.MIN_VALUE, Integer.MAX_VALUE};
+        ArrayList<Integer> list = new ArrayList<>();
+
+        for(String str : operations){
+            if(str.contains("I")){
+                list.add(Integer.valueOf(str.split(" ")[1]));
+                Collections.sort(list);
+            }
+            if(str.contains("D")){
+                if(list.size() == 0){continue;}
+                if(str.split(" ")[1].equals("1")){
+                    list.remove(list.size() - 1);
+                }else{
+                    list.remove(0);
                 }
             }
         }
 
-        int len = triangle.length;
-        for(int i = 0; i < len; i++){
-            if(answer < triangle[len - 1][i]){
-                answer = triangle[len - 1][i];
+
+        if(list.size() == 0){
+            answer[0] = 0;
+            answer[1] = 0;
+            return answer;
+        }else{
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i) > answer[0]){
+                    answer[0] = list.get(i);
+                }
+                if(list.get(i) < answer[1]){
+                    answer[1] = list.get(i);
+                }
             }
         }
 
@@ -112,30 +123,14 @@ class Solution {
 
 #### 풀이 설명
 
-이 문제는 주어진 삼각형 배열에서 경로의 합이 최대가 되는 값을 찾아 반환하는 문제입니다.
+- 변수 초기화: answer 배열은 초기값으로 Integer.MIN_VALUE와 Integer.MAX_VALUE를 가집니다. list는 큐 역할을 할 ArrayList입니다.
+- 명령어 처리: operations 배열의 각 문자열을 순회하며 명령어를 처리합니다. "I 숫자"가 포함된 문자열은 split을 사용하여 숫자를 추출한 후, 리스트에 추가하고 정렬합니다. "D 1"은 최댓값을, "D -1"은 최솟값을 삭제합니다.
+- 결과 계산: 명령어 처리가 끝난 후, 리스트가 비어있으면 [0, 0]을 반환합니다. 비어있지 않으면 리스트를 순회하며 최댓값과 최솟값을 answer 배열에 저장합니다.
 
-동적 계획법을 사용하여 해결합니다.
+##### 결론
 
-먼저, 변수 answer를 초기화합니다.
+위와 같이 이중 우선순위 큐를 구현할 수 있습니다.
 
-이 변수는 최종적으로 반환할 최대 합을 저장합니다.
+이 방법은 명령어를 순서대로 처리하고, ArrayList를 사용하여 간단히 구현할 수 있는 장점이 있습니다.
 
-이제 삼각형 배열을 업데이트하기 위해 이중 for 루프를 사용합니다.
-
-첫 번째 for 루프는 삼각형의 두 번째 행부터 마지막 행까지 순회합니다.
-
-두 번째 for 루프는 현재 행의 모든 열을 순회합니다.
-
-각 위치에서의 최대 경로 합을 계산하는 방법은 다음과 같습니다.
-
-먼저, 왼쪽 계산입니다. 현재 위치가 행의 첫 번째 요소인 경우 바로 위의 요소를 더합니다.
-
-다음으로 오른쪽 계산입니다. 현재 위치가 행의 마지막 요소인 경우 위의 대각선 왼쪽 요소를 더합니다.
-
-마지막으로 중앙 계산입니다. 현재 위치가 행의 중간에 있는 경우 위의 두 대각선 요소 중 큰 값을 더합니다.
-
-이제 마지막 행에서 최대 값을 찾아야 합니다.
-
-마지막 행의 모든 요소를 순회하며 최대 값을 찾습니다. 그리고 이 최대 값을 반환합니다.
-
-동적 계획법을 사용하여 삼각형 배열에서 최대 경로 합을 구할 수 있습니다.
+큐의 상태에 따라 명령어를 적절히 처리하여 최종 결과를 도출하는 방식입니다.
