@@ -40,97 +40,198 @@ date: 2024-10-17 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 2018 KAKAO BLIND RECRUITMENT 문제, 셔틀버스 (with.Java) 에 대하여 알아본 글입니다.
+## 2018 KAKAO BLIND RECRUITMENT problem, shuttle bus (with.J)
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+## This is an article about the 2018 KAKAO BLIND RECRUITMENT problem and shuttle bus (with.Java).
 
-문제에 대해 먼저 알아보겠습니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
+
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-이중 우선순위 큐는 다음 연산을 할 수 있는 자료구조를 말합니다.
+Kakao runs a free shuttle bus, so you can come to the office comfortably from Pangyo Station.
 
-D 1 큐에서 최댓값을 삭제합니다.
+Kakao's employees call each other "crews," and many crew members use these shuttles to go to work every morning.
 
-D -1 큐에서 최솟값을 삭제합니다.
+In this problem, for convenience, let's assume that the shuttle operates under the following rules.
 
-이중 우선순위 큐가 할 연산 operations가 매개변수로 주어질 때, 모든 연산을 처리한 후 큐가 비어있으면 [0,0] 비어있지 않으면 [최댓값, 최솟값]을 return 하도록 solution 함수를 구현해주세요.
+The shuttle arrives at the station at a total of n t-minute intervals from 09:00, and one shuttle can accommodate up to m passengers.
 
-#### 제한사항
+At the moment of arrival, the shuttle takes the crew in the queue and departs immediately.
 
-- operations는 길이가 1 이상 1,000,000 이하인 문자열 배열입니다.
-- operations의 원소는 큐가 수행할 연산을 나타냅니다.
-- 원소는 “명령어 데이터” 형식으로 주어집니다.- 최댓값/최솟값을 삭제하는 연산에서 최댓값/최솟값이 둘 이상인 경우, 하나만 삭제합니다.
-- 빈 큐에 데이터를 삭제하라는 연산이 주어질 경우, 해당 연산은 무시합니다.
+For example, the shuttle that arrived at 09:00 can also take the crew that lined up at 09:00 if there is a seat available.
 
-#### 입출력 예
+Cohn, who couldn't be bothered to get out early and wait for the shuttle, found out which crew arrived in the shuttle queue after a week of persistent observation.
 
-| operations                                                                  | return     |
-| --------------------------------------------------------------------------- | ---------- |
-| ["I 16", "I -5643", "D -1", "D 1", "D 1", "I 123", "D -1"]                  | [0,0]      |
-| ["I -45", "I 653", "D 1", "I -642", "I 45", "I 97", "D 1", "D -1", "I 333"] | [333, -45] |
+Find the latest time of arrival when Cohn can take the shuttle to the office.
 
-### 문제 풀이
+However, Cohn is lazy, so he stands behind the queue among the crew that arrived at the same time.
+
+Also, all crew need to sleep so go home at 23:59.
+
+Therefore, no crew will take the shuttle the next day.
+
+#### Restrictions
+
+Input Format
+
+- The input is given the number of shuttle operations n, the shuttle operation interval t, the maximum number of crews that can be boarded in one shuttle m, and the arrangement timable, which collects the time when the crew arrives in the queue.
+- 0 ＜ n ≦ 10
+- 0 ＜ t ≦ 60
+- 0 ＜ m ≦ 45
+- The timable is an array with a minimum length of 1 and a maximum length of 2000 with the time the crew arrives in the queue in HH:MM format during the day.
+- Crew's arrival time HH:MM is between 00:01 and 23:59.
+
+Output Format
+
+- It outputs the latest arrival time when the cone can safely take the shuttle to the office. The arrival time is in HH:MM format and can be between 00:00 and 23:59.
+
+#### Input/output Examples
+
+| n   | t   | m   | timetable                                                                                                                                       | answer  |
+| --- | --- | --- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| 1   | 1   | 5   | ["08:00", "08:01", "08:02", "08:03"]                                                                                                            | "09:00" |
+| 2   | 10  | 2   | ["09:10", "09:09", "08:00"]                                                                                                                     | "09:09" |
+| 2   | 1   | 2   | ["09:00", "09:00", "09:00", "09:00"]                                                                                                            | "08:59" |
+| 1   | 1   | 5   | ["00:01", "00:01", "00:01", "00:01", "00:01"]                                                                                                   | "00:00" |
+| 1   | 1   | 1   | ["23:59"]                                                                                                                                       | "09:00" |
+| 10  | 60  | 45  | ["23:59","23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59"] | "18:00" |
+
+### Problem solving
 
 ```java
-import java.util.ArrayList;
-import java.util.Collections;
-
+import java.util.PriorityQueue;
 class Solution {
-    public int[] solution(String[] operations) {
-        int[] answer = {Integer.MIN_VALUE, Integer.MAX_VALUE};
-        ArrayList<Integer> list = new ArrayList<>();
+    public String solution(int n, int t, int m, String[] timetable) {
+        String answer = "";
+        PriorityQueue<String> que = new PriorityQueue<>();
+        for(String str : timetable){
+            que.offer(str);
+        }
+        int current_hour = 0;
+        int current_min = 0;
+        int temp_hour = 0;
+        int temp_min = 0;
+        int current_passenger_time_hour = 0;
+        int current_passenger_time_min = 0;
+        int count = 0;
+        String a_hour = "";
+        String a_min = "";
 
-        for(String str : operations){
-            if(str.contains("I")){
-                list.add(Integer.valueOf(str.split(" ")[1]));
-                Collections.sort(list);
+        for(int i = n; i > 0; i--){
+            if(i == n){
+                current_hour = sp("09:00")[0];
+                current_min = sp("09:00")[1];
+            }else{
+                current_min += t;
+                if(current_min / 60 > 0){
+                    current_hour += current_min / 60;
+                    current_min = current_min % 60;
+                }
             }
-            if(str.contains("D")){
-                if(list.size() == 0){continue;}
-                if(str.split(" ")[1].equals("1")){
-                    list.remove(list.size() - 1);
-                }else{
-                    list.remove(0);
+            count = 0;
+            if(m <= timetable.length){
+                for(int j = 0; j < m; j++){
+                    if(que.isEmpty()){
+                        break;
+                    }
+                    current_passenger_time_hour = sp(que.peek())[0];
+                    current_passenger_time_min = sp(que.peek())[1];
+
+                    if(i == 1 && count == m - 1){
+                        if(current_passenger_time_hour <= current_hour){
+                            current_hour = current_passenger_time_hour;
+                            current_min = current_passenger_time_min - 1;
+                        }
+                        if(current_min < 0){
+                            current_hour -= 1;
+                            current_min = 59;
+                            j = m - 1;
+                        }
+                    }
+                    if(current_passenger_time_hour < current_hour){
+                         que.poll();
+                        count += 1;
+                    }else if(current_passenger_time_hour == current_hour && current_passenger_time_min <= current_min){
+                        que.poll();
+                        count += 1;
+                    }
+                }
+            }else{
+                if(n == 1){
+                    break;
                 }
             }
         }
-
-
-        if(list.size() == 0){
-            answer[0] = 0;
-            answer[1] = 0;
-            return answer;
+        if(current_hour / 10 == 0){
+            a_hour = "0" + current_hour;
         }else{
-            for(int i = 0; i < list.size(); i++){
-                if(list.get(i) > answer[0]){
-                    answer[0] = list.get(i);
-                }
-                if(list.get(i) < answer[1]){
-                    answer[1] = list.get(i);
-                }
-            }
+            a_hour = "" + current_hour;
         }
+        if(current_min / 10 == 0){
+            a_min = "0" + current_min;
+        }else{
+            a_min = "" + current_min;
+        }
+        answer = a_hour + ":" + a_min;
 
         return answer;
+    }
+
+    public int[] sp(String str){
+        int[] current_time = new int[2];
+        current_time[0] = Integer.valueOf(str.split(":")[0]);
+        current_time[1] = Integer.valueOf(str.split(":")[1]);
+
+        return current_time;
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-- 변수 초기화: answer 배열은 초기값으로 Integer.MIN_VALUE와 Integer.MAX_VALUE를 가집니다. list는 큐 역할을 할 ArrayList입니다.
-- 명령어 처리: operations 배열의 각 문자열을 순회하며 명령어를 처리합니다. "I 숫자"가 포함된 문자열은 split을 사용하여 숫자를 추출한 후, 리스트에 추가하고 정렬합니다. "D 1"은 최댓값을, "D -1"은 최솟값을 삭제합니다.
-- 결과 계산: 명령어 처리가 끝난 후, 리스트가 비어있으면 [0, 0]을 반환합니다. 비어있지 않으면 리스트를 순회하며 최댓값과 최솟값을 answer 배열에 저장합니다.
+This article covers Java code that addresses the problem of getting passengers on the bus at a specific time.
 
-##### 결론
+- n: Number of buses
+- t: Bus interval (minutes)
+- m: Maximum number of passengers that can be carried at a time
+- timable: an array of strings indicating when the crew arrives
 
-위와 같이 이중 우선순위 큐를 구현할 수 있습니다.
+Priority Queue is used to manage the arrival time of passengers, and each bus arrives takes available passengers out of the queue for processing.
 
-이 방법은 명령어를 순서대로 처리하고, ArrayList를 사용하여 간단히 구현할 수 있는 장점이 있습니다.
+First, sort the priority queue by putting the arrival time of the passengers.
 
-큐의 상태에 따라 명령어를 적절히 처리하여 최종 결과를 도출하는 방식입니다.
+These queues are automatically sorted in order of arrival time.
+
+Starting at 09:00, repeat the process of getting the passenger out of the queue and boarding each bus as it arrives.
+
+Initially, set the current time to 09:00.
+
+After that, add t minutes to each bus's arrival to calculate the arrival time of the next bus.
+
+If the number of minutes is more than 60, it is converted to hourly units.
+
+Next, for each bus, take the passenger out of the queue.
+
+Take the passengers out of the queue and board based on the maximum number of passengers m that can be loaded at a time.
+
+For the last bus, pick up a passenger in time for the current time, or set the time to arrive a minute earlier than that passenger if the last passenger is present.
+
+##### Logic
+
+- Add passenger arrival time to queue
+- Calculate the arrival time of each bus and handle passenger boarding
+- Set Last Arrival Time
+- Time conversion function
+- The function sp to divide the hour, minute, transforms the time given by the string into an integer array.
+
+##### Conclusion
+
+This code effectively calculates the bus arrival time and passenger boarding time to find the optimal arrival time.
+
+The process of managing the arrival time of passengers through the code and properly boarding passengers according to the arrival time of the bus was implemented.
