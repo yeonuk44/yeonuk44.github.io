@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_Double_Priority_Queue
-title: 이중 우선순위 큐 (with.Java)
-# title: Double Priority Queue (with.Java)
+lng_pair: id_Shuttle_Bus_Problem
+title: 2018 KAKAO BLIND RECRUITMENT 문제, 셔틀버스 (with.Java)
+# title: 2018 KAKAO BLIND RECRUITMENT problem, shuttle bus (with.Java)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2024-10-16 09:00:00 +0900
+date: 2024-10-17 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -40,7 +40,7 @@ date: 2024-10-16 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 이중 우선순위 큐 (with.Java) 에 대하여 알아본 글입니다.
+## 2018 KAKAO BLIND RECRUITMENT 문제, 셔틀버스 (with.Java) 에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 

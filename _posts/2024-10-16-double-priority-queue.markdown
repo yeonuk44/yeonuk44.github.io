@@ -9,7 +9,7 @@ author: Yeonuk
 # multiple category is not supported
 category: Java
 # multiple tag entries are possible
-tags: [java, coding test, dp]
+tags: [java, coding test, queue]
 # thumbnail image for post
 img: ":post_pic1.jpg"
 # disable comments on this page
