@@ -40,201 +40,138 @@ date: 2024-10-18 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 단어 변환 (with.Java) 에 대하여 알아본 글입니다.
+## I learned about word conversion (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-카카오에서는 무료 셔틀버스를 운행하기 때문에 판교역에서 편하게 사무실로 올 수 있다.
+There are two words begin, target, and word sets.
 
-카카오의 직원은 서로를 '크루'라고 부르는데, 아침마다 많은 크루들이 이 셔틀을 이용하여 출근한다.
+I want to find the shortest conversion process to convert from begin to target using the following rules.
 
-이 문제에서는 편의를 위해 셔틀은 다음과 같은 규칙으로 운행한다고 가정하자.
+1. You can only change one alphabet at a time.
+2. You can only convert to words in words. For example, if begin is "hit", target is "cog", words are ["hot", "dot", "lot", "log", "cog"] you can convert it in four steps, such as "hit" -> "hot" -> "dot" -> "dog" -> "cog".
 
-셔틀은 09:00부터 총 n회 t분 간격으로 역에 도착하며, 하나의 셔틀에는 최대 m명의 승객이 탈 수 있다.
+When two words begin, target, and word set words are given as parameters, write a solution function so that at least a few steps can be taken to return the begin to target.
 
-셔틀은 도착했을 때 도착한 순간에 대기열에 선 크루까지 포함해서 대기 순서대로 태우고 바로 출발한다.
+#### Restrictions
 
-예를 들어 09:00에 도착한 셔틀은 자리가 있다면 09:00에 줄을 선 크루도 탈 수 있다.
+- Each word consists of only lowercase alphabetic characters.
+- Each word has a length of not less than 3 and not more than 10, and all words have the same length.
+- Words have more than 3 words and no more than 50 words and no words are duplicated.
+- Begin and target are not the same.
+- If the conversion is not possible, return 0.
 
-일찍 나와서 셔틀을 기다리는 것이 귀찮았던 콘은, 일주일간의 집요한 관찰 끝에 어떤 크루가 몇 시에 셔틀 대기열에 도착하는지 알아냈다.
-
-콘이 셔틀을 타고 사무실로 갈 수 있는 도착 시각 중 제일 늦은 시각을 구하여라.
-
-단, 콘은 게으르기 때문에 같은 시각에 도착한 크루 중 대기열에서 제일 뒤에 선다.
-
-또한, 모든 크루는 잠을 자야 하므로 23:59에 집에 돌아간다.
-
-따라서 어떤 크루도 다음날 셔틀을 타는 일은 없다.
-
-#### 제한사항
-
-입력 형식
-
-- 셔틀 운행 횟수 n, 셔틀 운행 간격 t, 한 셔틀에 탈 수 있는 최대 크루 수 m, 크루가 대기열에 도착하는 시각을 모은 배열 timetable이 입력으로 주어진다.
-- 0 ＜ n ≦ 10
-- 0 ＜ t ≦ 60
-- 0 ＜ m ≦ 45
-- timetable은 최소 길이 1이고 최대 길이 2000인 배열로, 하루 동안 크루가 대기열에 도착하는 시각이 HH:MM 형식으로 이루어져 있다.
-- 크루의 도착 시각 HH:MM은 00:01에서 23:59 사이이다.
-
-출력 형식
-
-- 콘이 무사히 셔틀을 타고 사무실로 갈 수 있는 제일 늦은 도착 시각을 출력한다. 도착 시각은 HH:MM 형식이며, 00:00에서 23:59 사이의 값이 될 수 있다.
-
-#### 입출력 예
+#### Input/output Examples
 
 <!-- | operations                                                                  | return     |
 | --------------------------------------------------------------------------- | ---------- |
 | ["I 16", "I -5643", "D -1", "D 1", "D 1", "I 123", "D -1"]                  | [0,0]      |
 | ["I -45", "I 653", "D 1", "I -642", "I 45", "I 97", "D 1", "D -1", "I 333"] | [333, -45] | -->
 
-| n   | t   | m   | timetable                                                                                                                                       | answer  |
-| --- | --- | --- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| 1   | 1   | 5   | ["08:00", "08:01", "08:02", "08:03"]                                                                                                            | "09:00" |
-| 2   | 10  | 2   | ["09:10", "09:09", "08:00"]                                                                                                                     | "09:09" |
-| 2   | 1   | 2   | ["09:00", "09:00", "09:00", "09:00"]                                                                                                            | "08:59" |
-| 1   | 1   | 5   | ["00:01", "00:01", "00:01", "00:01", "00:01"]                                                                                                   | "00:00" |
-| 1   | 1   | 1   | ["23:59"]                                                                                                                                       | "09:00" |
-| 10  | 60  | 45  | ["23:59","23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59", "23:59"] | "18:00" |
+| begin | target | words                                      | return |
+| ----- | ------ | ------------------------------------------ | ------ |
+| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
+| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      |
 
-### 문제 풀이
+### problem solving
 
 ```java
-import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.ArrayList;
+
 class Solution {
-    public String solution(int n, int t, int m, String[] timetable) {
-        String answer = "";
-        PriorityQueue<String> que = new PriorityQueue<>();
-        for(String str : timetable){
-            que.offer(str);
+    public int solution(String begin, String target, String[] words) {
+        int answer = 0;
+        Queue<String> que = new LinkedList<>();
+        ArrayList<String> list = new ArrayList<>();
+        int check = 0;
+        for(String str : words){
+            list.add(str);
         }
-        int current_hour = 0;
-        int current_min = 0;
-        int temp_hour = 0;
-        int temp_min = 0;
-        int current_passenger_time_hour = 0;
-        int current_passenger_time_min = 0;
-        int count = 0;
-        String a_hour = "";
-        String a_min = "";
+        if(!list.contains(target)){
+            return 0;
+        }
 
-        for(int i = n; i > 0; i--){
-            if(i == n){
-                current_hour = sp("09:00")[0];
-                current_min = sp("09:00")[1];
-            }else{
-                current_min += t;
-                if(current_min / 60 > 0){
-                    current_hour += current_min / 60;
-                    current_min = current_min % 60;
+        que.offer(begin);
+        list.remove(begin);
+
+        while(!que.isEmpty()){
+            for(int i = 0; i < que.size(); i++){
+                String temp = "";
+                String current_str = que.poll();
+                if(current_str.equals(target)){
+                    return answer;
                 }
+                for(String str : list){
+                     if(convert(current_str, str)){
+                         que.offer(str);
+                         temp = str;
+                     }
+                }
+                list.remove(temp);
             }
-            count = 0;
-            if(m <= timetable.length){
-                for(int j = 0; j < m; j++){
-                    if(que.isEmpty()){
-                        break;
-                    }
-                    current_passenger_time_hour = sp(que.peek())[0];
-                    current_passenger_time_min = sp(que.peek())[1];
+            answer++;
+        }
 
-                    if(i == 1 && count == m - 1){
-                        if(current_passenger_time_hour <= current_hour){
-                            current_hour = current_passenger_time_hour;
-                            current_min = current_passenger_time_min - 1;
-                        }
-                        if(current_min < 0){
-                            current_hour -= 1;
-                            current_min = 59;
-                            j = m - 1;
-                        }
-                    }
-                    if(current_passenger_time_hour < current_hour){
-                         que.poll();
-                        count += 1;
-                    }else if(current_passenger_time_hour == current_hour && current_passenger_time_min <= current_min){
-                        que.poll();
-                        count += 1;
-                    }
-                }
-            }else{
-                if(n == 1){
-                    break;
-                }
-            }
-        }
-        if(current_hour / 10 == 0){
-            a_hour = "0" + current_hour;
-        }else{
-            a_hour = "" + current_hour;
-        }
-        if(current_min / 10 == 0){
-            a_min = "0" + current_min;
-        }else{
-            a_min = "" + current_min;
-        }
-        answer = a_hour + ":" + a_min;
-
-        return answer;
+        return 0;
     }
 
-    public int[] sp(String str){
-        int[] current_time = new int[2];
-        current_time[0] = Integer.valueOf(str.split(":")[0]);
-        current_time[1] = Integer.valueOf(str.split(":")[1]);
+    public boolean convert(String word_1, String word_2){
+        int count = 0;
+        for(int i = 0; i < word_1.length(); i++){
+            if(word_1.charAt(i) != word_2.charAt(i)){
+                count++;
+            }
+        }
 
-        return current_time;
+        return count == 1;
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 글에서는 특정 시간에 맞춰 버스에 승객을 태우는 문제를 해결하는 Java 코드를 다룹니다.
+The given problem is to obtain the minimum number of conversions to convert from the start string begin to the target string target.
 
-- n: 버스의 대수
-- t: 버스 간격 (분 단위)
-- m: 한 번에 태울 수 있는 최대 승객 수
-- timetable: 크루가 도착하는 시각을 나타내는 문자열 배열
+However, during the transformation process, each word must exist in a list of words given in advance, and each word can only change one character at a time.
 
-PriorityQueue를 사용해 승객의 도착 시간을 관리하고, 각 버스가 도착할 때마다 탑승할 수 있는 승객을 큐에서 꺼내어 처리합니다.
+Implement BFS using Queue and ArrayList to resolve the issue.
 
-먼저, PriorityQueue에 승객의 도착 시간을 넣어 정렬합니다.
+Use BFS to find the shortest path from the begin string to the target string.
 
-이 큐는 도착 시간 순으로 자동 정렬됩니다.
+At each transformation step, check if the current word and the next word differ by only one letter.
 
-09:00부터 시작하여 각 버스가 도착할 때마다 큐에서 승객을 꺼내어 탑승시키는 작업을 반복합니다.
+Verify that the target word target has been reached during the conversion process.
 
-처음에는 현재 시간을 09:00으로 설정합니다.
+During the initialization phase, the queue <String> queue is used as a queue to implement BFS, and the ArrayList <String> list stores a list of convertible words.
 
-이후 각 버스가 도착할 때마다 t분을 더하여 다음 버스의 도착 시간을 계산합니다.
+The answer variable is used to store the number of transformations. Transform the words array to list and make sure the target word is in the list.
 
-만약 분이 60 이상이 되면 시간 단위로 변환합니다.
+If the target is not listed, return 0 because it cannot be converted.
 
-다음으로, 각 버스에 대해 큐에서 승객을 꺼내는 작업을 합니다.
+In the BFS navigation process, you add the start word begin to the queue and remove it from the list.
 
-한 번에 태울 수 있는 최대 승객 수 m을 기준으로 승객을 큐에서 꺼내어 탑승시킵니다.
+Repeat until the queue begs to explore all words at each level.
 
-마지막 버스의 경우, 현재 시간에 맞춰 승객을 태우거나, 만약 마지막 승객이 있는 경우 해당 승객보다 1분 일찍 도착하도록 시간을 설정합니다.
+Find and add the current and transformable words to the queue. Transformed words are removed from the list to prevent duplicate searches.
 
-##### 로직
+Returns the number of transformations when the target word is reached.
 
-- 큐에 승객 도착 시간 추가
-- 각 버스 도착 시간 계산 및 승객 탑승 처리
-- 최종 도착 시간 설정
-- 시간 변환 함수
-- 시, 분을 나누기 위한 함수 sp는 문자열로 주어진 시간을 정수 배열로 변환합니다.
+The convert method checks if two words differ by only one letter.
 
-##### 결론
+If the difference is 1 by comparing each character of the two words, return true because it can be transformed.
 
-이 코드는 버스 도착 시간과 승객 탑승 시간을 효과적으로 계산하여 최적의 도착 시간을 찾습니다.
+##### Conclusion
 
-코드를 통해 승객의 도착 시간을 관리하고, 버스의 도착 시간에 맞춰 승객을 적절히 탑승시키는 과정을 구현하였습니다.
+Within a given constraint, the minimum number of conversions from the starting string to the target string can be effectively found via BFS.
+
+In this process, we examine the transformability and manage the transformed words to explore the optimal path.
