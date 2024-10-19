@@ -40,138 +40,263 @@ date: 2024-10-19 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 단어 변환 (with.Java) 에 대하여 알아본 글입니다.
+## This is an article about the 2019 Kakao Developer Winter Internship Problem and Bad User (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-두 개의 단어 begin, target과 단어의 집합 words가 있습니다.
+Muji, who is in charge of event development within the development team, found applicants who tried to win the recently held Kakao Emoticon event in an abnormal way.
 
-아래와 같은 규칙을 이용하여 begin에서 target으로 변환하는 가장 짧은 변환 과정을 찾으려고 합니다.
+We would like to gather these applicants separately, make a list under the name of bad users, and pass it on to "Prodo," the person in charge of the event winner, so that they will be excluded from the winning process.
 
-1. 한 번에 한 개의 알파벳만 바꿀 수 있습니다.
-2. words에 있는 단어로만 변환할 수 있습니다. 예를 들어 begin이 "hit", target가 "cog", words가 ["hot","dot","dog","lot","log","cog"]라면 "hit" -> "hot" -> "dot" -> "dog" -> "cog"와 같이 4단계를 거쳐 변환할 수 있습니다.
+At this time, some characters of the user ID were covered with '\*' characters to protect personal information.
 
-두 개의 단어 begin, target과 단어의 집합 words가 매개변수로 주어질 때, 최소 몇 단계의 과정을 거쳐 begin을 target으로 변환할 수 있는지 return 하도록 solution 함수를 작성해주세요.
+One '_' character was used for the character you want to cover and at least one '_' character per ID was used.
 
-#### 제한사항
+"Muji" and "Prodo" decided to call the applicant ID mapped to the bad user list as the sanction ID.
 
-- 각 단어는 알파벳 소문자로만 이루어져 있습니다.
-- 각 단어의 길이는 3 이상 10 이하이며 모든 단어의 길이는 같습니다.
-- words에는 3개 이상 50개 이하의 단어가 있으며 중복되는 단어는 없습니다.
-- begin과 target은 같지 않습니다.
-- 변환할 수 없는 경우에는 0를 return 합니다.
+For example, if the list of all users who have applied for the event is as follows
 
-#### 입출력 예
+Applicant ID
 
-<!-- | operations                                                                  | return     |
-| --------------------------------------------------------------------------- | ---------- |
-| ["I 16", "I -5643", "D -1", "D 1", "D 1", "I 123", "D -1"]                  | [0,0]      |
-| ["I -45", "I 653", "D 1", "I -642", "I 45", "I 97", "D 1", "D -1", "I 333"] | [333, -45] | -->
+- frodo
+- fradi
+- crodo
+- abc123
+- frodoc
 
-| begin | target | words                                      | return |
+If a list of bad user IDs is delivered as follows,
+
+a bad user
+
+- fr*d*
+- abc1\*\*
+- The list of sanction IDs that should be mapped to rogue users and excluded from the jackpot can be two cases.
+
+Sanctions ID
+
+- frodo
+- abc123
+- Sanctions ID
+- fradi
+- abc123
+
+When the array user_id containing the event applicant ID list and the array banned_id containing the bad user ID list are given as parameters, complete the solution function so that the list of sanctioned IDs to be excluded from the win can be returned in how many cases.
+
+#### Restrictions
+
+- The size of the user_id array is 1 or more and 8 or less.
+- user_id Array Each element's value is a string with a length of 1 or more and 8 or less.
+- The applied user IDs do not overlap each other.
+- The applied user ID consists of only alphabetic lowercase letters and numbers.
+- The size of the banned_id array is no larger than or equal to the size of the user_id array at least one.
+- Banned_id Array Each element's value is a string with a length of 1 or more and 8 or less.
+- Bad user ID consists only of alphabetic lowercase letters, numbers, and letters '\*' to hide.
+- Bad User ID contains one or more '\*' characters.
+- One defective user ID corresponds to one of the applicant IDs, and the same applicant ID is not duplicated and does not enter the sanction ID list.
+- When you obtain the sanctions ID lists, if the contents of the ID list are the same regardless of the order in which the IDs are listed, you can process them as the same and count them as one.
+
+#### Input/output Examples
+
+| user_id                                         | banned_id                              | result |
+| ----------------------------------------------- | -------------------------------------- | ------ |
+| ["frodo", "fradi", "crodo", "abc123", "frodoc"] | ["fr*d*", "abc1**"]                    | 2      |
+| ["frodo", "fradi", "crodo", "abc123", "frodoc"] | ["*rodo", "*rodo", "******"]           | 2      |
+| ["frodo", "fradi", "crodo", "abc123", "frodoc"] | ["fr*d*", "*rodo", "******", "******"] | 3      |
+
+<!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
-| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      |
+| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
-### 문제 풀이
+### Problem solving
 
 ```java
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.ArrayList;
-
+import java.util.HashSet;
 class Solution {
-    public int solution(String begin, String target, String[] words) {
-        int answer = 0;
-        Queue<String> que = new LinkedList<>();
-        ArrayList<String> list = new ArrayList<>();
-        int check = 0;
-        for(String str : words){
-            list.add(str);
-        }
-        if(!list.contains(target)){
-            return 0;
-        }
+    HashSet<HashSet<String>> large_storage = new HashSet<>();
+    HashSet<String> small_storage = new HashSet<>();
 
-        que.offer(begin);
-        list.remove(begin);
+    public int solution(String[] user_id, String[] banned_id) {
 
-        while(!que.isEmpty()){
-            for(int i = 0; i < que.size(); i++){
-                String temp = "";
-                String current_str = que.poll();
-                if(current_str.equals(target)){
-                    return answer;
-                }
-                for(String str : list){
-                     if(convert(current_str, str)){
-                         que.offer(str);
-                         temp = str;
-                     }
-                }
-                list.remove(temp);
-            }
-            answer++;
-        }
+        explor(0, small_storage, user_id, banned_id);
 
-        return 0;
+        return large_storage.size();
     }
 
-    public boolean convert(String word_1, String word_2){
-        int count = 0;
-        for(int i = 0; i < word_1.length(); i++){
-            if(word_1.charAt(i) != word_2.charAt(i)){
-                count++;
+    public void explor(int len, HashSet<String> small_storage, String[] user, String[] ban_user){
+        if(ban_user.length == len){
+            large_storage.add(new HashSet<>(small_storage));
+        }else{
+            for(int i = 0; i < user.length; i++){
+                if(small_storage.contains(user[i])){
+                    continue;
+                }
+
+                if(filter(user[i], ban_user[len])){
+                    small_storage.add(user[i]);
+                    explor(len + 1, small_storage, user, ban_user);
+                    small_storage.remove(user[i]);
+                }
             }
         }
-
-        return count == 1;
+    }
+    public boolean filter(String user_str, String ban_user_str){
+        boolean result = true;
+        if(user_str.length() != ban_user_str.length()){
+            return false;
+        }
+        for(int i = 0; i < user_str.length(); i++){
+            if(ban_user_str.charAt(i) != '*' && user_str.charAt(i) != ban_user_str.charAt(i)){
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-주어진 문제는 시작 문자열 begin에서 목표 문자열 target으로 변환하기 위해 최소한의 변환 횟수를 구하는 것입니다.
+The problem of finding a list of sanction IDs can be solved by using recursive and hash sets.
 
-단, 변환 과정에서 각 단어는 미리 주어진 단어 목록(words)에 존재해야 하며, 각 단어는 한 번에 하나의 문자만 바뀔 수 있습니다.
+In this problem, the goal is to store the sanctions list without duplication, and to find all possible combinations.
 
-문제를 해결하기 위해 Queue와 ArrayList를 사용한 BFS를 구현합니다.
+First, define two hash sets with class variables.
 
-BFS를 사용하여 begin 문자열에서 target 문자열로의 최단 경로를 찾습니다.
+large_storage is a large repository for storing final sanctions lists.
 
-각 변환 단계에서 현재 단어와 다음 단어가 한 글자만 다른지 검사합니다.
+Small_storage is a temporary repository that stores a list of sanctions that you are currently exploring.
 
-변환 과정에서 목표 단어 target에 도달했는지 확인합니다.
+The solution method takes the user ID and sanction ID array as input and returns the number of sanctions lists.
 
-초기화 단계에서 Queue<String> que는 BFS를 구현하기 위한 큐로 사용되고, ArrayList<String> list는 변환 가능한 단어 목록을 저장합니다.
+This method initiates a search by invoking a recursive function expander.
 
-answer 변수는 변환 횟수를 저장하는 데 사용됩니다. words 배열을 list로 변환하고 target 단어가 목록에 있는지 확인합니다.
+The exporter method receives the current discovery depth len and temporary storage small_storage, user ID array user, and sanction ID array ban_user as parameters.
 
-만약 target이 목록에 없으면 변환할 수 없으므로 0을 반환합니다.
+If the navigation depth is equal to the length of the resource ID array, add a copy of the current temporary repository to the larger repository.
 
-BFS 탐색 과정에서는 시작 단어 begin을 큐에 추가하고 리스트에서 제거합니다.
+Otherwise, it traverses the array of user IDs, skips the IDs already included in the temporary storage, adds the IDs that pass through the filter to the temporary storage, and proceeds with a recursive call.
 
-큐가 빌 때까지 반복하여 각 레벨의 모든 단어를 탐색합니다.
+When the recursive call ends, the current ID is removed from the temporary repository to restore the status.
 
-현재 단어와 변환 가능한 단어를 찾아 큐에 추가합니다. 변환된 단어는 리스트에서 제거하여 중복 탐색을 방지합니다.
+The filter method compares the given user ID with the sanction ID to verify that the filter conditions are met.
 
-목표 단어에 도달하면 변환 횟수를 반환합니다.
+First, if the lengths of the two strings are different, it returns false.
 
-convert 메소드는 두 단어가 한 글자만 다른지 검사합니다.
+It then compares each character and returns false if the sanction ID has a non \* character and that character is different from the same location character in the user ID.
 
-두 단어의 각 문자를 비교하여 차이가 1인 경우 변환이 가능하므로 true를 반환합니다.
+Returns true if all conditions are met.
 
-##### 결론
+This approach can efficiently navigate and store sanctions lists.
 
-주어진 제약 조건 내에서 시작 문자열에서 목표 문자열로의 최소 변환 횟수를 BFS를 통해 효과적으로 찾을 수 있습니다.
+Use HashSet to dedupe, find all possible combinations through recursive calls.
 
-이 과정에서 변환 가능성을 검사하고, 변환된 단어를 관리하여 최적의 경로를 탐색합니다.
+In particular, use new HashSet<> (small_storage) to create a copy of the current temporary repository to keep it independent on recursive calls.
+
+This allows you to accurately calculate the number of sanctions lists required by the problem
+
+I learned something while solving it, so I'd like to share it.
+
+The first code you solved
+
+```java
+import java.util.HashSet;
+
+class Solution {
+    HashSet<HashSet<String>> large_storage = new HashSet<>();
+    String[] user;
+    String[] ban_user;
+
+    public int solution(String[] user_id, String[] banned_id) {
+        user = user_id;
+        ban_user = banned_id;
+        HashSet<String> small_storage = new HashSet<>();
+
+        explor(0, small_storage);
+
+        return large_storage.size();
+    }
+
+    public void explor(int len, HashSet<String> small_storage){
+        if(ban_user.length == len){
+            large_storage.add(small_storage);
+            return;
+        }
+
+        for(int i = 0; i < user.length; i++){
+            if(small_storage.contains(user[i])){
+                continue;
+            }
+
+            if(filter(user[i], ban_user[len])){
+                small_storage.add(user[i]);
+                explor(len + 1, small_storage);
+                small_storage.clear();
+            }
+        }
+    }
+    public boolean filter(String user_str, String ban_user_str){
+        boolean result = true;
+        if(user_str.length() != ban_user_str.length()){
+            return false;
+        }
+        for(int i = 0; i < user_str.length(); i++){
+            if(ban_user_str.charAt(i) != '*' && user_str.charAt(i) != ban_user_str.charAt(i)){
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+}
+```
+
+The code did not pass, there were 2 reasons.
+
+1. Problems arising from the nature of HashSet
+
+The problem is that the exporter function adds the user ID to the small storage (small_storage) and then initializes the small storage again (clear()) after a recursive call.
+
+Clearing the HashSet will cause the HashSet that is already saved before the end of the current recursive call to disappear.
+
+Because HashSet is a reference type, calling clear() will cause the data to disappear from all references.
+
+2. Do not copy HashSet
+
+There is a problem with handing over small_storage directly to a recursive call and initializing the entire storage while calling clear.
+
+You must hand over the newly copied HashSet to a recursive call, such as new HashSet<> (small_storage).
+
+Let me take a closer look at it!
+
+Addressing the nature of HashSet and the health management issues in recursive calls was key.
+
+- Characteristics of HashSet
+  HashSet is one of Java's collection frameworks, used to store data that does not allow duplication.
+
+Importantly, because HashSet is a reference type, it does not copy itself when it is assigned to other variables or passed as a method factor, but rather conveys references to the same object.
+
+- the cause of the problem
+  There was a problem with the existing code passing small_storage to the recursive function expander and calling small_storage.clear() from within.
+
+Because calling clear() removes data from everywhere small_storage references it, the already saved state disappears before the recursive call ends.
+
+- Workaround
+  To ensure that each recursive call has an independent state, a copy of the small_storage was made using new HashSet<> (small_storage) and passed to the recursive call.
+
+This way, each recursive call will have its own HashSet, and will not affect the other calls.
+
+##### Conclusion
+
+Use copy: use new HashSet<> (small_storage) to copy the current state of small_storage and forward it to a recursive call. This ensures that each recursive call has an independent HashSet, which does not affect the other calls.
+Restoring to its original state: When the recursive call ends, call small_storage.remove (user[i]) to return small_storage to its previous state. This ensures that small_storage remains in the correct state on the parent call.
+Thank you!
