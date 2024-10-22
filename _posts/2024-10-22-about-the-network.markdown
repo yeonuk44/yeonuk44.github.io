@@ -40,40 +40,34 @@ date: 2024-10-22 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 네트워크 (with.Java) 에 대하여 알아본 글입니다.
+## I learned about the network (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-자연수 n 개로 이루어진 중복 집합(multi set, 편의상 이후에는 "집합"으로 통칭) 중에 다음 두 조건을 만족하는 집합을 최고의 집합이라고 합니다.
+A network is a form of connection that allows information to be exchanged between computers.
 
-각 원소의 합이 S가 되는 수의 집합
+For example, when computer A and computer B are directly connected, and computer B and computer C are directly connected, computer A and computer C can also be indirectly connected to exchange information.
 
-위 조건을 만족하면서 각 원소의 곱 이 최대가 되는 집합
+So computers A, B, C are all on the same network.
 
-예를 들어서 자연수 2개로 이루어진 집합 중 합이 9가 되는 집합은 다음과 같이 4개가 있습니다.
+Write a solution function to return the number of networks, given the number n of computers, 2D array computers containing information about the connection, as parameters.
 
-{ 1, 8 }, { 2, 7 }, { 3, 6 }, { 4, 5 }
+#### Restrictions
 
-그중 각 원소의 곱이 최대인 { 4, 5 }가 최고의 집합입니다.
+- The number of computers n is a natural number greater than 1 and less than 200.
+- Each computer is represented by an integer from 0 to n-1.
+- If computer i and computer j are connected, represent computers[i][j] as 1.
+- computer[i][i] is always 1.
 
-집합의 원소의 개수 n과 모든 원소들의 합 s가 매개변수로 주어질 때, 최고의 집합을 return 하는 solution 함수를 완성해주세요.
-
-#### 제한사항
-
-- 최고의 집합은 오름차순으로 정렬된 1차원 배열(list, vector) 로 return 해주세요.
-- 만약 최고의 집합이 존재하지 않는 경우에 크기가 1인 1차원 배열(list, vector) 에 -1 을 채워서 return 해주세요.
-- 자연수의 개수 n은 1 이상 10,000 이하의 자연수입니다.
-- 모든 원소들의 합 s는 1 이상, 100,000,000 이하의 자연수입니다.
-
-#### 입출력 예
+<!-- #### input/output example
 
 | n   | s   | result |
 | --- | --- | ------ |
@@ -84,64 +78,68 @@ date: 2024-10-22 09:00:00 +0900
 <!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
-| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
+| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | --> -->
 
-### 문제 풀이
+### problem solving
 
 ```java
-import java.util.HashSet;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 
 class Solution {
-    ;
-    public int[] solution(int n, int s) {
-        int[] answer = new int[n];
-        if(n > s){
-            answer = new int[]{-1};
-            return answer;
-        }
-        for(int i = 0; i < answer.length; i++){
-            answer[i] = s / n;
-        }
-        int temp = s % n;
-        for(int i = answer.length - 1; i >= 0; i--){
-            if(temp == 0){
-                break;
+    boolean[] visited;
+    int answer = 0;
+    public int solution(int n, int[][] computers) {
+
+        visited = new boolean[n];
+        Arrays.fill(visited, false);
+
+        for(int i = 0; i < n; i++){
+            if(visited[i] == false){
+                answer++;
+                dfs(i, visited, computers);
             }
-            answer[i] += 1;
-            temp--;
         }
 
         return answer;
     }
+    public void dfs(int idx, boolean[] visited, int[][] computers){
+        visited[idx] = true;
+
+        for(int i = 0; i < computers.length; i++){
+            if(visited[i] == false && computers[idx][i] == 1){
+                dfs(i, visited, computers);
+            }
+        }
+    }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-주어진 자연수 n과 s를 가지고 n개의 원소로 이루어진 배열을 만들되, 배열의 원소들의 곱이 최대가 되도록 하는 문제를 해결합니다.
+This code solves the problem of finding the number of networks.
 
-이를 위해 코드에서는 다음과 같은 절차를 따릅니다.
+Calculate the number of interconnected networks using the given n computers and two-dimensional array computers of n x n size.
 
-먼저, 배열의 각 원소를 가능한 한 균등하게 나누기 위해 s를 n으로 나눈 몫을 배열 answer에 저장합니다.
+For this, we use a depth-first search (DFS) algorithm.
 
-이는 각 원소가 평균적으로 큰 값을 가지도록 하여 배열의 곱을 최대로 하기 위함입니다.
+First, declare a visited array to ensure that each computer is visited. The array is set to n in size, and all initial values are filled with false.
 
-만약 n이 s보다 크다면, 이는 s를 n개의 원소로 나눌 수 없음을 의미하므로, -1을 원소로 가지는 배열을 반환합니다.
+This indicates that not all computers were initially visited.
 
-그 후, s를 n으로 나눈 나머지를 계산하여, 이 나머지를 배열의 뒤에서부터 1씩 더해줍니다.
+Then, it sequentially navigates n computers, increasing the number of networks each time it finds an unvisited computer, and performing DFS with that computer as a starting point.
 
-이렇게 함으로써 배열의 합이 s가 되도록 조정하면서도 배열의 원소들이 가능한 한 균등하게 분포되도록 합니다.
+DFS function dfs recursively visits other computers connected to the current index idx after it visits and processes the current index idx.
 
-이를 통해 배열의 곱이 최대가 되도록 합니다.
+DFS currently visits and processes all computers associated with computer idx.
 
-코드의 첫 번째 반복문에서는 배열 answer의 모든 원소를 s / n으로 초기화합니다.
+Recursively invokes DFS only if the computers[idx][i] value is 1, and the i-th computer is not visited.
 
-두 번째 반복문에서는 나머지 temp 값을 이용하여 배열의 뒤에서부터 1씩 더해줍니다.
+This ties all connected computers together into one network.
 
-이렇게 함으로써 배열의 원소들이 가능한 한 균등하게 유지되며, 배열의 원소들의 곱이 최대가 되도록 합니다.
+This process allows you to visit all computers, increasing your answer each time you discover a new network.
 
-##### 결론
+Finally, after browsing all the computers, it returns the answer value to output the number of networks.
 
-이 코드는 간단하면서도 효율적으로 문제를 해결하며, 배열의 원소들이 가능한 한 균등하게 분포되도록 함으로써 배열의 곱을 최대로 만듭니다.
+The code efficiently calculates the number of networks using the DFS algorithm and solves the problem by identifying which network each computer belongs to.
+
+Thank you!
