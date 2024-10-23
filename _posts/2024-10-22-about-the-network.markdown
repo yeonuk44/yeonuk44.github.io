@@ -78,7 +78,7 @@ Write a solution function to return the number of networks, given the number n o
 <!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
-| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | --> -->
+| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
 ### problem solving
 

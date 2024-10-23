@@ -78,7 +78,7 @@ date: 2024-10-22 09:00:00 +0900
 <!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
-| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | --> -->
+| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
 ### 문제 풀이
 
