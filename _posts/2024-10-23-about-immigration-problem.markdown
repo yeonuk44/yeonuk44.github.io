@@ -40,106 +40,109 @@ date: 2024-10-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 입국심사 (with.Java) 에 대하여 알아본 글입니다.
+## This is an article about immigration (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-네트워크란 컴퓨터 상호 간에 정보를 교환할 수 있도록 연결된 형태를 의미합니다.
+N people are waiting in line for immigration.
 
-예를 들어, 컴퓨터 A와 컴퓨터 B가 직접적으로 연결되어있고, 컴퓨터 B와 컴퓨터 C가 직접적으로 연결되어 있을 때 컴퓨터 A와 컴퓨터 C도 간접적으로 연결되어 정보를 교환할 수 있습니다.
+Each examiner at each immigration desk takes different time to examine.
 
-따라서 컴퓨터 A, B, C는 모두 같은 네트워크 상에 있다고 할 수 있습니다.
+At first, all the examination tables are empty.
 
-컴퓨터의 개수 n, 연결에 대한 정보가 담긴 2차원 배열 computers가 매개변수로 주어질 때, 네트워크의 개수를 return 하도록 solution 함수를 작성하시오.
+Only one judge can be judged at the same time.
 
-#### 제한사항
+The person standing at the front can go to the empty screening table for a screening.
 
-- 컴퓨터의 개수 n은 1 이상 200 이하인 자연수입니다.
-- 각 컴퓨터는 0부터 n-1인 정수로 표현합니다.
-- i번 컴퓨터와 j번 컴퓨터가 연결되어 있으면 computers[i][j]를 1로 표현합니다.
-- computer[i][i]는 항상 1입니다.
+However, if there is a screening table that finishes faster, you can wait and go there for a screening.
 
-<!-- #### 입출력 예
+I want to minimize the time it takes for everyone to be judged.
 
-| n   | s   | result |
-| --- | --- | ------ |
-| 2   | 9   | [4, 5] |
-| 2   | 1   | [-1]   |
-| 2   | 8   | [4, 4] |
+Number of people waiting for immigration, when given as parameters the array times that each examiner takes to examine one person, write a solution function to return the minimum amount of time it takes for everyone to be screened.
+
+#### Restrictions
+
+- There are more than one person and no more than 1,000,000 people waiting for immigration.
+- Each examiner takes more than one minute and no more than 1,000,000 minutes.
+- The number of examiners is not less than one but not more than 100,000.
+
+#### Input/output Examples
+
+| n   | times  | return |
+| --- | ------ | ------ |
+| 6   | [7,10] | 28     |
 
 <!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
-| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | --> -->
+| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
-### 문제 풀이
+### problem solving
 
 ```java
 import java.util.Arrays;
 
 class Solution {
-    boolean[] visited;
-    int answer = 0;
-    public int solution(int n, int[][] computers) {
+    public long solution(int n, int[] times) {
+        long answer = 0;
+        Arrays.sort(times);
+        long left = 0;
+        long right = times[times.length - 1] * (long)n;
 
-        visited = new boolean[n];
-        Arrays.fill(visited, false);
-
-        for(int i = 0; i < n; i++){
-            if(visited[i] == false){
-                answer++;
-                dfs(i, visited, computers);
+        while(left <= right){
+            long mid = (left + right) / 2;
+            long test_num = 0;
+            for(int i = 0; i < times.length; i++){
+                test_num += mid / times[i];
+            }
+            if(test_num < n){
+                left = mid + 1;
+            }else{
+                answer = mid;
+                right = mid - 1;
             }
         }
-
         return answer;
-    }
-    public void dfs(int idx, boolean[] visited, int[][] computers){
-        visited[idx] = true;
-
-        for(int i = 0; i < computers.length; i++){
-            if(visited[i] == false && computers[idx][i] == 1){
-                dfs(i, visited, computers);
-            }
-        }
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 코드는 네트워크의 개수를 찾는 문제를 해결합니다.
+Solve the problem of finding the minimum time for a given examiner to examine n persons in a given time.
 
-주어진 n개의 컴퓨터와 n x n 크기의 2차원 배열 computers를 이용하여, 서로 연결된 네트워크의 수를 계산합니다.
+For this, we use a binary search algorithm.
 
-이를 위해 깊이 우선 탐색(DFS) 알고리즘을 사용합니다.
+First, sort the times, the given time array, in ascending order.
 
-우선, visited 배열을 선언하여 각 컴퓨터가 방문되었는지 확인합니다. 배열의 크기는 n으로 설정되고, 초기값은 모두 false로 채워집니다.
+This is a necessary step to set the minimum time and maximum time.
 
-이는 모든 컴퓨터가 처음에는 방문되지 않았음을 나타냅니다.
+The left variable is then set to 0, and the right variable is set to be the time of the examiner (the last element in the times array) multiplied by n.
 
-이후, n개의 컴퓨터를 순차적으로 탐색하며, 방문되지 않은 컴퓨터를 발견할 때마다 네트워크의 수를 증가시키고, 해당 컴퓨터를 시작점으로 DFS를 수행합니다.
+This is based on the assumption that the screening time takes up to the maximum.
 
-DFS 함수 dfs는 현재 인덱스 idx를 방문 처리한 후, 해당 컴퓨터와 연결된 다른 컴퓨터를 재귀적으로 방문합니다.
+While performing a binary search, set the mid value to an intermediate value between left and right.
 
-DFS는 현재 컴퓨터 idx와 연결된 모든 컴퓨터를 방문 처리합니다.
+mid is considered the current average time, and calculates how many people each examiner can judge within this time.
 
-computers[idx][i] 값이 1이고, i번째 컴퓨터가 방문되지 않은 경우에만 재귀적으로 DFS를 호출합니다.
+To do this, use the test_num variable to find the total number of people that all examiners can examine during mid time.
 
-이를 통해 연결된 모든 컴퓨터를 한 네트워크로 묶어줍니다.
+The test_num value is calculated by adding all the values of mid divided by each examiner's review time.
 
-이 과정을 통해 모든 컴퓨터를 방문하게 되며, 새로운 네트워크를 발견할 때마다 answer를 증가시킵니다.
+Afterwards, if test_num is less than n, this means that not everyone can be judged within the current time (mid), so set the left to mid + 1 to allocate more time.
 
-최종적으로, 모든 컴퓨터를 탐색한 후 answer 값을 반환하여 네트워크의 수를 출력합니다.
+Conversely, if test_num is n or higher, this means that everyone can be judged within the current time (mid), so set answer to mid and right to mid-1 to see if it is possible to allocate less time.
 
-이 코드는 DFS 알고리즘을 사용하여 효율적으로 네트워크의 개수를 계산하며, 각 컴퓨터가 어떤 네트워크에 속하는지 확인하는 과정을 통해 문제를 해결합니다.
+Repeat this process until the left is greater than right.
 
-감사합니다!
+Finally, answer stores a minimum amount of time for everyone to be judged.
+
+The algorithm uses binary exploration to reduce time complexity and solve problems efficiently.
