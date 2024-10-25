@@ -7,7 +7,7 @@ title: 흉부외과 또는 일반외과 의사 목록 출력하기 (with.MySQL)
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
-category: Java
+category: SQL
 # multiple tag entries are possible
 tags: [sql, coding test]
 # thumbnail image for post
@@ -55,12 +55,6 @@ date: 2024-10-24 09:00:00 +0900
 DOCTOR 테이블에서 진료과가 흉부외과(CS)이거나 일반외과(GS)인 의사의 이름, 의사ID, 진료과, 고용일자를 조회하는 SQL문을 작성해주세요.
 
 이때 결과는 고용일자를 기준으로 내림차순 정렬하고, 고용일자가 같다면 이름을 기준으로 오름차순 정렬해주세요.
-
-#### 제한사항
-
-- 입국심사를 기다리는 사람은 1명 이상 1,000,000,000명 이하입니다.
-- 각 심사관이 한 명을 심사하는데 걸리는 시간은 1분 이상 1,000,000,000분 이하입니다.
-- 심사관은 1명 이상 100,000명 이하입니다.
 
 #### 입출력 예
 

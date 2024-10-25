@@ -7,7 +7,7 @@ title: Outputting a list of cardiothoracic or general surgeons (with.MySQL)
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
-category: Java
+category: SQL
 # multiple tag entries are possible
 tags: [sql, coding test]
 # thumbnail image for post
@@ -55,12 +55,6 @@ Let's get to the problem first.
 In the DOCTOR table, please write a SQL statement that looks up the name, doctor ID, medical department, and employment date of the doctor whose medical department is a cardiothoracic surgeon (CS) or a general surgeon (GS).
 
 At this time, please sort the results in descending order based on the employment date, and if the employment date is the same, sort them in ascending order based on the name.
-
-#### Restrictions
-
-- There are more than one person and no more than 1,000,000 people waiting for immigration.
-- Each examiner takes more than one minute and no more than 1,000,000 minutes.
-- The number of examiners is not less than one but not more than 100,000.
 
 #### Input/output Examples
 
