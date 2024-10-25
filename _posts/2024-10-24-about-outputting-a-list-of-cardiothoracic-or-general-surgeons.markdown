@@ -56,12 +56,6 @@ In the DOCTOR table, please write a SQL statement that looks up the name, doctor
 
 At this time, please sort the results in descending order based on the employment date, and if the employment date is the same, sort them in ascending order based on the name.
 
-#### Restrictions
-
-- There are more than one person and no more than 1,000,000 people waiting for immigration.
-- Each examiner takes more than one minute and no more than 1,000,000 minutes.
-- The number of examiners is not less than one but not more than 100,000.
-
 #### Input/output Examples
 
 | Column name | Type        | Nullable |

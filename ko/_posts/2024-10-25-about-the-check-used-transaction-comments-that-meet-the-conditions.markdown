@@ -52,23 +52,19 @@ date: 2024-10-25 09:00:00 +0900
 
 ### 문제
 
-DOCTOR 테이블에서 진료과가 흉부외과(CS)이거나 일반외과(GS)인 의사의 이름, 의사ID, 진료과, 고용일자를 조회하는 SQL문을 작성해주세요.
+USED_GOODS_BOARD와 USED_GOODS_REPLY 테이블에서 2022년 10월에 작성된 게시글 제목, 게시글 ID, 댓글 ID, 댓글 작성자 ID, 댓글 내용, 댓글 작성일을 조회하는 SQL문을 작성해주세요.
 
-이때 결과는 고용일자를 기준으로 내림차순 정렬하고, 고용일자가 같다면 이름을 기준으로 오름차순 정렬해주세요.
-
-#### 제한사항
-
-- 입국심사를 기다리는 사람은 1명 이상 1,000,000,000명 이하입니다.
-- 각 심사관이 한 명을 심사하는데 걸리는 시간은 1분 이상 1,000,000,000분 이하입니다.
-- 심사관은 1명 이상 100,000명 이하입니다.
+결과는 댓글 작성일을 기준으로 오름차순 정렬해주시고, 댓글 작성일이 같다면 게시글 제목을 기준으로 오름차순 정렬해주세요.
+0
 
 #### 입출력 예
 
-| Column name | Type        | Nullable |
-| ----------- | ----------- | -------- |
-| DR_NAME     | VARCHAR(20) | FALSE    |
-| DR_ID       | VARCHAR(10) | FALSE    |
-| LCNS_NO     | VARCHAR(30) | FALSE    |
+| Column name | Type          | Nullable |
+| ----------- | ------------- | -------- |
+| REPLY_ID    | VARCHAR(10)   | FALSE    |
+| BOARD_ID    | VARCHAR(5)    | FALSE    |
+| WRITER_ID   | VARCHAR(50)   | FALSE    |
+| CONTENTS    | VARCHAR(1000) | TRUE     |
 
 <!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
@@ -78,41 +74,44 @@ DOCTOR 테이블에서 진료과가 흉부외과(CS)이거나 일반외과(GS)�
 ### 문제 풀이
 
 ```sql
-SELECT DR_NAME, DR_ID, MCDP_CD, DATE_FORMAT(HIRE_YMD, '%Y-%m-%d') AS HIRE_YMD
-FROM DOCTOR
-WHERE MCDP_CD = 'CS' OR MCDP_CD = 'GS' ORDER BY HIRE_YMD DESC, DR_NAME;
+SELECT B.TITLE, B.BOARD_ID, R.REPLY_ID, R.WRITER_ID, R.CONTENTS, DATE_FORMAT(R.CREATED_DATE, '%Y-%m-%d') AS CREATED_DATE
+FROM USED_GOODS_BOARD AS B
+JOIN USED_GOODS_REPLY AS R ON B.BOARD_ID = R.BOARD_ID
+WHERE SUBSTR(B.CREATED_DATE, 1, 7) = '2022-10' ORDER BY R.CREATED_DATE, B.TITLE
 ```
 
 #### 풀이 설명
 
-이 SQL 쿼리는 특정 진료과에 속한 의사들의 정보를 조회하여, 고용일을 기준으로 정렬된 결과를 반환합니다.
+이 SQL 쿼리는 특정 날짜에 생성된 중고 상품 게시판의 게시글과 해당 게시글에 달린 댓글을 조회하는 작업을 수행합니다.
 
-쿼리는 DOCTOR 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+이 쿼리는 두 개의 테이블인 USED_GOODS_BOARD와 USED_GOODS_REPLY를 조인하여 결과를 출력합니다.
 
-먼저 SELECT 절을 통해 조회할 열을 지정합니다.
+다음은 쿼리의 각 부분을 자세히 설명한 내용입니다.
 
-DR_NAME은 의사의 이름, DR_ID는 의사의 고유 식별자, MCDP_CD는 진료과 코드, DATE_FORMAT(HIRE_YMD, '%Y-%m-%d') AS HIRE_YMD는 고용일을 'YYYY-MM-DD' 형식으로 변환하여 출력합니다.
+먼저 SELECT 절에서는 우리가 조회하고자 하는 열을 지정합니다.
 
-이렇게 함으로써 고용일이 일관된 형식으로 나타납니다.
+B.TITLE은 게시글의 제목을, B.BOARD_ID는 게시글의 고유 식별자를, R.REPLY_ID는 댓글의 고유 식별자를, R.WRITER_ID는 댓글 작성자의 ID를, R.CONTENTS는 댓글의 내용을, 그리고 DATE_FORMAT(R.CREATED_DATE, '%Y-%m-%d') AS CREATED_DATE는 댓글 작성 날짜를 'YYYY-MM-DD' 형식으로 변환하여 출력합니다.
 
-다음으로 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
+이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
 
-이 경우 DOCTOR 테이블이 사용됩니다.
+이 경우에는 USED_GOODS_BOARD 테이블을 기본 테이블로 설정합니다.
 
-이어서 WHERE 절에서는 특정 조건을 설정하여 필요한 데이터를 필터링합니다.
+다음으로 JOIN 절을 통해 USED_GOODS_REPLY 테이블과 USED_GOODS_BOARD 테이블을 조인합니다.
 
-MCDP_CD = 'CS' OR MCDP_CD = 'GS'는 진료과 코드가 'CS' (외과) 또는 'GS' (일반외과)인 의사들만 선택합니다.
+조인의 조건은 ON B.BOARD_ID = R.BOARD_ID로, 두 테이블의 BOARD_ID 열을 기준으로 합니다.
 
-이렇게 함으로써 외과와 일반외과에 속한 의사들만 조회할 수 있습니다.
+이를 통해 각 게시글에 달린 댓글들을 연결할 수 있습니다.
+
+WHERE 절에서는 조건을 지정하여 특정 날짜에 생성된 게시글만을 조회합니다.
+
+SUBSTR(B.CREATED_DATE, 1, 7) = '2022-10'은 B.CREATED_DATE의 첫 7자리를 추출하여 '2022-10'과 일치하는 행만 선택합니다.
+
+이를 통해 2022년 10월에 생성된 게시글만 조회할 수 있습니다.
 
 마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
 
-HIRE_YMD DESC와 DR_NAME을 기준으로 정렬하여, 고용일이 최신순으로, 동일한 고용일인 경우 이름의 오름차순으로 정렬합니다.
-
-이를 통해 최근에 고용된 의사들부터 순서대로 정렬된 결과를 확인할 수 있습니다.
+R.CREATED_DATE와 B.TITLE을 기준으로 정렬하여, 댓글 작성 날짜와 게시글 제목 순으로 결과를 정렬합니다.
 
 ##### 결론
 
-이 쿼리를 통해 외과와 일반외과에 속한 의사들의 이름, ID, 진료과 코드, 고용일을 최신 고용일 순으로 조회할 수 있습니다.
-
-이 정보는 의사의 고용일과 진료과를 기반으로 한 분석에 유용합니다.
+이 쿼리를 통해 2022년 10월에 작성된 게시글과 해당 게시글에 달린 댓글을 날짜와 제목 순으로 정렬하여 확인할 수 있습니다.

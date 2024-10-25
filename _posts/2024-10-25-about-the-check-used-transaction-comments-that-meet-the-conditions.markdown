@@ -40,79 +40,78 @@ date: 2024-10-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 조건에 부합하는 중고거래 댓글 조회하기 (with.MySQL) 에 대하여 알아본 글입니다.
+## This is an article about inquiring about secondhand transaction comments (with.MySQL) that meet the conditions.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-DOCTOR 테이블에서 진료과가 흉부외과(CS)이거나 일반외과(GS)인 의사의 이름, 의사ID, 진료과, 고용일자를 조회하는 SQL문을 작성해주세요.
+In the USED_GOODS_BOARD and USED_GOODS_REPLY tables, please write a SQL statement that looks up the title, post ID, comment ID, comment writer ID, comment content, and comment writing date of October 2022.
 
-이때 결과는 고용일자를 기준으로 내림차순 정렬하고, 고용일자가 같다면 이름을 기준으로 오름차순 정렬해주세요.
+Please sort the results in ascending order based on the comment writing date, and if the comment writing date is the same, please sort in ascending order based on the title of the post.
+0
 
-#### 제한사항
+#### Input/output Examples
 
-- 입국심사를 기다리는 사람은 1명 이상 1,000,000,000명 이하입니다.
-- 각 심사관이 한 명을 심사하는데 걸리는 시간은 1분 이상 1,000,000,000분 이하입니다.
-- 심사관은 1명 이상 100,000명 이하입니다.
-
-#### 입출력 예
-
-| Column name | Type        | Nullable |
-| ----------- | ----------- | -------- |
-| DR_NAME     | VARCHAR(20) | FALSE    |
-| DR_ID       | VARCHAR(10) | FALSE    |
-| LCNS_NO     | VARCHAR(30) | FALSE    |
+| Column name | Type          | Nullable |
+| ----------- | ------------- | -------- |
+| REPLY_ID    | VARCHAR(10)   | FALSE    |
+| BOARD_ID    | VARCHAR(5)    | FALSE    |
+| WRITER_ID   | VARCHAR(50)   | FALSE    |
+| CONTENTS    | VARCHAR(1000) | TRUE     |
 
 <!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
-### 문제 풀이
+### problem solving
 
 ```sql
-SELECT DR_NAME, DR_ID, MCDP_CD, DATE_FORMAT(HIRE_YMD, '%Y-%m-%d') AS HIRE_YMD
-FROM DOCTOR
-WHERE MCDP_CD = 'CS' OR MCDP_CD = 'GS' ORDER BY HIRE_YMD DESC, DR_NAME;
+SELECT B.TITLE, B.BOARD_ID, R.REPLY_ID, R.WRITER_ID, R.CONTENTS, DATE_FORMAT(R.CREATED_DATE, '%Y-%m-%d') AS CREATED_DATE
+FROM USED_GOODS_BOARD AS B
+JOIN USED_GOODS_REPLY AS R ON B.BOARD_ID = R.BOARD_ID
+WHERE SUBSTR(B.CREATED_DATE, 1, 7) = '2022-10' ORDER BY R.CREATED_DATE, B.TITLE
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 SQL 쿼리는 특정 진료과에 속한 의사들의 정보를 조회하여, 고용일을 기준으로 정렬된 결과를 반환합니다.
+This SQL query looks up posts on used merchandise bulletins created on a specific date and comments on those posts.
 
-쿼리는 DOCTOR 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+This query outputs the result by joining two tables, USED_GOODS_BOARD and USED_GOODS_REPLY.
 
-먼저 SELECT 절을 통해 조회할 열을 지정합니다.
+Below is a detailed description of each part of the query.
 
-DR_NAME은 의사의 이름, DR_ID는 의사의 고유 식별자, MCDP_CD는 진료과 코드, DATE_FORMAT(HIRE_YMD, '%Y-%m-%d') AS HIRE_YMD는 고용일을 'YYYY-MM-DD' 형식으로 변환하여 출력합니다.
+First, in the SELECT section, we specify the columns that we want to look up.
 
-이렇게 함으로써 고용일이 일관된 형식으로 나타납니다.
+B.TITLE converts the title of the post, B.BOARD_ID converts the unique identifier of the post, R.REPLY_ID converts the commenter's ID, R.CONTENS converts the content of the comment, and DATE_FORMAT ('%Y-%m-%d') AS CREATED_DATE converts the date of writing the comment into 'YYYY-MM-DD' format.
 
-다음으로 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
+The FROM section then specifies the default table on which to run the query.
 
-이 경우 DOCTOR 테이블이 사용됩니다.
+In this case, set the USED_GOODS_BOARD table to the default table.
 
-이어서 WHERE 절에서는 특정 조건을 설정하여 필요한 데이터를 필터링합니다.
+Next, join the USED_GOODS_REPLY table and the USED_GOODS_BOARD table through the JOIN clause.
 
-MCDP_CD = 'CS' OR MCDP_CD = 'GS'는 진료과 코드가 'CS' (외과) 또는 'GS' (일반외과)인 의사들만 선택합니다.
+The condition of the join is ONB.BOARD_ID = R.BOARD_ID, based on the BOARD_ID column of both tables.
 
-이렇게 함으로써 외과와 일반외과에 속한 의사들만 조회할 수 있습니다.
+This allows you to link the comments on each post.
 
-마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
+In the WHERE section, you can specify a condition to look up only posts that are generated on a specific date.
 
-HIRE_YMD DESC와 DR_NAME을 기준으로 정렬하여, 고용일이 최신순으로, 동일한 고용일인 경우 이름의 오름차순으로 정렬합니다.
+SUBSTR (B.CREATED_DATE, 1,7) = '22-10' extracts the first 7 digits of B.CREATED_DATE and selects only the rows matching '2022-10'.
 
-이를 통해 최근에 고용된 의사들부터 순서대로 정렬된 결과를 확인할 수 있습니다.
+This allows you to view only posts created in October 2022.
 
-##### 결론
+Finally, sort the results through the ORDER BY clause.
 
-이 쿼리를 통해 외과와 일반외과에 속한 의사들의 이름, ID, 진료과 코드, 고용일을 최신 고용일 순으로 조회할 수 있습니다.
+Sort the results by R.CREATED_DATE and B.TITLE, in order of comment creation date and post title.
 
-이 정보는 의사의 고용일과 진료과를 기반으로 한 분석에 유용합니다.
+##### Conclusion
+
+This query allows you to view posts written in October 2022 and comments on those posts in order of date and title.
