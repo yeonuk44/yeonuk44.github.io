@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_The_Outputting_A_List_Of_Cardiothoracic_Or_General_Surgeous
-title: 흉부외과 또는 일반외과 의사 목록 출력하기 (with.MySQL)
-# title: Outputting a list of cardiothoracic or general surgeons (with.MySQL)
+lng_pair: id_The_Check_Used_Transaction_Comments_That_Meet_The_Conditions
+title: Check used transaction comments that meet the conditions (with.MySQL)
+# title: Check used transaction comments that meet the conditions (with.MySQL)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2024-10-24 09:00:00 +0900
+date: 2024-10-25 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -40,7 +40,7 @@ date: 2024-10-24 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 흉부외과 또는 일반외과 의사 목록 출력하기 (with.MySQL) 에 대하여 알아본 글입니다.
+## 조건에 부합하는 중고거래 댓글 조회하기 (with.MySQL) 에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 

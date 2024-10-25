@@ -7,7 +7,7 @@ title: Outputting a list of cardiothoracic or general surgeons (with.MySQL)
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
 # multiple category is not supported
-category: Java
+category: SQL
 # multiple tag entries are possible
 tags: [sql, coding test]
 # thumbnail image for post
