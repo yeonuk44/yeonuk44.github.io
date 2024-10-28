@@ -40,78 +40,76 @@ date: 2024-10-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 평균 일일 대여 요금 구하기 (with.MySQL) 에 대하여 알아본 글입니다.
+## Here's a look at the average daily rental fee (with.MySQL).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-USED_GOODS_BOARD와 USED_GOODS_REPLY 테이블에서 2022년 10월에 작성된 게시글 제목, 게시글 ID, 댓글 ID, 댓글 작성자 ID, 댓글 내용, 댓글 작성일을 조회하는 SQL문을 작성해주세요.
+In the CAR_RENTAL_COMPANY_CAR table, please write a SQL statement that outputs the average daily rental fee for cars with car type 'SUV'.
 
-결과는 댓글 작성일을 기준으로 오름차순 정렬해주시고, 댓글 작성일이 같다면 게시글 제목을 기준으로 오름차순 정렬해주세요.
-0
+At this time, the average daily rental fee should be rounded up to the first decimal place, and the column name should be AVERAGE_FEE.
 
-#### 입출력 예
+The following is a CAR_RENTAL_COMPANY_CAR table that contains information about cars being rented by a car rental company.
 
-| Column name | Type          | Nullable |
-| ----------- | ------------- | -------- |
-| REPLY_ID    | VARCHAR(10)   | FALSE    |
-| BOARD_ID    | VARCHAR(5)    | FALSE    |
-| WRITER_ID   | VARCHAR(50)   | FALSE    |
-| CONTENTS    | VARCHAR(1000) | TRUE     |
+The CAR_RENTAL_COMPANY_CAR table is structured as follows, and CAR_ID, CAR_TYPE, DAILY_FEE, and OPTIONS represent the car ID, car type, daily rental fee (KRW), and car option list, respectively.
+
+The types of cars are Sedan, SUV, Vans, Truck, and Limousine. The list of car options is a list of keywords separated by commas (',') (e.g., 'heated seat,' 'smart key,' and 'parking sensor,' and the keywords are 'parking sensor,' 'smart key,' 'navigation,' 'ventilated seat,' 'heated seat,' 'rear camera,' and 'leather seat.'
+
+#### Input/output Examples
+
+| Column name | Type         | Nullable |
+| ----------- | ------------ | -------- |
+| CAR_ID      | INTEGER      | FALSE    |
+| CAR_TYPE    | VARCHAR(255) | FALSE    |
+| DAILY_FEE   | INTEGER      | FALSE    |
+| OPTIONS     | VARCHAR(255) | FALSE    |
 
 <!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
-### 문제 풀이
+### problem solving
 
 ```sql
-SELECT B.TITLE, B.BOARD_ID, R.REPLY_ID, R.WRITER_ID, R.CONTENTS, DATE_FORMAT(R.CREATED_DATE, '%Y-%m-%d') AS CREATED_DATE
-FROM USED_GOODS_BOARD AS B
-JOIN USED_GOODS_REPLY AS R ON B.BOARD_ID = R.BOARD_ID
-WHERE SUBSTR(B.CREATED_DATE, 1, 7) = '2022-10' ORDER BY R.CREATED_DATE, B.TITLE
+SELECT ROUND(AVG(DAILY_FEE)) AS AVERAGE_FEE
+FROM CAR_RENTAL_COMPANY_CAR
+GROUP BY CAR_TYPE HAVING CAR_TYPE = 'SUV'
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 SQL 쿼리는 특정 날짜에 생성된 중고 상품 게시판의 게시글과 해당 게시글에 달린 댓글을 조회하는 작업을 수행합니다.
+This SQL query calculates and returns the average daily rental fee for a particular type of car.
 
-이 쿼리는 두 개의 테이블인 USED_GOODS_BOARD와 USED_GOODS_REPLY를 조인하여 결과를 출력합니다.
+The query extracts data from the CAR_RENTAL_COMPANY_CAR table, and the main components are as follows.
 
-다음은 쿼리의 각 부분을 자세히 설명한 내용입니다.
+First, in the SELECT section, the calculated average daily rate is rounded up and outputted under the alias AVERAGE_FEE.
 
-먼저 SELECT 절에서는 우리가 조회하고자 하는 열을 지정합니다.
+ROUND(AVG(DAILY_FEE)) AS AVERAGE_FEE obtains the average value of the DAILY_FEE column and returns it in integer form by rounding off the decimal point.
 
-B.TITLE은 게시글의 제목을, B.BOARD_ID는 게시글의 고유 식별자를, R.REPLY_ID는 댓글의 고유 식별자를, R.WRITER_ID는 댓글 작성자의 ID를, R.CONTENTS는 댓글의 내용을, 그리고 DATE_FORMAT(R.CREATED_DATE, '%Y-%m-%d') AS CREATED_DATE는 댓글 작성 날짜를 'YYYY-MM-DD' 형식으로 변환하여 출력합니다.
+The FROM section then specifies the default table on which to run the query.
 
-이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
+In this case, the CAR_RENTAL_COMPANY_CAR table is used.
 
-이 경우에는 USED_GOODS_BOARD 테이블을 기본 테이블로 설정합니다.
+Next, the GROUP BY section groups the data based on the CAR_TYPE column.
 
-다음으로 JOIN 절을 통해 USED_GOODS_REPLY 테이블과 USED_GOODS_BOARD 테이블을 조인합니다.
+Allow the average daily rental fee to be calculated for each type of car.
 
-조인의 조건은 ON B.BOARD_ID = R.BOARD_ID로, 두 테이블의 BOARD_ID 열을 기준으로 합니다.
+Finally, the HAVING section selects only groups that meet specific conditions among grouped data.
 
-이를 통해 각 게시글에 달린 댓글들을 연결할 수 있습니다.
+HAVING CAR_TYPE = 'SUV' selects only groups with car type 'SUV'.
 
-WHERE 절에서는 조건을 지정하여 특정 날짜에 생성된 게시글만을 조회합니다.
+This condition allows you to calculate and return only the average daily fee for an SUV.
 
-SUBSTR(B.CREATED_DATE, 1, 7) = '2022-10'은 B.CREATED_DATE의 첫 7자리를 추출하여 '2022-10'과 일치하는 행만 선택합니다.
+###### Conclusion
 
-이를 통해 2022년 10월에 생성된 게시글만 조회할 수 있습니다.
+This query allows you to look up the average daily rental fee for SUV-type cars.
 
-마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
-
-R.CREATED_DATE와 B.TITLE을 기준으로 정렬하여, 댓글 작성 날짜와 게시글 제목 순으로 결과를 정렬합니다.
-
-##### 결론
-
-이 쿼리를 통해 2022년 10월에 작성된 게시글과 해당 게시글에 달린 댓글을 날짜와 제목 순으로 정렬하여 확인할 수 있습니다.
+This will give you insight into the rental fee of the SUV.

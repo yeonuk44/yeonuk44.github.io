@@ -55,7 +55,6 @@ Let's get to the problem first.
 In the USED_GOODS_BOARD and USED_GOODS_REPLY tables, please write a SQL statement that looks up the title, post ID, comment ID, comment writer ID, comment content, and comment writing date of October 2022.
 
 Please sort the results in ascending order based on the comment writing date, and if the comment writing date is the same, please sort in ascending order based on the title of the post.
-0
 
 #### Input/output Examples
 

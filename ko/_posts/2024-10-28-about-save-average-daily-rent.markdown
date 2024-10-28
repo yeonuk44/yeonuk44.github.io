@@ -52,19 +52,24 @@ date: 2024-10-28 09:00:00 +0900
 
 ### 문제
 
-USED_GOODS_BOARD와 USED_GOODS_REPLY 테이블에서 2022년 10월에 작성된 게시글 제목, 게시글 ID, 댓글 ID, 댓글 작성자 ID, 댓글 내용, 댓글 작성일을 조회하는 SQL문을 작성해주세요.
+CAR_RENTAL_COMPANY_CAR 테이블에서 자동차 종류가 'SUV'인 자동차들의 평균 일일 대여 요금을 출력하는 SQL문을 작성해주세요.
 
-결과는 댓글 작성일을 기준으로 오름차순 정렬해주시고, 댓글 작성일이 같다면 게시글 제목을 기준으로 오름차순 정렬해주세요.
-0
+이때 평균 일일 대여 요금은 소수 첫 번째 자리에서 반올림하고, 컬럼명은 AVERAGE_FEE 로 지정해주세요.
+
+다음은 어느 자동차 대여 회사에서 대여중인 자동차들의 정보를 담은 CAR_RENTAL_COMPANY_CAR 테이블입니다.
+
+CAR_RENTAL_COMPANY_CAR 테이블은 아래와 같은 구조로 되어있으며, CAR_ID, CAR_TYPE, DAILY_FEE, OPTIONS 는 각각 자동차 ID, 자동차 종류, 일일 대여 요금(원), 자동차 옵션 리스트를 나타냅니다.
+
+자동차 종류는 '세단', 'SUV', '승합차', '트럭', '리무진' 이 있습니다. 자동차 옵션 리스트는 콤마(',')로 구분된 키워드 리스트(예: '열선시트', '스마트키', '주차감지센서')로 되어있으며, 키워드 종류는 '주차감지센서', '스마트키', '네비게이션', '통풍시트', '열선시트', '후방카메라', '가죽시트' 가 있습니다.
 
 #### 입출력 예
 
-| Column name | Type          | Nullable |
-| ----------- | ------------- | -------- |
-| REPLY_ID    | VARCHAR(10)   | FALSE    |
-| BOARD_ID    | VARCHAR(5)    | FALSE    |
-| WRITER_ID   | VARCHAR(50)   | FALSE    |
-| CONTENTS    | VARCHAR(1000) | TRUE     |
+| Column name | Type         | Nullable |
+| ----------- | ------------ | -------- |
+| CAR_ID      | INTEGER      | FALSE    |
+| CAR_TYPE    | VARCHAR(255) | FALSE    |
+| DAILY_FEE   | INTEGER      | FALSE    |
+| OPTIONS     | VARCHAR(255) | FALSE    |
 
 <!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
@@ -74,44 +79,37 @@ USED_GOODS_BOARD와 USED_GOODS_REPLY 테이블에서 2022년 10월에 작성된 
 ### 문제 풀이
 
 ```sql
-SELECT B.TITLE, B.BOARD_ID, R.REPLY_ID, R.WRITER_ID, R.CONTENTS, DATE_FORMAT(R.CREATED_DATE, '%Y-%m-%d') AS CREATED_DATE
-FROM USED_GOODS_BOARD AS B
-JOIN USED_GOODS_REPLY AS R ON B.BOARD_ID = R.BOARD_ID
-WHERE SUBSTR(B.CREATED_DATE, 1, 7) = '2022-10' ORDER BY R.CREATED_DATE, B.TITLE
+SELECT ROUND(AVG(DAILY_FEE)) AS AVERAGE_FEE
+FROM CAR_RENTAL_COMPANY_CAR
+GROUP BY CAR_TYPE HAVING CAR_TYPE = 'SUV'
 ```
 
 #### 풀이 설명
 
-이 SQL 쿼리는 특정 날짜에 생성된 중고 상품 게시판의 게시글과 해당 게시글에 달린 댓글을 조회하는 작업을 수행합니다.
+이 SQL 쿼리는 특정 유형의 자동차에 대한 일일 대여 요금의 평균을 계산하여 반환합니다.
 
-이 쿼리는 두 개의 테이블인 USED_GOODS_BOARD와 USED_GOODS_REPLY를 조인하여 결과를 출력합니다.
+쿼리는 CAR_RENTAL_COMPANY_CAR 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
 
-다음은 쿼리의 각 부분을 자세히 설명한 내용입니다.
+먼저 SELECT 절에서는 계산된 평균 일일 요금을 반올림하여 AVERAGE_FEE라는 별칭으로 출력합니다.
 
-먼저 SELECT 절에서는 우리가 조회하고자 하는 열을 지정합니다.
-
-B.TITLE은 게시글의 제목을, B.BOARD_ID는 게시글의 고유 식별자를, R.REPLY_ID는 댓글의 고유 식별자를, R.WRITER_ID는 댓글 작성자의 ID를, R.CONTENTS는 댓글의 내용을, 그리고 DATE_FORMAT(R.CREATED_DATE, '%Y-%m-%d') AS CREATED_DATE는 댓글 작성 날짜를 'YYYY-MM-DD' 형식으로 변환하여 출력합니다.
+ROUND(AVG(DAILY_FEE)) AS AVERAGE_FEE는 DAILY_FEE 열의 평균 값을 구한 후 소수점 이하를 반올림하여 정수 형태로 반환합니다.
 
 이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
 
-이 경우에는 USED_GOODS_BOARD 테이블을 기본 테이블로 설정합니다.
+이 경우 CAR_RENTAL_COMPANY_CAR 테이블이 사용됩니다.
 
-다음으로 JOIN 절을 통해 USED_GOODS_REPLY 테이블과 USED_GOODS_BOARD 테이블을 조인합니다.
+다음으로 GROUP BY 절에서는 CAR_TYPE 열을 기준으로 데이터를 그룹화합니다.
 
-조인의 조건은 ON B.BOARD_ID = R.BOARD_ID로, 두 테이블의 BOARD_ID 열을 기준으로 합니다.
+각 자동차 유형별로 일일 대여 요금의 평균을 계산할 수 있도록 합니다.
 
-이를 통해 각 게시글에 달린 댓글들을 연결할 수 있습니다.
+마지막으로 HAVING 절에서는 그룹화된 데이터 중에서 특정 조건을 만족하는 그룹만을 선택합니다.
 
-WHERE 절에서는 조건을 지정하여 특정 날짜에 생성된 게시글만을 조회합니다.
+HAVING CAR_TYPE = 'SUV'는 자동차 유형이 'SUV'인 그룹만 선택합니다.
 
-SUBSTR(B.CREATED_DATE, 1, 7) = '2022-10'은 B.CREATED_DATE의 첫 7자리를 추출하여 '2022-10'과 일치하는 행만 선택합니다.
+이 조건을 통해 SUV 차량에 대한 평균 일일 요금만을 계산하여 반환할 수 있습니다.
 
-이를 통해 2022년 10월에 생성된 게시글만 조회할 수 있습니다.
+###### 결론
 
-마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
+이 쿼리를 통해 SUV 유형의 자동차에 대한 평균 일일 대여 요금을 반올림한 값을 조회할 수 있습니다.
 
-R.CREATED_DATE와 B.TITLE을 기준으로 정렬하여, 댓글 작성 날짜와 게시글 제목 순으로 결과를 정렬합니다.
-
-##### 결론
-
-이 쿼리를 통해 2022년 10월에 작성된 게시글과 해당 게시글에 달린 댓글을 날짜와 제목 순으로 정렬하여 확인할 수 있습니다.
+이를 통해 SUV 차량의 대여 요금에 대한 인사이트를 얻을 수 있습니다.
