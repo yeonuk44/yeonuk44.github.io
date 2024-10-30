@@ -40,76 +40,135 @@ date: 2024-10-30 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 월간 코드 챌린지 시즌1 문제, 풍선 터트리기 (with.Java) 에 대하여 알아본 글입니다.
+## Monthly Code Challenge Season 1 questions, balloon popping (with.J)
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+## This is what I learned about the monthly code challenge season 1 question, balloon bursting (with.Java).
 
-문제에 대해 먼저 알아보겠습니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
+
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-CAR_RENTAL_COMPANY_CAR 테이블에서 자동차 종류가 'SUV'인 자동차들의 평균 일일 대여 요금을 출력하는 SQL문을 작성해주세요.
+There are n balloons arranged in a row.
 
-이때 평균 일일 대여 요금은 소수 첫 번째 자리에서 반올림하고, 컬럼명은 AVERAGE_FEE 로 지정해주세요.
+Every balloon has a different number written on it.
 
-다음은 어느 자동차 대여 회사에서 대여중인 자동차들의 정보를 담은 CAR_RENTAL_COMPANY_CAR 테이블입니다.
+You want to repeat the next process and keep popping the balloons until there is only one left.
 
-CAR_RENTAL_COMPANY_CAR 테이블은 아래와 같은 구조로 되어있으며, CAR_ID, CAR_TYPE, DAILY_FEE, OPTIONS 는 각각 자동차 ID, 자동차 종류, 일일 대여 요금(원), 자동차 옵션 리스트를 나타냅니다.
+Choose any two adjacent balloons, then burst one of them.
 
-자동차 종류는 '세단', 'SUV', '승합차', '트럭', '리무진' 이 있습니다. 자동차 옵션 리스트는 콤마(',')로 구분된 키워드 리스트(예: '열선시트', '스마트키', '주차감지센서')로 되어있으며, 키워드 종류는 '주차감지센서', '스마트키', '네비게이션', '통풍시트', '열선시트', '후방카메라', '가죽시트' 가 있습니다.
+If a burst balloon creates an empty space between the balloons, stick the balloons close to the center to make sure there is no empty space.
 
-#### 입출력 예
+There are conditions here.
 
+The act of bursting a balloon with a smaller number among two adjacent balloons can only be done up to once.
+
+In other words, if you burst a balloon with a smaller number among the two adjacent balloons at some point, you can then pop only the balloon with a larger number after selecting the two adjacent balloons.
+
+You want to find out which balloons can last until the end.
+
+If you pop a balloon according to the conditions described above, some may be left to the end, but some may not be able to leave it to the end at all costs.
+
+An array a containing the numbers of the balloons arranged in a row is given.
+
+Complete the solution function to return the number of balloons that can be left to the end when the balloon is popped until only one is left, according to the rules described above.
+
+#### Restrictions
+
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different.
+
+#### Input/output Examples
+
+<!--
 | Column name | Type         | Nullable |
 | ----------- | ------------ | -------- |
 | CAR_ID      | INTEGER      | FALSE    |
 | CAR_TYPE    | VARCHAR(255) | FALSE    |
 | DAILY_FEE   | INTEGER      | FALSE    |
-| OPTIONS     | VARCHAR(255) | FALSE    |
+| OPTIONS     | VARCHAR(255) | FALSE    | -->
+
+| a                                     | result |
+| ------------------------------------- | ------ |
+| [9,-1,-5]                             | 3      |
+| [-16,27,65,-2,58,-92,-71,-68,-61,-33] | 6      |
 
 <!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
-### 문제 풀이
+### problem solving
 
-```sql
-SELECT ROUND(AVG(DAILY_FEE)) AS AVERAGE_FEE
-FROM CAR_RENTAL_COMPANY_CAR
-GROUP BY CAR_TYPE HAVING CAR_TYPE = 'SUV'
+```java
+class Solution {
+    public int solution(int[] a) {
+        int answer = 2;
+        int[] left_arr = new int[a.length];
+        int[] right_arr = new int[a.length];
+        int left_min = a[0];
+        int right_min = a[a.length - 1];
+
+        int idx = a.length - 2;
+        for(int i = 1; i < a.length - 1; i++){
+            if(left_min > a[i]){
+                left_min = a[i];
+            }
+            if(right_min > a[idx]){
+                right_min = a[idx];
+            }
+            left_arr[i] = left_min;
+            right_arr[idx--] = right_min;
+        }
+        if(a.length == 1){
+            return 1;
+        }
+        for(int i = 1; i < a.length - 1; i++){
+            if(left_arr[i] < a[i] && right_arr[i] < a[i]){
+                continue;
+            }
+            answer++;
+        }
+        return answer;
+    }
+}
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 SQL 쿼리는 특정 유형의 자동차에 대한 일일 대여 요금의 평균을 계산하여 반환합니다.
+This code solves the problem of calculating the number of elements that can remain in a given array a.
 
-쿼리는 CAR_RENTAL_COMPANY_CAR 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+The first and last elements of an array can always remain to the end.
 
-먼저 SELECT 절에서는 계산된 평균 일일 요금을 반올림하여 AVERAGE_FEE라는 별칭으로 출력합니다.
+Therefore, set the answer to 2 as the initial value.
 
-ROUND(AVG(DAILY_FEE)) AS AVERAGE_FEE는 DAILY_FEE 열의 평균 값을 구한 후 소수점 이하를 반올림하여 정수 형태로 반환합니다.
+Returns 1 as an exception if the array has a size of 1.
 
-이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
+First, create an array left_arr that stores the minimum value from the left and an array right_arr that stores the minimum value from the right.
 
-이 경우 CAR_RENTAL_COMPANY_CAR 테이블이 사용됩니다.
+Left_min initializes to the first element of the array, and right_min initializes to the last element of the array.
 
-다음으로 GROUP BY 절에서는 CAR_TYPE 열을 기준으로 데이터를 그룹화합니다.
+Next, while traversing the array, update left_min and right_min.
 
-각 자동차 유형별로 일일 대여 요금의 평균을 계산할 수 있도록 합니다.
+Store the minimum value from left to current element in left_arr, and store the minimum value from right to current element in right_arr.
 
-마지막으로 HAVING 절에서는 그룹화된 데이터 중에서 특정 조건을 만족하는 그룹만을 선택합니다.
+This will update the left_min and right_min.
 
-HAVING CAR_TYPE = 'SUV'는 자동차 유형이 'SUV'인 그룹만 선택합니다.
+It then traverses from the second element of the array to the second final element.
 
-이 조건을 통해 SUV 차량에 대한 평균 일일 요금만을 계산하여 반환할 수 있습니다.
+If the current element is greater than the values of left_arr and right_arr, it cannot remain until the end, so proceed to continue.
 
-###### 결론
+Otherwise, increase the answer.
 
-이 쿼리를 통해 SUV 유형의 자동차에 대한 평균 일일 대여 요금을 반올림한 값을 조회할 수 있습니다.
+Finally, return the calculated answer.
 
-이를 통해 SUV 차량의 대여 요금에 대한 인사이트를 얻을 수 있습니다.
+##### Conclusion
+
+The algorithm is efficient as it performs two comparison operations on each element while traversing the array twice.
