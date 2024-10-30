@@ -108,7 +108,7 @@ HAVING CAR_TYPE = 'SUV' selects only groups with car type 'SUV'.
 
 This condition allows you to calculate and return only the average daily fee for an SUV.
 
-###### Conclusion
+##### Conclusion
 
 This query allows you to look up the average daily rental fee for SUV-type cars.
 
