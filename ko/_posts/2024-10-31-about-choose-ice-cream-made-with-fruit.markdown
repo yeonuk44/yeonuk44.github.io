@@ -52,38 +52,45 @@ date: 2024-10-31 09:00:00 +0900
 
 ### 문제
 
-일렬로 나열된 n개의 풍선이 있습니다.
+상반기 아이스크림 총주문량이 3,000보다 높으면서 아이스크림의 주 성분이 과일인 아이스크림의 맛을 총주문량이 큰 순서대로 조회하는 SQL 문을 작성해주세요.
 
-모든 풍선에는 서로 다른 숫자가 써져 있습니다.
+다음은 아이스크림 가게의 상반기 주문 정보를 담은 FIRST_HALF 테이블과 아이스크림 성분에 대한 정보를 담은 ICECREAM_INFO 테이블입니다.
 
-당신은 다음 과정을 반복하면서 풍선들을 단 1개만 남을 때까지 계속 터트리려고 합니다.
+FIRST_HALF 테이블 구조는 다음과 같으며, SHIPMENT_ID, FLAVOR, TOTAL_ORDER 는 각각 아이스크림 공장에서 아이스크림 가게까지의 출하 번호, 아이스크림 맛, 상반기 아이스크림 총주문량을 나타냅니다.
 
-임의의 인접한 두 풍선을 고른 뒤, 두 풍선 중 하나를 터트립니다.
+FIRST_HALF 테이블의 기본 키는 FLAVOR입니다.
 
-터진 풍선으로 인해 풍선들 사이에 빈 공간이 생겼다면, 빈 공간이 없도록 풍선들을 중앙으로 밀착시킵니다.
+#### FIRST_HALF 테이블 구조
 
-여기서 조건이 있습니다.
+| NAME        | TYPE       | NULLABLE |
+| ----------- | ---------- | -------- |
+| SHIPMENT_ID | INT(N)     | FALSE    |
+| FLAVOR      | VARCHAR(N) | FALSE    |
+| TOTAL_ORDER | INT(N)     | FALSE    |
 
-인접한 두 풍선 중에서 번호가 더 작은 풍선을 터트리는 행위는 최대 1번만 할 수 있습니다.
+ICECREAM_INFO 테이블 구조는 다음과 같으며, FLAVOR, INGREDITENT_TYPE 은 각각 아이스크림 맛, 아이스크림의 성분 타입을 나타냅니다.
 
-즉, 어떤 시점에서 인접한 두 풍선 중 번호가 더 작은 풍선을 터트렸다면, 그 이후에는 인접한 두 풍선을 고른 뒤 번호가 더 큰 풍선만을 터트릴 수 있습니다.
+INGREDIENT_TYPE에는 아이스크림의 주 성분이 설탕이면 sugar_based라고 입력되고, 아이스크림의 주 성분이 과일이면 fruit_based라고 입력됩니다.
 
-당신은 어떤 풍선이 최후까지 남을 수 있는지 알아보고 싶습니다.
+ICECREAM_INFO의 기본 키는 FLAVOR입니다.
 
-위에 서술된 조건대로 풍선을 터트리다 보면, 어떤 풍선은 최후까지 남을 수도 있지만, 어떤 풍선은 무슨 수를 쓰더라도 마지막까지 남기는 것이 불가능할 수도 있습니다.
+ICECREAM_INFO테이블의 FLAVOR는 FIRST_HALF 테이블의 FLAVOR의 외래 키입니다.
 
-일렬로 나열된 풍선들의 번호가 담긴 배열 a가 주어집니다.
+#### ICECREAM_INFO 테이블 구조
 
-위에 서술된 규칙대로 풍선들을 1개만 남을 때까지 터트렸을 때 최후까지 남기는 것이 가능한 풍선들의 개수를 return 하도록 solution 함수를 완성해주세요.
+| NAME            | TYPE       | NULLABLE |
+| --------------- | ---------- | -------- |
+| FLAVOR          | VARCHAR(N) | FALSE    |
+| INGREDIENT_TYPE | VARCHAR(N) | FALSE    |
 
-#### 제한사항
+<!-- #### 제한사항
 
 - a의 길이는 1 이상 1,000,000 이하입니다.
 - a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
 - a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다.
+- a의 모든 수는 서로 다릅니다. -->
 
-#### 입출력 예
+<!-- #### 입출력 예 -->
 
 <!--
 | Column name | Type         | Nullable |
@@ -93,10 +100,10 @@ date: 2024-10-31 09:00:00 +0900
 | DAILY_FEE   | INTEGER      | FALSE    |
 | OPTIONS     | VARCHAR(255) | FALSE    | -->
 
-| a                                     | result |
+<!-- | a                                     | result |
 | ------------------------------------- | ------ |
 | [9,-1,-5]                             | 3      |
-| [-16,27,65,-2,58,-92,-71,-68,-61,-33] | 6      |
+| [-16,27,65,-2,58,-92,-71,-68,-61,-33] | 6      | -->
 
 <!-- | begin | target | words                                      | return |
 | ----- | ------ | ------------------------------------------ | ------ |
@@ -105,68 +112,47 @@ date: 2024-10-31 09:00:00 +0900
 
 ### 문제 풀이
 
-```java
-class Solution {
-    public int solution(int[] a) {
-        int answer = 2;
-        int[] left_arr = new int[a.length];
-        int[] right_arr = new int[a.length];
-        int left_min = a[0];
-        int right_min = a[a.length - 1];
-
-        int idx = a.length - 2;
-        for(int i = 1; i < a.length - 1; i++){
-            if(left_min > a[i]){
-                left_min = a[i];
-            }
-            if(right_min > a[idx]){
-                right_min = a[idx];
-            }
-            left_arr[i] = left_min;
-            right_arr[idx--] = right_min;
-        }
-        if(a.length == 1){
-            return 1;
-        }
-        for(int i = 1; i < a.length - 1; i++){
-            if(left_arr[i] < a[i] && right_arr[i] < a[i]){
-                continue;
-            }
-            answer++;
-        }
-        return answer;
-    }
-}
+```sql
+SELECT ICECREAM_INFO.FLAVOR
+FROM ICECREAM_INFO, FIRST_HALF
+WHERE ICECREAM_INFO.FLAVOR = FIRST_HALF.FLAVOR AND FIRST_HALF.TOTAL_ORDER > 3000 AND ICECREAM_INFO.INGREDIENT_TYPE = 'fruit_based'
+ORDER BY FIRST_HALF.TOTAL_ORDER DESC;
 ```
 
 #### 풀이 설명
 
-이 코드는 주어진 배열 a에서 끝까지 남을 수 있는 요소의 개수를 계산하는 문제를 해결합니다.
+이 SQL 쿼리는 특정 조건을 만족하는 아이스크림 맛을 조회하여 주문량 순으로 정렬된 결과를 반환합니다.
 
-배열의 첫 번째와 마지막 요소는 항상 끝까지 남을 수 있습니다.
+쿼리는 ICECREAM_INFO 테이블과 FIRST_HALF 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
 
-따라서 초기 값으로 answer를 2로 설정합니다.
+먼저 SELECT 절에서는 조회할 열을 지정합니다.
 
-배열의 크기가 1인 경우 예외적으로 1을 반환합니다.
+ICECREAM_INFO.FLAVOR는 아이스크림 맛을 의미하며, 이를 결과로 출력합니다.
 
-먼저, 왼쪽에서부터의 최소값을 저장하는 배열 left_arr와 오른쪽에서부터의 최소값을 저장하는 배열 right_arr를 만듭니다.
+이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
 
-left_min은 배열의 첫 번째 요소로 초기화하고, right_min은 배열의 마지막 요소로 초기화합니다.
+ICECREAM_INFO와 FIRST_HALF 두 개의 테이블을 사용합니다.
 
-다음으로, 배열을 순회하면서 left_min과 right_min을 갱신합니다.
+이 두 테이블을 동시에 조회하기 위해 명시적으로 조인 조건을 지정합니다.
 
-왼쪽부터 현재 요소까지의 최소값을 left_arr에 저장하고, 오른쪽부터 현재 요소까지의 최소값을 right_arr에 저장합니다.
+다음으로 WHERE 절에서는 특정 조건을 설정하여 필요한 데이터를 필터링합니다.
 
-이 과정에서 left_min과 right_min이 업데이트됩니다.
+ICECREAM_INFO.FLAVOR = FIRST_HALF.FLAVOR는 두 테이블의 FLAVOR 열이 동일한 행을 조인하는 조건입니다.
 
-이후, 배열의 두 번째 요소부터 두 번째 마지막 요소까지 순회합니다.
+FIRST_HALF.TOTAL_ORDER > 3000은 상반기 주문량이 3000건을 초과하는 아이스크림 맛을 선택하는 조건입니다.
 
-현재 요소가 left_arr와 right_arr의 값보다 큰 경우, 끝까지 남을 수 없으므로 continue로 다음 요소로 넘어갑니다.
+ICECREAM_INFO.INGREDIENT_TYPE = 'fruit_based'는 과일 기반 재료를 사용하는 아이스크림 맛을 선택하는 조건입니다.
 
-그렇지 않은 경우 answer를 증가시킵니다.
+이 조건들을 통해 상반기 주문량이 3000건을 초과하고, 과일 기반 재료를 사용하는 아이스크림 맛만 선택할 수 있습니다.
 
-마지막으로, 계산된 answer를 반환합니다.
+마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
+
+FIRST_HALF.TOTAL_ORDER DESC를 기준으로 정렬하여, 주문량이 많은 순서대로 결과를 정렬합니다.
+
+이를 통해 주문량이 많은 아이스크림 맛부터 순서대로 결과를 확인할 수 있습니다.
 
 ##### 결론
 
-이 알고리즘은 배열을 두 번 순회하면서 각 요소에 대해 두 개의 비교 연산을 수행하므로 효율적입니다.
+이 쿼리를 통해 상반기 동안 주문량이 3000건을 초과하며, 과일 기반 재료를 사용하는 아이스크림 맛을 주문량 순으로 조회할 수 있습니다.
+
+이를 통해 인기 있는 과일 기반 아이스크림 맛을 쉽게 파악할 수 있습니다.
