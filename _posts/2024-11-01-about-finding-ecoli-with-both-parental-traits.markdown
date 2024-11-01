@@ -40,57 +40,48 @@ date: 2024-11-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 부모의 형질을 모두 가지는 대장균 찾기(with.MySQL)
+## Finding E. coli with both parental traits (with. My)
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+## Finding E. coli with both parental traits (with.MySQL)
 
-문제에 대해 먼저 알아보겠습니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
+
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-상반기 아이스크림 총주문량이 3,000보다 높으면서 아이스크림의 주 성분이 과일인 아이스크림의 맛을 총주문량이 큰 순서대로 조회하는 SQL 문을 작성해주세요.
+Please write a SQL statement that outputs the ID of E. coli (ID), the trait of E. coli (GENOTYPE), and the trait of the parent E. coli (PARENT_GENOTYPE).
 
-다음은 아이스크림 가게의 상반기 주문 정보를 담은 FIRST_HALF 테이블과 아이스크림 성분에 대한 정보를 담은 ICECREAM_INFO 테이블입니다.
+At this time, please sort the results in ascending order for the ID.
 
-FIRST_HALF 테이블 구조는 다음과 같으며, SHIPMENT_ID, FLAVOR, TOTAL_ORDER 는 각각 아이스크림 공장에서 아이스크림 가게까지의 출하 번호, 아이스크림 맛, 상반기 아이스크림 총주문량을 나타냅니다.
+E. coli differentiates in a certain cycle, and the individual that started differentiation is called the parent individual, and the individual that differentiated is called the child individual.
 
-FIRST_HALF 테이블의 기본 키는 FLAVOR입니다.
+The following is an ECOLI_DATA table containing information on E. coli cultured in the laboratory.
 
-#### FIRST_HALF 테이블 구조
+The structure of the ECOLI_DATA table is as follows: ID, PARENT_ID, SIZE_OF_COLONY, DIFFERENTION_DATE, and GENOTYPE represent the ID of the E. coli entity, the parent entity, the size of the entity, the date of differentiation, and the trait of the entity, respectively.
 
-| NAME        | TYPE       | NULLABLE |
-| ----------- | ---------- | -------- |
-| SHIPMENT_ID | INT(N)     | FALSE    |
-| FLAVOR      | VARCHAR(N) | FALSE    |
-| TOTAL_ORDER | INT(N)     | FALSE    |
+#### ECOLI_DATA table
 
-ICECREAM_INFO 테이블 구조는 다음과 같으며, FLAVOR, INGREDITENT_TYPE 은 각각 아이스크림 맛, 아이스크림의 성분 타입을 나타냅니다.
+| NAME           | TYPE    | NULLABLE |
+| -------------- | ------- | -------- |
+| ID             | INTEGER | FALSE    |
+| PARENT_ID      | INTEGER | TRUE     |
+| SIZE_OF_COLONY | INTEGER | FALSE    |
 
-INGREDIENT_TYPE에는 아이스크림의 주 성분이 설탕이면 sugar_based라고 입력되고, 아이스크림의 주 성분이 과일이면 fruit_based라고 입력됩니다.
+The PARENT_ID of the first E. coli entity is a NULL value.
 
-ICECREAM_INFO의 기본 키는 FLAVOR입니다.
+<!-- #### restrictions
 
-ICECREAM_INFO테이블의 FLAVOR는 FIRST_HALF 테이블의 FLAVOR의 외래 키입니다.
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different -->
 
-#### ICECREAM_INFO 테이블 구조
-
-| NAME            | TYPE       | NULLABLE |
-| --------------- | ---------- | -------- |
-| FLAVOR          | VARCHAR(N) | FALSE    |
-| INGREDIENT_TYPE | VARCHAR(N) | FALSE    |
-
-<!-- #### 제한사항
-
-- a의 길이는 1 이상 1,000,000 이하입니다.
-- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
-- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다. -->
-
-<!-- #### 입출력 예 -->
+<!-- #### I/O Yes -->
 
 <!--
 | Column name | Type         | Nullable |
@@ -110,49 +101,42 @@ ICECREAM_INFO테이블의 FLAVOR는 FIRST_HALF 테이블의 FLAVOR의 외래 키
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
-### 문제 풀이
+### problem solving
 
 ```sql
-SELECT ICECREAM_INFO.FLAVOR
-FROM ICECREAM_INFO, FIRST_HALF
-WHERE ICECREAM_INFO.FLAVOR = FIRST_HALF.FLAVOR AND FIRST_HALF.TOTAL_ORDER > 3000 AND ICECREAM_INFO.INGREDIENT_TYPE = 'fruit_based'
-ORDER BY FIRST_HALF.TOTAL_ORDER DESC;
+SELECT A.ID, A.GENOTYPE, B.GENOTYPE AS PARENT_GENOTYPE
+FROM ECOLI_DATA A, ECOLI_DATA B
+WHERE A.PARENT_ID = B.ID AND B.GENOTYPE & A.GENOTYPE = B.GENOTYPE
+ORDER BY ID;
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 SQL 쿼리는 특정 조건을 만족하는 아이스크림 맛을 조회하여 주문량 순으로 정렬된 결과를 반환합니다.
+This SQL query returns a pair of records with a specific parent-child relationship in the _E. coli_ data.
 
-쿼리는 ICECREAM_INFO 테이블과 FIRST_HALF 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+The query references the data twice in the same table, 'ECOLI_DATA', and the main components are as follows.
 
-먼저 SELECT 절에서는 조회할 열을 지정합니다.
+First, in the 'SELECT' section, specify the columns to look up.
 
-ICECREAM_INFO.FLAVOR는 아이스크림 맛을 의미하며, 이를 결과로 출력합니다.
+'A.ID' is the unique identifier of the child _E. coli_ record, 'A.GENOTYPE' is the genotype information of the child _E. coli_, and 'B.GENOTYPE AS PARENT_GENOTYPE' includes the genotype information of the parent _E. coli_ as the alias 'PARENT_GENOTYPE' in the result.
 
-이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
+This allows you to print out the genotype information of your child and parents together.
 
-ICECREAM_INFO와 FIRST_HALF 두 개의 테이블을 사용합니다.
+The 'FROM' section then specifies the default table for which the query will run.
 
-이 두 테이블을 동시에 조회하기 위해 명시적으로 조인 조건을 지정합니다.
+Here, we refer to the same 'ECOLI_DATA' table twice, and we alias 'A' and 'B' for each reference.
 
-다음으로 WHERE 절에서는 특정 조건을 설정하여 필요한 데이터를 필터링합니다.
+'A' represents the data of the child _E. coli_ and 'B' represents the data of the parent _E. coli_.
 
-ICECREAM_INFO.FLAVOR = FIRST_HALF.FLAVOR는 두 테이블의 FLAVOR 열이 동일한 행을 조인하는 조건입니다.
+Next, in the 'WHERE' section, we filter the necessary data by setting parent-child relationships and genotype conditions.
 
-FIRST_HALF.TOTAL_ORDER > 3000은 상반기 주문량이 3000건을 초과하는 아이스크림 맛을 선택하는 조건입니다.
+- The 'A.PARENT_ID = B.ID' condition selects when the 'PARENT_ID' value of the 'A' table matches the 'ID' value of the 'B' table. This means that the 'A' record is a child of the 'B' record.
+- The 'B.GENOTYPE & A.GENOTYPE = B.GENOTYPE' condition selects when the genotype of the parent _E. coli_ ('B') is part of the genotype of the child _E. coli_ ('A') The bit AND operation verifies that the parent's genotype is included in the child's genotype and is included in the result only if this condition is met.
 
-ICECREAM_INFO.INGREDIENT_TYPE = 'fruit_based'는 과일 기반 재료를 사용하는 아이스크림 맛을 선택하는 조건입니다.
+Finally, sort the results through the 'ORDER BY ID' section.
 
-이 조건들을 통해 상반기 주문량이 3000건을 초과하고, 과일 기반 재료를 사용하는 아이스크림 맛만 선택할 수 있습니다.
+You can sort the child _E.coli_ record in ascending order based on the 'ID' of the child _E.coli_ record, and see the results in order of ID.
 
-마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
+This query allows you to query the ID and genotype information of a pair of _E. coli_ records that have a specific parent-child relationship and whose parent's genotype is included in your child's genotype.
 
-FIRST_HALF.TOTAL_ORDER DESC를 기준으로 정렬하여, 주문량이 많은 순서대로 결과를 정렬합니다.
-
-이를 통해 주문량이 많은 아이스크림 맛부터 순서대로 결과를 확인할 수 있습니다.
-
-##### 결론
-
-이 쿼리를 통해 상반기 동안 주문량이 3000건을 초과하며, 과일 기반 재료를 사용하는 아이스크림 맛을 주문량 순으로 조회할 수 있습니다.
-
-이를 통해 인기 있는 과일 기반 아이스크림 맛을 쉽게 파악할 수 있습니다.
+This can be useful for analyzing the inheritance patterns of genotypes or the relationship between specific genotypes.

@@ -52,36 +52,25 @@ date: 2024-11-01 09:00:00 +0900
 
 ### 문제
 
-상반기 아이스크림 총주문량이 3,000보다 높으면서 아이스크림의 주 성분이 과일인 아이스크림의 맛을 총주문량이 큰 순서대로 조회하는 SQL 문을 작성해주세요.
+부모의 형질을 모두 보유한 대장균의 ID(ID), 대장균의 형질(GENOTYPE), 부모 대장균의 형질(PARENT_GENOTYPE)을 출력하는 SQL 문을 작성해주세요.
 
-다음은 아이스크림 가게의 상반기 주문 정보를 담은 FIRST_HALF 테이블과 아이스크림 성분에 대한 정보를 담은 ICECREAM_INFO 테이블입니다.
+이때 결과는 ID에 대해 오름차순 정렬해주세요.
 
-FIRST_HALF 테이블 구조는 다음과 같으며, SHIPMENT_ID, FLAVOR, TOTAL_ORDER 는 각각 아이스크림 공장에서 아이스크림 가게까지의 출하 번호, 아이스크림 맛, 상반기 아이스크림 총주문량을 나타냅니다.
+대장균들은 일정 주기로 분화하며, 분화를 시작한 개체를 부모 개체, 분화가 되어 나온 개체를 자식 개체라고 합니다.
 
-FIRST_HALF 테이블의 기본 키는 FLAVOR입니다.
+다음은 실험실에서 배양한 대장균들의 정보를 담은 ECOLI_DATA 테이블입니다.
 
-#### FIRST_HALF 테이블 구조
+ECOLI_DATA 테이블의 구조는 다음과 같으며, ID, PARENT_ID, SIZE_OF_COLONY, DIFFERENTIATION_DATE, GENOTYPE 은 각각 대장균 개체의 ID, 부모 개체의 ID, 개체의 크기, 분화되어 나온 날짜, 개체의 형질을 나타냅니다.
 
-| NAME        | TYPE       | NULLABLE |
-| ----------- | ---------- | -------- |
-| SHIPMENT_ID | INT(N)     | FALSE    |
-| FLAVOR      | VARCHAR(N) | FALSE    |
-| TOTAL_ORDER | INT(N)     | FALSE    |
+#### ECOLI_DATA 테이블
 
-ICECREAM_INFO 테이블 구조는 다음과 같으며, FLAVOR, INGREDITENT_TYPE 은 각각 아이스크림 맛, 아이스크림의 성분 타입을 나타냅니다.
+| NAME           | TYPE    | NULLABLE |
+| -------------- | ------- | -------- |
+| ID             | INTEGER | FALSE    |
+| PARENT_ID      | INTEGER | TRUE     |
+| SIZE_OF_COLONY | INTEGER | FALSE    |
 
-INGREDIENT_TYPE에는 아이스크림의 주 성분이 설탕이면 sugar_based라고 입력되고, 아이스크림의 주 성분이 과일이면 fruit_based라고 입력됩니다.
-
-ICECREAM_INFO의 기본 키는 FLAVOR입니다.
-
-ICECREAM_INFO테이블의 FLAVOR는 FIRST_HALF 테이블의 FLAVOR의 외래 키입니다.
-
-#### ICECREAM_INFO 테이블 구조
-
-| NAME            | TYPE       | NULLABLE |
-| --------------- | ---------- | -------- |
-| FLAVOR          | VARCHAR(N) | FALSE    |
-| INGREDIENT_TYPE | VARCHAR(N) | FALSE    |
+최초의 대장균 개체의 PARENT_ID 는 NULL 값입니다.
 
 <!-- #### 제한사항
 
@@ -113,46 +102,39 @@ ICECREAM_INFO테이블의 FLAVOR는 FIRST_HALF 테이블의 FLAVOR의 외래 키
 ### 문제 풀이
 
 ```sql
-SELECT ICECREAM_INFO.FLAVOR
-FROM ICECREAM_INFO, FIRST_HALF
-WHERE ICECREAM_INFO.FLAVOR = FIRST_HALF.FLAVOR AND FIRST_HALF.TOTAL_ORDER > 3000 AND ICECREAM_INFO.INGREDIENT_TYPE = 'fruit_based'
-ORDER BY FIRST_HALF.TOTAL_ORDER DESC;
+SELECT A.ID, A.GENOTYPE, B.GENOTYPE AS PARENT_GENOTYPE
+FROM ECOLI_DATA A, ECOLI_DATA B
+WHERE A.PARENT_ID = B.ID AND B.GENOTYPE & A.GENOTYPE = B.GENOTYPE
+ORDER BY ID;
 ```
 
 #### 풀이 설명
 
-이 SQL 쿼리는 특정 조건을 만족하는 아이스크림 맛을 조회하여 주문량 순으로 정렬된 결과를 반환합니다.
+이 SQL 쿼리는 _E. coli_ 데이터에서 특정 부모-자식 관계를 가진 레코드 쌍을 조회하여 반환합니다.
 
-쿼리는 ICECREAM_INFO 테이블과 FIRST_HALF 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+쿼리는 동일한 테이블인 `ECOLI_DATA`에서 데이터를 두 번 참조하며, 주요 구성 요소는 다음과 같습니다.
 
-먼저 SELECT 절에서는 조회할 열을 지정합니다.
+먼저 `SELECT` 절에서는 조회할 열을 지정합니다.
 
-ICECREAM_INFO.FLAVOR는 아이스크림 맛을 의미하며, 이를 결과로 출력합니다.
+`A.ID`는 자식 _E. coli_ 레코드의 고유 식별자, `A.GENOTYPE`은 자식 *E. coli*의 유전자형 정보를 의미하며, `B.GENOTYPE AS PARENT_GENOTYPE`은 부모 *E. coli*의 유전자형 정보를 `PARENT_GENOTYPE`이라는 별칭으로 결과에 포함시킵니다.
 
-이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
+이를 통해 자식과 부모의 유전자형 정보를 함께 출력할 수 있습니다.
 
-ICECREAM_INFO와 FIRST_HALF 두 개의 테이블을 사용합니다.
+이어서 `FROM` 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
 
-이 두 테이블을 동시에 조회하기 위해 명시적으로 조인 조건을 지정합니다.
+여기서는 동일한 `ECOLI_DATA` 테이블을 두 번 참조하며, 각 참조에 대해 `A`와 `B`라는 별칭을 지정합니다.
 
-다음으로 WHERE 절에서는 특정 조건을 설정하여 필요한 데이터를 필터링합니다.
+`A`는 자식 *E. coli*의 데이터를, `B`는 부모 *E. coli*의 데이터를 나타냅니다.
 
-ICECREAM_INFO.FLAVOR = FIRST_HALF.FLAVOR는 두 테이블의 FLAVOR 열이 동일한 행을 조인하는 조건입니다.
+다음으로 `WHERE` 절에서는 부모-자식 관계와 유전자형 조건을 설정하여 필요한 데이터를 필터링합니다.
 
-FIRST_HALF.TOTAL_ORDER > 3000은 상반기 주문량이 3000건을 초과하는 아이스크림 맛을 선택하는 조건입니다.
+- `A.PARENT_ID = B.ID` 조건은 `A` 테이블의 `PARENT_ID` 값이 `B` 테이블의 `ID` 값과 일치하는 경우를 선택합니다. 이는 `A` 레코드가 `B` 레코드의 자식임을 의미합니다.
+- `B.GENOTYPE & A.GENOTYPE = B.GENOTYPE` 조건은 부모 _E. coli_ (`B`)의 유전자형이 자식 _E. coli_ (`A`)의 유전자형의 일부인 경우를 선택합니다. 비트 AND 연산을 통해 부모의 유전자형이 자식의 유전자형에 포함되는지 확인하며, 이 조건을 만족하는 경우만 결과에 포함됩니다.
 
-ICECREAM_INFO.INGREDIENT_TYPE = 'fruit_based'는 과일 기반 재료를 사용하는 아이스크림 맛을 선택하는 조건입니다.
+마지막으로 `ORDER BY ID` 절을 통해 결과를 정렬합니다.
 
-이 조건들을 통해 상반기 주문량이 3000건을 초과하고, 과일 기반 재료를 사용하는 아이스크림 맛만 선택할 수 있습니다.
+자식 _E. coli_ 레코드의 `ID`를 기준으로 오름차순 정렬하여, ID 순서대로 결과를 확인할 수 있습니다.
 
-마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
+이 쿼리를 통해 특정 부모-자식 관계를 가지며, 부모의 유전자형이 자식의 유전자형에 포함된 _E. coli_ 레코드 쌍의 ID와 유전자형 정보를 조회할 수 있습니다.
 
-FIRST_HALF.TOTAL_ORDER DESC를 기준으로 정렬하여, 주문량이 많은 순서대로 결과를 정렬합니다.
-
-이를 통해 주문량이 많은 아이스크림 맛부터 순서대로 결과를 확인할 수 있습니다.
-
-##### 결론
-
-이 쿼리를 통해 상반기 동안 주문량이 3000건을 초과하며, 과일 기반 재료를 사용하는 아이스크림 맛을 주문량 순으로 조회할 수 있습니다.
-
-이를 통해 인기 있는 과일 기반 아이스크림 맛을 쉽게 파악할 수 있습니다.
+이를 통해 유전자형의 상속 패턴이나 특정 유전자형 간의 관계를 분석하는 데 유용하게 활용할 수 있습니다.
