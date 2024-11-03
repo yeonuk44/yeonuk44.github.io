@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_Outputting_List_Of_Production_Plants_Located_In_Ganwondo
-title: 강원도에 위치한 생산공장 목록 출력하기 (with. MySQL)
-# title: Outputting a list of production plants located in Gangwon-do (with. MySQL)
+lng_pair: id_Outputting_List_Of_Female_Patients_Under_Age_Of_12
+title: 12세 이하인 여자 환자 목록 출력하기 (with. MySQL)
+# title: Outputting a list of female patients under the age of 12 (with. MySQL)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2024-11-03 09:00:00 +0900
+date: 2024-11-04 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -40,7 +40,7 @@ date: 2024-11-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 강원도에 위치한 생산공장 목록 출력하기 (with. MySQL) 에 대하여 알아본 글입니다.
+## 12세 이하인 여자 환자 목록 출력하기 (with. MySQL) 에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
