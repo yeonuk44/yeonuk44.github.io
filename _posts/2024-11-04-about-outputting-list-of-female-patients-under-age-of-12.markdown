@@ -40,27 +40,27 @@ date: 2024-11-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 12세 이하인 여자 환자 목록 출력하기 (with. MySQL) 에 대하여 알아본 글입니다.
+## This article is about printing a list of female patients under the age of 12 (with. MySQL).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-FOOD_FACTORY 테이블에서 강원도에 위치한 식품공장의 공장 ID, 공장 이름, 주소를 조회하는 SQL문을 작성해주세요.
+In the PATIENT table, please write a SQL statement that looks up the patient name, patient number, gender code, age, and phone number of a female patient under the age of 12.
 
-이때 결과는 공장 ID를 기준으로 오름차순 정렬해주세요.
+If you don't have a phone number, please print it out as 'NONE' and arrange the results in descending order based on age, and if you are of the same age, arrange it in ascending order based on patient name.
 
-다음은 식품공장의 정보를 담은 FOOD_FACTORY 테이블입니다.
+The following is a PATIENT table containing patient information registered in a general hospital.
 
-FOOD_FACTORY 테이블은 다음과 같으며 FACTORY_ID, FACTORY_NAME, ADDRESS, TLNO는 각각 공장 ID, 공장 이름, 주소, 전화번호를 의미합니다.
+The PATIENT table is as follows, and PT_NO, PT_NAME, GEND_CD, AGE, and TLNO mean patient number, patient name, gender code, age, and phone number, respectively.
 
-#### ECOLI_DATA 테이블
+#### PATIENT Table
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |
@@ -68,21 +68,22 @@ FOOD_FACTORY 테이블은 다음과 같으며 FACTORY_ID, FACTORY_NAME, ADDRESS,
 | PARENT_ID      | INTEGER | TRUE     |
 | SIZE_OF_COLONY | INTEGER | FALSE    | -->
 
-<!-- #### 제한사항
+<!-- #### restrictions
 
-- a의 길이는 1 이상 1,000,000 이하입니다.
-- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
-- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다. -->
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different -->
 
-<!-- #### 입출력 예 -->
+<!-- #### I/O Yes -->
 
-| Column name  | Type         | Nullable |
-| ------------ | ------------ | -------- |
-| FACTORY_ID   | VARCHAR(10)  | FALSE    |
-| FACTORY_NAME | VARCHAR(50)  | FALSE    |
-| ADDRESS      | VARCHAR(100) | FALSE    |
-| TLNO         | VARCHAR(20)  | TRUE     |
+| Column name | Type        | Nullable |
+| ----------- | ----------- | -------- |
+| PT_NO       | VARCHAR(10) | FALSE    |
+| PT_NAME     | VARCHAR(20) | FALSE    |
+| GEND_CD     | VARCHAR(1)  | FALSE    |
+| AGE         | INTEGER     | FALSE    |
+| TLNO        | VARCHAR(50) | TRUE     |
 
 <!-- | a                                     | result |
 | ------------------------------------- | ------ |
@@ -94,15 +95,17 @@ FOOD_FACTORY 테이블은 다음과 같으며 FACTORY_ID, FACTORY_NAME, ADDRESS,
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
-### 문제 풀이
+### problem solving
 
 ```sql
-SELECT FACTORY_ID, FACTORY_NAME, ADDRESS
-FROM FOOD_FACTORY
-WHERE SUBSTR(ADDRESS, 1, 3) = '강원도'
-ORDER BY FACTORY_ID
+SELECT PT_NAME, PT_NO, GEND_CD, AGE, IFNULL(TLNO, "NONE") AS TLNO
+FROM PATIENT
+WHERE AGE <= 12 AND GEND_CD = "W"
+ORDER BY AGE DESC, PT_NAME ASC
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-SUBSTR 함수를 이용해 주소에 '강원도'가 포함된 쿼리를 출력하고 ORDER BY를 통해 고공장 ID를 오름차순 기준으로 정렬했습니다.
+NULL values were processed through the IFNULL function, and age and gender conditions were grouped into AND.
+
+Sorting was in descending order by age, and if the age was the same, sorted in ascending order by patient name.

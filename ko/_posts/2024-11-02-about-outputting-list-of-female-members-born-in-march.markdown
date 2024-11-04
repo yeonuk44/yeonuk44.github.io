@@ -60,7 +60,7 @@ MEMBER_PROFILE 테이블에서 생일이 3월인 여성 회원의 ID, 이름, �
 
 MEMBER_PROFILE 테이블은 다음과 같으며 MEMBER_ID, MEMBER_NAME, TLNO, GENDER, DATE_OF_BIRTH는 회원 ID, 회원 이름, 회원 연락처, 성별, 생년월일을 의미합니다.
 
-#### ECOLI_DATA 테이블
+#### MEMBER_PROFILE 테이블
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |

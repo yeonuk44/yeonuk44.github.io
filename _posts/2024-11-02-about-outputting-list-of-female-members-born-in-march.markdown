@@ -60,7 +60,7 @@ The following is the MEMBER_PROFILE table that contains the membership informati
 
 The MEMBER_PROFILE table is as follows, and MEMBER_ID, MEMBER_NAME, TLNO, GENDER, DATE_OF_BIRTH stands for Member ID, Member Name, Member Contact, Gender, and Birth Date.
 
-#### ECOLI_DATA table
+#### MEMBER_PROFILE table
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |

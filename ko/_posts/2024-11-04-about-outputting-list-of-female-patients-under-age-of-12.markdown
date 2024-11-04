@@ -52,15 +52,15 @@ date: 2024-11-04 09:00:00 +0900
 
 ### 문제
 
-FOOD_FACTORY 테이블에서 강원도에 위치한 식품공장의 공장 ID, 공장 이름, 주소를 조회하는 SQL문을 작성해주세요.
+PATIENT 테이블에서 12세 이하인 여자환자의 환자이름, 환자번호, 성별코드, 나이, 전화번호를 조회하는 SQL문을 작성해주세요.
 
-이때 결과는 공장 ID를 기준으로 오름차순 정렬해주세요.
+이때 전화번호가 없는 경우, 'NONE'으로 출력시켜 주시고 결과는 나이를 기준으로 내림차순 정렬하고, 나이 같다면 환자이름을 기준으로 오름차순 정렬해주세요.
 
-다음은 식품공장의 정보를 담은 FOOD_FACTORY 테이블입니다.
+다음은 종합병원에 등록된 환자정보를 담은 PATIENT 테이블입니다.
 
-FOOD_FACTORY 테이블은 다음과 같으며 FACTORY_ID, FACTORY_NAME, ADDRESS, TLNO는 각각 공장 ID, 공장 이름, 주소, 전화번호를 의미합니다.
+PATIENT 테이블은 다음과 같으며 PT_NO, PT_NAME, GEND_CD, AGE, TLNO는 각각 환자번호, 환자이름, 성별코드, 나이, 전화번호를 의미합니다.
 
-#### ECOLI_DATA 테이블
+#### PATIENT 테이블
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |
@@ -77,12 +77,13 @@ FOOD_FACTORY 테이블은 다음과 같으며 FACTORY_ID, FACTORY_NAME, ADDRESS,
 
 <!-- #### 입출력 예 -->
 
-| Column name  | Type         | Nullable |
-| ------------ | ------------ | -------- |
-| FACTORY_ID   | VARCHAR(10)  | FALSE    |
-| FACTORY_NAME | VARCHAR(50)  | FALSE    |
-| ADDRESS      | VARCHAR(100) | FALSE    |
-| TLNO         | VARCHAR(20)  | TRUE     |
+| Column name | Type        | Nullable |
+| ----------- | ----------- | -------- |
+| PT_NO       | VARCHAR(10) | FALSE    |
+| PT_NAME     | VARCHAR(20) | FALSE    |
+| GEND_CD     | VARCHAR(1)  | FALSE    |
+| AGE         | INTEGER     | FALSE    |
+| TLNO        | VARCHAR(50) | TRUE     |
 
 <!-- | a                                     | result |
 | ------------------------------------- | ------ |
@@ -97,12 +98,14 @@ FOOD_FACTORY 테이블은 다음과 같으며 FACTORY_ID, FACTORY_NAME, ADDRESS,
 ### 문제 풀이
 
 ```sql
-SELECT FACTORY_ID, FACTORY_NAME, ADDRESS
-FROM FOOD_FACTORY
-WHERE SUBSTR(ADDRESS, 1, 3) = '강원도'
-ORDER BY FACTORY_ID
+SELECT PT_NAME, PT_NO, GEND_CD, AGE, IFNULL(TLNO, "NONE") AS TLNO
+FROM PATIENT
+WHERE AGE <= 12 AND GEND_CD = "W"
+ORDER BY AGE DESC, PT_NAME ASC
 ```
 
 #### 풀이 설명
 
-SUBSTR 함수를 이용해 주소에 '강원도'가 포함된 쿼리를 출력하고 ORDER BY를 통해 고공장 ID를 오름차순 기준으로 정렬했습니다.
+IFNULL 함수를 통해 NULL 값에 대한 처리를 해주고, 나이와 성별의 조건을 AND로 묶어처리하였습니다.
+
+정렬은 나이로 내림차순을 진행하고, 나이가 같다면 환자이름을 기준으로 오름차순으로 정렬했습니다.

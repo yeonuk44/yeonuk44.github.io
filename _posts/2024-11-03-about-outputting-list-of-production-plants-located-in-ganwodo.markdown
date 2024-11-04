@@ -60,7 +60,7 @@ The following is the FOOD_FACTORY table containing the information of the food f
 
 The FOOD_FACTORY table is as follows, and FACTORY_ID, FACTORY_NAME, ADDRESS, and TLNO mean factory ID, factory name, address, and phone number, respectively.
 
-#### ECOLI_DATA table
+#### FOOD_FACTORY table
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |
