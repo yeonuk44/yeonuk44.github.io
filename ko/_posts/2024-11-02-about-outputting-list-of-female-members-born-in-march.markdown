@@ -40,7 +40,7 @@ date: 2024-11-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 3월에 태어난 여성 회원 목록 출력하기 (with. MySQL)
+## 3월에 태어난 여성 회원 목록 출력하기 (with. MySQL) 에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -60,7 +60,7 @@ MEMBER_PROFILE 테이블에서 생일이 3월인 여성 회원의 ID, 이름, �
 
 MEMBER_PROFILE 테이블은 다음과 같으며 MEMBER_ID, MEMBER_NAME, TLNO, GENDER, DATE_OF_BIRTH는 회원 ID, 회원 이름, 회원 연락처, 성별, 생년월일을 의미합니다.
 
-#### ECOLI_DATA 테이블
+#### MEMBER_PROFILE 테이블
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |

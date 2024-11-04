@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_Outputting_List_Of_Production_Plants_Located_In_Ganwondo
-title: Outputting a list of production plants located in Gangwon-do (with. MySQL)
-# title: Outputting a list of production plants located in Gangwon-do (with. MySQL)
+lng_pair: id_Outputting_List_Of_Female_Patients_Under_Age_Of_12
+title: Outputting a list of female patients under the age of 12 (with. MySQL)
+# title: Outputting a list of female patients under the age of 12 (with. MySQL)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2024-11-03 09:00:00 +0900
+date: 2024-11-04 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -40,7 +40,7 @@ date: 2024-11-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-## Outputting a list of production plants located in Gangwon-do (with. MySQL)
+## This article is about printing a list of female patients under the age of 12 (with. MySQL).
 
 I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
@@ -52,15 +52,15 @@ Let's get to the problem first.
 
 ### Problem
 
-In the FOOD_FACTORY table, please write a SQL statement that inquires about the factory ID, factory name, and address of the food factory located in Gangwon-do.
+In the PATIENT table, please write a SQL statement that looks up the patient name, patient number, gender code, age, and phone number of a female patient under the age of 12.
 
-At this time, please sort the results in ascending order based on the factory ID.
+If you don't have a phone number, please print it out as 'NONE' and arrange the results in descending order based on age, and if you are of the same age, arrange it in ascending order based on patient name.
 
-The following is the FOOD_FACTORY table containing the information of the food factory.
+The following is a PATIENT table containing patient information registered in a general hospital.
 
-The FOOD_FACTORY table is as follows, and FACTORY_ID, FACTORY_NAME, ADDRESS, and TLNO mean factory ID, factory name, address, and phone number, respectively.
+The PATIENT table is as follows, and PT_NO, PT_NAME, GEND_CD, AGE, and TLNO mean patient number, patient name, gender code, age, and phone number, respectively.
 
-#### FOOD_FACTORY table
+#### PATIENT Table
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |
@@ -77,12 +77,13 @@ The FOOD_FACTORY table is as follows, and FACTORY_ID, FACTORY_NAME, ADDRESS, and
 
 <!-- #### I/O Yes -->
 
-| Column name  | Type         | Nullable |
-| ------------ | ------------ | -------- |
-| FACTORY_ID   | VARCHAR(10)  | FALSE    |
-| FACTORY_NAME | VARCHAR(50)  | FALSE    |
-| ADDRESS      | VARCHAR(100) | FALSE    |
-| TLNO         | VARCHAR(20)  | TRUE     |
+| Column name | Type        | Nullable |
+| ----------- | ----------- | -------- |
+| PT_NO       | VARCHAR(10) | FALSE    |
+| PT_NAME     | VARCHAR(20) | FALSE    |
+| GEND_CD     | VARCHAR(1)  | FALSE    |
+| AGE         | INTEGER     | FALSE    |
+| TLNO        | VARCHAR(50) | TRUE     |
 
 <!-- | a                                     | result |
 | ------------------------------------- | ------ |
@@ -97,12 +98,14 @@ The FOOD_FACTORY table is as follows, and FACTORY_ID, FACTORY_NAME, ADDRESS, and
 ### problem solving
 
 ```sql
-SELECT FACTORY_ID, FACTORY_NAME, ADDRESS
-FROM FOOD_FACTORY
-WHERE SUBSTR(ADDRESS, 1, 3) = '강원도'
-ORDER BY FACTORY_ID
+SELECT PT_NAME, PT_NO, GEND_CD, AGE, IFNULL(TLNO, "NONE") AS TLNO
+FROM PATIENT
+WHERE AGE <= 12 AND GEND_CD = "W"
+ORDER BY AGE DESC, PT_NAME ASC
 ```
 
 #### Solution Description
 
-The SUBSTR function was used to output queries with 'Gangwon-do' in the address and sort the high-factory ID by ascending order through ORDER BY.
+NULL values were processed through the IFNULL function, and age and gender conditions were grouped into AND.
+
+Sorting was in descending order by age, and if the age was the same, sorted in ascending order by patient name.

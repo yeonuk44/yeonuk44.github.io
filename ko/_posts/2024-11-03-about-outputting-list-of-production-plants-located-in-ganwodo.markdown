@@ -40,7 +40,7 @@ date: 2024-11-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 강원도에 위치한 생산공장 목록 출력하기 (with. MySQL)
+## 강원도에 위치한 생산공장 목록 출력하기 (with. MySQL) 에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -60,7 +60,7 @@ FOOD_FACTORY 테이블에서 강원도에 위치한 식품공장의 공장 ID, �
 
 FOOD_FACTORY 테이블은 다음과 같으며 FACTORY_ID, FACTORY_NAME, ADDRESS, TLNO는 각각 공장 ID, 공장 이름, 주소, 전화번호를 의미합니다.
 
-#### ECOLI_DATA 테이블
+#### FOOD_FACTORY 테이블
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |

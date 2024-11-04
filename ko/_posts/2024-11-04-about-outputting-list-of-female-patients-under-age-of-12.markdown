@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_Outputting_List_Of_Production_Plants_Located_In_Ganwondo
-title: Outputting a list of production plants located in Gangwon-do (with. MySQL)
-# title: Outputting a list of production plants located in Gangwon-do (with. MySQL)
+lng_pair: id_Outputting_List_Of_Female_Patients_Under_Age_Of_12
+title: 12세 이하인 여자 환자 목록 출력하기 (with. MySQL)
+# title: Outputting a list of female patients under the age of 12 (with. MySQL)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2024-11-03 09:00:00 +0900
+date: 2024-11-04 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
@@ -40,27 +40,27 @@ date: 2024-11-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-## Outputting a list of production plants located in Gangwon-do (with. MySQL)
+## 12세 이하인 여자 환자 목록 출력하기 (with. MySQL) 에 대하여 알아본 글입니다.
 
-I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
+코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
-Let's get to the problem first.
+문제에 대해 먼저 알아보겠습니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### Problem
+### 문제
 
-In the FOOD_FACTORY table, please write a SQL statement that inquires about the factory ID, factory name, and address of the food factory located in Gangwon-do.
+PATIENT 테이블에서 12세 이하인 여자환자의 환자이름, 환자번호, 성별코드, 나이, 전화번호를 조회하는 SQL문을 작성해주세요.
 
-At this time, please sort the results in ascending order based on the factory ID.
+이때 전화번호가 없는 경우, 'NONE'으로 출력시켜 주시고 결과는 나이를 기준으로 내림차순 정렬하고, 나이 같다면 환자이름을 기준으로 오름차순 정렬해주세요.
 
-The following is the FOOD_FACTORY table containing the information of the food factory.
+다음은 종합병원에 등록된 환자정보를 담은 PATIENT 테이블입니다.
 
-The FOOD_FACTORY table is as follows, and FACTORY_ID, FACTORY_NAME, ADDRESS, and TLNO mean factory ID, factory name, address, and phone number, respectively.
+PATIENT 테이블은 다음과 같으며 PT_NO, PT_NAME, GEND_CD, AGE, TLNO는 각각 환자번호, 환자이름, 성별코드, 나이, 전화번호를 의미합니다.
 
-#### FOOD_FACTORY table
+#### PATIENT 테이블
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |
@@ -68,21 +68,22 @@ The FOOD_FACTORY table is as follows, and FACTORY_ID, FACTORY_NAME, ADDRESS, and
 | PARENT_ID      | INTEGER | TRUE     |
 | SIZE_OF_COLONY | INTEGER | FALSE    | -->
 
-<!-- #### restrictions
+<!-- #### 제한사항
 
-- The length of a is not less than 1 but not more than 1,000,000.
-- a[i] means the number written on the i+1th balloon.
-- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
-- All numbers of a are different -->
+- a의 길이는 1 이상 1,000,000 이하입니다.
+- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
+- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
+- a의 모든 수는 서로 다릅니다. -->
 
-<!-- #### I/O Yes -->
+<!-- #### 입출력 예 -->
 
-| Column name  | Type         | Nullable |
-| ------------ | ------------ | -------- |
-| FACTORY_ID   | VARCHAR(10)  | FALSE    |
-| FACTORY_NAME | VARCHAR(50)  | FALSE    |
-| ADDRESS      | VARCHAR(100) | FALSE    |
-| TLNO         | VARCHAR(20)  | TRUE     |
+| Column name | Type        | Nullable |
+| ----------- | ----------- | -------- |
+| PT_NO       | VARCHAR(10) | FALSE    |
+| PT_NAME     | VARCHAR(20) | FALSE    |
+| GEND_CD     | VARCHAR(1)  | FALSE    |
+| AGE         | INTEGER     | FALSE    |
+| TLNO        | VARCHAR(50) | TRUE     |
 
 <!-- | a                                     | result |
 | ------------------------------------- | ------ |
@@ -94,15 +95,17 @@ The FOOD_FACTORY table is as follows, and FACTORY_ID, FACTORY_NAME, ADDRESS, and
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
-### problem solving
+### 문제 풀이
 
 ```sql
-SELECT FACTORY_ID, FACTORY_NAME, ADDRESS
-FROM FOOD_FACTORY
-WHERE SUBSTR(ADDRESS, 1, 3) = '강원도'
-ORDER BY FACTORY_ID
+SELECT PT_NAME, PT_NO, GEND_CD, AGE, IFNULL(TLNO, "NONE") AS TLNO
+FROM PATIENT
+WHERE AGE <= 12 AND GEND_CD = "W"
+ORDER BY AGE DESC, PT_NAME ASC
 ```
 
-#### Solution Description
+#### 풀이 설명
 
-The SUBSTR function was used to output queries with 'Gangwon-do' in the address and sort the high-factory ID by ascending order through ORDER BY.
+IFNULL 함수를 통해 NULL 값에 대한 처리를 해주고, 나이와 성별의 조건을 AND로 묶어처리하였습니다.
+
+정렬은 나이로 내림차순을 진행하고, 나이가 같다면 환자이름을 기준으로 오름차순으로 정렬했습니다.
