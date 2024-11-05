@@ -40,7 +40,7 @@ date: 2024-11-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 12세 이하인 여자 환자 목록 출력하기 (with. MySQL) 에 대하여 알아본 글입니다.
+## 조건에 맞는 도서 리스트 출력하기 (with.MySQL) 에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,15 +52,15 @@ date: 2024-11-05 09:00:00 +0900
 
 ### 문제
 
-PATIENT 테이블에서 12세 이하인 여자환자의 환자이름, 환자번호, 성별코드, 나이, 전화번호를 조회하는 SQL문을 작성해주세요.
+BOOK 테이블에서 2021년에 출판된 '인문' 카테고리에 속하는 도서 리스트를 찾아서 도서 ID(BOOK_ID), 출판일 (PUBLISHED_DATE)을 출력하는 SQL문을 작성해주세요.
+결과는 출판일을 기준으로 오름차순 정렬해주세요.
 
-이때 전화번호가 없는 경우, 'NONE'으로 출력시켜 주시고 결과는 나이를 기준으로 내림차순 정렬하고, 나이 같다면 환자이름을 기준으로 오름차순 정렬해주세요.
+문제설명
+다음은 어느 한 서점에서 판매중인 도서들의 도서 정보(BOOK) 테이블입니다.
 
-다음은 종합병원에 등록된 환자정보를 담은 PATIENT 테이블입니다.
+BOOK 테이블은 각 도서의 정보를 담은 테이블로 아래와 같은 구조로 되어있습니다.
 
-PATIENT 테이블은 다음과 같으며 PT_NO, PT_NAME, GEND_CD, AGE, TLNO는 각각 환자번호, 환자이름, 성별코드, 나이, 전화번호를 의미합니다.
-
-#### PATIENT 테이블
+#### BOOK 테이블
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |
@@ -77,13 +77,13 @@ PATIENT 테이블은 다음과 같으며 PT_NO, PT_NAME, GEND_CD, AGE, TLNO는 �
 
 <!-- #### 입출력 예 -->
 
-| Column name | Type        | Nullable |
-| ----------- | ----------- | -------- |
-| PT_NO       | VARCHAR(10) | FALSE    |
-| PT_NAME     | VARCHAR(20) | FALSE    |
-| GEND_CD     | VARCHAR(1)  | FALSE    |
-| AGE         | INTEGER     | FALSE    |
-| TLNO        | VARCHAR(50) | TRUE     |
+| Column name    | Type       | Nullable | Description                             |
+| -------------- | ---------- | -------- | --------------------------------------- |
+| BOOK_ID        | INTEGER    | FALSE    | 도서ID                                  |
+| CATEGORY       | VARCHAR(N) | FALSE    | 카테고리 (경제, 인문, 소설, 생활, 기술) |
+| AUTHOR_ID      | INTEGER    | FALSE    | 저자ID                                  |
+| PRICE          | INTEGER    | FALSE    | 판매가 (원)                             |
+| PUBLISHED_DATE | DATE       | FALSE    | 출판일                                  |
 
 <!-- | a                                     | result |
 | ------------------------------------- | ------ |
@@ -98,14 +98,13 @@ PATIENT 테이블은 다음과 같으며 PT_NO, PT_NAME, GEND_CD, AGE, TLNO는 �
 ### 문제 풀이
 
 ```sql
-SELECT PT_NAME, PT_NO, GEND_CD, AGE, IFNULL(TLNO, "NONE") AS TLNO
-FROM PATIENT
-WHERE AGE <= 12 AND GEND_CD = "W"
-ORDER BY AGE DESC, PT_NAME ASC
+SELECT BOOK_ID, DATE_FORMAT(PUBLISHED_DATE, '%Y-%m-%d') AS PUBLISHED_DATE
+FROM BOOK
+WHERE SUBSTR(PUBLISHED_DATE, 1, 4) = '2021' AND CATEGORY = '인문'
 ```
 
 #### 풀이 설명
 
-IFNULL 함수를 통해 NULL 값에 대한 처리를 해주고, 나이와 성별의 조건을 AND로 묶어처리하였습니다.
+DATE_FORMAT 함수를 사용해 날짜를 요구되는 형식으로 포맷팅해줍니다.
 
-정렬은 나이로 내림차순을 진행하고, 나이가 같다면 환자이름을 기준으로 오름차순으로 정렬했습니다.
+SUBSTR을 이용해 2021년을 필터링하여 조건에 부합하는지 확인한 뒤, AND로 카테고리가 인문인지 확인하여 출력합니다.

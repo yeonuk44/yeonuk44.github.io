@@ -40,27 +40,27 @@ date: 2024-11-05 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 12세 이하인 여자 환자 목록 출력하기 (with. MySQL) 에 대하여 알아본 글입니다.
+## This article is about printing a list of books that meet the conditions (with.MySQL).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-PATIENT 테이블에서 12세 이하인 여자환자의 환자이름, 환자번호, 성별코드, 나이, 전화번호를 조회하는 SQL문을 작성해주세요.
+In the BOOK table, please find a list of books belonging to the 'Humanities' category published in 2021 and write a SQL statement that outputs the book ID (BOOK_ID) and the date of publication (PUBLISHED_DATE).
+Please arrange the results in ascending order based on the publication date.
 
-이때 전화번호가 없는 경우, 'NONE'으로 출력시켜 주시고 결과는 나이를 기준으로 내림차순 정렬하고, 나이 같다면 환자이름을 기준으로 오름차순 정렬해주세요.
+Problem Description
+The following is a book table of books sold at a bookstore.
 
-다음은 종합병원에 등록된 환자정보를 담은 PATIENT 테이블입니다.
+The Book Table is a table containing information on each book and has the following structure.
 
-PATIENT 테이블은 다음과 같으며 PT_NO, PT_NAME, GEND_CD, AGE, TLNO는 각각 환자번호, 환자이름, 성별코드, 나이, 전화번호를 의미합니다.
-
-#### PATIENT 테이블
+#### BOOK TABLE
 
 <!-- | NAME           | TYPE    | NULLABLE |
 | -------------- | ------- | -------- |
@@ -68,22 +68,22 @@ PATIENT 테이블은 다음과 같으며 PT_NO, PT_NAME, GEND_CD, AGE, TLNO는 �
 | PARENT_ID      | INTEGER | TRUE     |
 | SIZE_OF_COLONY | INTEGER | FALSE    | -->
 
-<!-- #### 제한사항
+<!-- #### restrictions
 
-- a의 길이는 1 이상 1,000,000 이하입니다.
-- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
-- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다. -->
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different -->
 
-<!-- #### 입출력 예 -->
+<!-- #### I/O Yes -->
 
-| Column name | Type        | Nullable |
-| ----------- | ----------- | -------- |
-| PT_NO       | VARCHAR(10) | FALSE    |
-| PT_NAME     | VARCHAR(20) | FALSE    |
-| GEND_CD     | VARCHAR(1)  | FALSE    |
-| AGE         | INTEGER     | FALSE    |
-| TLNO        | VARCHAR(50) | TRUE     |
+| Column name    | Type       | Nullable | Description                                              |
+| -------------- | ---------- | -------- | -------------------------------------------------------- |
+| BOOK_ID        | INTEGER    | FALSE    | 도서ID                                                   |
+| CATEGORY       | VARCHAR(N) | FALSE    | Category (Economy, Humanities, Novels, Life, Technology) |
+| AUTHOR_ID      | INTEGER    | FALSE    | 저자ID                                                   |
+| PRICE          | INTEGER    | FALSE    | Sale Price (KRW)                                         |
+| PUBLISHED_DATE | DATE       | FALSE    | 출판일                                                   |
 
 <!-- | a                                     | result |
 | ------------------------------------- | ------ |
@@ -95,17 +95,16 @@ PATIENT 테이블은 다음과 같으며 PT_NO, PT_NAME, GEND_CD, AGE, TLNO는 �
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
 | "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
 
-### 문제 풀이
+### problem solving
 
 ```sql
-SELECT PT_NAME, PT_NO, GEND_CD, AGE, IFNULL(TLNO, "NONE") AS TLNO
-FROM PATIENT
-WHERE AGE <= 12 AND GEND_CD = "W"
-ORDER BY AGE DESC, PT_NAME ASC
+SELECT BOOK_ID, DATE_FORMAT(PUBLISHED_DATE, '%Y-%m-%d') AS PUBLISHED_DATE
+FROM BOOK
+WHERE SUBSTR(PUBLISHED_DATE, 1, 4) = '2021' AND CATEGORY = '인문'
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-IFNULL 함수를 통해 NULL 값에 대한 처리를 해주고, 나이와 성별의 조건을 AND로 묶어처리하였습니다.
+Use the DATE_FORMAT function to format the date in the required format.
 
-정렬은 나이로 내림차순을 진행하고, 나이가 같다면 환자이름을 기준으로 오름차순으로 정렬했습니다.
+After filtering 2021 using SUBSTR to see if it meets the conditions, check whether the category is humanities and print it out with AND.
