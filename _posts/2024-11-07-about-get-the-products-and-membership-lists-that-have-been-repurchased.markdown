@@ -40,71 +40,89 @@ date: 2024-11-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 재구매가 일어난 상품과 회원 리스트 구하기 (with.MySQL) 에 대하여 알아본 글입니다.
+## This is an article about the products that have been repurchased and the membership list (with.MySQL).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-BOOK 테이블에서 2021년에 출판된 '인문' 카테고리에 속하는 도서 리스트를 찾아서 도서 ID(BOOK_ID), 출판일 (PUBLISHED_DATE)을 출력하는 SQL문을 작성해주세요.
-결과는 출판일을 기준으로 오름차순 정렬해주세요.
+From the ONLINE_SALE table, obtain the data of the same member repurchasing the same product, and write a SQL statement that outputs the repurchased member ID and repurchased product ID.
 
-문제설명
-다음은 어느 한 서점에서 판매중인 도서들의 도서 정보(BOOK) 테이블입니다.
+Please arrange the results in ascending order based on the member ID and if the member ID is the same, please arrange them in descending order based on the product ID.
 
-BOOK 테이블은 각 도서의 정보를 담은 테이블로 아래와 같은 구조로 되어있습니다.
+Problem Description
 
-#### BOOK 테이블
+The following is the ONLINE_SALE table containing online product sales information of a clothing shopping mall.
 
-<!-- | NAME           | TYPE    | NULLABLE |
+The ONLINE_SALE table is structured as follows, and ONLINE_SALE_ID, USER_ID, PRODUCT_ID, SALES_AMOUNT, SALES_DATE represents online product sales ID, member ID, product sales volume, and sales date, respectively.
+
+#### ONLINE_SALE table
+
+<!-- #### restrictions
+
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different -->
+
+<!-- #### I/O Yes -->
+
+| Column name    | Type    | Nullable |
 | -------------- | ------- | -------- |
-| ID             | INTEGER | FALSE    |
-| PARENT_ID      | INTEGER | TRUE     |
-| SIZE_OF_COLONY | INTEGER | FALSE    | -->
+| ONLINE_SALE_ID | INTEGER | FALSE    |
+| USER_ID        | INTEGER | FALSE    |
+| PRODUCT_ID     | INTEGER | FALSE    |
+| SALES_AMOUNT   | INTEGER | FALSE    |
+| SALES_DATE     | DATE    | FALSE    |
 
-<!-- #### 제한사항
+Only one sales data exists for the same date, member ID, and product ID combination.
 
-- a의 길이는 1 이상 1,000,000 이하입니다.
-- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
-- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다. -->
-
-<!-- #### 입출력 예 -->
-
-| Column name    | Type       | Nullable | Description                             |
-| -------------- | ---------- | -------- | --------------------------------------- |
-| BOOK_ID        | INTEGER    | FALSE    | 도서ID                                  |
-| CATEGORY       | VARCHAR(N) | FALSE    | 카테고리 (경제, 인문, 소설, 생활, 기술) |
-| AUTHOR_ID      | INTEGER    | FALSE    | 저자ID                                  |
-| PRICE          | INTEGER    | FALSE    | 판매가 (원)                             |
-| PUBLISHED_DATE | DATE       | FALSE    | 출판일                                  |
-
-<!-- | a                                     | result |
-| ------------------------------------- | ------ |
-| [9,-1,-5]                             | 3      |
-| [-16,27,65,-2,58,-92,-71,-68,-61,-33] | 6      | -->
-
-<!-- | begin | target | words                                      | return |
-| ----- | ------ | ------------------------------------------ | ------ |
-| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
-| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
-
-### 문제 풀이
+### problem solving
 
 ```sql
-SELECT BOOK_ID, DATE_FORMAT(PUBLISHED_DATE, '%Y-%m-%d') AS PUBLISHED_DATE
-FROM BOOK
-WHERE SUBSTR(PUBLISHED_DATE, 1, 4) = '2021' AND CATEGORY = '인문'
+SELECT USER_ID, PRODUCT_ID
+FROM ONLINE_SALE
+GROUP BY USER_ID, PRODUCT_ID
+HAVING COUNT(*) >= 2
+ORDER BY USER_ID, PRODUCT_ID DESC;
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-DATE_FORMAT 함수를 사용해 날짜를 요구되는 형식으로 포맷팅해줍니다.
+This SQL query queries information about goods purchased more than once by a particular user and returns results sorted by user ID and product ID.
 
-SUBSTR을 이용해 2021년을 필터링하여 조건에 부합하는지 확인한 뒤, AND로 카테고리가 인문인지 확인하여 출력합니다.
+The query extracts data from the ONLINE_SALE table, and the main components are as follows.
+
+First, the SELECT section specifies the columns to look up.
+
+USER_ID is the user's unique identifier, PRODUCT_ID is the product's unique identifier, which outputs these two columns as a result.
+
+The FROM section then specifies the default table on which to run the query.
+
+In this case, the ONLINE_SALE table is used.
+
+Next, the GROUP BY section groups the data based on USER_ID and PRODUCT_ID.
+
+This allows you to group purchase records by each user and product combination.
+
+The HAVING section then selects only groups that meet specific conditions among grouped data.
+
+HAVING COUNT(\*) >=2 selects when there are more than two records in the group.
+
+This means that a particular user has purchased the same product more than once.
+
+Finally, sort the results through the ORDER BY clause.
+
+Sort in ascending order based on USER_ID, and within the same user, sort in descending order based on PRODUCT_ID.
+
+This allows each user to view items purchased more than once in order of user ID.
+
+This query allows you to query the user ID and product ID of a product that a particular user has purchased more than once.
+
+This allows you to analyze recurring purchase patterns and get insights on specific users and product combinations.

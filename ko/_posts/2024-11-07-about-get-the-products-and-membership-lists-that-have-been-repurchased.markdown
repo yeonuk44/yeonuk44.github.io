@@ -52,21 +52,17 @@ date: 2024-11-07 09:00:00 +0900
 
 ### 문제
 
-BOOK 테이블에서 2021년에 출판된 '인문' 카테고리에 속하는 도서 리스트를 찾아서 도서 ID(BOOK_ID), 출판일 (PUBLISHED_DATE)을 출력하는 SQL문을 작성해주세요.
-결과는 출판일을 기준으로 오름차순 정렬해주세요.
+ONLINE_SALE 테이블에서 동일한 회원이 동일한 상품을 재구매한 데이터를 구하여, 재구매한 회원 ID와 재구매한 상품 ID를 출력하는 SQL문을 작성해주세요.
+
+결과는 회원 ID를 기준으로 오름차순 정렬해주시고 회원 ID가 같다면 상품 ID를 기준으로 내림차순 정렬해주세요.
 
 문제설명
-다음은 어느 한 서점에서 판매중인 도서들의 도서 정보(BOOK) 테이블입니다.
 
-BOOK 테이블은 각 도서의 정보를 담은 테이블로 아래와 같은 구조로 되어있습니다.
+다음은 어느 의류 쇼핑몰의 온라인 상품 판매 정보를 담은 ONLINE_SALE 테이블 입니다.
 
-#### BOOK 테이블
+ONLINE_SALE 테이블은 아래와 같은 구조로 되어있으며 ONLINE_SALE_ID, USER_ID, PRODUCT_ID, SALES_AMOUNT, SALES_DATE는 각각 온라인 상품 판매 ID, 회원 ID, 상품 ID, 판매량, 판매일을 나타냅니다.
 
-<!-- | NAME           | TYPE    | NULLABLE |
-| -------------- | ------- | -------- |
-| ID             | INTEGER | FALSE    |
-| PARENT_ID      | INTEGER | TRUE     |
-| SIZE_OF_COLONY | INTEGER | FALSE    | -->
+#### ONLINE_SALE 테이블
 
 <!-- #### 제한사항
 
@@ -77,34 +73,56 @@ BOOK 테이블은 각 도서의 정보를 담은 테이블로 아래와 같은 �
 
 <!-- #### 입출력 예 -->
 
-| Column name    | Type       | Nullable | Description                             |
-| -------------- | ---------- | -------- | --------------------------------------- |
-| BOOK_ID        | INTEGER    | FALSE    | 도서ID                                  |
-| CATEGORY       | VARCHAR(N) | FALSE    | 카테고리 (경제, 인문, 소설, 생활, 기술) |
-| AUTHOR_ID      | INTEGER    | FALSE    | 저자ID                                  |
-| PRICE          | INTEGER    | FALSE    | 판매가 (원)                             |
-| PUBLISHED_DATE | DATE       | FALSE    | 출판일                                  |
+| Column name    | Type    | Nullable |
+| -------------- | ------- | -------- |
+| ONLINE_SALE_ID | INTEGER | FALSE    |
+| USER_ID        | INTEGER | FALSE    |
+| PRODUCT_ID     | INTEGER | FALSE    |
+| SALES_AMOUNT   | INTEGER | FALSE    |
+| SALES_DATE     | DATE    | FALSE    |
 
-<!-- | a                                     | result |
-| ------------------------------------- | ------ |
-| [9,-1,-5]                             | 3      |
-| [-16,27,65,-2,58,-92,-71,-68,-61,-33] | 6      | -->
-
-<!-- | begin | target | words                                      | return |
-| ----- | ------ | ------------------------------------------ | ------ |
-| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log", "cog"] | 4      |
-| "hit" | "cog"  | ["hot", "dot", "dog", "lot", "log"]        | 0      | -->
+동일한 날짜, 회원 ID, 상품 ID 조합에 대해서는 하나의 판매 데이터만 존재합니다.
 
 ### 문제 풀이
 
 ```sql
-SELECT BOOK_ID, DATE_FORMAT(PUBLISHED_DATE, '%Y-%m-%d') AS PUBLISHED_DATE
-FROM BOOK
-WHERE SUBSTR(PUBLISHED_DATE, 1, 4) = '2021' AND CATEGORY = '인문'
+SELECT USER_ID, PRODUCT_ID
+FROM ONLINE_SALE
+GROUP BY USER_ID, PRODUCT_ID
+HAVING COUNT(*) >= 2
+ORDER BY USER_ID, PRODUCT_ID DESC;
 ```
 
 #### 풀이 설명
 
-DATE_FORMAT 함수를 사용해 날짜를 요구되는 형식으로 포맷팅해줍니다.
+이 SQL 쿼리는 특정 사용자가 두 번 이상 구매한 상품의 정보를 조회하여 사용자 ID와 상품 ID 순으로 정렬된 결과를 반환합니다.
 
-SUBSTR을 이용해 2021년을 필터링하여 조건에 부합하는지 확인한 뒤, AND로 카테고리가 인문인지 확인하여 출력합니다.
+쿼리는 ONLINE_SALE 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+
+먼저 SELECT 절에서는 조회할 열을 지정합니다.
+
+USER_ID는 사용자의 고유 식별자, PRODUCT_ID는 상품의 고유 식별자를 의미하며, 이 두 열을 결과로 출력합니다.
+
+이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
+
+이 경우 ONLINE_SALE 테이블이 사용됩니다.
+
+다음으로 GROUP BY 절에서는 USER_ID와 PRODUCT_ID를 기준으로 데이터를 그룹화합니다.
+
+이를 통해 각 사용자와 상품 조합별로 구매 기록을 그룹화할 수 있습니다.
+
+그 후 HAVING 절에서는 그룹화된 데이터 중에서 특정 조건을 만족하는 그룹만을 선택합니다.
+
+HAVING COUNT(\*) >= 2는 그룹 내 레코드 수가 2개 이상인 경우를 선택합니다.
+
+이는 특정 사용자가 동일한 상품을 두 번 이상 구매한 경우를 의미합니다.
+
+마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
+
+USER_ID를 기준으로 오름차순 정렬하고, 동일 사용자 내에서는 PRODUCT_ID를 기준으로 내림차순 정렬합니다.
+
+이를 통해 각 사용자가 두 번 이상 구매한 상품을 사용자 ID 순으로 정렬된 상태에서 확인할 수 있습니다.
+
+이 쿼리를 통해 특정 사용자가 두 번 이상 구매한 상품의 사용자 ID와 상품 ID를 조회할 수 있습니다.
+
+이를 통해 반복 구매 패턴을 분석하고, 특정 사용자와 상품 조합에 대한 인사이트를 얻을 수 있습니다.
