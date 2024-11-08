@@ -40,89 +40,54 @@ date: 2024-11-08 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 모든 레코드 조회하기 (with.MySQL) 에 대하여 알아본 글입니다.
+## This article is about all records inquiry (with.MySQL).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-ONLINE_SALE 테이블에서 동일한 회원이 동일한 상품을 재구매한 데이터를 구하여, 재구매한 회원 ID와 재구매한 상품 ID를 출력하는 SQL문을 작성해주세요.
+Please write a SQL statement that looks up the information of all animals that entered the animal shelter in ANIMAL_ID order.
 
-결과는 회원 ID를 기준으로 오름차순 정렬해주시고 회원 ID가 같다면 상품 ID를 기준으로 내림차순 정렬해주세요.
+Problem Description
 
-문제설명
+The ANIMAL_INS table is a table that contains information about animals that have entered the animal shelter.
 
-다음은 어느 의류 쇼핑몰의 온라인 상품 판매 정보를 담은 ONLINE_SALE 테이블 입니다.
+ANIMAL_INS table structures are as follows: ANIMAL_ID, ANIMAL_TYPE, DATETIME, INTAKE_CONDITION, NAME, SEX_UPON_INTAKE indicate the animal's ID, species, start date of protection, status, name, gender, and neutralization at the start of protection, respectively.
 
-ONLINE_SALE 테이블은 아래와 같은 구조로 되어있으며 ONLINE_SALE_ID, USER_ID, PRODUCT_ID, SALES_AMOUNT, SALES_DATE는 각각 온라인 상품 판매 ID, 회원 ID, 상품 ID, 판매량, 판매일을 나타냅니다.
+#### ANIMAL_INS table
 
-#### ONLINE_SALE 테이블
+<!-- #### restrictions
 
-<!-- #### 제한사항
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different -->
 
-- a의 길이는 1 이상 1,000,000 이하입니다.
-- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
-- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다. -->
+<!-- #### I/O Yes -->
 
-<!-- #### 입출력 예 -->
+| NAME             | TYPE       | NULLABLE |
+| ---------------- | ---------- | -------- |
+| ANIMAL_ID        | VARCHAR(N) | FALSE    |
+| ANIMAL_TYPE      | VARCHAR(N) | FALSE    |
+| DATETIME         | DATETIME   | FALSE    |
+| INTAKE_CONDITION | VARCHAR(N) | FALSE    |
+| NAME             | VARCHAR(N) | TRUE     |
+| SEX_UPON_INTAKE  | VARCHAR(N) | FALSE    |
 
-| Column name    | Type    | Nullable |
-| -------------- | ------- | -------- |
-| ONLINE_SALE_ID | INTEGER | FALSE    |
-| USER_ID        | INTEGER | FALSE    |
-| PRODUCT_ID     | INTEGER | FALSE    |
-| SALES_AMOUNT   | INTEGER | FALSE    |
-| SALES_DATE     | DATE    | FALSE    |
-
-동일한 날짜, 회원 ID, 상품 ID 조합에 대해서는 하나의 판매 데이터만 존재합니다.
-
-### 문제 풀이
+### problem solving
 
 ```sql
-SELECT USER_ID, PRODUCT_ID
-FROM ONLINE_SALE
-GROUP BY USER_ID, PRODUCT_ID
-HAVING COUNT(*) >= 2
-ORDER BY USER_ID, PRODUCT_ID DESC;
+SELECT ANIMAL_ID, ANIMAL_TYPE, DATETIME, INTAKE_CONDITION, NAME, SEX_UPON_INTAKE
+FROM ANIMAL_INS
+ORDER BY ANIMAL_ID
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 SQL 쿼리는 특정 사용자가 두 번 이상 구매한 상품의 정보를 조회하여 사용자 ID와 상품 ID 순으로 정렬된 결과를 반환합니다.
-
-쿼리는 ONLINE_SALE 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
-
-먼저 SELECT 절에서는 조회할 열을 지정합니다.
-
-USER_ID는 사용자의 고유 식별자, PRODUCT_ID는 상품의 고유 식별자를 의미하며, 이 두 열을 결과로 출력합니다.
-
-이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
-
-이 경우 ONLINE_SALE 테이블이 사용됩니다.
-
-다음으로 GROUP BY 절에서는 USER_ID와 PRODUCT_ID를 기준으로 데이터를 그룹화합니다.
-
-이를 통해 각 사용자와 상품 조합별로 구매 기록을 그룹화할 수 있습니다.
-
-그 후 HAVING 절에서는 그룹화된 데이터 중에서 특정 조건을 만족하는 그룹만을 선택합니다.
-
-HAVING COUNT(\*) >= 2는 그룹 내 레코드 수가 2개 이상인 경우를 선택합니다.
-
-이는 특정 사용자가 동일한 상품을 두 번 이상 구매한 경우를 의미합니다.
-
-마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
-
-USER_ID를 기준으로 오름차순 정렬하고, 동일 사용자 내에서는 PRODUCT_ID를 기준으로 내림차순 정렬합니다.
-
-이를 통해 각 사용자가 두 번 이상 구매한 상품을 사용자 ID 순으로 정렬된 상태에서 확인할 수 있습니다.
-
-이 쿼리를 통해 특정 사용자가 두 번 이상 구매한 상품의 사용자 ID와 상품 ID를 조회할 수 있습니다.
-
-이를 통해 반복 구매 패턴을 분석하고, 특정 사용자와 상품 조합에 대한 인사이트를 얻을 수 있습니다.
+All columns corresponding to the animal information required in the problem were output and ANIMAL_ID was sorted in ascending order.
