@@ -52,7 +52,7 @@ date: 2024-11-13 09:00:00 +0900
 
 ### 문제
 
-동물 보호소에 들어온 동물 중 젊은 동물1의 아이디와 이름을 조회하는 SQL 문을 작성해주세요.
+동물 보호소에 들어온 동물 중 아픈 동물1의 아이디와 이름을 조회하는 SQL 문을 작성해주세요.
 
 이때 결과는 아이디 순으로 조회해주세요.
 
@@ -87,10 +87,10 @@ ANIMAL_INS 테이블 구조는 다음과 같으며, ANIMAL_ID, ANIMAL_TYPE, DATE
 ```sql
 SELECT ANIMAL_ID, NAME
 FROM ANIMAL_INS
-WHERE INTAKE_CONDITION != "Aged"
+WHERE INTAKE_CONDITION = "Sick"
 ORDER BY ANIMAL_ID;
 ```
 
 #### 풀이 설명
 
-문제에서 요구되는 ANIMAL_INS 테이블에서 젊은 동물의 아이디와 이름을 조회하고, 결과는 아이디 순으로 조회했습니다.
+문제에서 요구되는 ANIMAL_INS 테이블에서 아픈 상태의 모든 동물의 ID와 이름을 출력하고, ID의 오름차순으로 정렬했습니다.
