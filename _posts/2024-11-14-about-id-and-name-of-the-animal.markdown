@@ -40,38 +40,38 @@ date: 2024-11-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 동물의 아이디와 이름(with.MySQL) 에 대하여 알아본 글입니다.
+## This is an article about the ID and name of animals (with.MySQL).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-동물 보호소에 들어온 동물 중 아픈 동물1의 아이디와 이름을 조회하는 SQL 문을 작성해주세요.
+Please write a SQL statement that looks up the ID and name of the young animal 1 among the animals that came into the animal shelter.
 
-이때 결과는 아이디 순으로 조회해주세요.
+At this time, please check the results in the order of ID.
 
-문제설명
+Problem Description
 
-ANIMAL_INS 테이블은 동물 보호소에 들어온 동물의 정보를 담은 테이블입니다.
+The ANIMAL_INS table is a table that contains information about animals that have entered the animal shelter.
 
-ANIMAL_INS 테이블 구조는 다음과 같으며, ANIMAL_ID, ANIMAL_TYPE, DATETIME, INTAKE_CONDITION, NAME, SEX_UPON_INTAKE는 각각 동물의 아이디, 생물 종, 보호 시작일, 보호 시작 시 상태, 이름, 성별 및 중성화 여부를 나타냅니다.
+ANIMAL_INS table structures are as follows: ANIMAL_ID, ANIMAL_TYPE, DATETIME, INTAKE_CONDITION, NAME, SEX_UPON_INTAKE indicate the animal's ID, species, start date of protection, status, name, gender, and neutralization at the start of protection, respectively.
 
-#### ANIMAL_INS 테이블
+#### ANIMAL_INS table
 
-<!-- #### 제한사항
+<!-- #### restrictions
 
-- a의 길이는 1 이상 1,000,000 이하입니다.
-- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
-- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다. -->
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different -->
 
-<!-- #### 입출력 예 -->
+<!-- #### I/O Yes -->
 
 | NAME             | TYPE       | NULLABLE |
 | ---------------- | ---------- | -------- |
@@ -82,15 +82,15 @@ ANIMAL_INS 테이블 구조는 다음과 같으며, ANIMAL_ID, ANIMAL_TYPE, DATE
 | NAME             | VARCHAR(N) | TRUE     |
 | SEX_UPON_INTAKE  | VARCHAR(N) | FALSE    |
 
-### 문제 풀이
+### problem solving
 
 ```sql
 SELECT ANIMAL_ID, NAME
 FROM ANIMAL_INS
-WHERE INTAKE_CONDITION = "Sick"
+WHERE INTAKE_CONDITION != "Aged"
 ORDER BY ANIMAL_ID;
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-문제에서 요구되는 ANIMAL_INS 테이블에서 아픈 상태의 모든 동물의 ID와 이름을 출력하고, ID의 오름차순으로 정렬했습니다.
+The ID and name of young animals were searched in the ANIMAL_INS table required in the problem, and the results were searched in order of ID.
