@@ -52,9 +52,9 @@ date: 2024-11-15 09:00:00 +0900
 
 ### 문제
 
-동물 보호소에 들어온 동물 중 젊은 동물1의 아이디와 이름을 조회하는 SQL 문을 작성해주세요.
+동물 보호소에 들어온 모든 동물의 아이디와 이름, 보호 시작일을 이름 순으로 조회하는 SQL문을 작성해주세요.
 
-이때 결과는 아이디 순으로 조회해주세요.
+단, 이름이 같은 동물 중에서는 보호를 나중에 시작한 동물을 먼저 보여줘야 합니다.
 
 문제설명
 
@@ -85,12 +85,11 @@ ANIMAL_INS 테이블 구조는 다음과 같으며, ANIMAL_ID, ANIMAL_TYPE, DATE
 ### 문제 풀이
 
 ```sql
-SELECT ANIMAL_ID, NAME
+SELECT ANIMAL_ID, NAME, DATETIME
 FROM ANIMAL_INS
-WHERE INTAKE_CONDITION != "Aged"
-ORDER BY ANIMAL_ID;
+ORDER BY NAME, DATETIME DESC;
 ```
 
 #### 풀이 설명
 
-문제에서 요구되는 ANIMAL_INS 테이블에서 젊은 동물의 아이디와 이름을 조회하고, 결과는 아이디 순으로 조회했습니다.
+문제에서 요구되는 ANIMAL_INS 테이블에서 모든 동물의 아이디와 이름, 보호 시작일을 이름순으로 조회하고, 이름이 같은 동물이 있다면 보호를 나중에 시작한 동물을 먼저 보여주도록 출력하였습니다.
