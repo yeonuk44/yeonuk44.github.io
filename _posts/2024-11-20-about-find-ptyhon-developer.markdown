@@ -40,56 +40,84 @@ date: 2024-11-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## Python 개발자 찾기 (with.MySQL) 에 대하여 알아본 글입니다.
+## This article is about Python Developer Search (with.MySQL).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-USER_INFO 테이블에서 2021년에 가입한 회원 중 나이가 20세 이상 29세 이하인 회원이 몇 명인지 출력하는 SQL문을 작성해주세요.
+You want to query the information of a developer with Python skills in the DEVELOPER_INFOS table.
 
-문제설명
+Please write a SQL statement that looks up the ID, email, name, and last name of a developer with Python skills.
 
-다음은 어느 의류 쇼핑몰에 가입한 회원 정보를 담은 USER_INFO 테이블입니다.
+Please arrange the results in ascending order based on the ID.
 
-USER_INFO 테이블은 아래와 같은 구조로 되어있으며 USER_ID, GENDER, AGE, JOINED는 각각 회원 ID, 성별, 나이, 가입일을 나타냅니다.
+Problem Description
 
-#### USER_INFO 테이블
+The DEVELOPER_INFOS table is a table that contains information about developers' programming skills.
 
-<!-- #### 제한사항
+The table structure of DEVELOPER_INFOS is as follows: ID, FIRST_NAME, LAST_NAME, EMAIL, SKILL_1, SKILL_2, and SKILL_3 mean ID, name, last name, email, first skill, second skill, and third skill, respectively.
 
-- a의 길이는 1 이상 1,000,000 이하입니다.
-- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
-- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다. -->
+#### USER_INFO Table
 
-<!-- #### 입출력 예 -->
+<!-- #### restrictions
 
-| Column name | Type       | Nullable |
-| ----------- | ---------- | -------- |
-| USER_ID     | INTEGER    | FALSE    |
-| GENDER      | TINYINT(1) | TRUE     |
-| AGE         | INTEGER    | TRUE     |
-| JOINED      | DATE       | FALSE    |
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different -->
 
-GENDER 컬럼은 비어있거나 0 또는 1의 값을 가지며 0인 경우 남자를, 1인 경우는 여자를 나타냅니다.
+<!-- #### I/O Yes -->
 
-### 문제 풀이
+| NAME       | TYPE       | UNIQUE | NULLABLE |
+| ---------- | ---------- | ------ | -------- |
+| ID         | VARCHAR(N) | Y      | N        |
+| FIRST_NAME | VARCHAR(N) | N      | Y        |
+| LAST_NAME  | VARCHAR(N) | N      | Y        |
+| EMAIL      | VARCHAR(N) | Y      | N        |
+| SKILL_1    | VARCHAR(N) | N      | Y        |
+| SKILL_2    | VARCHAR(N) | N      | Y        |
+| SKILL_3    | VARCHAR(N) | N      | Y        |
+
+### problem solving
 
 ```sql
-SELECT COUNT(USER_ID) AS USERS
-FROM USER_INFO
-WHERE YEAR(JOINED) = '2021' AND AGE >= 20 AND AGE <= 29;
+SELECT ID, EMAIL, FIRST_NAME, LAST_NAME
+FROM DEVELOPER_INFOS
+WHERE "Python" IN (SKILL_1, SKILL_2, SKILL_3)
+ORDER BY ID;
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-조건에 부합하는 유저를 카운팅하기 위해 COUNT 함수를 사용하였습니다.
+This SQL query queries information from developers with specific skills and returns results sorted by developer ID.
 
-2021년과 나이 제한을 조건문에 작성해 필터링하였습니다.
+The query extracts data from the DEVELOPER_INFOS table, and the main components are as follows.
+
+First, the SELECT section specifies the columns to look up.
+
+ID is the developer's unique identifier, EMAIL is the developer's email address, and FIRST_NAME and LAST_NAME are the developer's first and last names, respectively, and these four information are output as a result.
+
+The FROM section then specifies the default table on which to run the query.
+
+In this case, the DEVELOPER_INFOS table is used.
+
+Next, in the WHERE section, you set specific conditions to filter the data you need.
+
+"Python" IN (SKILL_1, SKILL_2, SKILL_3) selects any of the three technologies owned by the developer that contain "Python".
+
+This allows only developers with Python technology to look up.
+
+Finally, sort the results through the ORDER BY clause.
+
+You can sort the result in ascending order based on the ID, in order of developer ID.
+
+This query allows you to look up the ID, email, first name, and last name of developers with Python technology.
+
+This makes it easy to identify information about developers with specific skills and can be useful for analysis or recruitment processes based on technical capabilities.
