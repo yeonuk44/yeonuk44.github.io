@@ -52,17 +52,15 @@ date: 2024-11-21 09:00:00 +0900
 
 ### 문제
 
-DEVELOPER_INFOS 테이블에서 Python 스킬을 가진 개발자의 정보를 조회하려 합니다.
+잡은 물고기 중 길이가 10cm 이하인 물고기의 수를 출력하는 SQL 문을 작성해주세요.
 
-Python 스킬을 가진 개발자의 ID, 이메일, 이름, 성을 조회하는 SQL 문을 작성해 주세요.
-
-결과는 ID를 기준으로 오름차순 정렬해 주세요.
+물고기의 수를 나타내는 컬럼 명은 FISH_COUNT로 해주세요.
 
 문제설명
 
-DEVELOPER_INFOS 테이블은 개발자들의 프로그래밍 스킬 정보를 담은 테이블입니다.
+낚시앱에서 사용하는 FISH_INFO 테이블은 잡은 물고기들의 정보를 담고 있습니다.
 
-DEVELOPER_INFOS 테이블 구조는 다음과 같으며, ID, FIRST_NAME, LAST_NAME, EMAIL, SKILL_1, SKILL_2, SKILL_3는 각각 ID, 이름, 성, 이메일, 첫 번째 스킬, 두 번째 스킬, 세 번째 스킬을 의미합니다.
+FISH_INFO 테이블의 구조는 다음과 같으며 ID, FISH_TYPE, LENGTH, TIME은 각각 잡은 물고기의 ID, 물고기의 종류(숫자), 잡은 물고기의 길이(cm), 물고기를 잡은 날짜를 나타냅니다.
 
 #### USER_INFO 테이블
 
@@ -75,49 +73,41 @@ DEVELOPER_INFOS 테이블 구조는 다음과 같으며, ID, FIRST_NAME, LAST_NA
 
 <!-- #### 입출력 예 -->
 
-| NAME       | TYPE       | UNIQUE | NULLABLE |
-| ---------- | ---------- | ------ | -------- |
-| ID         | VARCHAR(N) | Y      | N        |
-| FIRST_NAME | VARCHAR(N) | N      | Y        |
-| LAST_NAME  | VARCHAR(N) | N      | Y        |
-| EMAIL      | VARCHAR(N) | Y      | N        |
-| SKILL_1    | VARCHAR(N) | N      | Y        |
-| SKILL_2    | VARCHAR(N) | N      | Y        |
-| SKILL_3    | VARCHAR(N) | N      | Y        |
+| Column name | Type    | Nullable |
+| ----------- | ------- | -------- |
+| ID          | INTEGER | FALSE    |
+| FISH_TYPE   | INTEGER | FALSE    |
+| LENGTH      | FLOAT   | TRUE     |
+| TIME        | DATE    | FALSE    |
+
+단, 잡은 물고기의 길이가 10cm 이하일 경우에는 LENGTH 가 NULL 이며, LENGTH 에 NULL 만 있는 경우는 없습니다.
 
 ### 문제 풀이
 
 ```sql
-SELECT ID, EMAIL, FIRST_NAME, LAST_NAME
-FROM DEVELOPER_INFOS
-WHERE "Python" IN (SKILL_1, SKILL_2, SKILL_3)
-ORDER BY ID;
+SELECT COUNT(*) AS FISH_COUNT
+FROM FISH_INFO
+WHERE LENGTH <= 10 OR LENGTH IS NULL;
 ```
 
 #### 풀이 설명
 
-이 SQL 쿼리는 특정 기술을 보유한 개발자들의 정보를 조회하여 개발자 ID 순으로 정렬된 결과를 반환합니다.
+이 SQL 쿼리는 특정 조건에 해당하는 물고기의 개수를 계산하여 반환합니다.
 
-쿼리는 DEVELOPER_INFOS 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+쿼리는 FISH_INFO 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
 
-먼저 SELECT 절에서는 조회할 열을 지정합니다.
+먼저 SELECT 절에서는 조회할 값을 지정합니다.
 
-ID는 개발자의 고유 식별자, EMAIL은 개발자의 이메일 주소, FIRST_NAME과 LAST_NAME은 각각 개발자의 이름과 성을 의미하며, 이 네 가지 정보를 결과로 출력합니다.
+COUNT(\*) AS FISH_COUNT는 조건을 만족하는 레코드(즉, 물고기)의 개수를 계산하여 FISH_COUNT라는 별칭으로 결과를 출력합니다.
+
+이는 조건에 맞는 물고기의 총 수를 의미합니다.
 
 이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
 
-이 경우 DEVELOPER_INFOS 테이블이 사용됩니다.
+이 경우 FISH_INFO 테이블이 사용됩니다.
 
 다음으로 WHERE 절에서는 특정 조건을 설정하여 필요한 데이터를 필터링합니다.
 
-"Python" IN (SKILL_1, SKILL_2, SKILL_3)은 개발자가 보유한 세 가지 기술 중 하나라도 'Python'이 포함되어 있는 경우를 선택합니다.
+조건인 LENGTH IS NULL은 길이 정보가 없는, 즉 값이 NULL인 물고기를 선택합니다.
 
-이를 통해 Python 기술을 보유한 개발자들만 조회할 수 있습니다.
-
-마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
-
-ID를 기준으로 오름차순 정렬하여, 개발자 ID 순서대로 결과를 확인할 수 있습니다.
-
-이 쿼리를 통해 Python 기술을 보유한 개발자들의 ID, 이메일, 이름, 성을 조회할 수 있습니다.
-
-이를 통해 특정 기술을 보유한 개발자들의 정보를 쉽게 파악할 수 있으며, 기술 역량에 따른 분석이나 채용 과정에 유용하게 활용할 수 있습니다.
+이 쿼리를 통해 길이가 10 이하 물고기의 총 수를 계산하여 FISH_COUNT로 반환합니다.

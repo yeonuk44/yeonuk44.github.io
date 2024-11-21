@@ -40,84 +40,74 @@ date: 2024-11-21 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 잔챙이 잡은 수 구하기 (with.MySQL) 에 대하여 알아본 글입니다.
+## This is an article about saving the number caught (with.MySQL).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-DEVELOPER_INFOS 테이블에서 Python 스킬을 가진 개발자의 정보를 조회하려 합니다.
+Please write a SQL statement that outputs the number of fish that are 10cm or less in length among the caught fish.
 
-Python 스킬을 가진 개발자의 ID, 이메일, 이름, 성을 조회하는 SQL 문을 작성해 주세요.
+Please name the column representing the number of fish as FISH_COUNT.
 
-결과는 ID를 기준으로 오름차순 정렬해 주세요.
+Problem Description
 
-문제설명
+The FISH_INFO table used by the fishing app contains information on fish caught.
 
-DEVELOPER_INFOS 테이블은 개발자들의 프로그래밍 스킬 정보를 담은 테이블입니다.
+The structure of the FISH_INFO table is as follows, and ID, FISH_TYPE, LENGTH, and TIME indicate the ID of the fish caught, the type of fish (number), the length of the fish caught (cm), and the date of the fish caught.
 
-DEVELOPER_INFOS 테이블 구조는 다음과 같으며, ID, FIRST_NAME, LAST_NAME, EMAIL, SKILL_1, SKILL_2, SKILL_3는 각각 ID, 이름, 성, 이메일, 첫 번째 스킬, 두 번째 스킬, 세 번째 스킬을 의미합니다.
+#### USER_INFO Table
 
-#### USER_INFO 테이블
+<!-- #### restrictions
 
-<!-- #### 제한사항
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different -->
 
-- a의 길이는 1 이상 1,000,000 이하입니다.
-- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
-- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다. -->
+<!-- #### I/O Yes -->
 
-<!-- #### 입출력 예 -->
+| Column name | Type    | Nullable |
+| ----------- | ------- | -------- |
+| ID          | INTEGER | FALSE    |
+| FISH_TYPE   | INTEGER | FALSE    |
+| LENGTH      | FLOAT   | TRUE     |
+| TIME        | DATE    | FALSE    |
 
-| NAME       | TYPE       | UNIQUE | NULLABLE |
-| ---------- | ---------- | ------ | -------- |
-| ID         | VARCHAR(N) | Y      | N        |
-| FIRST_NAME | VARCHAR(N) | N      | Y        |
-| LAST_NAME  | VARCHAR(N) | N      | Y        |
-| EMAIL      | VARCHAR(N) | Y      | N        |
-| SKILL_1    | VARCHAR(N) | N      | Y        |
-| SKILL_2    | VARCHAR(N) | N      | Y        |
-| SKILL_3    | VARCHAR(N) | N      | Y        |
+However, if the caught fish is less than 10 cm long, the LENGTH is NULL, and there is no NULL in the LENGTH.
 
-### 문제 풀이
+### problem solving
 
 ```sql
-SELECT ID, EMAIL, FIRST_NAME, LAST_NAME
-FROM DEVELOPER_INFOS
-WHERE "Python" IN (SKILL_1, SKILL_2, SKILL_3)
-ORDER BY ID;
+SELECT COUNT(*) AS FISH_COUNT
+FROM FISH_INFO
+WHERE LENGTH <= 10 OR LENGTH IS NULL;
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 SQL 쿼리는 특정 기술을 보유한 개발자들의 정보를 조회하여 개발자 ID 순으로 정렬된 결과를 반환합니다.
+This SQL query calculates and returns the number of fish that meet a specific condition.
 
-쿼리는 DEVELOPER_INFOS 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+The query extracts data from the FISH_INFO table, and the main components are.
 
-먼저 SELECT 절에서는 조회할 열을 지정합니다.
+First, the SELECT section specifies the value to look up.
 
-ID는 개발자의 고유 식별자, EMAIL은 개발자의 이메일 주소, FIRST_NAME과 LAST_NAME은 각각 개발자의 이름과 성을 의미하며, 이 네 가지 정보를 결과로 출력합니다.
+COUNT(\*) AS FISH_COUNT calculates the number of records (i.e., fish) that meet the condition and outputs the result under the alias FISH_COUNT.
 
-이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
+This means the total number of fish that meet the conditions.
 
-이 경우 DEVELOPER_INFOS 테이블이 사용됩니다.
+The FROM section then specifies the default table on which to run the query.
 
-다음으로 WHERE 절에서는 특정 조건을 설정하여 필요한 데이터를 필터링합니다.
+In this case, the FISH_INFO table is used.
 
-"Python" IN (SKILL_1, SKILL_2, SKILL_3)은 개발자가 보유한 세 가지 기술 중 하나라도 'Python'이 포함되어 있는 경우를 선택합니다.
+Next, in the WHERE section, you set specific conditions to filter the data you need.
 
-이를 통해 Python 기술을 보유한 개발자들만 조회할 수 있습니다.
+The condition, LENGTH IS NULL, selects a fish with no length information, i.e., a value of NULL.
 
-마지막으로 ORDER BY 절을 통해 결과를 정렬합니다.
-
-ID를 기준으로 오름차순 정렬하여, 개발자 ID 순서대로 결과를 확인할 수 있습니다.
-
-이 쿼리를 통해 Python 기술을 보유한 개발자들의 ID, 이메일, 이름, 성을 조회할 수 있습니다.
-
-이를 통해 특정 기술을 보유한 개발자들의 정보를 쉽게 파악할 수 있으며, 기술 역량에 따른 분석이나 채용 과정에 유용하게 활용할 수 있습니다.
+This query calculates the total number of fish with a length of 10 or less and returns them to FISH_COUNT.
