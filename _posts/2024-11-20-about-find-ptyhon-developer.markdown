@@ -64,7 +64,7 @@ The DEVELOPER_INFOS table is a table that contains information about developers'
 
 The table structure of DEVELOPER_INFOS is as follows: ID, FIRST_NAME, LAST_NAME, EMAIL, SKILL_1, SKILL_2, and SKILL_3 mean ID, name, last name, email, first skill, second skill, and third skill, respectively.
 
-#### USER_INFO Table
+#### DEVELOPER_INFO Table
 
 <!-- #### restrictions
 
