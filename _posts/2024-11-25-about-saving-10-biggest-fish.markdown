@@ -40,38 +40,42 @@ date: 2024-11-25 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 가장 큰 물고기 10마리 구하기(with.MySQL) 에 대하여 알아본 글입니다.
+## Here's a look at saving 10 of the biggest fish (with.MySQL).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-잡은 물고기 중 길이가 10cm 이하인 물고기의 수를 출력하는 SQL 문을 작성해주세요.
+Please write a SQL statement that outputs the ID and length of the 10 largest fish in the FISH_INFO table.
 
-물고기의 수를 나타내는 컬럼 명은 FISH_COUNT로 해주세요.
+Please sort the results in descending order based on the length, and if the lengths are the same, please sort in ascending order for the fish's ID.
 
-문제설명
+However, none of the 10 largest fish are less than 10 cm long.
 
-낚시앱에서 사용하는 FISH_INFO 테이블은 잡은 물고기들의 정보를 담고 있습니다.
+ID column name should be ID and length column name should be LENGTH.
 
-FISH_INFO 테이블의 구조는 다음과 같으며 ID, FISH_TYPE, LENGTH, TIME은 각각 잡은 물고기의 ID, 물고기의 종류(숫자), 잡은 물고기의 길이(cm), 물고기를 잡은 날짜를 나타냅니다.
+Problem Description
 
-#### USER_INFO 테이블
+The FISH_INFO table used by the fishing app contains information on fish caught.
 
-<!-- #### 제한사항
+The structure of the FISH_INFO table is as follows, and ID, FISH_TYPE, LENGTH, and TIME indicate the ID of the fish caught, the type of fish (number), the length of the fish caught (cm), and the date of the fish caught.
 
-- a의 길이는 1 이상 1,000,000 이하입니다.
-- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
-- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다. -->
+#### FISH_INFO Table
 
-<!-- #### 입출력 예 -->
+<!-- #### restrictions
+
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different -->
+
+<!-- #### I/O Yes -->
 
 | Column name | Type    | Nullable |
 | ----------- | ------- | -------- |
@@ -80,34 +84,45 @@ FISH_INFO 테이블의 구조는 다음과 같으며 ID, FISH_TYPE, LENGTH, TIME
 | LENGTH      | FLOAT   | TRUE     |
 | TIME        | DATE    | FALSE    |
 
-단, 잡은 물고기의 길이가 10cm 이하일 경우에는 LENGTH 가 NULL 이며, LENGTH 에 NULL 만 있는 경우는 없습니다.
+However, if the caught fish is less than 10 cm long, the LENGTH is NULL, and there is no NULL in the LENGTH.
 
-### 문제 풀이
+### problem solving
 
 ```sql
-SELECT COUNT(*) AS FISH_COUNT
+SELECT ID, LENGTH
 FROM FISH_INFO
-WHERE LENGTH <= 10 OR LENGTH IS NULL;
+ORDER BY LENGTH DESC, ID
+LIMIT 10;
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 SQL 쿼리는 특정 조건에 해당하는 물고기의 개수를 계산하여 반환합니다.
+This SQL query queries and returns the top 10 data based on fish length information.
 
-쿼리는 FISH_INFO 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+The query extracts data from the FISH_INFO table, and the main components are.
 
-먼저 SELECT 절에서는 조회할 값을 지정합니다.
+First, the SELECT section specifies the columns to look up.
 
-COUNT(\*) AS FISH_COUNT는 조건을 만족하는 레코드(즉, 물고기)의 개수를 계산하여 FISH_COUNT라는 별칭으로 결과를 출력합니다.
+ID is the unique identifier of the fish, LENGTH is the length of the fish, and these two columns are output as a result.
 
-이는 조건에 맞는 물고기의 총 수를 의미합니다.
+The FROM section then specifies the default table on which to run the query.
 
-이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
+In this case, the FISH_INFO table is used.
 
-이 경우 FISH_INFO 테이블이 사용됩니다.
+Next, sort the results through the ORDER BY clause.
 
-다음으로 WHERE 절에서는 특정 조건을 설정하여 필요한 데이터를 필터링합니다.
+There are two sorting criteria, the first is LENGTH DESC.
 
-조건인 LENGTH IS NULL은 길이 정보가 없는, 즉 값이 NULL인 물고기를 선택합니다.
+These are arranged in descending order based on the length of the fish, starting with the largest fish.
 
-이 쿼리를 통해 길이가 10 이하 물고기의 총 수를 계산하여 FISH_COUNT로 반환합니다.
+The second sorting criterion is ID, and if the lengths are the same, sort them in ascending order based on ID.
+
+This allows fish of the same length to be aligned in order of unique ID.
+
+Finally, LIMIT 10 selects and returns only the top 10 rows from the query results.
+
+It serves to return information about the 10 largest fish among the sorted results.
+
+This query allows you to look up the IDs and lengths of the 10 largest fish.
+
+This makes it easy to analyze fish of a specific size or larger or to identify the top fish by size.

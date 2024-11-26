@@ -64,7 +64,7 @@ DEVELOPER_INFOS 테이블은 개발자들의 프로그래밍 스킬 정보를 �
 
 DEVELOPER_INFOS 테이블 구조는 다음과 같으며, ID, FIRST_NAME, LAST_NAME, EMAIL, SKILL_1, SKILL_2, SKILL_3는 각각 ID, 이름, 성, 이메일, 첫 번째 스킬, 두 번째 스킬, 세 번째 스킬을 의미합니다.
 
-#### USER_INFO 테이블
+#### DEVELOPER_INFOS 테이블
 
 <!-- #### 제한사항
 

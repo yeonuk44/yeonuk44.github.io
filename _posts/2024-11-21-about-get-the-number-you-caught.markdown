@@ -62,7 +62,7 @@ The FISH_INFO table used by the fishing app contains information on fish caught.
 
 The structure of the FISH_INFO table is as follows, and ID, FISH_TYPE, LENGTH, and TIME indicate the ID of the fish caught, the type of fish (number), the length of the fish caught (cm), and the date of the fish caught.
 
-#### USER_INFO Table
+#### FISH_INFO Table
 
 <!-- #### restrictions
 
