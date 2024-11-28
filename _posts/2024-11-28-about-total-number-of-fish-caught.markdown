@@ -40,42 +40,42 @@ date: 2024-11-28 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 특정 물고기를 잡은 총 수 구하기 (with.MySQL) 에 대하여 알아본 글입니다.
+## This is an article about the total number of fish caught (with.MySQL).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-FISH_INFO 테이블에서 가장 큰 물고기 10마리의 ID와 길이를 출력하는 SQL 문을 작성해주세요.
+Please write a SQL statement that outputs the number of BASS and SNAPPER caught in the FISH_INFO table.
 
-결과는 길이를 기준으로 내림차순 정렬하고, 길이가 같다면 물고기의 ID에 대해 오름차순 정렬해주세요.
+Please name the column 'FISH_COUNT'.
 
-단, 가장 큰 물고기 10마리 중 길이가 10cm 이하인 경우는 없습니다.
+Problem Description
 
-ID 컬럼명은 ID, 길이 컬럼명은 LENGTH로 해주세요.
+The FISH_INFO table used by the fishing app contains information on fish caught.
 
-문제설명
+The structure of the FISH_INFO table is as follows, and ID, FISH_TYPE, LENGTH, and TIME indicate the ID of the fish caught, the type of fish (number), the length of the fish caught (cm), and the date of the fish caught.
 
-낚시앱에서 사용하는 FISH_INFO 테이블은 잡은 물고기들의 정보를 담고 있습니다.
+The FISH_NAME_INFO table contains information about the name of the fish.
 
-FISH_INFO 테이블의 구조는 다음과 같으며 ID, FISH_TYPE, LENGTH, TIME은 각각 잡은 물고기의 ID, 물고기의 종류(숫자), 잡은 물고기의 길이(cm), 물고기를 잡은 날짜를 나타냅니다.
+The structure of the FISH_NAME_INFO table is as follows, where FISH_TYPE and FISH_NAME are fish types (numbers) and fish names (characters), respectively.
 
-#### FISH_INFO 테이블
+#### FISH_INFO Table
 
-<!-- #### 제한사항
+<!-- #### restrictions
 
-- a의 길이는 1 이상 1,000,000 이하입니다.
-- a[i]는 i+1 번째 풍선에 써진 숫자를 의미합니다.
-- a의 모든 수는 -1,000,000,000 이상 1,000,000,000 이하인 정수입니다.
-- a의 모든 수는 서로 다릅니다. -->
+- The length of a is not less than 1 but not more than 1,000,000.
+- a[i] means the number written on the i+1th balloon.
+- All numbers of a are integers greater than or equal to -1,000,000 and less than or equal to 1,000,000,000.
+- All numbers of a are different -->
 
-<!-- #### 입출력 예 -->
+<!-- #### I/O Yes -->
 
 | Column name | Type    | Nullable |
 | ----------- | ------- | -------- |
@@ -84,45 +84,49 @@ FISH_INFO 테이블의 구조는 다음과 같으며 ID, FISH_TYPE, LENGTH, TIME
 | LENGTH      | FLOAT   | TRUE     |
 | TIME        | DATE    | FALSE    |
 
-단, 잡은 물고기의 길이가 10cm 이하일 경우에는 LENGTH 가 NULL 이며, LENGTH 에 NULL 만 있는 경우는 없습니다.
+However, if the caught fish is less than 10 cm long, the LENGTH is NULL, and there is no NULL in the LENGTH.
 
-### 문제 풀이
+| Column name | Type    | Nullable |
+| ----------- | ------- | -------- |
+| FISH_TYPE   | INTEGER | FALSE    |
+| FISH_NAME   | VARCHAR | FALSE    |
+
+### problem solving
 
 ```sql
-SELECT ID, LENGTH
-FROM FISH_INFO
-ORDER BY LENGTH DESC, ID
-LIMIT 10;
+SELECT COUNT(FN.FISH_TYPE) AS FISH_COUNT
+FROM FISH_INFO AS FI JOIN FISH_NAME_INFO AS FN ON FI.FISH_TYPE = FN.FISH_TYPE
+WHERE FISH_NAME LIKE 'BASS' OR FISH_NAME LIKE 'SNAPPER';
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 SQL 쿼리는 물고기의 길이 정보를 기준으로 상위 10마리의 데이터를 조회하여 반환합니다.
+This SQL query calculates and returns the number of fish of a particular kind (BASS or SNAPPER).
 
-쿼리는 FISH_INFO 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+The query extracts the data by joining the FISH_INFO table and the FISH_NAME_INFO table, with key components as follows.
 
-먼저 SELECT 절에서는 조회할 열을 지정합니다.
+First, the SELECT section specifies the value to look up.
 
-ID는 물고기의 고유 식별자, LENGTH는 물고기의 길이를 의미하며, 이 두 열을 결과로 출력합니다.
+COUNT (FN.FISH_TYPE) AS FISH_COUNT counts the types of fish that meet the conditions and outputs the number as FISH_COUNT alias.
 
-이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
+This refers to the total number of fish corresponding to BASS or SNAPPER.
 
-이 경우 FISH_INFO 테이블이 사용됩니다.
+The FROM section then specifies the default table on which to run the query.
 
-다음으로 ORDER BY 절을 통해 결과를 정렬합니다.
+Here, we use the FISH_INFO table, which we alias FI.
 
-정렬 기준은 두 가지로, 첫 번째는 LENGTH DESC입니다.
+Next, use the JOIN clause to join the FISH_NAME_INFO table with the FISH_INFO table.
 
-이는 물고기의 길이를 기준으로 내림차순 정렬하여 가장 큰 물고기부터 순서대로 정렬합니다.
+The condition of the join is FI.FISH_TYPE = FN.FISH_TYPE, which is linked based on the FISH_TYPE columns of both tables.
 
-두 번째 정렬 기준은 ID로, 길이가 동일한 경우에는 ID를 기준으로 오름차순 정렬합니다.
+By doing so, you can combine fish information and fish name information to inquire.
 
-이를 통해 같은 길이를 가진 물고기들이 고유 ID 순서대로 정렬됩니다.
+In the WHERE section, you set specific conditions to filter the required data.
 
-마지막으로 LIMIT 10은 쿼리 결과에서 상위 10개의 행만 선택하여 반환합니다.
+The FISH_NAME LIKE 'BASS' OR FISH_NAME LIKE 'SNAPPER' condition selects when the fish is named 'BASS' or 'SNAPPER'.
 
-이는 정렬된 결과 중에서 가장 큰 10마리의 물고기 정보를 반환하는 역할을 합니다.
+Under these conditions, only fish named BASS and SNAPPER will be selected.
 
-이 쿼리를 통해 가장 큰 물고기 10마리의 ID와 길이를 조회할 수 있습니다.
+This query allows you to calculate the total number of fish named BASS or SNAPPER and return them to FISH_COUNT.
 
-이를 통해 특정 크기 이상의 물고기를 분석하거나, 크기 기준으로 상위 물고기들을 쉽게 파악할 수 있습니다.
+This makes it easy to identify a specific type of fish population and can be useful for analysis or statistics on a specific fish species.

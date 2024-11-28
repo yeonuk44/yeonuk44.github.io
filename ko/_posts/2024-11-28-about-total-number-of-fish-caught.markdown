@@ -52,19 +52,19 @@ date: 2024-11-28 09:00:00 +0900
 
 ### 문제
 
-FISH_INFO 테이블에서 가장 큰 물고기 10마리의 ID와 길이를 출력하는 SQL 문을 작성해주세요.
+FISH_INFO 테이블에서 잡은 BASS와 SNAPPER의 수를 출력하는 SQL 문을 작성해주세요.
 
-결과는 길이를 기준으로 내림차순 정렬하고, 길이가 같다면 물고기의 ID에 대해 오름차순 정렬해주세요.
-
-단, 가장 큰 물고기 10마리 중 길이가 10cm 이하인 경우는 없습니다.
-
-ID 컬럼명은 ID, 길이 컬럼명은 LENGTH로 해주세요.
+컬럼명은 'FISH_COUNT`로 해주세요.
 
 문제설명
 
 낚시앱에서 사용하는 FISH_INFO 테이블은 잡은 물고기들의 정보를 담고 있습니다.
 
 FISH_INFO 테이블의 구조는 다음과 같으며 ID, FISH_TYPE, LENGTH, TIME은 각각 잡은 물고기의 ID, 물고기의 종류(숫자), 잡은 물고기의 길이(cm), 물고기를 잡은 날짜를 나타냅니다.
+
+FISH_NAME_INFO 테이블은 물고기의 이름에 대한 정보를 담고 있습니다.
+
+FISH_NAME_INFO 테이블의 구조는 다음과 같으며, FISH_TYPE, FISH_NAME 은 각각 물고기의 종류(숫자), 물고기의 이름(문자) 입니다.
 
 #### FISH_INFO 테이블
 
@@ -86,43 +86,47 @@ FISH_INFO 테이블의 구조는 다음과 같으며 ID, FISH_TYPE, LENGTH, TIME
 
 단, 잡은 물고기의 길이가 10cm 이하일 경우에는 LENGTH 가 NULL 이며, LENGTH 에 NULL 만 있는 경우는 없습니다.
 
+| Column name | Type    | Nullable |
+| ----------- | ------- | -------- |
+| FISH_TYPE   | INTEGER | FALSE    |
+| FISH_NAME   | VARCHAR | FALSE    |
+
 ### 문제 풀이
 
 ```sql
-SELECT ID, LENGTH
-FROM FISH_INFO
-ORDER BY LENGTH DESC, ID
-LIMIT 10;
+SELECT COUNT(FN.FISH_TYPE) AS FISH_COUNT
+FROM FISH_INFO AS FI JOIN FISH_NAME_INFO AS FN ON FI.FISH_TYPE = FN.FISH_TYPE
+WHERE FISH_NAME LIKE 'BASS' OR FISH_NAME LIKE 'SNAPPER';
 ```
 
 #### 풀이 설명
 
-이 SQL 쿼리는 물고기의 길이 정보를 기준으로 상위 10마리의 데이터를 조회하여 반환합니다.
+이 SQL 쿼리는 특정 종류의 물고기(BASS 또는 SNAPPER)의 개수를 계산하여 반환합니다.
 
-쿼리는 FISH_INFO 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+쿼리는 FISH_INFO 테이블과 FISH_NAME_INFO 테이블을 조인하여 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
 
-먼저 SELECT 절에서는 조회할 열을 지정합니다.
+먼저 SELECT 절에서는 조회할 값을 지정합니다.
 
-ID는 물고기의 고유 식별자, LENGTH는 물고기의 길이를 의미하며, 이 두 열을 결과로 출력합니다.
+COUNT(FN.FISH_TYPE) AS FISH_COUNT는 조건을 만족하는 물고기의 종류를 세어, 그 개수를 FISH_COUNT라는 별칭으로 출력합니다.
+
+이는 BASS 또는 SNAPPER에 해당하는 물고기의 총 수를 의미합니다.
 
 이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
 
-이 경우 FISH_INFO 테이블이 사용됩니다.
+여기서는 FISH_INFO 테이블을 사용하며, 이를 FI라는 별칭으로 지정합니다.
 
-다음으로 ORDER BY 절을 통해 결과를 정렬합니다.
+다음으로 JOIN 절을 사용하여 FISH_NAME_INFO 테이블과 FISH_INFO 테이블을 조인합니다.
 
-정렬 기준은 두 가지로, 첫 번째는 LENGTH DESC입니다.
+조인의 조건은 FI.FISH_TYPE = FN.FISH_TYPE으로, 두 테이블의 FISH_TYPE 열을 기준으로 연결됩니다.
 
-이는 물고기의 길이를 기준으로 내림차순 정렬하여 가장 큰 물고기부터 순서대로 정렬합니다.
+이렇게 함으로써 물고기 정보와 물고기 이름 정보를 결합하여 조회할 수 있습니다.
 
-두 번째 정렬 기준은 ID로, 길이가 동일한 경우에는 ID를 기준으로 오름차순 정렬합니다.
+WHERE 절에서는 특정 조건을 설정하여 필요한 데이터를 필터링합니다.
 
-이를 통해 같은 길이를 가진 물고기들이 고유 ID 순서대로 정렬됩니다.
+FISH_NAME LIKE 'BASS' OR FISH_NAME LIKE 'SNAPPER' 조건은 물고기 이름이 'BASS' 또는 'SNAPPER'인 경우를 선택합니다.
 
-마지막으로 LIMIT 10은 쿼리 결과에서 상위 10개의 행만 선택하여 반환합니다.
+이 조건에 따라 BASS와 SNAPPER라는 이름을 가진 물고기만 선택됩니다.
 
-이는 정렬된 결과 중에서 가장 큰 10마리의 물고기 정보를 반환하는 역할을 합니다.
+이 쿼리를 통해 BASS 또는 SNAPPER로 이름이 지정된 물고기의 총 수를 계산하여 FISH_COUNT로 반환할 수 있습니다.
 
-이 쿼리를 통해 가장 큰 물고기 10마리의 ID와 길이를 조회할 수 있습니다.
-
-이를 통해 특정 크기 이상의 물고기를 분석하거나, 크기 기준으로 상위 물고기들을 쉽게 파악할 수 있습니다.
+이를 통해 특정 종류의 물고기 개체 수를 쉽게 파악할 수 있으며, 특정 어종에 대한 분석이나 통계에 유용하게 활용될 수 있습니다.
