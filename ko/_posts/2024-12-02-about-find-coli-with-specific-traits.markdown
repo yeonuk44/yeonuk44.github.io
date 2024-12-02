@@ -52,21 +52,19 @@ date: 2024-12-02 09:00:00 +0900
 
 ### 문제
 
-FISH_INFO 테이블에서 잡은 BASS와 SNAPPER의 수를 출력하는 SQL 문을 작성해주세요.
+2번 형질이 보유하지 않으면서 1번이나 3번 형질을 보유하고 있는 대장균 개체의 수(COUNT)를 출력하는 SQL 문을 작성해주세요.
 
-컬럼명은 'FISH_COUNT`로 해주세요.
+1번과 3번 형질을 모두 보유하고 있는 경우도 1번이나 3번 형질을 보유하고 있는 경우에 포함합니다.
 
 문제설명
 
-낚시앱에서 사용하는 FISH_INFO 테이블은 잡은 물고기들의 정보를 담고 있습니다.
+대장균들은 일정 주기로 분화하며, 분화를 시작한 개체를 부모 개체, 분화가 되어 나온 개체를 자식 개체라고 합니다.
 
-FISH_INFO 테이블의 구조는 다음과 같으며 ID, FISH_TYPE, LENGTH, TIME은 각각 잡은 물고기의 ID, 물고기의 종류(숫자), 잡은 물고기의 길이(cm), 물고기를 잡은 날짜를 나타냅니다.
+다음은 실험실에서 배양한 대장균들의 정보를 담은 ECOLI_DATA 테이블입니다.
 
-FISH_NAME_INFO 테이블은 물고기의 이름에 대한 정보를 담고 있습니다.
+ECOLI_DATA 테이블의 구조는 다음과 같으며, ID, PARENT_ID, SIZE_OF_COLONY, DIFFERENTIATION_DATE, GENOTYPE 은 각각 대장균 개체의 ID, 부모 개체의 ID, 개체의 크기, 분화되어 나온 날짜, 개체의 형질을 나타냅니다.
 
-FISH_NAME_INFO 테이블의 구조는 다음과 같으며, FISH_TYPE, FISH_NAME 은 각각 물고기의 종류(숫자), 물고기의 이름(문자) 입니다.
-
-#### FISH_INFO 테이블
+#### ECOLI_DATA 테이블
 
 <!-- #### 제한사항
 
@@ -77,56 +75,58 @@ FISH_NAME_INFO 테이블의 구조는 다음과 같으며, FISH_TYPE, FISH_NAME 
 
 <!-- #### 입출력 예 -->
 
-| Column name | Type    | Nullable |
-| ----------- | ------- | -------- |
-| ID          | INTEGER | FALSE    |
-| FISH_TYPE   | INTEGER | FALSE    |
-| LENGTH      | FLOAT   | TRUE     |
-| TIME        | DATE    | FALSE    |
+| Column name          | Type    | Nullable |
+| -------------------- | ------- | -------- |
+| ID                   | INTEGER | FALSE    |
+| PARENT_ID            | INTEGER | TRUE     |
+| SIZE_OF_COLONY       | INTEGER | FALSE    |
+| DIFFERENTIATION_DATE | DATE    | FALSE    |
+| GENOTYPE             | INTEGER | FALSE    |
 
-단, 잡은 물고기의 길이가 10cm 이하일 경우에는 LENGTH 가 NULL 이며, LENGTH 에 NULL 만 있는 경우는 없습니다.
-
-| Column name | Type    | Nullable |
-| ----------- | ------- | -------- |
-| FISH_TYPE   | INTEGER | FALSE    |
-| FISH_NAME   | VARCHAR | FALSE    |
+최초의 대장균 개체의 PARENT_ID 는 NULL 값입니다.
 
 ### 문제 풀이
 
 ```sql
-SELECT COUNT(FN.FISH_TYPE) AS FISH_COUNT
-FROM FISH_INFO AS FI JOIN FISH_NAME_INFO AS FN ON FI.FISH_TYPE = FN.FISH_TYPE
-WHERE FISH_NAME LIKE 'BASS' OR FISH_NAME LIKE 'SNAPPER';
+SELECT COUNT(*) AS COUNT
+FROM ECOLI_DATA
+WHERE (GENOTYPE & 2) != 2 AND ((GENOTYPE & 1) = 1 OR (GENOTYPE & 4) = 4);
 ```
 
 #### 풀이 설명
 
-이 SQL 쿼리는 특정 종류의 물고기(BASS 또는 SNAPPER)의 개수를 계산하여 반환합니다.
+이 SQL 쿼리는 특정 조건을 만족하는 E. coli 데이터의 개수를 계산하여 반환합니다.
 
-쿼리는 FISH_INFO 테이블과 FISH_NAME_INFO 테이블을 조인하여 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
+쿼리는 ECOLI_DATA 테이블에서 데이터를 추출하며, 주요 구성 요소는 다음과 같습니다.
 
 먼저 SELECT 절에서는 조회할 값을 지정합니다.
 
-COUNT(FN.FISH_TYPE) AS FISH_COUNT는 조건을 만족하는 물고기의 종류를 세어, 그 개수를 FISH_COUNT라는 별칭으로 출력합니다.
+COUNT(\*) AS COUNT는 조건을 만족하는 레코드의 개수를 계산하여 COUNT라는 별칭으로 결과를 출력합니다.
 
-이는 BASS 또는 SNAPPER에 해당하는 물고기의 총 수를 의미합니다.
+이 값은 조건에 부합하는 E. coli 데이터의 총 개수를 의미합니다.
 
 이어서 FROM 절에서는 쿼리를 실행할 기본 테이블을 지정합니다.
 
-여기서는 FISH_INFO 테이블을 사용하며, 이를 FI라는 별칭으로 지정합니다.
+이 경우 ECOLI_DATA 테이블이 사용됩니다.
 
-다음으로 JOIN 절을 사용하여 FISH_NAME_INFO 테이블과 FISH_INFO 테이블을 조인합니다.
+다음으로 WHERE 절에서는 비트 연산을 사용하여 특정 조건을 설정하고, 그에 따라 데이터를 필터링합니다.
 
-조인의 조건은 FI.FISH_TYPE = FN.FISH_TYPE으로, 두 테이블의 FISH_TYPE 열을 기준으로 연결됩니다.
+첫 번째 조건 (GENOTYPE & 2) != 2는 GENOTYPE 값이 2인 비트를 포함하지 않는 레코드를 선택합니다.
 
-이렇게 함으로써 물고기 정보와 물고기 이름 정보를 결합하여 조회할 수 있습니다.
+비트 연산 &는 비트 단위 AND 연산을 수행하며, GENOTYPE 값에서 2를 AND 연산한 결과가 2가 아닌 경우만 선택됩니다.
 
-WHERE 절에서는 특정 조건을 설정하여 필요한 데이터를 필터링합니다.
+이는 GENOTYPE 값이 2의 비트 위치에 1이 설정되어 있지 않은 경우를 의미합니다.
 
-FISH_NAME LIKE 'BASS' OR FISH_NAME LIKE 'SNAPPER' 조건은 물고기 이름이 'BASS' 또는 'SNAPPER'인 경우를 선택합니다.
+두 번째 조건은 (GENOTYPE & 1) = 1 OR (GENOTYPE & 4) = 4입니다.
 
-이 조건에 따라 BASS와 SNAPPER라는 이름을 가진 물고기만 선택됩니다.
+이는 GENOTYPE 값이 1이거나 4인 비트를 포함하는 레코드를 선택합니다.
 
-이 쿼리를 통해 BASS 또는 SNAPPER로 이름이 지정된 물고기의 총 수를 계산하여 FISH_COUNT로 반환할 수 있습니다.
+(GENOTYPE & 1) = 1 조건은 GENOTYPE 값이 1의 비트 위치에 1이 설정된 경우를 의미합니다.
 
-이를 통해 특정 종류의 물고기 개체 수를 쉽게 파악할 수 있으며, 특정 어종에 대한 분석이나 통계에 유용하게 활용될 수 있습니다.
+(GENOTYPE & 4) = 4 조건은 GENOTYPE 값이 4의 비트 위치에 1이 설정된 경우를 의미합니다.
+
+이 두 조건 중 하나라도 만족하면 해당 레코드가 선택됩니다.
+
+이 쿼리를 통해 비트 연산 조건을 충족하는 E. coli 데이터의 개수를 계산하여 COUNT로 반환합니다.
+
+이를 통해 특정 유전자형 패턴을 가진 E. coli 데이터의 빈도를 분석하거나 통계적으로 파악할 수 있습니다.
