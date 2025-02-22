@@ -1,6 +1,6 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id_Type_Of_Algorithm_With_Higher_Frequency_Compared_To_Enterprise_Coding_Tests
+lng_pair: id-Type-Of-Algorithm-With-Higher-Frequency-Compared-To-Enterprise-Coding-Tests
 title: 기업 코딩테스트 대비 빈도 수 높은 알고리즘 유형
 # title: Type of algorithm with higher frequency compared to enterprise coding tests
 # post specific
