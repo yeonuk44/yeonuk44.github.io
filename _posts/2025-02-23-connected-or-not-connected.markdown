@@ -40,51 +40,51 @@ date: 2025-02-23 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 5237번 Connected or Not Connected (with.Java) 에 대하여 알아본 글입니다.
+## This is an article about Baekjun 5237 Connected or Not Connected (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-Sam과 Quorra는 (가상) 경로로 상호 연결된 여러 (가상) 사이트를 포함하는 Grid 세계의 비밀 기지 지도를 구축하려고 노력하고 있습니다.
+Sam and Quorra are trying to build a secret base map of the Grid world that includes multiple (virtual) sites interconnected by (virtual) paths.
 
-그들은 사이트 수(n)를 알고 있지만, 사이트 간의 상호 연결에 대한 지식은 부족합니다.
+They know the number of sites (n), but they lack knowledge of interconnections between sites.
 
-기지 내에 있던 여러 다른 프로그램들은 사이트 간의 연결에 대한 정보를 제공할 수 있으며, Sam과 Quorra는 이를 종합해야 합니다.
+Several other programs within the base can provide information about connections between sites, which Sam and Quorra need to put together.
 
-특히, 그들은 모든 사이트에서 다른 모든 사이트로 이동하는 방법을 알 수 있는 충분한 정보를 가지고 있는지 확인하고자 합니다.
+In particular, they want to make sure that they have enough information to know how to go from every site to every other site.
 
-귀하의 목표는 지정된 연결 세트가 모든 사이트에서 다른 사이트로 가는 경로를 확보하기에 충분한지 여부를 결정하는 데 도움을 주는 것입니다.
+Your goal is to help you determine whether the specified set of connections is sufficient to secure a route from all sites to other sites.
 
-연결이 양방향이라고 가정합니다.
+Suppose the connection is two-way.
 
-즉, 사이트 1과 사이트 2 사이에 연결이 있다는 것을 알고 있다면 사이트 1에서 사이트 2로, 또는 그 반대로 이동할 수 있습니다.
+In other words, if you know that there is a connection between Site 1 and Site 2, you can go from Site 1 to Site 2, or vice versa.
 
-#### 입력
+#### Input
 
-테스트 데이터 파일의 첫 번째 줄에는 테스트 케이스의 수(≤ 50)가 포함되어 있습니다.
+The first line of the test data file contains the number of test cases (≤50).
 
-그 후 각 줄에는 테스트 케이스가 포함됩니다.
+After that, each line contains a test case.
 
-각 테스트 케이스의 첫 번째 숫자는 사이트의 수, n(≤ 100)입니다.
+The first number of each test case is the number of sites, n (≤100).
 
-사이트는 0에서 n - 1까지 번호가 매겨집니다.
+Sites are numbered from 0 to n-1.
 
-두 번째 숫자는 사이트 간의 연결 수, k(≤ 200)입니다.
+The second number is the number of connections between sites, k(≤200).
 
-그 후 각 연결마다 하나씩 k쌍의 숫자가 있습니다. 연결이 반복될 수 있으며, 더 나아가 자체 연결 (즉, 사이트에서 자체로의 연결)이 있을 수 있습니다.
+After that, there are k pairs of numbers, one for each connection. The connection may be repeated, and furthermore, there may be its own connection (i.e., connection from the site to itself).
 
-#### 출력
+#### Output
 
-각 테스트 케이스마다 모든 사이트에서 다른 사이트로 가는 경로가 있는지 확인하고, 이에 따라 "연결됨" 또는 "연결되지 않음"을 출력해야 합니다.
+For each test case, make sure that there is a route from all sites to other sites, and output "Connected" or "Unconnected" accordingly.
 
-### 문제 풀이
+### Problem Solving
 
 ```java
 import java.io.*;
@@ -141,24 +141,24 @@ public class Main {
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 코드는 주어진 무방향 그래프에서 모든 노드가 서로 연결되어 있는지를 확인하는 프로그램입니다.
+This code is a program that verifies that all nodes are connected to each other in a given undirected graph.
 
-먼저, BufferedReader를 사용하여 입력을 빠르게 읽어오며 첫 번째 입력값으로 테스트 케이스 개수 T를 받습니다.
+First, use the Buffered Reader to quickly read the input and receive the number of test cases T as the first input.
 
-이후, 각 테스트 케이스마다 노드 개수 N과 간선 개수 K를 입력받습니다.
+Subsequently, the number of nodes N and the number of edges K are entered for each test case.
 
-그래프는 인접 리스트 방식으로 표현되며, List<Integer>[] graph = new ArrayList[N]; 를 선언하여 각 노드에 대한 연결 정보를 저장할 리스트를 생성한 후 for 문을 이용해 노드 개수만큼 리스트를 초기화합니다.
+Graphs are represented in an adjacency list method, and after creating a list to store connection information for each node by declaring List<Integer>[] graph = new ArrayList[N];, initialize the list by the number of nodes using the for statement.
 
-이후 K개의 간선 정보를 읽어와 해당 노드 쌍을 서로 추가하여 무방향 그래프를 형성합니다.
+After that, K edge information is read and the corresponding node pairs are added to each other to form a undirected graph.
 
-그래프가 완성되면 DFS(깊이 우선 탐색)를 이용해 모든 노드를 탐색합니다.
+When the graph is complete, it uses depth-first navigation (DFS) to navigate all nodes.
 
-방문 여부를 확인하기 위해 boolean 배열 visited를 선언하고, dfs(0, graph, visited) 함수를 호출하여 0번 노드부터 탐색을 시작합니다.
+Declare a boolean array visited to see if it is visited, and call the function dfs(0, graph, visited) to start the search from node 0.
 
-DFS 함수는 현재 노드를 방문 처리한 후 인접한 노드들을 확인하며 방문하지 않은 경우 재귀 호출을 통해 탐색을 계속 진행합니다.
+The DFS function visits and processes the current node, then checks the neighboring nodes, and continues the search with a recursive call if not.
 
-탐색이 끝난 후 visited 배열을 확인하며, 하나라도 false인 노드가 있으면 모든 노드가 연결되지 않은 것으로 판단하여 연결되지 않음을 출력하고, 모든 노드가 방문되었다면 연결됨을 출력합니다.
+After the search, check the visited array, and if there is at least one false node, it determines that all nodes are not connected and outputs that they are not connected, and outputs that all nodes are connected if they are visited.
 
-마지막으로 StringBuilder를 사용하여 결과를 한 번에 출력함으로써 성능을 최적화합니다.
+Finally, we optimize performance by outputting the results at once using StringBuilder.
