@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id-connected-or-not-connected
-title: 백준 5237번, Connected or Not Connected (with.Java)
+title: Baekjun 5237, Connected or Not Connected (with.Java)
 # title: Baekjun 5237, Connected or Not Connected (with.Java)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml

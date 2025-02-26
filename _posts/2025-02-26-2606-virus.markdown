@@ -1,0 +1,150 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id-2606-virus
+title: Baekjun no. 2606, virus (with. Java)
+# title: Baekjun no. 2606, virus (with. Java)
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2025-02-26 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## Baekjun No. 2606, this is an article about the virus (with.Java).
+
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
+
+Let's get to the problem first.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### Problem
+
+The worm virus, a new type of virus, spreads through the network.
+
+If a computer gets a worm virus, all computers connected to it on the network will get the worm virus.
+
+For example, let's say that seven computers are connected on a network.
+
+If computer number one gets the worm virus, it will pass through computers number two and five and spread to computers number three and six, and four computers, three, five, and six, will get the worm virus.
+
+However, computers 4 and 7 are not affected because they are not connected to computers 1 on the network.
+
+One day, computer number 1 caught a worm virus.
+
+Given the number of computers and interconnected information on the network, write a program that outputs the number of computers that catch the worm virus through Computer 1.
+
+#### Input
+
+The first line is given the number of computers.
+
+The number of computers is a positive integer equal to or less than 100, and each computer is numbered in order from number one.
+
+The second line gives the number of pairs of computers directly connected on the network.
+
+The number of computer number pairs directly connected on the network is then given, one pair per line.
+
+#### Output
+
+When computer 1 has the worm virus, the number of computers that get the worm virus through computer 1 is output in the first line.
+
+### problem solving
+
+```java
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        int M = Integer.parseInt(br.readLine());
+
+        List<Integer>[] network = new ArrayList[N + 1];
+        for(int i = 1; i <= N; i++){
+            network[i] = new ArrayList<>();
+        }
+        for(int i = 0; i < M; i++){
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            network[a].add(b);
+            network[b].add(a);
+        }
+
+        boolean[] visited = new boolean[N + 1];
+        int infectedCount = dfs(1, network, visited) - 1;
+
+        System.out.println(infectedCount);
+    }
+
+    private  static int dfs(int node, List<Integer>[] network, boolean[] visited){
+        visited[node] = true;
+        int count = 1;
+
+        for(int next : network[node]){
+            if(!visited[next]){
+                count += dfs(next, network, visited);
+            }
+        }
+
+        return count;
+    }
+}
+```
+
+#### Solution Description
+
+This code is a program that calculates the number of computers that are infected when a worm virus starts on computer 1.
+
+First, use 'BufferedReader' to receive input.
+
+In the first line, you receive the number N of computers, and in the second line, you receive the number M of pairs of computers directly connected on the network.
+
+After that, it reads M lines and receives two integers to indicate the computers that are connected to each other.
+
+To save it, declare 'List<Integer>[] network = new ArrayList[N + 1];' to create an array of lists to store the connection information for each computer from 1 to N.
+
+Using the 'for' statement, perform 'network[i] = new ArrayList<>();' to initialize each array element to the actual 'ArrayList'.
+
+When you receive network information, use 'network[a].add(b);' and 'network[b].add(a);' to save the two-way connection.
+
+To track an infected computer, record your visit by declaring 'boolean[] visited = new boolean[N + 1];'.
+
+Create a 'dfs' method that performs a depth-first search (DFS) to calculate the number of infected computers.
+
+This function records the currently visited computers in the 'visited' array, sequentially navigates the connected computers, and recursively calls 'dfs' to accumulate the number of infected computers if none have visited them.
+
+Since the initial infected computer is No. 1, do 'dfs(1, network, visited) - 1;' to calculate and output the number of infected computers except for No. 1.
