@@ -52,41 +52,23 @@ date: 2025-02-28 09:00:00 +0900
 
 ### 문제
 
-A와 B는 특정 선거에서 경쟁하는 유일한 두 후보입니다.
+전날에 비해 비트코인의 시세가 백만원이나 오른 어느 아침, 진우는 거래소에 가서 비트코인을 매도하려고 한다.
 
-우리는 여론조사를 통해 정확히 N명의 유권자가 A를 지지하고 정확히 M명의 유권자가 B를 지지한다는 것을 알고 있습니다.
+현재 비트코인의 시세가 점점 떨어지고 있기 때문에 진우는 최대한 빨리 거래소에 가야 한다.
 
-또한 N이 M보다 크므로 A가 이길 것이라는 것도 알고 있습니다.
+도시는 가로 N, 세로 M 크기의 격자 모양으로 이루어졌다.
 
-유권자들은 한 번에 한 명씩 투표소에 나타나며, 모든 가능한 (N + M)! 순서에서 균일하게 무작위로 선택된 순서로 나타납니다.
+진우는 북서쪽 끝에 있고 거래소는 남동쪽 끝에 있다.
 
-각 유권자가 투표를 한 후, 투표소 직원은 결과를 업데이트하고 지금까지 어느 후보가 승리했는지(있는 경우) 기록합니다.
+도시의 일부 구역은 공터 또는 도로라서 진우가 지나갈 수 있지만, 어떤 구역은 건물이 있어서 진우가 갈 수 없다.
 
-(투표가 동점인 경우, 어느 후보도 승리한 것으로 간주되지 않습니다.)
+각 칸이 1인 경우 진우가 갈 수 있는 칸을 의미하고 0인 경우 진우가 갈 수 없는 칸을 의미한다.
 
-A가 항상 선두를 유지할 확률은 얼마인가?
-
-즉, A가 모든 투표에서 항상 이길 확률은 얼마인가?
-
-#### 입력
-
-입력은 테스트 케이스의 수인 정수 T를 포함하는 한 줄로 시작합니다.
-
-각 테스트 케이스는 각각 A와 B를 지지하는 유권자의 수인 두 정수 N과 M을 포함하는 한 줄로 구성됩니다.
-
-#### 제한
-
-1 ≤ T ≤ 100.
-
-0 ≤ M < N ≤ 10.
+왼쪽 위의 끝 칸과 오른쪽 아래의 끝 칸은 모두 1이다.
 
 #### 출력
 
-각 테스트 케이스에 대해 다음이 포함된 한 줄을 출력합니다.
-
-Case #x: y. 여기서 는 x 테스트 케이스 번호(1부터 시작)이고, 는 y 모든 투표에서 A가 항상 이길 확률입니다.
-
-y 정답의 y 절대오차 또는 상대오차가 10-6 이내이면 정답 으로 간주합니다.
+첫 번째 줄에 진우가 거래소로 갈 수 있으면 Yes를, 그렇지 않으면 No를 출력한다.
 
 ### 문제 풀이
 
@@ -94,47 +76,76 @@ y 정답의 y 절대오차 또는 상대오차가 10-6 이내이면 정답 으�
 import java.io.*;
 import java.util.*;
 
-public class Main {
-    public static void main(String[] args) throws IOException{
+class Main {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(br.readLine());
-        StringBuilder sb = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int[][] board = new int[M][N];
+        boolean[][] visited = new boolean[M][N];
 
-        for(int i = 1; i <= T; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int N = Integer.parseInt(st.nextToken());
-            int M = Integer.parseInt(st.nextToken());
-
-            double p = (double) (N - M) / (N + M);
-            sb.append(String.format("Case #%d: %.8f\n", i, p));
+        for(int i = 0; i < M; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j = 0; j < N; j++){
+                board[i][j] = Integer.parseInt(st.nextToken());
+            }
         }
-        System.out.print(sb);
+
+        boolean flag = dfs(board, visited, 0, 0, M, N);
+
+        if(flag){
+            System.out.println("Yes");
+        }else{
+            System.out.println("No");
+        }
+    }
+
+    private static Boolean dfs(int[][] board, boolean[][] visited, int dx, int dy, int M, int N){
+        if(dx == M - 1 && dy == N - 1){
+            return true;
+        }
+
+        if(dx < 0 || dx >= M || dy < 0 || dy >= N || visited[dx][dy] || board[dx][dy] == 0){
+            return false;
+        }
+        visited[dx][dy] = true;
+
+        if(dfs(board, visited, dx + 1, dy, M, N)){
+            return true;
+        }
+
+        if(dfs(board, visited, dx, dy + 1, M, N)){
+            return true;
+        }
+
+        return false;
     }
 }
 ```
 
 #### 풀이 설명
 
-이 코드는 특정 선거에서 A 후보가 항상 선두를 유지할 확률을 계산하는 프로그램입니다.
+이 코드는 DFS(깊이 우선 탐색)를 활용하여 **M × N 크기의 보드에서 (0,0) 위치에서 (M-1, N-1) 위치까지 도달할 수 있는지**를 판별하는 프로그램입니다.
 
-먼저 BufferedReader를 사용하여 입력을 빠르게 읽어오고 첫 번째 입력값을 읽어 정수 T에 저장하는데, 이는 테스트 케이스의 개수를 의미합니다.
+먼저, `BufferedReader`를 사용하여 `M`(행 개수)과 `N`(열 개수)을 입력받습니다.
 
-이후 for문을 이용하여 i = 1부터 T까지 반복하면서 각 테스트 케이스를 처리합니다.
+이후 `M × N` 크기의 `board` 배열을 생성하고, 해당 보드 정보를 입력받습니다.
 
-StringTokenizer를 사용하여 한 줄을 공백 기준으로 나누고 각각 N(A를 지지하는 유권자 수)과 M(B를 지지하는 유권자 수)로 변환합니다.
+`board[i][j]`의 값이 1이면 이동할 수 있고, 0이면 이동할 수 없는 장애물로 간주됩니다.
 
-A가 항상 선두를 유지할 확률 p는 Ballot Theorem 공식을 활용하여 (N - M) / (N + M)으로 계산합니다.
+또한, `visited` 배열을 사용하여 방문 여부를 기록합니다.
 
-여기서 N - M은 A가 B보다 앞서야 하는 차이를 나타내고 N + M은 전체 유권자 수를 의미하므로 이 확률은 A가 항상 선두를 유지할 확률을 의미합니다.
+DFS 탐색을 수행하기 위해 `dfs` 함수를 정의합니다.
 
-이후 String.format("Case #%d: %.8f\n", i, p)를 사용하여 문제에서 요구하는 출력 형식에 맞춘다.
+이 함수는 현재 좌표 `(dx, dy)`에서 (M-1, N-1)까지 도달할 수 있는지를 재귀적으로 탐색합니다.
 
-"Case #%d"는 테스트 케이스 번호를 나타내고 "%.8f"는 소수점 8자리까지 확률 값을 출력하며 \n을 추가하여 줄바꿈을 한다.
+1. 만약 `(dx, dy)`가 도착 지점 `(M-1, N-1)`에 도달하면 `true`를 반환하여 탐색을 종료합니다.
+2. 현재 위치가 보드 범위를 벗어나거나, 이미 방문한 위치이거나, 이동할 수 없는 위치(값이 0인 경우)이면 `false`를 반환합니다.
+3. 현재 위치를 방문한 것으로 표시한 후, 오른쪽(`dx, dy + 1`)과 아래쪽(`dx + 1, dy`) 방향으로 이동하며 DFS를 수행합니다.
+4. 만약 이동한 경로 중 하나라도 도착 지점까지 도달할 수 있다면 `true`를 반환합니다.
+5. 모든 경로를 탐색한 후에도 도착할 수 없다면 `false`를 반환합니다.
 
-그리고 StringBuilder를 활용하여 문자열을 누적한 후 System.out.print(sb)를 사용하여 한 번에 출력하는데 이렇게 하면 여러 번 System.out.println()을 호출하는 것보다 성능이 향상됩니다.
+`main` 함수에서 `dfs` 실행 결과가 `true`이면 `"Yes"`, `false`이면 `"No"`를 출력합니다.
 
-예제 입력 2 2 1 1 0이 주어졌을 때 첫 번째 테스트 케이스(2, 1)의 확률은 (2-1) / (2+1) = 1/3 = 0.33333333이 되고 두 번째 테스트 케이스(1, 0)의 확률은 (1-0) / (1+0) = 1/1 = 1.00000000이 됩니다.
-
-각 테스트 케이스에서 N과 M을 입력받고 단순 연산을 수행하므로 O(1)의 시간 복잡도를 가지며 전체적으로 O(T)의 시간 복잡도를 가집니다.
-
-T가 최대 100이고 N과 M의 최대값이 10이므로 매우 빠르게 실행된다.
+이 알고리즘의 시간 복잡도는 최악의 경우 **O(M × N)**이며, 방문한 위치를 다시 탐색하지 않도록 `visited` 배열을 사용하여 최적화하고 있습니다.
