@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id-26169-eat-apples-within-three-times
-title: Baekjun, 26169, let's eat apples within three times
+title: Baekjun, 26169, let's eat apples within three times (with.Java)
 # title: Baekjun, 26169, let's eat apples within three times
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -40,112 +40,131 @@ date: 2025-03-01 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 14298번, Vote (with.Java) 에 대하여 알아본 글입니다.
+## Baekjun No. 26169, let's eat apples within three times (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-전날에 비해 비트코인의 시세가 백만원이나 오른 어느 아침, 진우는 거래소에 가서 비트코인을 매도하려고 한다.
+A board measuring 5 x 5 is given. The board consists of a square grid measuring 1 x 1.
 
-현재 비트코인의 시세가 점점 떨어지고 있기 때문에 진우는 최대한 빨리 거래소에 가야 한다.
+The grid of the board is divided into a grid with one apple, a grid with obstacles, and a grid with blanks.
 
-도시는 가로 N, 세로 M 크기의 격자 모양으로 이루어졌다.
+The locations of the grids are denoted by (r, c). R denotes row numbers, and c denotes column numbers.
 
-진우는 북서쪽 끝에 있고 거래소는 남동쪽 끝에 있다.
+The row number has a top position of 0 and increases by 1 in the bottom direction.
 
-도시의 일부 구역은 공터 또는 도로라서 진우가 지나갈 수 있지만, 어떤 구역은 건물이 있어서 진우가 갈 수 없다.
+The column number has a leftmost position of 0 and increases by 1 to the right.
 
-각 칸이 1인 경우 진우가 갈 수 있는 칸을 의미하고 0인 경우 진우가 갈 수 없는 칸을 의미한다.
+That is, the top left position is (0, 0) and the bottom right position is (4, 4).
 
-왼쪽 위의 끝 칸과 오른쪽 아래의 끝 칸은 모두 1이다.
+Currently, one student is in the (r, c) position and can move one space in one of the up, down, left, and right directions with one movement.
 
-#### 출력
+When a student moves to a cell with an apple, he or she eats one apple in that cell.
 
-첫 번째 줄에 진우가 거래소로 갈 수 있으면 Yes를, 그렇지 않으면 No를 출력한다.
+You can't move to a compartment with an obstacle.
 
-### 문제 풀이
+The cell where the student has passed is changed to a cell with an obstacle as soon as the student leaves the cell.
+
+In other words, as soon as the student moves one space in the upward, downward, left, and right directions from the corresponding space, the corresponding space is changed to a space with an obstacle.
+
+If the student can eat two or more apples with no more than three moves at the current location (r, c), output 1, otherwise output 0.
+
+#### Input
+
+Information on the board is given across five lines from the first line.
+
+The jth number in the i-th row represents information in the (i - 1)th row and (j - 1)th column of the board.
+
+If the information on the board is 1, the corresponding space represents a grid with one apple, if 0 represents a grid with blanks, and if -1, it represents a grid with obstacles.
+
+In the next line, the student's current positions r, c are given in order with blanks between them.
+
+#### Output
+
+In the first line, if the student can eat two or more apples with no more than three movements at the current location (r, c), output 1, and output 0 if he or she cannot eat.
+
+#### Restrictions
+
+0 ≤ r, c ≤ 4
+
+The current location (r, c) is blank.
+
+### problem solving
 
 ```java
 import java.io.*;
 import java.util.*;
 
 class Main {
+    static int[][] board = new int[5][5];
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static boolean found = false;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int[][] board = new int[M][N];
-        boolean[][] visited = new boolean[M][N];
+        StringTokenizer st;
 
-        for(int i = 0; i < M; i++){
+        for (int i = 0; i < 5; i++) {
             st = new StringTokenizer(br.readLine());
-            for(int j = 0; j < N; j++){
+            for (int j = 0; j < 5; j++) {
                 board[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        boolean flag = dfs(board, visited, 0, 0, M, N);
+        st = new StringTokenizer(br.readLine());
+        int startX = Integer.parseInt(st.nextToken());
+        int startY = Integer.parseInt(st.nextToken());
 
-        if(flag){
-            System.out.println("Yes");
-        }else{
-            System.out.println("No");
-        }
+        dfs(startX, startY, 0, 0);
+
+        System.out.println(found ? 1 : 0);
     }
 
-    private static Boolean dfs(int[][] board, boolean[][] visited, int dx, int dy, int M, int N){
-        if(dx == M - 1 && dy == N - 1){
-            return true;
+    static void dfs(int x, int y, int moves, int apples) {
+        if (moves > 3) return;
+
+        if (apples >= 2) {
+            found = true;
+            return;
         }
 
-        if(dx < 0 || dx >= M || dy < 0 || dy >= N || visited[dx][dy] || board[dx][dy] == 0){
-            return false;
-        }
-        visited[dx][dy] = true;
+        int temp = board[x][y];
+        board[x][y] = -1;
 
-        if(dfs(board, visited, dx + 1, dy, M, N)){
-            return true;
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if (nx < 0 || nx >= 5 || ny < 0 || ny >= 5 || board[nx][ny] == -1) continue;
+
+            dfs(nx, ny, moves + 1, apples + (board[nx][ny] == 1 ? 1 : 0));
+
+            if (found) return;
         }
 
-        if(dfs(board, visited, dx, dy + 1, M, N)){
-            return true;
-        }
-
-        return false;
+        board[x][y] = temp;
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 코드는 DFS(깊이 우선 탐색)를 활용하여 **M × N 크기의 보드에서 (0,0) 위치에서 (M-1, N-1) 위치까지 도달할 수 있는지**를 판별하는 프로그램입니다.
+This code uses Depth Priority Exploration (DFS) to determine if a student can eat two or more apples on a 5×5 board \*\*up to three trips.
 
-먼저, `BufferedReader`를 사용하여 `M`(행 개수)과 `N`(열 개수)을 입력받습니다.
+First, receive a 5×5 board and set the starting position for the student.
 
-이후 `M × N` 크기의 `board` 배열을 생성하고, 해당 보드 정보를 입력받습니다.
+In this case, the board may include a blank space 0, an apple 1, and an obstacle-1.
 
-`board[i][j]`의 값이 1이면 이동할 수 있고, 0이면 이동할 수 없는 장애물로 간주됩니다.
+There are four directions in which students can move: up, down, left, and right, and they are managed using the arrangement of 'dx' and 'dy'.
 
-또한, `visited` 배열을 사용하여 방문 여부를 기록합니다.
+Track the number of moves ('moves') and the number of apples eaten while performing the DFS navigation.
 
-DFS 탐색을 수행하기 위해 `dfs` 함수를 정의합니다.
-
-이 함수는 현재 좌표 `(dx, dy)`에서 (M-1, N-1)까지 도달할 수 있는지를 재귀적으로 탐색합니다.
-
-1. 만약 `(dx, dy)`가 도착 지점 `(M-1, N-1)`에 도달하면 `true`를 반환하여 탐색을 종료합니다.
-2. 현재 위치가 보드 범위를 벗어나거나, 이미 방문한 위치이거나, 이동할 수 없는 위치(값이 0인 경우)이면 `false`를 반환합니다.
-3. 현재 위치를 방문한 것으로 표시한 후, 오른쪽(`dx, dy + 1`)과 아래쪽(`dx + 1, dy`) 방향으로 이동하며 DFS를 수행합니다.
-4. 만약 이동한 경로 중 하나라도 도착 지점까지 도달할 수 있다면 `true`를 반환합니다.
-5. 모든 경로를 탐색한 후에도 도착할 수 없다면 `false`를 반환합니다.
-
-`main` 함수에서 `dfs` 실행 결과가 `true`이면 `"Yes"`, `false`이면 `"No"`를 출력합니다.
-
-이 알고리즘의 시간 복잡도는 최악의 경우 **O(M × N)**이며, 방문한 위치를 다시 탐색하지 않도록 `visited` 배열을 사용하여 최적화하고 있습니다.
+If the number of moves exceeds 3, no more searching is performed, and if you eat two or more apples, the 'found' variable is 'true'
