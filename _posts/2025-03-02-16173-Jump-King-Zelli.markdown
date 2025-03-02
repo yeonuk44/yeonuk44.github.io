@@ -1,0 +1,169 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id-16173-Jump-King-Zelli
+title: Baekjun 16173, Jump King Zelli (with. Java)
+# title: Baekjun 16173, Jump King Zelli (with. Java)
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, dfs, coding test]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2025-03-02 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## Baekjun No. 16173, I learned about the jumping king, Zelli (with. Java).
+
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
+
+Let's get to the problem first.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### Problem
+
+'Jelly' is a jelly that likes to jump.
+
+Feeling bored simply jumping, 'Jelly' wants to try a new jumping game.
+
+The conditions for the new jump game are as follows.
+
+'Jelly' can only move inside a square area with the same number of horizontal and vertical compartments.
+
+If "Jelly" goes outside the square area, it falls to the floor and immediately loses the game.
+
+The starting point of 'Jelly' is always the leftmost and topmost compartment of the square.
+
+It doesn't start from another starting point.
+
+The only directions in which 'Jelly' can move are right and down.
+
+You can't move up and left.
+
+The moment 'Jelly' reaches the rightmost, lowest compartment, immediately the game ends with 'Jelly's victory.
+
+The number of compartments in which 'Jelly' can move at once is as many as is written in the compartment you are currently stepping on.
+
+You cannot move beyond or below the number written in the box.
+
+"Jelly," who liked the new game, continued to play and finally reached the final stage.
+
+However, the area where the game is played has become too wide to tell whether the game can be won or not.
+
+'Jelly' asked you, a competent programmer, to see if you could win a given area.
+
+Let's help 'Jelly' to see if we can reach the end point (bottom right column) in the given game zone!
+
+#### Input
+
+The first line of the input is given the size N of the game zone (2 ≤ N ≤ 3).
+
+The zone (map) of the game board is given from the second line to the last line of the input.
+
+The winning point of the game board (bottom right column) is marked with -1 and the remaining compartments are marked with integers greater than 0 and less than 100.
+
+#### Output
+
+Output "Haru Haru" (without quotation marks) if "Jelly" can reach the end point, and "Hing" (without quotation marks) in one line if it cannot.
+
+### problem solving
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int N;
+    static int[][] map;
+    static boolean[][] visited;
+    static int[] dx = {0, 1}, dy = {1, 0};
+
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        map = new int[N][N];
+        visited = new boolean[N][N];
+
+        for(int i = 0; i < N; i++){
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            for(int j = 0; j < N; j++){
+                map[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        dfs(0, 0);
+
+        System.out.println("Hing");
+    }
+
+    private static void dfs(int X, int Y){
+        if(map[X][Y] == -1){
+            System.out.println("HaruHaru");
+            System.exit(0);
+        }
+        for(int i = 0; i < 2; i++){
+            int nx = X + dx[i] * map[X][Y];
+            int ny = Y + dy[i] * map[X][Y];
+
+            if(nx >= N || ny >= N || visited[nx][ny]) continue;
+            visited[nx][ny] = true;
+            dfs(nx, ny);
+        }
+    }
+}
+```
+
+#### Solution Description
+
+This code leverages depth-first search (DFS) to explore two-dimensional arrays of N×N sizes.
+
+The goal is to determine if the value of '-1' can be reached starting from the upper left (0,0) and located at the lower right.
+
+First, use 'BufferedReader' to receive an integer N and create a 'map' array with a size of N×N and a 'visited' array that stores whether or not to visit.
+
+Then, use the 'String Tokenizer' to store the values entered across N lines through the repeat statement in the 'map' array.
+
+Call 'dfs(0, 0)' to start the depth-first search.
+
+The 'dfs' method searches based on the current location (X, Y), and if the value of the current location is '-1', the target point has been reached, so output 'HaruHaru' and terminate the program immediately.
+
+Navigation is only in two directions: right ('dx = {0,1}') and down ('dy = {1, 0}') and can be moved by the value of the current position 'map[X][Y]'.
+
+After calculating the new coordinate '(nx, ny)',
+
+- Out of Array Range
+- If you have already visited a location
+
+If the above conditions are met, stop the search; if not, visit and process the location and recursively call 'dfs(nx, ny)' to continue the search.
+
+'-1' until all navigation is complete
