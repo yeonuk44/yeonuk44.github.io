@@ -1,0 +1,136 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id-6148-bookshelf-2
+title: 백준 6148번, Bookshelf 2 (with.Java)
+# title: Baekjun No. 6148, Bookshelf 2 (with.Java)
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, dfs coding test]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2025-03-07 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## 백준 6148번, Bookshelf 2 (with.Java) 에 대하여 알아본 글입니다.
+
+코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+
+문제에 대해 먼저 알아보겠습니다.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### 문제
+
+Farmer John recently bought another bookshelf for the cow library, but the shelf is getting filled up quite quickly, and now the only available space is at the top.
+
+FJ has N cows (1 <= N <= 20) each with some height of H_i (1 <= H_i <= 1,000,000 - these are very tall cows).
+
+The bookshelf has a height of B (1 <= B <= S, where S is the sum of the heights of all cows).
+
+To reach the top of the bookshelf, one or more of the cows can stand on top of each other in a stack, so that their total height is the sum of each of their individual heights.
+
+This total height must be no less than the height of the bookshelf in order for the cows to reach the top.
+
+Since a taller stack of cows than necessary can be dangerous, your job is to find the set of cows that produces a stack of the smallest height possible such that the stack can reach the bookshelf.
+
+Your program should print the minimal 'excess' height between the optimal stack of cows and the bookshelf.
+
+#### 입력
+
+Line 1: Two space-separated integers: N and B
+
+Lines 2..N+1: Line i+1 contains a single integer: H_i
+
+#### 출력
+
+Line 1: A single integer representing the (non-negative) difference between the total height of the optimal set of cows and the height of the shelf.
+
+### 문제 풀이
+
+```java
+import java.io.*;
+import java.util.*;
+
+class Main {
+    static int N, B;
+    static int[] H;
+    static int minExcess = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        N = Integer.parseInt(st.nextToken());
+        B = Integer.parseInt(st.nextToken());
+        H = new int[N];
+
+        for(int i = 0; i < N; i++){
+            H[i] = Integer.parseInt(br.readLine());
+        }
+
+        dfs(0, 0);
+        System.out.println(minExcess);
+    }
+
+    static void dfs(int idx, int totalHeight){
+        if(totalHeight >= B){
+            minExcess = Math.min(minExcess, totalHeight - B);
+            return;
+        }
+
+        if(idx >= N){
+            return;
+        }
+
+        dfs(idx + 1, totalHeight + H[idx]);
+        dfs(idx + 1, totalHeight);
+    }
+}
+```
+
+#### 풀이 설명
+
+코드는 농부 John이 소들의 키를 활용하여 책장 꼭대기에 도달하는 최소한의 초과 높이를 구하는 문제를 해결하는 역할을 합니다.
+
+먼저 입력을 처리하는 과정에서 `BufferedReader`를 사용하여 첫 번째 줄에서 소의 수 `N`과 책장의 높이 `B`를 읽어오며, 이후 `N`개의 소의 키를 배열 `H`에 저장합니다.
+
+입력을 완료한 후, `dfs(0, 0)`을 호출하여 깊이 우선 탐색을 시작합니다.
+
+탐색 과정에서 `totalHeight`가 `B` 이상이 되면 `minExcess` 값을 갱신하고 종료합니다.
+
+모든 소를 탐색한 경우에도 종료 조건을 만족하여 더 이상 진행하지 않습니다.
+
+이후 현재 소를 포함하는 경우와 포함하지 않는 경우로 나누어 재귀적으로 탐색을 진행합니다.
+
+최종적으로 `minExcess` 값을 출력하여 가장 최소한으로 초과하는 높이를 구합니다.
