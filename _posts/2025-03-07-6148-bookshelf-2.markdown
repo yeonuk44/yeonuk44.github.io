@@ -40,100 +40,97 @@ date: 2025-03-07 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 6148번, Bookshelf 2 (with.Java) 에 대하여 알아본 글입니다.
+## I learned about Bookshelf 2 (with.Java), Baekjun No. 6148.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-자연수 N과 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오.
+Farmer John recently bought another bookshelf for the cow library, but the shelf is getting filled up quite quickly, and now the only available space is at the top.
 
-- 1부터 N까지 자연수 중에서 M개를 고른 수열.
-- 같은 수를 여러 번 골라도 된다.
+FJ has N cows (1 <= N <= 20) each with some height of H_i (1 <= H_i <= 1,000,000 - these are very tall cows).
 
-#### 입력
+The bookshelf has a height of B (1 <= B <= S, where S is the sum of the heights of all cows).
 
-첫째 줄에 테스트 케이스의 개수 T가 주어진다.
+To reach the top of the bookshelf, one or more of the cows can stand on top of each other in a stack, so that their total height is the sum of each of their individual heights.
 
-각 테스트 케이스는 한 줄로 이루어져 있고, 정수 n이 주어진다.
+This total height must be no less than the height of the bookshelf in order for the cows to reach the top.
 
-n은 양수이며 11보다 작다.
+Since a taller stack of cows than necessary can be dangerous, your job is to find the set of cows that produces a stack of the smallest height possible such that the stack can reach the bookshelf.
 
-#### 출력
+Your program should print the minimal 'excess' height between the optimal stack of cows and the bookshelf.
 
-각 테스트 케이스마다, n을 1, 2, 3의 합으로 나타내는 방법의 수를 출력한다.
+#### Input
 
-### 문제 풀이
+Line 1: Two space-separated integers: N and B
+
+Lines 2..N+1: Line i+1 contains a single integer: H_i
+
+#### Output
+
+Line 1: A single integer representing the (non-negative) difference between the total height of the optimal set of cows and the height of the shelf.
+
+### problem solving
 
 ```java
 import java.io.*;
-import java.util.StringTokenizer;
+import java.util.*;
 
-class Main{
-    public static int N, M;
-    public static int[] arr;
-    public static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    public static void main(String[] args) throws Exception {
+class Main {
+    static int N, B;
+    static int[] H;
+    static int minExcess = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        br.close();
-
 
         N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        arr = new int[M];
+        B = Integer.parseInt(st.nextToken());
+        H = new int[N];
 
-        dfs(0);
+        for(int i = 0; i < N; i++){
+            H[i] = Integer.parseInt(br.readLine());
+        }
 
-        bw.flush();
-        bw.close();
+        dfs(0, 0);
+        System.out.println(minExcess);
     }
 
-    public static void dfs(int depth) throws Exception{
-        if(depth == M){
-            for (int i = 0; i < M; i++){
-                bw.write(arr[i] + " ");
-            }
-            bw.write("\n");
+    static void dfs(int idx, int totalHeight){
+        if(totalHeight >= B){
+            minExcess = Math.min(minExcess, totalHeight - B);
             return;
         }
 
-        for(int i = 1; i <= N; i++){
-            arr[depth] = i;
-            dfs(depth + 1);
+        if(idx >= N){
+            return;
         }
+
+        dfs(idx + 1, totalHeight + H[idx]);
+        dfs(idx + 1, totalHeight);
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 코드는 백트래킹을 활용하여 1부터 N까지의 숫자로 구성된 M개의 순열을 생성하고 출력하는 프로그램입니다.
+The code serves to solve the problem of farmer John using the height of the cows to find the minimum excess height to reach the top of the bookshelf.
 
-먼저, `BufferedReader`를 사용하여 입력을 받고, `StringTokenizer`를 활용하여 공백으로 구분된 두 개의 정수 N과 M을 파싱합니다.
+First, in the process of processing the input, the number of cows 'N' and the height 'B' of the bookshelf are read from the first line using 'BufferedReader', and then the keys of 'N' cows are stored in the array 'H'.
 
-N은 선택할 수 있는 숫자의 범위를 나타내며, M은 출력할 순열의 길이를 의미합니다.
+After completing the input, call 'dfs(0, 0)' to begin the depth-first search.
 
-입력을 처리한 후 `BufferedReader`를 닫습니다.
+If 'totalHeight' is greater than 'B' during navigation, update the 'minExcess' value and exit.
 
-배열 `arr`은 크기가 M인 정수 배열로, 현재 구성 중인 순열을 저장하는 역할을 합니다.
+Even if you have explored all cows, you will still meet the termination conditions and will not proceed further.
 
-이후 `dfs(0)`을 호출하여 깊이 우선 탐색(DFS)을 시작합니다.
+The search is then recursively conducted by dividing it into cases that include and do not include current cattle.
 
-`dfs` 메서드는 백트래킹을 수행하는 재귀 함수입니다. 이 함수는 현재 `depth` 값을 인자로 받으며, `depth`가 M과 같아지면 `arr`에 저장된 값을 `BufferedWriter`를 사용하여 출력합니다.
-
-이때, 각 숫자는 공백으로 구분되며, 순열이 완성될 때마다 개행 문자를 추가합니다.
-
-반복문을 통해 1부터 N까지의 숫자를 순차적으로 선택하며 `arr[depth]`에 저장한 뒤, `dfs(depth + 1)`을 호출하여 다음 깊이로 이동합니다.
-
-이렇게 하면 중복을 허용하는 모든 경우의 수를 탐색하게 됩니다.
-
-모든 DFS 호출이 종료된 후 `BufferedWriter`의 버퍼를 비우고 닫아 출력 작업을 마무리합니다.
-
-이를 통해 중복된 숫자를 허용하는 길이 M의 모든 순열을 효율적으로 생성하고 출력할 수 있습니다.
+Finally, output the 'minExcess' value to obtain the minimum height exceeded.
