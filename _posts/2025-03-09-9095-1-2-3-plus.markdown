@@ -40,97 +40,95 @@ date: 2025-03-09 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 6148번, Bookshelf 2 (with.Java) 에 대하여 알아본 글입니다.
+## This is an article about Baekjun 9095, 1, 2, 3 plus (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-Farmer John recently bought another bookshelf for the cow library, but the shelf is getting filled up quite quickly, and now the only available space is at the top.
+There are a total of 7 methods of expressing integer 4 as the sum of 1, 2, and 3.
 
-FJ has N cows (1 <= N <= 20) each with some height of H_i (1 <= H_i <= 1,000,000 - these are very tall cows).
+You must use at least one number when representing the sum.
 
-The bookshelf has a height of B (1 <= B <= S, where S is the sum of the heights of all cows).
+1+1+1+1
 
-To reach the top of the bookshelf, one or more of the cows can stand on top of each other in a stack, so that their total height is the sum of each of their individual heights.
+1+1+2
 
-This total height must be no less than the height of the bookshelf in order for the cows to reach the top.
+1+2+1
 
-Since a taller stack of cows than necessary can be dangerous, your job is to find the set of cows that produces a stack of the smallest height possible such that the stack can reach the bookshelf.
+2+1+1
 
-Your program should print the minimal 'excess' height between the optimal stack of cows and the bookshelf.
+2+2
 
-#### 입력
+1+3
 
-Line 1: Two space-separated integers: N and B
+3+1
 
-Lines 2..N+1: Line i+1 contains a single integer: H_i
+Write a program to find the number of ways to express n as the sum of 1, 2, and 3, given the integer n.
 
-#### 출력
+#### Input
 
-Line 1: A single integer representing the (non-negative) difference between the total height of the optimal set of cows and the height of the shelf.
+The number of test cases T is given in the first line.
 
-### 문제 풀이
+Each test case consists of a line, given an integer n. N is positive and is less than 11.
+
+#### Output
+
+For each test case, output the number of methods to express n as the sum of 1, 2, and 3.
+
+### problem solving
 
 ```java
 import java.io.*;
-import java.util.*;
 
-class Main {
-    static int N, B;
-    static int[] H;
-    static int minExcess = Integer.MAX_VALUE;
+public class Main {
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+	public static void main(String[] args) throws Exception {
 
-        N = Integer.parseInt(st.nextToken());
-        B = Integer.parseInt(st.nextToken());
-        H = new int[N];
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        for(int i = 0; i < N; i++){
-            H[i] = Integer.parseInt(br.readLine());
-        }
+		int T = Integer.parseInt(br.readLine());
 
-        dfs(0, 0);
-        System.out.println(minExcess);
-    }
+		for (int t = 0; t < T; t++) {
+			int n = Integer.parseInt(br.readLine());
+			int[] dp = new int[11];
 
-    static void dfs(int idx, int totalHeight){
-        if(totalHeight >= B){
-            minExcess = Math.min(minExcess, totalHeight - B);
-            return;
-        }
+			dp[1] = 1;
+			dp[2] = 2;
+			dp[3] = 4;
 
-        if(idx >= N){
-            return;
-        }
+			for (int i = 4; i <= n; i++) {
+				dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
+			}
 
-        dfs(idx + 1, totalHeight + H[idx]);
-        dfs(idx + 1, totalHeight);
-    }
+			bw.write(dp[n] + "\n");
+		}
+		bw.flush();
+	}
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-코드는 농부 John이 소들의 키를 활용하여 책장 꼭대기에 도달하는 최소한의 초과 높이를 구하는 문제를 해결하는 역할을 합니다.
+This code is a program that utilizes dynamic programming to calculate the number of methods for expressing integer num as the sum of 1, 2, and 3.
 
-먼저 입력을 처리하는 과정에서 `BufferedReader`를 사용하여 첫 번째 줄에서 소의 수 `N`과 책장의 높이 `B`를 읽어오며, 이후 `N`개의 소의 키를 배열 `H`에 저장합니다.
+I'll explain it with examples to make it easier to understand mathematically.
 
-입력을 완료한 후, `dfs(0, 0)`을 호출하여 깊이 우선 탐색을 시작합니다.
+- Every time you make a number i
+  - (if you make i-1 and add 1)
+  - (If you make i-2 and add two)
+  - (if you make i-3 and add 3)
+- Since these three methods do not overlap each other, the total number of cases is  
+  \[
+  dp[i] = dp[i-1] + dp[i-2] + dp[i-3]
+  \]
+  It can be defined as .
 
-탐색 과정에서 `totalHeight`가 `B` 이상이 되면 `minExcess` 값을 갱신하고 종료합니다.
-
-모든 소를 탐색한 경우에도 종료 조건을 만족하여 더 이상 진행하지 않습니다.
-
-이후 현재 소를 포함하는 경우와 포함하지 않는 경우로 나누어 재귀적으로 탐색을 진행합니다.
-
-최종적으로 `minExcess` 값을 출력하여 가장 최소한으로 초과하는 높이를 구합니다.
+It should now be understood that it does not mean (i-1) + (i-2) + (i-3) = i, but that it is an igniting representation of all cases in which \*\*i can be made.
