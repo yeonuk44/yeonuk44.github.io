@@ -40,7 +40,7 @@ date: 2025-03-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 9095번, 1, 2, 3 더하기(with.Java) 에 대하여 알아본 글입니다.
+## 백준 1427번, 소트인사이드 에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,83 +52,61 @@ date: 2025-03-10 09:00:00 +0900
 
 ### 문제
 
-정수 4를 1, 2, 3의 합으로 나타내는 방법은 총 7가지가 있다.
-
-합을 나타낼 때는 수를 1개 이상 사용해야 한다.
-
-1+1+1+1
-
-1+1+2
-
-1+2+1
-
-2+1+1
-
-2+2
-
-1+3
-
-3+1
-
-정수 n이 주어졌을 때, n을 1, 2, 3의 합으로 나타내는 방법의 수를 구하는 프로그램을 작성하시오.
+배열을 정렬하는 것은 쉽다. 수가 주어지면, 그 수의 각 자리수를 내림차순으로 정렬해보자.
 
 #### 입력
 
-첫째 줄에 테스트 케이스의 개수 T가 주어진다.
-
-각 테스트 케이스는 한 줄로 이루어져 있고, 정수 n이 주어진다. n은 양수이며 11보다 작다.
+첫째 줄에 정렬하려고 하는 수 N이 주어진다. N은 1,000,000,000보다 작거나 같은 자연수이다.
 
 #### 출력
 
-각 테스트 케이스마다, n을 1, 2, 3의 합으로 나타내는 방법의 수를 출력한다.
+첫째 줄에 자리수를 내림차순으로 정렬한 수를 출력한다.
 
 ### 문제 풀이
 
 ```java
 import java.io.*;
+import java.util.*;
 
-public class Main {
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String input = br.readLine();
+        br.close();
 
-	public static void main(String[] args) throws Exception {
+        char[] charArray = input.toCharArray();
+        Arrays.sort(charArray);
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
-		int T = Integer.parseInt(br.readLine());
-
-		for (int t = 0; t < T; t++) {
-			int n = Integer.parseInt(br.readLine());
-			int[] dp = new int[11];
-
-			dp[1] = 1;
-			dp[2] = 2;
-			dp[3] = 4;
-
-			for (int i = 4; i <= n; i++) {
-				dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
-			}
-
-			bw.write(dp[n] + "\n");
-		}
-		bw.flush();
-	}
+        StringBuilder sb = new StringBuilder(new String(charArray));
+        System.out.println(sb.reverse());
+    }
 }
 ```
 
 #### 풀이 설명
 
-이 코드는 동적 프로그래밍을 활용하여 정수 num을 1, 2, 3의 합으로 나타내는 방법의 수를 계산하는 프로그램입니다.
+먼저, BufferedReader를 사용하여 사용자로부터 한 줄의 문자열을 입력받습니다.
 
-수학적으로 이해하기 쉽게 예제를 들어 설명해 보겠습니다.
+입력이 끝난 후에는 br.close()를 호출하여 입력 스트림을 닫습니다.
 
-- 숫자 i를 만드는 모든 경우는
-  - (i-1을 만들고 1을 더하는 경우)
-  - (i-2를 만들고 2를 더하는 경우)
-  - (i-3을 만들고 3을 더하는 경우)
-- 이 세 가지 방법이 서로 겹치지 않으므로, 총 경우의 수는  
-  \[
-  dp[i] = dp[i-1] + dp[i-2] + dp[i-3]
-  \]
-  로 정의할 수 있습니다.
+그 후, 입력된 문자열을 문자 배열로 변환합니다.
 
-이제 (i-1) + (i-2) + (i-3) = i라는 의미가 아니라, **i를 만들 수 있는 모든 경우를 점화식으로 표현한 것**이라는 점이 이해되었을 것입니다.
+이를 통해 문자열 내의 개별 문자들을 조작할 수 있습니다.
+
+다음으로, Arrays.sort()를 사용하여 문자 배열을 오름차순으로 정렬합니다.
+
+이 과정에서는 알파벳과 숫자가 사전순으로 정렬됩니다.
+
+예를 들어, 입력이 "3142"라면 정렬 후 "1234"가 되고, "dcba"를 입력하면 "abcd"가 됩니다.
+
+이어서, 정렬된 문자 배열을 문자열로 변환한 후, StringBuilder 객체를 사용하여 감쌉니다.
+
+StringBuilder를 사용하는 이유는 문자열을 효율적으로 조작할 수 있기 때문입니다.
+
+마지막으로, StringBuilder의 reverse() 메서드를 사용하여 문자열을 뒤집고, 이를 System.out.println()을 통해 출력합니다.
+
+예를 들어, "abcd"가 "dcba"로 변환되며, 숫자가 입력되었을 경우 "1234"가 "4321"로 변환됩니다.
+
+이 코드의 전체적인 흐름은 문자열을 문자 배열로 변환한 후, 오름차순 정렬을 수행하고, StringBuilder를 이용하여 내림차순으로 변환한 후 출력하는 방식입니다.
+
+이는 숫자와 알파벳 문자열을 내림차순으로 정렬할 때 유용하게 사용할 수 있습니다.
