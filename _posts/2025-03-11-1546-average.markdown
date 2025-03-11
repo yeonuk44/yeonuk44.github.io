@@ -40,45 +40,47 @@ date: 2025-03-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 1546번, 평균 (with.Java) 에 대하여 알아본 글입니다.
+## Baekjun, 1546, average (with.J)
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+## Baekjun No. 1546, this is an article about the mean (with.Java).
 
-문제에 대해 먼저 알아보겠습니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
+
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-세준이는 기말고사를 망쳤다.
+Sejun messed up his final exam.
 
-세준이는 점수를 조작해서 집에 가져가기로 했다.
+Sejun decided to manipulate the score and take it home.
 
-일단 세준이는 자기 점수 중에 최댓값을 골랐다.
+First of all, Sejun chose the maximum value among his scores.
 
-이 값을 M이라고 한다. 그리고 나서 모든 점수를 점수/M\*100 으로 고쳤다.
+This value is called M. Then all scores were corrected to score /M\*100.
 
-예를 들어, 세준이의 최고점이 70이고, 수학점수가 50이었으면 수학점수는 50/70\*100이 되어 71.43점이 된다.
+For example, if Sejun's highest score is 70 and his math score is 50, his math score is 50/70\*100, which is 71.43 points.
 
-세준이의 성적을 위의 방법대로 새로 계산했을 때, 새로운 평균을 구하는 프로그램을 작성하시오.
+When Sejun's grades are newly calculated according to the above method, write a program to find a new average.
 
-#### 입력
+#### Input
 
-첫째 줄에 시험 본 과목의 개수 N이 주어진다.
+In the first line, the number N of subjects taken is given.
 
-이 값은 1000보다 작거나 같다. 둘째 줄에 세준이의 현재 성적이 주어진다.
+This value is less than or equal to 1000. The second line gives Sejun's current grades.
 
-이 값은 100보다 작거나 같은 음이 아닌 정수이고, 적어도 하나의 값은 0보다 크다.
+This value is an integer that is less than or equal to 100, and at least one value is greater than 0.
 
-#### 출력
+#### Output
 
-첫째 줄에 새로운 평균을 출력한다.
+Output a new average on the first line.
 
-실제 정답과 출력값의 절대오차 또는 상대오차가 10-2 이하이면 정답이다.
+If the absolute or relative error between the actual correct answer and the output value is 10-2 or less, it is correct.
 
-### 문제 풀이
+### problem solving
 
 ```java
 import java.io.*;
@@ -117,64 +119,28 @@ class Main {
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-먼저, `BufferedReader`를 사용해 입력을 받고, `ArrayList<Integer>`를 활용해 점수 리스트를 저장합니다.
+First, use 'BufferedReader' to receive input and use 'ArrayList<Integer>' to save the score list.
 
-첫 번째 입력 줄은 사용하지 않으며, 두 번째 줄에서 공백으로 구분된 점수들을 `StringTokenizer`를 이용해 분리하여 리스트에 추가합니다.
+Do not use the first input line, but use the 'StringTokenizer' to separate the spaces in the second line and add them to the list.
 
-그 후, 리스트를 순회하면서 최고 점수를 찾습니다.
+After that, I go around the list and look for the highest score.
 
-처음 설정된 `high_score` 값은 0이며, 리스트의 각 값을 비교해 가장 높은 값을 저장합니다.
+The first set 'high_score' value is 0, and it stores the highest value by comparing each value in the list.
 
-다음으로, 새로운 평균을 계산하는 과정이 있습니다.
+Next, there is a process of calculating the new average.
 
-각 점수를 최고 점수로 나눈 뒤 100을 곱하여 변환된 점수를 구하고, 이 값들을 모두 합한 후 리스트 크기로 나누어 최종 평균을 계산합니다.
+Divide each score by the highest score and multiply by 100 to obtain the converted score, sum these values, and divide them by the list size to calculate the final average.
 
-마지막으로, `BufferedWriter`를 사용해 평균을 출력하고, `br.close()`, `bw.flush()`, `bw.close()`를 통해 입력 및 출력 스트림을 정리합니다.
+Finally, the average is output using 'BufferedWriter', and the input and output streams are organized using 'br.close()' and 'bw.flush()' and 'bw.close().
 
-이 코드에서 주의할 점은 `high_score`가 0인 경우 나눗셈 연산에서 `ArithmeticException`이 발생할 수 있다는 점입니다.
+Note that if 'high_score' is 0, then 'ArithmeticalException' can occur in the division operation.
 
-따라서 `high_score`를 찾는 과정에서 제대로 값을 갱신하도록 해야 합니다.
+Therefore, you must update the value properly in the process of finding the 'high_score'.
 
-또한, 연산 정확도를 높이기 위해 리스트의 타입을 `Float`로 변경하면 더 안정적인 결과를 얻을 수 있습니다.
+In addition, more stable results can be obtained by changing the type of list to 'Float' to increase the computational accuracy.
 
-출력 형식은 소수점 자리수를 조정하여 가독성을 높일 수 있으며, 이를 위해 `String.format("%.2f")`를 사용할 수 있습니다.
+The output format can be readable by adjusting the decimal places, for which you can use 'String.format("%.2f")'.
 
-개선한 코드도 작성해보았습니다. 참고가 되었으면 합니다.
-
-```java
-import java.io.*;
-import java.util.*;
-
-class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        ArrayList<Float> list = new ArrayList<>();
-        float high_score = 0;
-        float avg_score = 0;
-        br.readLine();
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        while (st.hasMoreTokens()) {
-            list.add(Float.valueOf(st.nextToken()));
-        }
-
-        for(float score : list) {
-            if(score > high_score){
-                high_score = score;
-            }
-        }
-
-        for(float score : list) {
-            avg_score += score/high_score*100;
-        }
-
-        bw.write(avg_score/list.size() + "\n");
-        br.close();
-        bw.flush();
-        bw.close();
-    }
-}
-```
+I've also written an improved code. I hope it's a reference.
