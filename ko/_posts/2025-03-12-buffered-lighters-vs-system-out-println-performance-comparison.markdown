@@ -40,141 +40,48 @@ date: 2025-03-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 1546번, 평균 (with.Java) 에 대하여 알아본 글입니다.
+## BufferedWriter vs System.out.println() 성능 비교에 대하여 알아본 글입니다.
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
-
-문제에 대해 먼저 알아보겠습니다.
+자바에서 출력을 담당하는 대표적인 클래스인 BufferedWriter와 System.out.println()은 내부적으로 서로 다른 방식으로 동작합니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### BufferedWriter
 
-세준이는 기말고사를 망쳤다.
+BufferedWriter는 출력 데이터를 버퍼에 저장한 후, 일정 크기가 되거나 flush()가 호출될 때 한 번에 출력합니다.
 
-세준이는 점수를 조작해서 집에 가져가기로 했다.
+이 방식은 여러 번의 작은 출력 작업을 한 번의 큰 작업으로 합쳐서 성능을 최적화하는 역할을 합니다.
 
-일단 세준이는 자기 점수 중에 최댓값을 골랐다.
+#### 장점
 
-이 값을 M이라고 한다. 그리고 나서 모든 점수를 점수/M\*100 으로 고쳤다.
+- 많은 양의 데이터를 출력할 때 성능이 뛰어남
+- 불필요한 I/O 호출을 줄여 CPU 자원을 절약
 
-예를 들어, 세준이의 최고점이 70이고, 수학점수가 50이었으면 수학점수는 50/70\*100이 되어 71.43점이 된다.
+#### 단점
 
-세준이의 성적을 위의 방법대로 새로 계산했을 때, 새로운 평균을 구하는 프로그램을 작성하시오.
+- flush()를 호출해야 출력이 됨
+- 적은 양의 데이터를 출력할 경우, 오히려 오버헤드가 발생할 수도 있음
 
-#### 입력
+### System.out.println()
 
-첫째 줄에 시험 본 과목의 개수 N이 주어진다.
+System.out.println()은 내부적으로 PrintStream을 사용하여 데이터를 즉시 출력합니다.
 
-이 값은 1000보다 작거나 같다. 둘째 줄에 세준이의 현재 성적이 주어진다.
+하지만 이 PrintStream도 내부적으로 버퍼링을 적용하고 있기 때문에, 간단한 출력에서는 BufferedWriter보다 빠르게 동작할 수도 있습니다.
 
-이 값은 100보다 작거나 같은 음이 아닌 정수이고, 적어도 하나의 값은 0보다 크다.
+#### 장점
 
-#### 출력
+- 즉각적인 출력 가능
+- 적은 양의 데이터 출력 시 빠름
 
-첫째 줄에 새로운 평균을 출력한다.
+#### 단점
 
-실제 정답과 출력값의 절대오차 또는 상대오차가 10-2 이하이면 정답이다.
+- 대량의 데이터를 반복해서 출력하면 성능 저하 발생 가능
+- BufferedWriter처럼 성능 최적화가 자동으로 이루어지지 않음
 
-### 문제 풀이
+### 결론
 
-```java
-import java.io.*;
-import java.util.*;
+출력 데이터 양이 적을 경우 BufferedWriter를 사용하면 System.out.println()보다 성능이 떨어질 수 있습니다.
 
-class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        ArrayList<Integer> list = new ArrayList<>();
-        float high_score = 0;
-        float avg_score = 0;
-        br.readLine();
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        while (st.hasMoreTokens()) {
-
-            list.add(Integer.valueOf(st.nextToken()));
-        }
-
-        for(int i = 0; i < list.size(); i++) {
-            if(high_score <= list.get(i)){
-                high_score = list.get(i);
-            }
-        }
-
-        for(int i = 0; i < list.size(); i++) {
-            avg_score += list.get(i)/high_score*100;
-        }
-
-        bw.write(avg_score/list.size() + "\n");
-        br.close();
-        bw.flush();
-        bw.close();
-    }
-}
-```
-
-#### 풀이 설명
-
-먼저, `BufferedReader`를 사용해 입력을 받고, `ArrayList<Integer>`를 활용해 점수 리스트를 저장합니다.
-
-첫 번째 입력 줄은 사용하지 않으며, 두 번째 줄에서 공백으로 구분된 점수들을 `StringTokenizer`를 이용해 분리하여 리스트에 추가합니다.
-
-그 후, 리스트를 순회하면서 최고 점수를 찾습니다.
-
-처음 설정된 `high_score` 값은 0이며, 리스트의 각 값을 비교해 가장 높은 값을 저장합니다.
-
-다음으로, 새로운 평균을 계산하는 과정이 있습니다.
-
-각 점수를 최고 점수로 나눈 뒤 100을 곱하여 변환된 점수를 구하고, 이 값들을 모두 합한 후 리스트 크기로 나누어 최종 평균을 계산합니다.
-
-마지막으로, `BufferedWriter`를 사용해 평균을 출력하고, `br.close()`, `bw.flush()`, `bw.close()`를 통해 입력 및 출력 스트림을 정리합니다.
-
-이 코드에서 주의할 점은 `high_score`가 0인 경우 나눗셈 연산에서 `ArithmeticException`이 발생할 수 있다는 점입니다.
-
-따라서 `high_score`를 찾는 과정에서 제대로 값을 갱신하도록 해야 합니다.
-
-또한, 연산 정확도를 높이기 위해 리스트의 타입을 `Float`로 변경하면 더 안정적인 결과를 얻을 수 있습니다.
-
-출력 형식은 소수점 자리수를 조정하여 가독성을 높일 수 있으며, 이를 위해 `String.format("%.2f")`를 사용할 수 있습니다.
-
-개선한 코드도 작성해보았습니다. 참고가 되었으면 합니다.
-
-```java
-import java.io.*;
-import java.util.*;
-
-class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        ArrayList<Float> list = new ArrayList<>();
-        float high_score = 0;
-        float avg_score = 0;
-        br.readLine();
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        while (st.hasMoreTokens()) {
-            list.add(Float.valueOf(st.nextToken()));
-        }
-
-        for(float score : list) {
-            if(score > high_score){
-                high_score = score;
-            }
-        }
-
-        for(float score : list) {
-            avg_score += score/high_score*100;
-        }
-
-        bw.write(avg_score/list.size() + "\n");
-        br.close();
-        bw.flush();
-        bw.close();
-    }
-}
-```
+버퍼링의 장점을 거의 활용하지 못한채로 flush()를 호출하는 불필요한 오버헤드가 발생하기 때문입니다.
