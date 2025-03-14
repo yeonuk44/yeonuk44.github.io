@@ -40,49 +40,189 @@ date: 2025-03-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-# Thymeleaf에 대하여 (with.Java) 알아본 글입니다.
+# **Lombok: 자바 개발자를 위한 필수 라이브러리**를 알아본 글입니다.
+
+Java 개발을 하다 보면 반복적인 코드 작성이 피할 수 없는 경우가 많습니다.
+
+예를 들어, 데이터 클래스를 작성할 때 `getter`, `setter`, `toString`, `equals`, `hashCode` 메서드를 매번 생성해야 하는 불편함이 있습니다.
+
+이와 같은 반복 작업을 줄이고, 코드의 가독성을 높이기 위해 등장한 라이브러리가 바로 **Lombok**입니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-# **Thymeleaf: 자바 기반 템플릿 엔진의 매력**
+## **Lombok란 무엇인가?**
 
-웹 애플리케이션을 개발할 때 클라이언트와 서버 간 데이터를 연결하고 화면에 표현하는 것이 중요합니다. 특히, Java 기반 웹 애플리케이션에서는 효율적이고 직관적인 템플릿 엔진을 사용하는 것이 생산성을 크게 향상시킬 수 있습니다. **Thymeleaf**는 이러한 필요를 충족시키기 위해 설계된 Java 기반의 템플릿 엔진입니다.
+**Lombok**은 자바 애플리케이션 개발에서 반복적으로 작성되는 코드를 자동으로 생성해주는 라이브러리입니다.
 
-## **Thymeleaf란 무엇인가?**
+컴파일 시점에 애노테이션을 분석해 필요한 코드를 삽입하여 개발자의 작업을 줄이고, 더 간결하고 깔끔한 코드를 작성할 수 있도록 도와줍니다.
 
-**Thymeleaf**는 자바 기반 웹 애플리케이션에서 HTML, XML, JavaScript, CSS, 그리고 텍스트 등을 처리하기 위한 템플릿 엔진입니다. Spring Framework와의 강력한 통합으로 유명하며, 동적 웹 페이지를 구성할 때 유용하게 사용됩니다.  
-Thymeleaf는 HTML 문법을 유지하면서도 동적인 콘텐츠를 삽입할 수 있어, 디자이너와 개발자가 협업하기 쉬운 구조를 제공합니다.
+Lombok은 특히 **DTO (Data Transfer Object)**와 같은 데이터 중심의 클래스를 작성할 때 유용합니다.
 
-## **Thymeleaf의 주요 특징**
+IDE에서 직접 코드 생성 없이 애노테이션만으로 원하는 메서드와 필드를 제공받을 수 있습니다.
 
-### 1. **자연스러운 HTML 코드 작성**
+## **Lombok의 주요 애노테이션**
 
-Thymeleaf는 브라우저에서 바로 열어도 정상적으로 표시되는 HTML 문법을 유지합니다. 이를 **내츄럴 템플릿(Natural Template)**이라고 하며, 디자이너와 개발자 간 협업을 원활하게 만듭니다.
+### 1. **@Getter / @Setter**
 
-### 2. **Spring Framework와의 완벽한 통합**
+- **설명**: 클래스의 필드에 대해 `getter`와 `setter` 메서드를 자동으로 생성.
+- **예제**:
 
-Thymeleaf는 Spring MVC와 자연스럽게 연동되며, 모델 데이터를 쉽게 템플릿으로 전달할 수 있습니다. 예를 들어, `Model` 객체에 담긴 데이터를 뷰에서 바로 사용할 수 있습니다.
+  ```java
+  import lombok.Getter;
+  import lombok.Setter;
 
-### 3. **표현식 지원**
+  @Getter
+  @Setter
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
 
-Thymeleaf는 다양한 표현식을 제공하여 동적인 데이터를 쉽게 처리할 수 있습니다.
+- **결과**: 위 코드로 인해 `getName()`, `setName(String name)`, `getAge()`, `setAge(int age)` 메서드가 자동 생성됩니다.
 
-- **변수 표현식**: `${}`
-- **조건부 표현식**: `th:if`, `th:unless`
-- **반복 표현식**: `th:each`
+### 2. **@ToString**
 
-### 4. **서버-사이드 렌더링**
+- **설명**: 클래스의 `toString` 메서드를 자동으로 생성.
+- **예제**:
 
-서버에서 데이터를 렌더링한 HTML 페이지를 반환하기 때문에 클라이언트 측에서 추가적인 렌더링 작업이 필요하지 않습니다.
+  ```java
+  import lombok.ToString;
 
-### 5. **확장성**
+  @ToString
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
 
-Thymeleaf는 플러그인과 유틸리티를 통해 기능을 확장할 수 있으며, 커스텀 다이얼렉트를 만들어 특정 요구 사항을 처리할 수 있습니다.
+- **결과**: 객체를 출력하면 `"User(name=John, age=25)"`과 같은 포맷으로 출력됩니다.
+
+### 3. **@EqualsAndHashCode**
+
+- **설명**: `equals`와 `hashCode` 메서드를 자동으로 생성.
+- **예제**:
+
+  ```java
+  import lombok.EqualsAndHashCode;
+
+  @EqualsAndHashCode
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
+
+- **결과**: 객체의 내용에 따라 `equals`와 `hashCode` 메서드가 동작합니다.
+
+### 4. **@NoArgsConstructor / @AllArgsConstructor / @RequiredArgsConstructor**
+
+- **설명**: 다양한 형태의 생성자를 자동으로 생성.
+  - **`@NoArgsConstructor`**: 파라미터 없는 기본 생성자.
+  - **`@AllArgsConstructor`**: 모든 필드를 매개변수로 받는 생성자.
+  - **`@RequiredArgsConstructor`**: `final` 필드 또는 `@NonNull` 필드만 매개변수로 받는 생성자.
+- **예제**:
+
+  ```java
+  import lombok.AllArgsConstructor;
+  import lombok.NoArgsConstructor;
+
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
+
+- **결과**: 두 가지 형태의 생성자가 자동으로 제공됩니다.
+
+### 5. **@Data**
+
+- **설명**: `@Getter`, `@Setter`, `@ToString`, `@EqualsAndHashCode`, `@RequiredArgsConstructor`를 한 번에 제공.
+- **예제**:
+
+  ```java
+  import lombok.Data;
+
+  @Data
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
+
+- **결과**: 데이터 중심 클래스에 필요한 모든 메서드를 자동 생성.
+
+### 6. **@Builder**
+
+- **설명**: 빌더 패턴을 쉽게 구현하도록 지원.
+- **예제**:
+
+  ```java
+  import lombok.Builder;
+
+  @Builder
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
+
+- **사용**:
+  ```java
+  User user = User.builder()
+                  .name("John")
+                  .age(25)
+                  .build();
+  ```
+
+### 7. **@Slf4j**
+
+- **설명**: 클래스에 `Logger` 객체를 자동으로 생성.
+- **예제**:
+
+  ```java
+  import lombok.extern.slf4j.Slf4j;
+
+  @Slf4j
+  public class Example {
+      public void logExample() {
+          log.info("This is a log message!");
+      }
+  }
+  ```
+
+## **Lombok의 장점**
+
+1. **코드 간소화**  
+   반복적인 코드를 줄이고, 간결하고 읽기 쉬운 코드를 작성할 수 있습니다.
+
+2. **생산성 향상**  
+   getter, setter, toString 등의 메서드 작성 시간을 절약할 수 있습니다.
+
+3. **가독성 향상**  
+   비즈니스 로직에만 집중할 수 있도록 코드의 구조를 단순화합니다.
+
+## **Lombok의 단점**
+
+1. **IDE 의존성**  
+   Lombok은 IDE의 플러그인을 설치해야 제대로 동작합니다. 플러그인 없이 코드를 보면 이해하기 어렵습니다.
+
+2. **런타임 디버깅**  
+   컴파일 타임에 코드를 생성하기 때문에 디버깅 시 실제 생성된 코드를 확인하기 어려운 경우가 있습니다.
+
+3. **호환성 문제**  
+   특정 환경(예: 일부 빌드 도구나 다른 라이브러리)에서 호환성 문제가 발생할 수 있습니다.
 
 ## **결론**
 
-Thymeleaf는 직관적이고 강력한 템플릿 엔진으로, Java 기반 웹 애플리케이션에서 동적인 웹 페이지를 생성할 때 매우 유용합니다. 특히, Spring Framework와의 자연스러운 통합으로 생산성을 높이고, HTML 친화적인 문법으로 개발자와 디자이너 간 협업을 원활하게 만들어줍니다.
+Lombok은 Java 개발을 더 빠르고 효율적으로 만드는 강력한 도구입니다.
 
-Thymeleaf를 활용하여 더욱 효율적이고 간결한 웹 애플리케이션을 만들어보세요! 🚀
+반복적인 코드를 제거하고 생산성을 높이며, 간결하고 가독성 좋은 코드를 작성할 수 있도록 도와줍니다.
+
+그러나 Lombok 사용 시 의존성과 디버깅 이슈를 염두에 두어야 합니다.
+
+Lombok을 적절히 활용하여 프로젝트의 품질과 개발 속도를 모두 높여보세요! 🚀

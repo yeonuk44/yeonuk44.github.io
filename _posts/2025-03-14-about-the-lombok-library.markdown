@@ -40,49 +40,191 @@ date: 2025-03-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-# Thymeleaf에 대하여 (with.Java) 알아본 글입니다.
+# \*\*Lombok: essential live for Java developers
+
+# **Lombok: This article examines the required library** for Java developers.
+
+When developing Java, repetitive code writing is often unavoidable.
+
+For example, when creating a data class, it is inconvenient to generate 'getter', 'setter', 'toString', 'equals', and 'hashCode' methods each time.
+
+**Lombok** is the library that emerged to reduce iterations like this and increase readability of code.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-# **Thymeleaf: 자바 기반 템플릿 엔진의 매력**
+## **What is Lombok?**?
 
-웹 애플리케이션을 개발할 때 클라이언트와 서버 간 데이터를 연결하고 화면에 표현하는 것이 중요합니다. 특히, Java 기반 웹 애플리케이션에서는 효율적이고 직관적인 템플릿 엔진을 사용하는 것이 생산성을 크게 향상시킬 수 있습니다. **Thymeleaf**는 이러한 필요를 충족시키기 위해 설계된 Java 기반의 템플릿 엔진입니다.
+**Lombok** is a library that automatically generates code that is repeatedly written by Java application development.
 
-## **Thymeleaf란 무엇인가?**
+Annotation is analyzed at the time of compilation to insert the necessary code to reduce developer work and help write simpler and cleaner code.
 
-**Thymeleaf**는 자바 기반 웹 애플리케이션에서 HTML, XML, JavaScript, CSS, 그리고 텍스트 등을 처리하기 위한 템플릿 엔진입니다. Spring Framework와의 강력한 통합으로 유명하며, 동적 웹 페이지를 구성할 때 유용하게 사용됩니다.  
-Thymeleaf는 HTML 문법을 유지하면서도 동적인 콘텐츠를 삽입할 수 있어, 디자이너와 개발자가 협업하기 쉬운 구조를 제공합니다.
+Lombok is particularly useful when creating data-driven classes such as **DTO (Data Transfer Object)**.
 
-## **Thymeleaf의 주요 특징**
+You can get the method and field you want with just an annotation without generating code directly from IDE.
 
-### 1. **자연스러운 HTML 코드 작성**
+## **Lombok's main anote**
 
-Thymeleaf는 브라우저에서 바로 열어도 정상적으로 표시되는 HTML 문법을 유지합니다. 이를 **내츄럴 템플릿(Natural Template)**이라고 하며, 디자이너와 개발자 간 협업을 원활하게 만듭니다.
+### 1. **@Getter / @Setter**
 
-### 2. **Spring Framework와의 완벽한 통합**
+- **Description**: Automatically generate 'getter' and 'setter' methods for fields in the class.
+- **Example**:
 
-Thymeleaf는 Spring MVC와 자연스럽게 연동되며, 모델 데이터를 쉽게 템플릿으로 전달할 수 있습니다. 예를 들어, `Model` 객체에 담긴 데이터를 뷰에서 바로 사용할 수 있습니다.
+  ```java
+  import lombok.Getter;
+  import lombok.Setter;
 
-### 3. **표현식 지원**
+  @Getter
+  @Setter
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
 
-Thymeleaf는 다양한 표현식을 제공하여 동적인 데이터를 쉽게 처리할 수 있습니다.
+- **Result**: The above code automatically generates methods 'getName(), 'setName(String name), 'getAge()' and 'setAge(intage)'.
 
-- **변수 표현식**: `${}`
-- **조건부 표현식**: `th:if`, `th:unless`
-- **반복 표현식**: `th:each`
+### 2. **@ToString**
 
-### 4. **서버-사이드 렌더링**
+- **Description**: Automatically creates the 'toString' method of the class.
+- **Example**:
 
-서버에서 데이터를 렌더링한 HTML 페이지를 반환하기 때문에 클라이언트 측에서 추가적인 렌더링 작업이 필요하지 않습니다.
+  ```java
+  import lombok.ToString;
 
-### 5. **확장성**
+  @ToString
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
 
-Thymeleaf는 플러그인과 유틸리티를 통해 기능을 확장할 수 있으며, 커스텀 다이얼렉트를 만들어 특정 요구 사항을 처리할 수 있습니다.
+- **Result**: When an object is printed, it is printed in the same format as 'User(name=John, age=25)"
 
-## **결론**
+### 3. **@EqualsAndHashCode**
 
-Thymeleaf는 직관적이고 강력한 템플릿 엔진으로, Java 기반 웹 애플리케이션에서 동적인 웹 페이지를 생성할 때 매우 유용합니다. 특히, Spring Framework와의 자연스러운 통합으로 생산성을 높이고, HTML 친화적인 문법으로 개발자와 디자이너 간 협업을 원활하게 만들어줍니다.
+- **Description**: Automatically create 'equals' and 'hashCode' methods.
+- **Example**:
 
-Thymeleaf를 활용하여 더욱 효율적이고 간결한 웹 애플리케이션을 만들어보세요! 🚀
+  ```java
+  import lombok.EqualsAndHashCode;
+
+  @EqualsAndHashCode
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
+
+- **Results**: The 'equals' and 'hashCode' methods operate depending on the contents of the object.
+
+### 4. **@NoArgsConstructor / @AllArgsConstructor / @RequiredArgsConstructor**
+
+- **Description**: Automatically create various types of generators.
+  - **`@NoArgsConstructor`**: Default generator with no parameters.
+  - **`@AllArgsConstructor`**: A constructor that receives all fields as parameters.
+  - **`@RequiredArgsConstructor'**: A constructor that receives only the 'final' or '@NonNull' fields as parameters.
+- **Example**:
+
+  ```java
+  import lombok.AllArgsConstructor;
+  import lombok.NoArgsConstructor;
+
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
+
+- **Results**: Two types of generators are automatically provided.
+
+### 5. **@Data**
+
+- **설명**: `@Getter`, `@Setter`, `@ToString`, `@EqualsAndHashCode`, `@RequiredArgsConstructor`를 한 번에 제공.
+- **Example**:
+
+  ```java
+  import lombok.Data;
+
+  @Data
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
+
+- **Results**: Automatically generate all the methods required for a data-driven class.
+
+### 6. **@Builder**
+
+- **Description**: Help facilitate the implementation of builder patterns.
+- **Example**:
+
+  ```java
+  import lombok.Builder;
+
+  @Builder
+  public class User {
+      private String name;
+      private int age;
+  }
+  ```
+
+- **Use**:
+  ```java
+  User user = User.builder()
+                  .name("John")
+                  .age(25)
+                  .build();
+  ```
+
+### 7. **@Slf4j**
+
+- **Description**: Automatically create 'Logger' object in class.
+- **Example**:
+
+  ```java
+  import lombok.extern.slf4j.Slf4j;
+
+  @Slf4j
+  public class Example {
+      public void logExample() {
+          log.info("This is a log message!");
+      }
+  }
+  ```
+
+## **Advantages of Lombok**
+
+1. **Simplify code**  
+   Reduce repetitive code and write concise and easy-to-read code.
+
+2. **Improves productivity**  
+   You can save time writing methods such as getter, setter, to String, and so on.
+
+3. **Advanced readability**  
+   Simplifies the structure of the code so that you can focus solely on business logic.
+
+## **Lombok's shortcomings**
+
+1. **IDE Dependency**  
+   Lombok needs to install the plug-in of IDE to work properly. It's hard to understand when you look at the code without the plug-in.
+
+2. **Running Debugging**  
+   Because code is generated at compilation time, it is sometimes difficult to verify the actual generated code when debugging.
+
+3. **Compatibility issues**  
+   Compatibility issues may occur in certain environments (for example, some build tools or other libraries).
+
+## **Conclusion**
+
+Lombok is a powerful tool that makes Java development faster and more efficient.
+
+It helps you remove repetitive codes, increase productivity, and write concise and readable codes.
+
+However, dependency and debugging issues must be kept in mind when using Lombok.
+
+Take advantage of Lombok to speed up both quality and development of your project! 🚀
