@@ -88,21 +88,21 @@ Print the self-numbers less than or equal to 10,000, one per line, in increasing
 import java.util.ArrayList;
 
 class Main {
-public static void main(String[] args) {
-ArrayList<Integer> list = new ArrayList<>();
-for(int i = 1; i < 10001; i++){
-Integer sum = i;
-char[] ch = String.valueOf(i).toCharArray();
-for(char j : ch){
-sum += (j - 48);
-}
-list.add(sum);
-if(list.contains(i)){
-continue;
-}
-System.out.println(i);
-}
-}
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i = 1; i < 10001; i++){
+            Integer sum = i;
+            char[] ch = String.valueOf(i).toCharArray();
+            for(char j : ch){
+                sum += (j - 48);
+            }
+            list.add(sum);
+            if(list.contains(i)){
+                continue;
+            }
+            System.out.println(i);
+        }
+    }
 }
 ```
 
