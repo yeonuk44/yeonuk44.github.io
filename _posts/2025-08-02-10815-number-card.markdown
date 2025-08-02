@@ -1,36 +1,36 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id-10815-number-card
-title: Baekjun, No.10815, Number Card (with Java)
+title: Baekjun Number 10815 Card (with.Java)
 # title: Baekjun, No.10815, Number Card (with Java)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
-# multiple category is not supported
+# multiple categories is not supported
 category: Java
 # multiple tag entries are possible
 tags: [java, coding test]
-# thumbnail image for post
+#thumbnailimageforpost
 img: ":post_pic1.jpg"
 # disable comments on this page
 # comments_disable: true
 
 # publish date
 date: 2025-08-02 09:00:00 +0900
-# seo
+#seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
 # check the meta_common_description in _data/owner/[language].yml
 #meta_description: ""
 
-# optional
-# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+#optional
+#please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
 # image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
 #image_viewer_on: true
-# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
-# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# The image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
 #image_lazy_loader_on: true
-# exclude from on site search
+# exclude from on-site search
 #on_site_search_exclude: true
 # exclude from search engines
 #search_engine_exclude: true
@@ -40,94 +40,91 @@ date: 2025-08-02 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 4673번 셀프 넘버 (with.Java) 에 대하여 알아본 글입니다.
+## This article explores Baekjoon Problem 10815, Number Card (with Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We will learn by solving coding test problems, reflecting on past problems, and exploring different solution methods.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's first look at the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-셀프 넘버는 1949년 인도 수학자 D.R. Kaprekar가 이름 붙였다. 양의 정수 n에 대해서 d(n)을 n과 n의 각 자리수를 더하는 함수라고 정의하자.
+A number card is a card with a single integer written on it.
 
-예를 들어, d(75) = 75+7+5 = 87이다.
+Sanggeun has N number cards.
 
-양의 정수 n이 주어졌을 때, 이 수를 시작해서 n, d(n), d(d(n)), d(d(d(n))), ...과 같은 무한 수열을 만들 수 있다.
+Given M integers, write a program that determines whether Sanggeun has a number card with this number written on it.
 
-예를 들어, 33으로 시작한다면 다음 수는 33 + 3 + 3 = 39이고, 그 다음 수는 39 + 3 + 9 = 51, 다음 수는 51 + 5 + 1 = 57이다.
+#### Input
 
-이런식으로 다음과 같은 수열을 만들 수 있다.
+The first line contains the number N of number cards Sanggeun has (1 ≤ N ≤ 500,000).
 
-33, 39, 51, 57, 69, 84, 96, 111, 114, 120, 123, 129, 141, ...
+The second line contains the integers written on the number cards.
 
-n을 d(n)의 생성자라고 한다. 위의 수열에서 33은 39의 생성자이고, 39는 51의 생성자, 51은 57의 생성자이다.
+The numbers written on the number cards are greater than or equal to -10,000,000 and less than or equal to 10,000,000.
 
-생성자가 한 개보다 많은 경우도 있다. 예를 들어, 101은 생성자가 2개(91과 100) 있다.
+No two number cards have the same number written on them.
 
-생성자가 없는 숫자를 셀프 넘버라고 한다. 100보다 작은 셀프 넘버는 총 13개가 있다.
+The third line contains M (1 ≤ M ≤ 500,000).
 
-1, 3, 5, 7, 9, 20, 31, 42, 53, 64, 75, 86, 97
+The fourth line contains M integers, separated by spaces, for which the number cards must be checked.
 
-10000보다 작거나 같은 셀프 넘버를 한 줄에 하나씩 출력하는 프로그램을 작성하시오.
+This number is greater than or equal to -10,000,000 and less than or equal to 10,000,000.
 
-#### 입력
+#### Output
 
-입력은 없다.
+For the M numbers given in the first line of input, print 1 if Sanggeun has a number card with each number written on it, or 0 if not, separated by a space.
 
-#### 출력
-
-10,000보다 작거나 같은 셀프 넘버를 한 줄에 하나씩 증가하는 순서로 출력한다.
-
-### 문제 풀이
+### Problem Solution
 
 ```java
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.InputStreamWriter;
+import java.util.HashSet;
 
-class Main {
-    public static void main(String[] args) {
-        ArrayList<Integer> list = new ArrayList<>();
-        for(int i = 1; i < 10001; i++){
-            Integer sum = i;
-            char[] ch = String.valueOf(i).toCharArray();
-            for(char j : ch){
-                sum += (j - 48);
-            }
-            list.add(sum);
-            if(list.contains(i)){
-                continue;
-            }
-            System.out.println(i);
+class Main{
+    public static void main(String[] args) throws IOException {
+        HashSet<String> set = new HashSet<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        br.readLine();
+        String[] temp = br.readLine().split(" ");
+        br.readLine();
+        String[] card = br.readLine().split(" ");
+        String[] answer = new String[card.length];
+        br.close();
+        for(int i = 0; i < temp.length; i++){
+            set.add(temp[i]);
         }
+        for(int i =0; i < card.length; i++){
+            if(set.contains(card[i])){
+                answer[i] = "1";
+            }else{
+                answer[i] = "0";
+            }
+        }
+        for(String str : answer){
+            bw.write(str + " ");
+        }
+        bw.flush();
+        bw.close();
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Explanation
 
-이 코드는 1부터 10,000까지의 수 중 셀프 넘버(Self Number)를 찾아 출력하는 프로그램입니다.
+This function compares two string arrays to determine if they intersect, and outputs the result.
 
-셀프 넘버란 어떤 수 `n`이 다른 수 `m`에 의해 `m + m의 각 자리수의 합`으로 생성되지 않는 수를 말합니다. 즉, 생성자가 없는 수를 의미합니다.
+First, during input processing, it uses a BufferedReader to read the two arrays, compares their elements, and outputs the result.
 
-먼저 `ArrayList<Integer> list`를 생성하여 각 수 `i`에 대해 d(i)의 결과값을 저장합니다.
+For efficient set operations, it uses a HashSet to efficiently handle input and output.
 
-변수 `sum`은 초기값으로 `i`를 가지고 있으며, 이후 `i`를 문자열로 변환하고 `toCharArray()`를 통해 각 자릿수를 `char`로 분리합니다.
+This allows you to quickly check for intersection between two arrays and output the result.
 
-각 문자는 아스키코드 값에서 `'0'`을 빼는 방식으로 정수형 숫자로 변환하고 `sum`에 더합니다. 이렇게 계산된 `sum`은 `i`의 d(i) 결과로서 리스트에 저장됩니다.
-
-이후 현재 숫자 `i`가 리스트에 존재한다면 이는 어떤 수의 생성자이므로 출력하지 않고 넘어갑니다. 반면 리스트에 포함되지 않았다면 이는 생성자가 없는 수, 즉 셀프 넘버이므로 콘솔에 출력합니다.
-
-그러나 이 코드에는 비효율적인 부분이 존재합니다.
-
-`list.contains(i)`는 내부적으로 리스트를 처음부터 끝까지 탐색하는 연산으로 최악의 경우 O(n)의 시간 복잡도를 가집니다. 따라서 수가 많아질수록 성능이 저하됩니다.
-
-더 나은 성능을 위해 `HashSet`을 사용하면 `contains()` 연산이 평균적으로 O(1)에 수행되므로 성능 개선에 효과적입니다.
-
-또한, d(n)의 결과값을 저장하기 위한 별도의 리스트를 만드는 방식이 아니라, boolean 배열을 사용하여 어떤 수가 생성되었는지 표시한 뒤 표시되지 않은 숫자만 출력하는 방식도 자주 사용됩니다.
-
-이는 메모리와 시간 측면에서 더 효율적입니다.
-
-종합하면, 이 코드는 셀프 넘버의 정의를 그대로 구현하여 정상적으로 결과를 출력하지만, 리스트를 활용한 `contains()` 방식은 성능 측면에서 아쉬움이 있으며, 대체 자료구조를 사용하는 방식으로 개선할 수 있습니다.
+Thank you!
