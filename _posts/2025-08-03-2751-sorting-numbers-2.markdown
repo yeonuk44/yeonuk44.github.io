@@ -1,36 +1,36 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: id-2751-sorting-numbers-2
-title: 백준 2751번, 수 정렬하기 2 (with.Java)
+title: Baekjun No. 2751, Sorting numbers 2 (with.Java)
 # title: Baekjoon Problem 2751, Sorting Numbers 2 (with.Java)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
-# multiple category is not supported
+# multiple categories is not supported
 category: Java
 # multiple tag entries are possible
 tags: [java, coding test]
-# thumbnail image for post
+#thumbnailimageforpost
 img: ":post_pic1.jpg"
 # disable comments on this page
 # comments_disable: true
 
 # publish date
 date: 2025-08-03 09:00:00 +0900
-# seo
+#seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900
 # check the meta_common_description in _data/owner/[language].yml
 #meta_description: ""
 
-# optional
-# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+#optional
+#please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
 # image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
 #image_viewer_on: true
-# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
-# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# The image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
 #image_lazy_loader_on: true
-# exclude from on site search
+# exclude from on-site search
 #on_site_search_exclude: true
 # exclude from search engines
 #search_engine_exclude: true
@@ -40,91 +40,86 @@ date: 2025-08-03 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 2751번, 수 정렬하기 2 (with.Java) 에 대하여 알아본 글입니다.
+## This article explores Baekjoon Problem 2751, Sorting Numbers 2 (with Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+We will learn by solving coding test problems, reflecting on previous problems, and exploring different solution methods.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's first look at the problem.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-숫자 카드는 정수 하나가 적혀져 있는 카드이다.
+Given N numbers, write a program to sort them in ascending order.
 
-상근이는 숫자 카드 N개를 가지고 있다.
+#### Input
 
-정수 M개가 주어졌을 때, 이 수가 적혀있는 숫자 카드를 상근이가 가지고 있는지 아닌지를 구하는 프로그램을 작성하시오.
+The first line contains the number N (1 ≤ N ≤ 1,000,000).
 
-#### 입력
+The second and subsequent N lines contain numbers.
 
-첫째 줄에 상근이가 가지고 있는 숫자 카드의 개수 N(1 ≤ N ≤ 500,000)이 주어진다.
+These numbers are integers whose absolute values are less than or equal to 1,000,000.
 
-둘째 줄에는 숫자 카드에 적혀있는 정수가 주어진다.
+Numbers cannot be duplicated.
 
-숫자 카드에 적혀있는 수는 -10,000,000보다 크거나 같고, 10,000,000보다 작거나 같다.
+#### Output
 
-두 숫자 카드에 같은 수가 적혀있는 경우는 없다.
+Sort the results in ascending order on the first N lines, one per line.
 
-셋째 줄에는 M(1 ≤ M ≤ 500,000)이 주어진다.
-
-넷째 줄에는 상근이가 가지고 있는 숫자 카드인지 아닌지를 구해야 할 M개의 정수가 주어지며, 이 수는 공백으로 구분되어져 있다.
-
-이 수도 -10,000,000보다 크거나 같고, 10,000,000보다 작거나 같다.
-
-#### 출력
-
-첫째 줄에 입력으로 주어진 M개의 수에 대해서, 각 수가 적힌 숫자 카드를 상근이가 가지고 있으면 1을, 아니면 0을 공백으로 구분해 출력한다.
-
-### 문제 풀이
+### Problem Solution
 
 ```java
+import java.util.PriorityQueue;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStreamReader;
-import java.io.InputStreamWriter;
-import java.util.HashSet;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.IOException;
 
 class Main{
     public static void main(String[] args) throws IOException {
-        HashSet<String> set = new HashSet<>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        br.readLine();
-        String[] temp = br.readLine().split(" ");
-        br.readLine();
-        String[] card = br.readLine().split(" ");
-        String[] answer = new String[card.length];
-        br.close();
-        for(int i = 0; i < temp.length; i++){
-            set.add(temp[i]);
+    PriorityQueue<Integer> queue = new PriorityQueue<>();
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    int len = Integer.valueOf(br.readLine().trim());
+
+    for(int i = 0; i < len; i++){
+        queue.offer(Integer.valueOf(br.readLine().trim()));
+    }
+    br.close();
+
+    while(!queue.isEmpty()){
+        bw.write(String.valueOf(queue.poll()));
+        if(!queue.isEmpty()){
+            bw.newLine();
         }
-        for(int i =0; i < card.length; i++){
-            if(set.contains(card[i])){
-                answer[i] = "1";
-            }else{
-                answer[i] = "0";
-            }
-        }
-        for(String str : answer){
-            bw.write(str + " ");
-        }
-        bw.flush();
-        bw.close();
+    }
+    bw.flush();
+    bw.close();
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Explanation
 
-두 개의 문자열 배열을 비교하여 교집합 여부를 확인하고, 그 결과를 출력합니다.
+This code sorts the given numbers in ascending order and outputs them.
 
-먼저, 입력을 처리하는 과정에서 BufferedReader를 사용하여 두 배열의 입력을 받고, 그 배열의 요소들을 비교한 후 결과를 출력합니다.
+First, it uses a PriorityQueue to store integers.
 
-효율적인 집합 연산을 위해 HashSet을 사용하며, 입력과 출력을 효과적으로 처리합니다.
+It uses a BufferedReader to receive input, and a BufferedWriter to output them.
 
-이를 통해 두 배열 간의 교집합 여부를 빠르게 확인하고 결과를 출력할 수 있습니다.
+The first line of input contains the number of numbers, which is stored in the len variable.
 
-감사합니다!
+Then, it loops through the input and adds each number to the queue.
+
+After all numbers have been received, it retrieves each number from the PriorityQueue and outputs it using the BufferedWriter.
+
+After each number is output, it adds a line break to format it correctly.
+
+Finally, it flushes and closes the BufferedWriter to terminate the program.
+
+This program provides a function to efficiently input, sort, and output numbers.
+
+Thank you!

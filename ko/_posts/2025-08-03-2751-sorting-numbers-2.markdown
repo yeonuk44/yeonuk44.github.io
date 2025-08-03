@@ -52,64 +52,49 @@ date: 2025-08-03 09:00:00 +0900
 
 ### 문제
 
-숫자 카드는 정수 하나가 적혀져 있는 카드이다.
-
-상근이는 숫자 카드 N개를 가지고 있다.
-
-정수 M개가 주어졌을 때, 이 수가 적혀있는 숫자 카드를 상근이가 가지고 있는지 아닌지를 구하는 프로그램을 작성하시오.
+N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로그램을 작성하시오.
 
 #### 입력
 
-첫째 줄에 상근이가 가지고 있는 숫자 카드의 개수 N(1 ≤ N ≤ 500,000)이 주어진다.
+첫째 줄에 수의 개수 N(1 ≤ N ≤ 1,000,000)이 주어진다.
 
-둘째 줄에는 숫자 카드에 적혀있는 정수가 주어진다.
+둘째 줄부터 N개의 줄에는 수가 주어진다.
 
-숫자 카드에 적혀있는 수는 -10,000,000보다 크거나 같고, 10,000,000보다 작거나 같다.
+이 수는 절댓값이 1,000,000보다 작거나 같은 정수이다.
 
-두 숫자 카드에 같은 수가 적혀있는 경우는 없다.
-
-셋째 줄에는 M(1 ≤ M ≤ 500,000)이 주어진다.
-
-넷째 줄에는 상근이가 가지고 있는 숫자 카드인지 아닌지를 구해야 할 M개의 정수가 주어지며, 이 수는 공백으로 구분되어져 있다.
-
-이 수도 -10,000,000보다 크거나 같고, 10,000,000보다 작거나 같다.
+수는 중복되지 않는다.
 
 #### 출력
 
-첫째 줄에 입력으로 주어진 M개의 수에 대해서, 각 수가 적힌 숫자 카드를 상근이가 가지고 있으면 1을, 아니면 0을 공백으로 구분해 출력한다.
+첫째 줄부터 N개의 줄에 오름차순으로 정렬한 결과를 한 줄에 하나씩 출력한다.
 
 ### 문제 풀이
 
 ```java
+import java.util.PriorityQueue;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStreamReader;
-import java.io.InputStreamWriter;
-import java.util.HashSet;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.IOException;
 
 class Main{
     public static void main(String[] args) throws IOException {
-        HashSet<String> set = new HashSet<>();
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        br.readLine();
-        String[] temp = br.readLine().split(" ");
-        br.readLine();
-        String[] card = br.readLine().split(" ");
-        String[] answer = new String[card.length];
+        int len = Integer.valueOf(br.readLine().trim());
+
+        for(int i = 0; i < len; i++){
+            queue.offer(Integer.valueOf(br.readLine().trim()));
+        }
         br.close();
-        for(int i = 0; i < temp.length; i++){
-            set.add(temp[i]);
-        }
-        for(int i =0; i < card.length; i++){
-            if(set.contains(card[i])){
-                answer[i] = "1";
-            }else{
-                answer[i] = "0";
+
+        while(!queue.isEmpty()){
+            bw.write(String.valueOf(queue.poll()));
+            if(!queue.isEmpty()){
+                bw.newLine();
             }
-        }
-        for(String str : answer){
-            bw.write(str + " ");
         }
         bw.flush();
         bw.close();
@@ -119,12 +104,22 @@ class Main{
 
 #### 풀이 설명
 
-두 개의 문자열 배열을 비교하여 교집합 여부를 확인하고, 그 결과를 출력합니다.
+이 코드는 주어진 수를 오름차순으로 정렬하여 출력하는 프로그램입니다.
 
-먼저, 입력을 처리하는 과정에서 BufferedReader를 사용하여 두 배열의 입력을 받고, 그 배열의 요소들을 비교한 후 결과를 출력합니다.
+먼저 PriorityQueue를 사용하여 정수를 저장합니다.
 
-효율적인 집합 연산을 위해 HashSet을 사용하며, 입력과 출력을 효과적으로 처리합니다.
+입력을 받기 위해 BufferedReader를 사용하고, 출력을 위해 BufferedWriter를 사용합니다.
 
-이를 통해 두 배열 간의 교집합 여부를 빠르게 확인하고 결과를 출력할 수 있습니다.
+입력받은 첫 줄은 수의 개수를 나타내며, 이를 len 변수에 저장합니다.
+
+이후 반복문을 통해 각 수를 입력받아 queue에 추가합니다.
+
+모든 수를 입력받은 후, PriorityQueue에 저장된 수를 하나씩 꺼내어 BufferedWriter를 사용해 출력합니다.
+
+각 수를 출력할 때마다 줄바꿈을 추가하여 형식을 맞춥니다.
+
+마지막으로 BufferedWriter를 플러시하고 닫아 프로그램을 종료합니다.
+
+이 프로그램은 효율적으로 수를 입력받고 정렬하여 출력하는 기능을 제공합니다.
 
 감사합니다!
