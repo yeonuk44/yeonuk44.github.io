@@ -40,7 +40,7 @@ date: 2025-08-04 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 2751번, 수 정렬하기 2 (with.Java) 에 대하여 알아본 글입니다.
+## 백준 15649번, N과 M (1) (with.Java) 에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,26 +52,25 @@ date: 2025-08-04 09:00:00 +0900
 
 ### 문제
 
-N개의 수가 주어졌을 때, 이를 오름차순으로 정렬하는 프로그램을 작성하시오.
+자연수 N과 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오.
+
+1부터 N까지 자연수 중에서 중복 없이 M개를 고른 수열
 
 #### 입력
 
-첫째 줄에 수의 개수 N(1 ≤ N ≤ 1,000,000)이 주어진다.
-
-둘째 줄부터 N개의 줄에는 수가 주어진다.
-
-이 수는 절댓값이 1,000,000보다 작거나 같은 정수이다.
-
-수는 중복되지 않는다.
+첫째 줄에 자연수 N과 M이 주어진다. (1 ≤ M ≤ N ≤ 8)
 
 #### 출력
 
-첫째 줄부터 N개의 줄에 오름차순으로 정렬한 결과를 한 줄에 하나씩 출력한다.
+한 줄에 하나씩 문제의 조건을 만족하는 수열을 출력한다.
+
+중복되는 수열을 여러 번 출력하면 안되며, 각 수열은 공백으로 구분해서 출력해야 한다.
+
+수열은 사전 순으로 증가하는 순서로 출력해야 한다.
 
 ### 문제 풀이
 
 ```java
-import java.util.PriorityQueue;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.BufferedWriter;
@@ -79,47 +78,69 @@ import java.io.OutputStreamWriter;
 import java.io.IOException;
 
 class Main{
+    public static int[] arr;
+    public static boolean[] visit;
+    public static StringBuilder sb = new StringBuilder();
+
     public static void main(String[] args) throws IOException {
-        PriorityQueue<Integer> queue = new PriorityQueue<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int len = Integer.valueOf(br.readLine().trim());
-
-        for(int i = 0; i < len; i++){
-            queue.offer(Integer.valueOf(br.readLine().trim()));
-        }
+        String[] s_arr = br.readLine().split(" ");
         br.close();
+        int N = Integer.valueOf(s_arr[0]);
+        int M = Integer.valueOf(s_arr[1]);
 
-        while(!queue.isEmpty()){
-            bw.write(String.valueOf(queue.poll()));
-            if(!queue.isEmpty()){
-                bw.newLine();
-            }
-        }
+        arr = new int[M];
+        visit = new boolean[N];
+
+        dfs(N, M, 0);
+
+        bw.write(sb.toString());
         bw.flush();
         bw.close();
+    }
+
+    public static void dfs(int N, int M, int depth){
+        if(depth == M){
+            for(int i : arr){
+                sb.append(i).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for(int i = 0; i < N; i++){
+            if(!visit[i]){
+                visit[i] = true;
+                arr[depth] = i + 1;
+                dfs(N, M, depth + 1);
+                visit[i] = false;
+            }
+        }
     }
 }
 ```
 
 #### 풀이 설명
 
-이 코드는 주어진 수를 오름차순으로 정렬하여 출력하는 프로그램입니다.
+이 코드는 주어진 N과 M에 대해 1부터 N까지의 수 중에서 중복 없이 M개의 수를 순서대로 뽑아 나열하는 모든 경우를 구하는 프로그램입니다.
 
-먼저 PriorityQueue를 사용하여 정수를 저장합니다.
+BufferedReader와 BufferedWriter를 사용하여 입력과 출력을 처리합니다.
 
-입력을 받기 위해 BufferedReader를 사용하고, 출력을 위해 BufferedWriter를 사용합니다.
+먼저, 입력된 값을 읽어 N과 M에 저장합니다.
 
-입력받은 첫 줄은 수의 개수를 나타내며, 이를 len 변수에 저장합니다.
+arr 배열은 선택된 수를 저장하고, visit 배열은 해당 수를 사용했는지를 체크합니다.
 
-이후 반복문을 통해 각 수를 입력받아 queue에 추가합니다.
+StringBuilder는 결과를 저장합니다.
 
-모든 수를 입력받은 후, PriorityQueue에 저장된 수를 하나씩 꺼내어 BufferedWriter를 사용해 출력합니다.
+dfs 함수는 깊이 우선 탐색을 통해 모든 경우를 구합니다.
 
-각 수를 출력할 때마다 줄바꿈을 추가하여 형식을 맞춥니다.
+현재 깊이가 M과 같으면 선택된 수를 출력 형식에 맞춰 StringBuilder에 저장하고 반환합니다.
 
-마지막으로 BufferedWriter를 플러시하고 닫아 프로그램을 종료합니다.
+그렇지 않으면 1부터 N까지의 수를 순회하며 아직 사용하지 않은 수를 선택해 다음 깊이로 넘어갑니다.
 
-이 프로그램은 효율적으로 수를 입력받고 정렬하여 출력하는 기능을 제공합니다.
+선택이 끝나면 해당 수를 다시 미사용 상태로 되돌립니다.
 
-감사합니다!
+이 과정이 끝나면 StringBuilder에 저장된 결과를 BufferedWriter를 사용해 출력하고, 프로그램을 종료합니다.
+
+이 방법을 통해 모든 경우를 효율적으로 생성하고 출력합니다.
