@@ -1,0 +1,146 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id-15649-n-and-m-1
+title: Baekjun No. 15649, N and M (1) (with.Java)
+# title: Baekjoon Problem 15649, N and M (1) (with.Java)
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple categories is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test]
+#thumbnailimageforpost
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2025-08-04 09:00:00 +0900
+#seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+#optional
+#please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+#please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# The image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on-site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## This article explores Baekjoon Problem 15649, N and M (1) (with Java).
+
+I will learn by solving coding test problems, reflecting on previous problems, and exploring different solution methods.
+
+Let's first look at the problem.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### Problem
+
+Given natural numbers N and M, write a program that finds all sequences of length M that satisfy the following conditions.
+
+A sequence of M numbers selected without repetition from 1 to N.
+
+#### Input
+
+The first line contains natural numbers N and M. (1 ≤ M ≤ N ≤ 8)
+
+#### Output
+
+Print one sequence per line that satisfies the conditions.
+
+Duplicate sequences should not be printed multiple times, and each sequence should be separated by a space.
+
+The sequences should be printed in increasing lexicographical order.
+
+### Problem Solution
+
+```java
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.IOException;
+
+class Main{
+    public static int[] arr;
+    public static boolean[] visit;
+    public static StringBuilder sb = new StringBuilder();
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String[] s_arr = br.readLine().split(" ");
+        br.close();
+        int N = Integer.valueOf(s_arr[0]);
+        int M = Integer.valueOf(s_arr[1]);
+
+        arr = new int[M];
+        visit = new boolean[N];
+
+        dfs(N, M, 0);
+
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+    }
+
+    public static void dfs(int N, int M, int depth){
+        if(depth == M){
+            for(int i : arr){
+                sb.append(i).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for(int i = 0; i < N; i++){
+            if(!visit[i]){
+                visit[i] = true;
+                arr[depth] = i + 1;
+                dfs(N, M, depth + 1);
+                visit[i] = false;
+            }
+        }
+    }
+}
+```
+
+#### Solution Explanation
+
+This program finds all cases where M numbers are selected in order from 1 to N without repetition, given N and M.
+
+It uses BufferedReader and BufferedWriter to handle input and output.
+
+First, it reads the input and stores it in N and M.
+
+The arr array stores the selected numbers, and the visit array checks whether the selected numbers have been used.
+
+A StringBuilder stores the results.
+
+The dfs function finds all cases using a depth-first search.
+
+If the current depth is equal to M, the selected numbers are stored in a StringBuilder in the output format and returned.
+
+Otherwise, it iterates through the numbers from 1 to N, selecting an unused number and moving on to the next depth.
+
+Once the selection is complete, the number is set back to unused.
+
+Once this process is complete, the results stored in the StringBuilder are printed using a BufferedWriter and the program terminates.
+
+This method efficiently generates and outputs all cases.
