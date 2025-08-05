@@ -104,8 +104,6 @@ class Main{
 
 #### Solution Explanation
 
-This code sorts the given numbers in ascending order and outputs them.
-
 First, it uses a PriorityQueue to store integers.
 
 It uses a BufferedReader to receive input, and a BufferedWriter to output them.
