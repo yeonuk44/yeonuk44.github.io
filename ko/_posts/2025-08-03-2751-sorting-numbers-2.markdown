@@ -104,8 +104,6 @@ class Main{
 
 #### 풀이 설명
 
-이 코드는 주어진 수를 오름차순으로 정렬하여 출력하는 프로그램입니다.
-
 먼저 PriorityQueue를 사용하여 정수를 저장합니다.
 
 입력을 받기 위해 BufferedReader를 사용하고, 출력을 위해 BufferedWriter를 사용합니다.

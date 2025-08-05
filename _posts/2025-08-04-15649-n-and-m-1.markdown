@@ -123,8 +123,6 @@ class Main{
 
 #### Solution Explanation
 
-This program finds all cases where M numbers are selected in order from 1 to N without repetition, given N and M.
-
 It uses BufferedReader and BufferedWriter to handle input and output.
 
 First, it reads the input and stores it in N and M.
