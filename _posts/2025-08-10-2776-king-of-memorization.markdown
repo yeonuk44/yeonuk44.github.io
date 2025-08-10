@@ -40,51 +40,53 @@ date: 2025-08-10 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 9012번, 괄호 (with.Java) 에 대하여 알아본 글입니다.
+## Baekjun No. 2776, this is an article about King of Memorization (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-괄호 문자열(Parenthesis String, PS)은 두 개의 괄호 기호인 ‘(’ 와 ‘)’ 만으로 구성되어 있는 문자열이다.
+Yeonjong has a great memory.
 
-그 중에서 괄호의 모양이 바르게 구성된 문자열을 올바른 괄호 문자열(Valid PS, VPS)이라고 부른다.
+So I can remember all the integers I saw during the day.
 
-한 쌍의 괄호 기호로 된 “( )” 문자열은 기본 VPS 이라고 부른다.
+However, Dong-gyu, who cannot believe this, decides to test his memory.
 
-만일 x 가 VPS 라면 이것을 하나의 괄호에 넣은 새로운 문자열 “(x)”도 VPS 가 된다.
+Dong-gyu followed Yeonjong and wrote down all the essence he saw for a day in 'Paper 1'.
 
-그리고 두 VPS x 와 y를 접합(concatenation)시킨 새로운 문자열 xy도 VPS 가 된다.
+Based on that, Dong-gyu asked Yeon-jong M questions to see if he was a real memorizer.
 
-예를 들어 “(())()”와 “((()))” 는 VPS 이지만 “(()(”, “(())()))” , 그리고 “`(()`” 는 모두 VPS 가 아닌 문자열이다.
+The question is, "Have you seen the integer X today?"
 
-여러분은 입력으로 주어진 괄호 문자열이 VPS 인지 아닌지를 판단해서 그 결과를 YES 와 NO 로 나타내어야 한다.
+Yeonjong answered all of them without being blocked, and Dong-gyu wrote down the numbers that Yeonjong claimed to have seen in 'Handbook 2'.
 
-#### 입력
+Back home, Dong-gyu tries to check if the answer is correct, but he is having such a hard time following Yeonjong, so he asked you for help.
 
-입력 데이터는 표준 입력을 사용한다.
+To help Dong-gyu, write a program in the order written in 'Handbook 2', for each number, 1 if it is in 'Handbook 1', and 0 if it is not.
 
-입력은 T개의 테스트 데이터로 주어진다.
+#### Input
 
-입력의 첫 번째 줄에는 입력 데이터의 수를 나타내는 정수 T가 주어진다.
+The number of test cases T is shown in the first line.
 
-각 테스트 데이터의 첫째 줄에는 괄호 문자열이 한 줄에 주어진다.
+In the next line, the number N (1 ≤ N ≤ 1,000,000) of integers written in 'Handbook 1' is input.
 
-하나의 괄호 문자열의 길이는 2 이상 50 이하이다.
+The next line contains N integers written in 'Handbook 1'.
 
-#### 출력
+The next line is given the number M (1 ≤ M ≤ 1,000,000) of integers written in 'Handbook 2', and the next line is given M integers written in 'Handbook 2'.
 
-출력은 표준 출력을 사용한다.
+The range of all integers is int.
 
-만일 입력 괄호 문자열이 올바른 괄호 문자열(VPS)이면 “YES”, 아니면 “NO”를 한 줄에 하나씩 차례대로 출력해야 한다.
+#### Output
 
-### 문제 풀이
+In the order of M numbers written in 'Handbook 2', 1 is output if it is in 'Handbook 1', and 0 is output if it is not.
+
+### problem solving
 
 ```java
 import java.io.BufferedReader;
@@ -129,24 +131,24 @@ class Main {
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 코드는 여러 개의 괄호 문자열이 주어졌을 때, 각 문자열이 올바른 괄호인지 확인하는 프로그램입니다.
+This code is a program that verifies that each string is correct parentheses given multiple parentheses.
 
-입력과 출력을 BufferedReader와 BufferedWriter로 처리하여 효율성을 높였습니다.
+Processing inputs and outputs with BufferedReader and BufferedWriter increases efficiency.
 
-먼저, 첫 번째 줄에서 테스트 케이스의 수 T를 읽습니다.
+First, read the number T of test cases in the first line.
 
-각 테스트 케이스에 대해, 괄호 문자열을 읽고 문자 배열로 변환합니다.
+For each test case, read the parentheses string and convert it into a character array.
 
-이후 각 문자를 순회하며 여는 괄호 '('이면 count를 증가시키고, 닫는 괄호 ')'이면 count를 감소시킵니다.
+After that, the count is increased when the parentheses '(') are opened while traversing each character, and the count is decreased when the parentheses '(') are closed.
 
-이 과정에서 count가 음수가 되면 닫는 괄호가 여는 괄호보다 많다는 의미이므로 반복을 중지합니다.
+In this process, if the count becomes negative, it means that there are more parentheses to close than the parentheses to open, so stop repeating.
 
-반복문이 끝난 후, count가 0이 아니면 "NO"를 출력하고, 0이면 "YES"를 출력합니다.
+After the iteration, output "NO" if the count is not 0, and "YES" if it is 0.
 
-이는 각 테스트 케이스가 올바른 괄호인지 아닌지를 나타냅니다.
+This indicates whether each test case is correct parentheses or not.
 
-마지막으로, 모든 입력을 처리한 후, BufferedWriter를 통해 결과를 출력하고, 버퍼를 비우고 닫습니다.
+Finally, after processing all inputs, the BufferedWriter outputs the results, empties and closes the buffer.
 
-이 과정을 통해 각 괄호 문자열이 올바른지 효율적으로 확인할 수 있습니다.
+This process allows you to efficiently verify that the square bracket string is correct.
