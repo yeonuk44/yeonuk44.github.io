@@ -1,8 +1,8 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: id-9012-parentheses
-title: 백준 9012번, 괄호 (with.Java)
-# title: Baekjoon Problem 9012, Parentheses (with.Java)
+lng_pair: id-2776-king-of-memorization
+title: 백준 2776번, 암기왕 (with.Java)
+# title: Baekjun 2776, King of memorization (with.Java)
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Yeonuk
@@ -16,7 +16,7 @@ img: ":post_pic1.jpg"
 # comments_disable: true
 
 # publish date
-date: 2025-08-09 09:00:00 +0900
+date: 2025-08-10 09:00:00 +0900
 # seo
 # if not specified, date will be used.
 #meta_modify_date: 2021-08-10 11:32:53 +0900

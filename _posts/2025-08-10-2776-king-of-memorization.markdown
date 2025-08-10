@@ -1,0 +1,152 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id-2776-king-of-memorization
+title: Baekjun 2776, King of memorization (with.Java)
+# title: Baekjun 2776, King of memorization (with.Java)
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2025-08-10 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## 백준 9012번, 괄호 (with.Java) 에 대하여 알아본 글입니다.
+
+코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+
+문제에 대해 먼저 알아보겠습니다.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### 문제
+
+괄호 문자열(Parenthesis String, PS)은 두 개의 괄호 기호인 ‘(’ 와 ‘)’ 만으로 구성되어 있는 문자열이다.
+
+그 중에서 괄호의 모양이 바르게 구성된 문자열을 올바른 괄호 문자열(Valid PS, VPS)이라고 부른다.
+
+한 쌍의 괄호 기호로 된 “( )” 문자열은 기본 VPS 이라고 부른다.
+
+만일 x 가 VPS 라면 이것을 하나의 괄호에 넣은 새로운 문자열 “(x)”도 VPS 가 된다.
+
+그리고 두 VPS x 와 y를 접합(concatenation)시킨 새로운 문자열 xy도 VPS 가 된다.
+
+예를 들어 “(())()”와 “((()))” 는 VPS 이지만 “(()(”, “(())()))” , 그리고 “`(()`” 는 모두 VPS 가 아닌 문자열이다.
+
+여러분은 입력으로 주어진 괄호 문자열이 VPS 인지 아닌지를 판단해서 그 결과를 YES 와 NO 로 나타내어야 한다.
+
+#### 입력
+
+입력 데이터는 표준 입력을 사용한다.
+
+입력은 T개의 테스트 데이터로 주어진다.
+
+입력의 첫 번째 줄에는 입력 데이터의 수를 나타내는 정수 T가 주어진다.
+
+각 테스트 데이터의 첫째 줄에는 괄호 문자열이 한 줄에 주어진다.
+
+하나의 괄호 문자열의 길이는 2 이상 50 이하이다.
+
+#### 출력
+
+출력은 표준 출력을 사용한다.
+
+만일 입력 괄호 문자열이 올바른 괄호 문자열(VPS)이면 “YES”, 아니면 “NO”를 한 줄에 하나씩 차례대로 출력해야 한다.
+
+### 문제 풀이
+
+```java
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.IOException;
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = Integer.valueOf(br.readLine());
+        for(int i = 0; i < T; i++){
+            int count = 0;
+            char[] arr = br.readLine().toCharArray();
+            for(char ch : arr){
+                if(ch == '('){
+                    count++;
+                    if(count > arr.length){
+                        break;
+                    }
+                }else{
+                    count--;
+                    if(count < 0){
+                        break;
+                    }
+                }
+            }
+            if(count != 0){
+                bw.write("NO");
+                bw.newLine();
+            }else{
+                bw.write("YES");
+                bw.newLine();
+            }
+        }
+        br.close();
+        bw.flush();
+        bw.close();
+    }
+}
+```
+
+#### 풀이 설명
+
+이 코드는 여러 개의 괄호 문자열이 주어졌을 때, 각 문자열이 올바른 괄호인지 확인하는 프로그램입니다.
+
+입력과 출력을 BufferedReader와 BufferedWriter로 처리하여 효율성을 높였습니다.
+
+먼저, 첫 번째 줄에서 테스트 케이스의 수 T를 읽습니다.
+
+각 테스트 케이스에 대해, 괄호 문자열을 읽고 문자 배열로 변환합니다.
+
+이후 각 문자를 순회하며 여는 괄호 '('이면 count를 증가시키고, 닫는 괄호 ')'이면 count를 감소시킵니다.
+
+이 과정에서 count가 음수가 되면 닫는 괄호가 여는 괄호보다 많다는 의미이므로 반복을 중지합니다.
+
+반복문이 끝난 후, count가 0이 아니면 "NO"를 출력하고, 0이면 "YES"를 출력합니다.
+
+이는 각 테스트 케이스가 올바른 괄호인지 아닌지를 나타냅니다.
+
+마지막으로, 모든 입력을 처리한 후, BufferedWriter를 통해 결과를 출력하고, 버퍼를 비우고 닫습니다.
+
+이 과정을 통해 각 괄호 문자열이 올바른지 효율적으로 확인할 수 있습니다.
