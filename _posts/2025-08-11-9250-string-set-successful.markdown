@@ -40,53 +40,39 @@ date: 2025-08-11 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 2776번, 암기왕 (with.Java) 에 대하여 알아본 글입니다.
+## Baekjun No. 9250, about the string set success (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-연종이는 엄청난 기억력을 가지고 있다.
+A set S consisting of a total of N strings is given.
 
-그래서 하루 동안 본 정수들을 모두 기억 할 수 있다.
+Write a program to find out how many of the M strings given as inputs are in set S.
 
-하지만 이를 믿을 수 없는 동규는 그의 기억력을 시험해 보기로 한다.
+#### Input
 
-동규는 연종을 따라 다니며, 연종이 하루 동안 본 정수들을 모두 ‘수첩1’에 적어 놓았다.
+The number of strings N and M (1≤N≤10,000 and 1≤M≤10,000) are given in the first line.
 
-그것을 바탕으로 그가 진짜 암기왕인지 알아보기 위해, 동규는 연종에게 M개의 질문을 던졌다.
+The next N lines are given the strings contained in the set S.
 
-질문의 내용은 “X라는 정수를 오늘 본 적이 있는가?” 이다.
+The next M lines are given strings to be examined.
 
-연종은 막힘없이 모두 대답을 했고, 동규는 연종이 봤다고 주장하는 수 들을 ‘수첩2’에 적어 두었다.
+The character string given as input consists only of lowercase alphabetic characters, and does not exceed 500 in length.
 
-집에 돌아온 동규는 답이 맞는지 확인하려 하지만, 연종을 따라다니느라 너무 힘들어서 여러분에게 도움을 요청했다.
+The sum S is not given the same string more than once.
 
-동규를 도와주기 위해 ‘수첩2’에 적혀있는 순서대로, 각각의 수에 대하여, ‘수첩1’에 있으면 1을, 없으면 0을 출력하는 프로그램을 작성해보자.
+#### Output
 
-#### 입력
+The first line outputs how many of the M strings are included in the set S.
 
-첫째 줄에 테스트케이스의 개수 T가 들어온다.
-
-다음 줄에는 ‘수첩 1’에 적어 놓은 정수의 개수 N(1 ≤ N ≤ 1,000,000)이 입력으로 들어온다.
-
-그 다음 줄에 ‘수첩 1’에 적혀 있는 정수들이 N개 들어온다.
-
-그 다음 줄에는 ‘수첩 2’에 적어 놓은 정수의 개수 M(1 ≤ M ≤ 1,000,000) 이 주어지고, 다음 줄에 ‘수첩 2’에 적어 놓은 정수들이 입력으로 M개 들어온다.
-
-모든 정수들의 범위는 int 로 한다.
-
-#### 출력
-
-‘수첩2’에 적혀있는 M개의 숫자 순서대로, ‘수첩1’에 있으면 1을, 없으면 0을 출력한다.
-
-### 문제 풀이
+### problem solving
 
 ```java
 import java.util.*;
@@ -95,46 +81,46 @@ import java.io.*;
 class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.valueOf(st.nextToken());
+        int M = Integer.valueOf(st.nextToken());
+        HashSet<String> set = new HashSet<>();
+        int count = 0;
 
-        int T = Integer.valueOf(br.readLine());
-        for(int i = 0; i < T; i++){
-            int N_len = Integer.valueOf(br.readLine());
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-            HashSet<String> set = new HashSet<>();
-            for(int j = 0; j < N_len; j++){
-                set.add(st.nextToken());
-            }
-            int M_len = Integer.valueOf(br.readLine());
-            st = new StringTokenizer(br.readLine(), " ");
+        for(int i = 0; i < N; i++){
+            set.add(br.readLine());
+        }
+        for(int i = 0; i < M; i++){
+            String str = br.readLine();
 
-            for(int j = 0; j < M_len; j++){
-                if(set.contains(st.nextToken())){
-                    sb.append("1\n");
-                }else{
-                    sb.append("0\n");
-                }
+            if(set.contains(str)){
+                count++;
             }
         }
-        System.out.print(sb.toString());
+
+        System.out.print(count);
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 코드는 주어진 두 리스트에서 공통 요소를 확인하는 프로그램입니다.
+This code is a program that finds the number of strings that exist in common in two lists.
 
-입력으로 주어지는 여러 테스트 케이스를 처리하며, 각 테스트 케이스마다 두 리스트를 비교하여 공통 요소가 있는지 확인하고 결과를 출력합니다.
+Calculate and output how many elements overlap in the two lists given as inputs.
 
-프로그램은 먼저 입력을 받기 위해 BufferedReader와 StringBuilder를 사용합니다.
+First, use Buffered Reader and String Tokenizer to process the input.
 
-첫 번째 줄에서 테스트 케이스의 수 T를 입력받습니다. 이후 반복문을 통해 각 테스트 케이스를 처리합니다.
+In the first line, enter the sizes of the two lists, N and M.
 
-첫 번째 리스트의 길이 N_len을 입력받고, 해당 리스트의 요소들을 HashSet에 저장합니다.
+Then you create a HashSet to store the elements in the first list.
 
-HashSet은 중복을 허용하지 않기 때문에 리스트의 요소를 저장하는 데 적합합니다.
+Because HashSet does not allow redundancy, redundant elements are automatically removed during this process.
 
-두 번째 리스트의 길이 M_len을 입력받고, 해당 리스트의 요소들을 하나씩 HashSet에 저장된 요소들과 비교합니다. 만약 요소가 HashSet에 존재하면 1을, 존재하지 않으면 0을 StringBuilder에 추가합니다. 각 결과는 개행 문자로 구분됩니다.
+As you read each element in the second list, make sure that it exists in the HashSet.
 
-모든 테스트 케이스를 처리한 후, 최종 결과를 System.out.print를 사용하여 출력합니다. 이 접근 방식은 리스트의 요소들이 중복될 가능성이 없으며, 리스트가 크더라도 효율적으로 공통 요소를 찾을 수 있게 해줍니다.
+If present, increase the count to count the number of duplicate elements.
+
+After all the comparisons are finished, you output a count to show the number of strings that exist in common in both lists as a result.
+
+This method is efficient and can quickly identify redundant elements even if the two lists are large in size.
