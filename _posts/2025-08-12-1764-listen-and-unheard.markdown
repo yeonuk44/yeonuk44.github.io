@@ -40,39 +40,35 @@ date: 2025-08-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 9250번, 문자열 집합 성공(with.Java)에 대하여 알아본 글입니다.
+## Baekjun No. 1764, this is an article about "with.Java."
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-총 N개의 문자열로 이루어진 집합 S가 주어진다.
+Write a program in which the Jinyoung Kim obtains a list of people who have not heard and who have not heard, when given a list of people who have not reported.
 
-입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램을 작성하시오.
+#### Input
 
-#### 입력
+In the first line, the number N of people who have not heard and the number M of people who have not reported are given.
 
-첫째 줄에 문자열의 개수 N과 M (1 ≤ N ≤ 10,000, 1 ≤ M ≤ 10,000)이 주어진다.
+Next, the names of those who have not heard from the second line and those who have not heard from the N+2 line are given in order.
 
-다음 N개의 줄에는 집합 S에 포함되어 있는 문자열들이 주어진다.
+The name consists of only lowercase alphabetic characters with no spaces, and is no more than 20. N and M are natural numbers no more than 500,000.
 
-다음 M개의 줄에는 검사해야 하는 문자열들이 주어진다.
+There are no overlapping names on the list of people who haven't heard of it, and the same goes for the list of people who haven't reported it.
 
-입력으로 주어지는 문자열은 알파벳 소문자로만 이루어져 있으며, 길이는 500을 넘지 않는다.
+#### Output
 
-합 S에 같은 문자열이 여러 번 주어지는 경우는 없다.
+Print out the number of nibbles and their lists in dictionary order.
 
-#### 출력
-
-첫째 줄에 M개의 문자열 중에 총 몇 개가 집합 S에 포함되어 있는지 출력한다.
-
-### 문제 풀이
+### Problem Solving
 
 ```java
 import java.util.*;
@@ -82,45 +78,55 @@ class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.valueOf(st.nextToken());
+        HashSet<String> N = new HashSet<>();
+        ArrayList<String> answer = new ArrayList<>();
+        int N_len = Integer.valueOf(st.nextToken());
         int M = Integer.valueOf(st.nextToken());
-        HashSet<String> set = new HashSet<>();
-        int count = 0;
-
-        for(int i = 0; i < N; i++){
-            set.add(br.readLine());
+        for(int i = 0; i < N_len; i++){
+            N.add(br.readLine());
         }
         for(int i = 0; i < M; i++){
-            String str = br.readLine();
-
-            if(set.contains(str)){
-                count++;
+            String temp = br.readLine();
+            if(N.contains(temp)){
+                answer.add(temp);
             }
         }
-
-        System.out.print(count);
+        int answer_len = answer.size();
+        System.out.println(answer_len);
+        Collections.sort(answer);
+        for(int i = 0; i < answer_len; i++){
+            System.out.println(answer.get(i));
+        }
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 코드는 두 개의 리스트에서 공통으로 존재하는 문자열의 개수를 찾는 프로그램입니다.
+This code is a program that finds and outputs strings that exist in common in two lists.
 
-입력으로 주어지는 두 개의 리스트에서 중복되는 요소가 몇 개 있는지 계산하여 출력합니다.
+Find common elements in the given two lists first, then sort them in dictionary order and output them.
 
-먼저 BufferedReader와 StringTokenizer를 사용해 입력을 처리합니다.
+The program first processes the input using HashSet and ArrayList.
 
-첫 번째 줄에서 두 리스트의 크기인 N과 M을 입력받습니다.
+Save the string entered in the first list to HashSet.
 
-그 다음 HashSet을 생성하여, 첫 번째 리스트의 요소들을 저장합니다.
+Since HashSet uses hashmaps internally to store data, the contain() method of checking whether a particular element exists in a set has the time complexity of O(1) on average.
 
-HashSet은 중복을 허용하지 않으므로, 이 과정에서 중복된 요소는 자동으로 제거됩니다.
+This is very efficient, and provides performance benefits, especially when the number of elements is high.
 
-두 번째 리스트의 각 요소를 읽어오면서, 그 요소가 HashSet에 존재하는지 확인합니다.
+Then, read each element in the second list sequentially, and verify that it exists in the HashSet.
 
-존재하면 count를 증가시켜 중복된 요소의 수를 셉니다.
+If present, add this element to the ArrayList.
 
-모든 비교가 끝나면 count를 출력하여, 두 리스트에서 공통으로 존재하는 문자열의 개수를 결과로 보여줍니다.
+ArrayList stores data sequentially, and contain() methods that verify that certain elements are included in the list are searched internally using indexOf(), so they have the time complexity of O(n).
 
-이 방법은 효율적이며, 두 리스트의 크기가 커도 빠르게 중복 요소를 확인할 수 있습니다.
+In this code, we used ArrayList to collect and output duplicate elements, which is an appropriate choice for filtering elements using HashSet and then outputting sorted results.
+
+Finally, the common elements stored in the ArrayList are sorted in dictionary order through Collections.sort().
+
+Outputs the number of common elements before outputting the sorted results, and then outputs each element in order.
+
+Initially, it was accessible using ArrayList to find redundant elements, but in this case, it was inefficient due to its increased time complexity.
+
+By using HashSet, we have been able to significantly improve our efficiency, which is an important optimization, especially when the size of the input data is large.

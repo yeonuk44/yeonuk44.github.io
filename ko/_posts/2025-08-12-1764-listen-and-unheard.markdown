@@ -40,7 +40,7 @@ date: 2025-08-12 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 9250번, 문자열 집합 성공(with.Java)에 대하여 알아본 글입니다.
+## 백준 1764번, 듣보잡 (with.Java)에 대하여 알아본 글입니다.
 
 코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
 
@@ -52,25 +52,21 @@ date: 2025-08-12 09:00:00 +0900
 
 ### 문제
 
-총 N개의 문자열로 이루어진 집합 S가 주어진다.
-
-입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램을 작성하시오.
+김진영이 듣도 못한 사람의 명단과, 보도 못한 사람의 명단이 주어질 때, 듣도 보도 못한 사람의 명단을 구하는 프로그램을 작성하시오.
 
 #### 입력
 
-첫째 줄에 문자열의 개수 N과 M (1 ≤ N ≤ 10,000, 1 ≤ M ≤ 10,000)이 주어진다.
+첫째 줄에 듣도 못한 사람의 수 N, 보도 못한 사람의 수 M이 주어진다.
 
-다음 N개의 줄에는 집합 S에 포함되어 있는 문자열들이 주어진다.
+이어서 둘째 줄부터 N개의 줄에 걸쳐 듣도 못한 사람의 이름과, N+2째 줄부터 보도 못한 사람의 이름이 순서대로 주어진다.
 
-다음 M개의 줄에는 검사해야 하는 문자열들이 주어진다.
+이름은 띄어쓰기 없이 알파벳 소문자로만 이루어지며, 그 길이는 20 이하이다. N, M은 500,000 이하의 자연수이다.
 
-입력으로 주어지는 문자열은 알파벳 소문자로만 이루어져 있으며, 길이는 500을 넘지 않는다.
-
-합 S에 같은 문자열이 여러 번 주어지는 경우는 없다.
+듣도 못한 사람의 명단에는 중복되는 이름이 없으며, 보도 못한 사람의 명단도 마찬가지이다.
 
 #### 출력
 
-첫째 줄에 M개의 문자열 중에 총 몇 개가 집합 S에 포함되어 있는지 출력한다.
+듣보잡의 수와 그 명단을 사전순으로 출력한다.
 
 ### 문제 풀이
 
@@ -82,45 +78,55 @@ class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.valueOf(st.nextToken());
+        HashSet<String> N = new HashSet<>();
+        ArrayList<String> answer = new ArrayList<>();
+        int N_len = Integer.valueOf(st.nextToken());
         int M = Integer.valueOf(st.nextToken());
-        HashSet<String> set = new HashSet<>();
-        int count = 0;
-
-        for(int i = 0; i < N; i++){
-            set.add(br.readLine());
+        for(int i = 0; i < N_len; i++){
+            N.add(br.readLine());
         }
         for(int i = 0; i < M; i++){
-            String str = br.readLine();
-
-            if(set.contains(str)){
-                count++;
+            String temp = br.readLine();
+            if(N.contains(temp)){
+                answer.add(temp);
             }
         }
-
-        System.out.print(count);
+        int answer_len = answer.size();
+        System.out.println(answer_len);
+        Collections.sort(answer);
+        for(int i = 0; i < answer_len; i++){
+            System.out.println(answer.get(i));
+        }
     }
 }
 ```
 
 #### 풀이 설명
 
-이 코드는 두 개의 리스트에서 공통으로 존재하는 문자열의 개수를 찾는 프로그램입니다.
+이 코드는 두 개의 리스트에서 공통으로 존재하는 문자열을 찾아 출력하는 프로그램입니다.
 
-입력으로 주어지는 두 개의 리스트에서 중복되는 요소가 몇 개 있는지 계산하여 출력합니다.
+주어진 두 리스트에서 공통된 요소를 먼저 찾아낸 후, 이를 사전순으로 정렬하여 출력합니다.
 
-먼저 BufferedReader와 StringTokenizer를 사용해 입력을 처리합니다.
+프로그램은 먼저 HashSet과 ArrayList를 사용하여 입력을 처리합니다.
 
-첫 번째 줄에서 두 리스트의 크기인 N과 M을 입력받습니다.
+첫 번째 리스트에서 입력된 문자열을 HashSet에 저장합니다.
 
-그 다음 HashSet을 생성하여, 첫 번째 리스트의 요소들을 저장합니다.
+HashSet은 내부적으로 해시맵을 사용하여 데이터를 저장하므로, 특정 요소가 집합에 존재하는지 확인하는 contains() 메서드는 평균적으로 O(1)의 시간 복잡도를 가집니다.
 
-HashSet은 중복을 허용하지 않으므로, 이 과정에서 중복된 요소는 자동으로 제거됩니다.
+이는 매우 효율적이며, 특히 요소의 수가 많을 때 성능상의 이점을 제공합니다.
 
-두 번째 리스트의 각 요소를 읽어오면서, 그 요소가 HashSet에 존재하는지 확인합니다.
+그 다음, 두 번째 리스트의 각 요소를 순차적으로 읽어오며, 해당 요소가 HashSet에 존재하는지 확인합니다.
 
-존재하면 count를 증가시켜 중복된 요소의 수를 셉니다.
+존재한다면, 이 요소를 ArrayList에 추가합니다.
 
-모든 비교가 끝나면 count를 출력하여, 두 리스트에서 공통으로 존재하는 문자열의 개수를 결과로 보여줍니다.
+ArrayList는 순차적으로 데이터를 저장하며, 특정 요소가 리스트에 포함되어 있는지 확인하는 contains() 메서드는 내부적으로 indexOf()를 사용해 순차적으로 탐색하므로, O(n)의 시간 복잡도를 가집니다.
 
-이 방법은 효율적이며, 두 리스트의 크기가 커도 빠르게 중복 요소를 확인할 수 있습니다.
+이 코드에서는 ArrayList를 중복된 요소를 수집하고 출력하는 용도로 사용하였고, 이는 HashSet을 사용해 요소를 필터링한 후에 정렬된 결과를 출력하기 위한 적절한 선택입니다.
+
+마지막으로, ArrayList에 저장된 공통 요소를 Collections.sort()를 통해 사전순으로 정렬합니다.
+
+정렬된 결과를 출력하기 전에 공통 요소의 개수를 출력하고, 이후 각 요소를 순서대로 출력합니다.
+
+초기에는 ArrayList를 사용해 중복 요소를 찾는 방식으로 접근할 수 있었으나, 이 경우 시간 복잡도가 높아져 비효율적이었습니다.
+
+HashSet을 사용함으로써 효율성을 크게 개선할 수 있었으며, 이는 특히 입력 데이터의 크기가 클 때 중요한 최적화입니다.
