@@ -40,93 +40,108 @@ date: 2025-08-13 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 백준 1764번, 듣보잡 (with.Java)에 대하여 알아본 글입니다.
+## This is an article about Baekjun No. 15650, N and M (2) (with.Java).
 
-코딩 테스트 문제를 풀며, 풀었던 문제에 대한 회고와 다른 풀이 방법을 알아보며, 알아가고자 합니다.
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
 
-문제에 대해 먼저 알아보겠습니다.
+Let's get to the problem first.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### 문제
+### Problem
 
-김진영이 듣도 못한 사람의 명단과, 보도 못한 사람의 명단이 주어질 때, 듣도 보도 못한 사람의 명단을 구하는 프로그램을 작성하시오.
+Write a program to find all sequences of length M that satisfy the following conditions, given the natural numbers N and M.
 
-#### 입력
+A sequence in which M numbers are selected without overlap among natural numbers from 1 to N should be in ascending order.
 
-첫째 줄에 듣도 못한 사람의 수 N, 보도 못한 사람의 수 M이 주어진다.
+#### Input
 
-이어서 둘째 줄부터 N개의 줄에 걸쳐 듣도 못한 사람의 이름과, N+2째 줄부터 보도 못한 사람의 이름이 순서대로 주어진다.
+The natural numbers N and M are given in the first line. (1≤M≤N≤8)
 
-이름은 띄어쓰기 없이 알파벳 소문자로만 이루어지며, 그 길이는 20 이하이다. N, M은 500,000 이하의 자연수이다.
+#### Output
 
-듣도 못한 사람의 명단에는 중복되는 이름이 없으며, 보도 못한 사람의 명단도 마찬가지이다.
+Output a sequence that satisfies the conditions of the problem, one per line.
 
-#### 출력
+Duplicate sequences should not be output multiple times, and each sequence should be output separated by a space.
 
-듣보잡의 수와 그 명단을 사전순으로 출력한다.
+The sequence should be output in the order of increasing in dictionary order.
 
-### 문제 풀이
+### problem solving
 
 ```java
 import java.util.*;
 import java.io.*;
 
 class Main {
+    public static int[] arr;
+    public static int N, M;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        HashSet<String> N = new HashSet<>();
-        ArrayList<String> answer = new ArrayList<>();
-        int N_len = Integer.valueOf(st.nextToken());
-        int M = Integer.valueOf(st.nextToken());
-        for(int i = 0; i < N_len; i++){
-            N.add(br.readLine());
-        }
-        for(int i = 0; i < M; i++){
-            String temp = br.readLine();
-            if(N.contains(temp)){
-                answer.add(temp);
+        N = Integer.valueOf(st.nextToken());
+        M = Integer.valueOf(st.nextToken());
+        arr = new int[M];
+
+        dfs(1, 0);
+    }
+
+    public static void dfs(int el, int depth){
+        if(depth == M){
+            for(int i : arr){
+                System.out.print(i + " ");
             }
+            System.out.println();
+            return;
         }
-        int answer_len = answer.size();
-        System.out.println(answer_len);
-        Collections.sort(answer);
-        for(int i = 0; i < answer_len; i++){
-            System.out.println(answer.get(i));
+
+        for(int i = el; i <= N; i++){
+            arr[depth] = i;
+            dfs(i + 1, depth + 1);
         }
     }
 }
 ```
 
-#### 풀이 설명
+#### Solution Description
 
-이 코드는 두 개의 리스트에서 공통으로 존재하는 문자열을 찾아 출력하는 프로그램입니다.
+This code is a program that solves the problem of finding a combination.
 
-주어진 두 리스트에서 공통된 요소를 먼저 찾아낸 후, 이를 사전순으로 정렬하여 출력합니다.
+Choose M numbers from the given N numbers to output all possible combinations.
 
-프로그램은 먼저 HashSet과 ArrayList를 사용하여 입력을 처리합니다.
+We implement this using a recursive depth-first search (DFS) method.
 
-첫 번째 리스트에서 입력된 문자열을 HashSet에 저장합니다.
+Input Processing: The program receives N and M values through the Buffered Reader.
 
-HashSet은 내부적으로 해시맵을 사용하여 데이터를 저장하므로, 특정 요소가 집합에 존재하는지 확인하는 contains() 메서드는 평균적으로 O(1)의 시간 복잡도를 가집니다.
+N represents the range of numbers to be used, and M represents the number of numbers to be selected.
 
-이는 매우 효율적이며, 특히 요소의 수가 많을 때 성능상의 이점을 제공합니다.
+At this time, create an array arr of M size to store the selected numbers.
 
-그 다음, 두 번째 리스트의 각 요소를 순차적으로 읽어오며, 해당 요소가 HashSet에 존재하는지 확인합니다.
+Generating combinations by recursive calls: the program generates combinations by calling a recursive function called dfs.
 
-존재한다면, 이 요소를 ArrayList에 추가합니다.
+The dfs function takes the current number (el) and depth as factors.
 
-ArrayList는 순차적으로 데이터를 저장하며, 특정 요소가 리스트에 포함되어 있는지 확인하는 contains() 메서드는 내부적으로 indexOf()를 사용해 순차적으로 탐색하므로, O(n)의 시간 복잡도를 가집니다.
+Baseline: When the depth reaches M, it outputs M numbers stored in the arr array.
 
-이 코드에서는 ArrayList를 중복된 요소를 수집하고 출력하는 용도로 사용하였고, 이는 HashSet을 사용해 요소를 필터링한 후에 정렬된 결과를 출력하기 위한 적절한 선택입니다.
+Recursive call: Repeat the current numbers i through N through the for statement, save the current number in arr[depth], and call dfs at the next depth.
 
-마지막으로, ArrayList에 저장된 공통 요소를 Collections.sort()를 통해 사전순으로 정렬합니다.
+In this case, we ensure that the number is not duplicated by handing over i + 1 to the next number.
 
-정렬된 결과를 출력하기 전에 공통 요소의 개수를 출력하고, 이후 각 요소를 순서대로 출력합니다.
+Output: When the combination is complete, outputs the value stored in the arr array.
 
-초기에는 ArrayList를 사용해 중복 요소를 찾는 방식으로 접근할 수 있었으나, 이 경우 시간 복잡도가 높아져 비효율적이었습니다.
+Now, I will explain the result of using dfs (el + 1, depth + 1) instead of dfs (i + 1, depth + 1) and why.
 
-HashSet을 사용함으로써 효율성을 크게 개선할 수 있었으며, 이는 특히 입력 데이터의 크기가 클 때 중요한 최적화입니다.
+Current code (dfs(i + 1, depth + 1)): This code navigates the following numbers based on the current number i.
+
+For example, if i is 1, the next recursive call will start exploring i + 1, i.e. 2.
+
+This method creates the right combination without redundancy.
+
+Invalid code (dfs(el + 1, depth + 1)): If you use el + 1 instead of i + 1, each recursive call will search for the next number of el, which is the initial number.
+
+As a result, all recursive calls are based on the same el, resulting in duplicate numbers being selected or the correct combination not being generated.
+
+For example, if el is 1 for the first time, all recursive calls will have el pinned to 1 to produce an incorrect combination.
+
+In conclusion, to obtain the combination, we need to search from the next number i + 1 based on the current number i, and using el + 1 will not allow the recursive call to proceed correctly.
