@@ -1,0 +1,147 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: id-15650-n-and-m-2
+title: Baekjun, 15650, "With. Java"
+# title: Baekjun, 15650, "With. Java"
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Yeonuk
+# multiple category is not supported
+category: Java
+# multiple tag entries are possible
+tags: [java, coding test]
+# thumbnail image for post
+img: ":post_pic1.jpg"
+# disable comments on this page
+# comments_disable: true
+
+# publish date
+date: 2025-08-13 09:00:00 +0900
+# seo
+# if not specified, date will be used.
+#meta_modify_date: 2021-08-10 11:32:53 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# please use the "image_viewer_on" below to enable image viewer for individual pages or posts (_posts/ or [language]/_posts folders).
+# image viewer can be enabled or disabled for all posts using the "image_viewer_posts: true" setting in _data/conf/main.yml.
+#image_viewer_on: true
+# please use the "image_lazy_loader_on" below to enable image lazy loader for individual pages or posts (_posts/ or [language]/_posts folders).
+# image lazy loader can be enabled or disabled for all posts using the "image_lazy_loader_posts: true" setting in _data/conf/main.yml.
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+#published: false
+---
+
+<!-- outline-start -->
+
+## This is an article about Baekjun No. 15650, N and M (2) (with.Java).
+
+I want to solve the coding test problem, find out how to solve it differently from the retrospective of the problem I solved, and get to know.
+
+Let's get to the problem first.
+
+{:data-align="center"}
+
+<!-- outline-end -->
+
+### Problem
+
+Write a program to find all sequences of length M that satisfy the following conditions, given the natural numbers N and M.
+
+A sequence in which M numbers are selected without overlap among natural numbers from 1 to N should be in ascending order.
+
+#### Input
+
+The natural numbers N and M are given in the first line. (1≤M≤N≤8)
+
+#### Output
+
+Output a sequence that satisfies the conditions of the problem, one per line.
+
+Duplicate sequences should not be output multiple times, and each sequence should be output separated by a space.
+
+The sequence should be output in the order of increasing in dictionary order.
+
+### problem solving
+
+```java
+import java.util.*;
+import java.io.*;
+
+class Main {
+    public static int[] arr;
+    public static int N, M;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.valueOf(st.nextToken());
+        M = Integer.valueOf(st.nextToken());
+        arr = new int[M];
+
+        dfs(1, 0);
+    }
+
+    public static void dfs(int el, int depth){
+        if(depth == M){
+            for(int i : arr){
+                System.out.print(i + " ");
+            }
+            System.out.println();
+            return;
+        }
+
+        for(int i = el; i <= N; i++){
+            arr[depth] = i;
+            dfs(i + 1, depth + 1);
+        }
+    }
+}
+```
+
+#### Solution Description
+
+This code is a program that solves the problem of finding a combination.
+
+Choose M numbers from the given N numbers to output all possible combinations.
+
+We implement this using a recursive depth-first search (DFS) method.
+
+Input Processing: The program receives N and M values through the Buffered Reader.
+
+N represents the range of numbers to be used, and M represents the number of numbers to be selected.
+
+At this time, create an array arr of M size to store the selected numbers.
+
+Generating combinations by recursive calls: the program generates combinations by calling a recursive function called dfs.
+
+The dfs function takes the current number (el) and depth as factors.
+
+Baseline: When the depth reaches M, it outputs M numbers stored in the arr array.
+
+Recursive call: Repeat the current numbers i through N through the for statement, save the current number in arr[depth], and call dfs at the next depth.
+
+In this case, we ensure that the number is not duplicated by handing over i + 1 to the next number.
+
+Output: When the combination is complete, outputs the value stored in the arr array.
+
+Now, I will explain the result of using dfs (el + 1, depth + 1) instead of dfs (i + 1, depth + 1) and why.
+
+Current code (dfs(i + 1, depth + 1)): This code navigates the following numbers based on the current number i.
+
+For example, if i is 1, the next recursive call will start exploring i + 1, i.e. 2.
+
+This method creates the right combination without redundancy.
+
+Invalid code (dfs(el + 1, depth + 1)): If you use el + 1 instead of i + 1, each recursive call will search for the next number of el, which is the initial number.
+
+As a result, all recursive calls are based on the same el, resulting in duplicate numbers being selected or the correct combination not being generated.
+
+For example, if el is 1 for the first time, all recursive calls will have el pinned to 1 to produce an incorrect combination.
+
+In conclusion, to obtain the combination, we need to search from the next number i + 1 based on the current number i, and using el + 1 will not allow the recursive call to proceed correctly.
