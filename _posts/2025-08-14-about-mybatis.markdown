@@ -39,70 +39,204 @@ date: 2025-08-14 09:00:00 +0900
 
 <!-- outline-start -->
 
-## 데이터 모델링에 대하여 알아본 글입니다.
+## MyBatis: A flexible SQL mapper framework for developers.
 
-안녕하세요!
+Hello!
 
-오늘은 데이터 모델링에 대하여 알아보겠습니다.
+In Java application development, interaction with databases is an essential task.
 
-데이터가 현대 비즈니스의 핵심 자산으로 자리 잡으면서, 데이터를 효과적으로 이해하고 관리하는 것이 매우 중요해졌습니다.
+MyBatis is a **SQL mapper framework** designed to simplify and efficiently manage this process, providing flexibility in database query execution and object mapping.
 
-이러한 데이터 관리를 위한 핵심 도구 중 하나가 바로 데이터 모델링입니다.
-
-데이터 모델링이 무엇인지, 왜 중요한지, 그리고 어떻게 수행되는지에 대해 알아보겠습니다.
+In this article, we will learn about the features, strengths and weaknesses, and basic usage of MyBatis.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-## 데이터 모델링이란
+### **MyBatis란?**?
 
-데이터 모델링은 데이터를 체계적으로 구조화하고 조직화하는 과정입니다.
+MyBatis is a **Java** and **SQL**-based persistence framework that enables developers to interact with databases using SQL, stored procedures, and unique mapping rules.
 
-이는 데이터의 특성과 관계를 시각적으로 표현하여 데이터베이스 시스템을 설계하는 데 사용됩니다.
+In particular, MyBatis, unlike Hibernate, an object-relational mapping (ORM) tool, allows for detailed database manipulation by writing SQL by itself.
 
-데이터 모델링은 일반적으로 다음 세 가지 주요 단계로 구분됩니다.
+### **Key features of MyBatis**
 
-### 개념적 데이터 모델링 (Conceptual Data Modeling)
+1. **SQL-centric data mapping**
 
-비즈니스 요구사항을 반영한 데이터의 전반적인 구조를 고수준에서 정의합니다.
+   - Developers create SQL themselves to control database operations.
+   - You can define SQL statements using XML or annotations.
 
-주로 엔티티(Entity)와 이들 간의 관계를 나타내는 ERD(Entity-Relationship Diagram)를 사용합니다.
+2. **Flexible mapping**
 
-### 논리적 데이터 모델링 (Logical Data Modeling)
+   - You can easily set up a mapping between tables in the database and Java objects.
+   - Easily objectify complex relational database structures.
 
-개념적 모델을 바탕으로 데이터의 논리적 구조를 상세화합니다.
+3. **Strong customization**
 
-이 단계에서는 테이블, 열(Column), 데이터 타입 등을 정의하고, 정규화 과정을 통해 데이터 중복을 최소화합니다.
+   - MyBatis directly controls SQL, allowing you to handle complex queries or optimize high-performance queries.
+   - Provides a variety of caching strategies and plug-ins to improve performance.
 
-### 물리적 데이터 모델링 (Physical Data Modeling)
+4. **Simple settings**
+   - MyBatis works with only a configuration file (XML) and minimal Java code.
+   - It does not rely on separate schema creation or ORM.
 
-논리적 모델을 실제 데이터베이스에 구현하기 위한 물리적 구조를 설계합니다.
+### **The pros and cons of MyBatis**
 
-데이터베이스의 성능을 고려한 인덱스 설계, 파티셔닝, 저장소 설정 등이 포함됩니다.
+#### **Advantages**
 
-## 데이터 모델링의 중요성
+- **SQL control**: Developers can create SQL statements themselves to control the database at a high level.
+- **Flexibility**: Easy to handle complex queries and relationships that ORM tools can't handle.
+- **Quick learning curve**: Developers familiar with SQL are quick to
 
-### 데이터 무결성 확보
+## MyBatis: A flexible SQL mapper framework for developers.
 
-데이터 모델링은 데이터의 일관성과 무결성을 유지하는 데 중요한 역할을 합니다.
+Hello!
 
-체계적인 데이터 구조는 데이터 중복을 최소화하고 데이터의 정확성을 보장합니다.
+In Java application development, interaction with databases is an essential task.
 
-### 효율적인 데이터 관리
+MyBatis is a **SQL mapper framework** designed to simplify and efficiently manage this process, providing flexibility in database query execution and object mapping.
 
-데이터 모델링을 통해 데이터를 체계적으로 조직화하면, 데이터베이스의 성능이 향상되고 관리가 용이해집니다.
+In this article, we will learn about the features, strengths and weaknesses, and basic usage of MyBatis.
 
-이는 데이터 조회, 삽입, 업데이트, 삭제와 같은 작업이 더 효율적으로 수행될 수 있게 합니다.
+{:data-align="center"}
 
-### 비즈니스 요구사항 반영
+<!-- outline-end -->
 
-데이터 모델링 과정에서 비즈니스 요구사항을 명확히 파악하고 이를 데이터 구조에 반영함으로써, 데이터베이스가 실제 비즈니스 환경에 맞게 설계될 수 있습니다.
+### **MyBatis란?**?
 
-이는 데이터 기반 의사결정을 지원하는 데 큰 도움이 됩니다.
+MyBatis is a **Java** and **SQL**-based persistence framework that enables developers to interact with databases using SQL, stored procedures, and unique mapping rules.
 
-## 마치며
+In particular, MyBatis, unlike Hibernate, an object-relational mapping (ORM) tool, allows for detailed database manipulation by writing SQL by itself.
 
-이상 데이터 모델링에 대하여 알아보았습니다.
+### **Key features of MyBatis**
 
-좋은 하루되세요!
+1. **SQL-centric data mapping**
+
+   - Developers create SQL themselves to control database operations.
+   - You can define SQL statements using XML or annotations.
+
+2. **Flexible mapping**
+
+   - You can easily set up a mapping between tables in the database and Java objects.
+   - Easily objectify complex relational database structures.
+
+3. **Strong customization**
+
+   - MyBatis directly controls SQL, allowing you to handle complex queries or optimize high-performance queries.
+   - Provides a variety of caching strategies and plug-ins to improve performance.
+
+4. **Simple settings**
+   - MyBatis works with only a configuration file (XML) and minimal Java code.
+   - It does not rely on separate schema creation or ORM.
+
+### **The pros and cons of MyBatis**
+
+#### **Advantages**
+
+- **SQL control**: Developers can create SQL statements themselves to control the database at a high level.
+- **Flexibility**: Easy to handle complex queries and relationships that ORM tools can't handle.
+- **Quick learning curve**: Developers familiar with SQL can quickly acquire MyBatis.
+- **XML support**: XML files allow mapping to be established in a clear and declarative manner.
+
+#### **Disadvantages**
+
+- **SQL writing burden**: SQL needs to be written by yourself, so the amount of code can be high.
+- **Maintenance difficulties**: More queries can complicate maintenance.
+- **Non-standardized**: likely to write SQL statements that are dependent on a particular database.
+
+### **MyBatis basic usage**
+
+#### **1. Configuring Settings File**
+
+MyBatis is set through the 'mybatis-config.xml' file.
+
+```xml
+<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/mydb" />
+                <property name="username" value="root" />
+                <property name="password" value="password" />
+            </dataSource>
+        </environment>
+    </environments>
+</configuration>
+```
+
+#### **2. Configure mapping files**
+
+Define SQL statements and object mapping in the 'mapper.xml' file.
+
+```xml
+<mapper namespace="com.example.mapper.UserMapper">
+    <select id="getUserById" parameterType="int" resultType="com.example.model.User">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+</mapper>
+```
+
+#### **3. Create a DAO interface**
+
+Create an interface that associates with the mapper file.
+
+```java
+package com.example.mapper;
+
+import com.example.model.User;
+
+public interface UserMapper {
+    User getUserById(int id);
+}
+```
+
+#### **4. Data inquiry using MyBatis**
+
+Perform database operations through MyBatis sessions in Java code.
+
+```java
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+public class MyBatisExample {
+    public static void main(String[] args) {
+        SqlSessionFactory sqlSessionFactory = MyBatisUtil.getSqlSessionFactory();
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            UserMapper userMapper = session.getMapper(UserMapper.class);
+            User user = userMapper.getUserById(1);
+            System.out.println("User Name: " + user.getName());
+        }
+    }
+}
+```
+
+---
+
+### **What to consider when using MyBatis**
+
+1. **Reuse SQL**
+
+   - You can reuse common SQL syntax using the '<sql>' tag in XML mapper.
+
+2. **Transaction management**
+
+   - MyBatis provides transaction management on its own, but it is more common to integrate with Spring.
+
+3. **Using Caching**
+   - Because MyBatis provides primary and secondary caching, it should be used appropriately for performance optimization.
+
+---
+
+### **Conclusion**
+
+MyBatis is a framework suitable for developers who prefer SQL-centric data mapping, providing simple setup and powerful customization.
+
+By writing SQL directly, you can gain greater control over database operations, which are very useful when dealing with complex data structures.
+
+However, SQL management can be challenging and requires a design that takes code quality and maintenance into account.
+
+To maximize the benefits of MyBatis, it is recommended to integrate with Spring or to establish the appropriate mapping strategy.
+
+Use MyBatis to effectively manage your database interactions! 🚀
