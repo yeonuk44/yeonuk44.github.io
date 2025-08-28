@@ -39,155 +39,135 @@ date: 2025-08-20 09:00:00 +0900
 
 <!-- outline-start -->
 
-## MyBatis: 개발자를 위한 유연한 SQL 매퍼 프레임워크에 대하여 알아본 글입니다.
+## **C 컨텍스트(Context): 프로세스와 스레드의 핵심 개념**에 대하여 알아본 글입니다.
 
 안녕하세요!
 
-Java 애플리케이션 개발에서 데이터베이스와의 상호작용은 필수적인 작업입니다.
+소프트웨어 개발에서 **컨텍스트(Context)**는 프로그램이 실행되는 동안 상태와 환경을 의미합니다.
 
-MyBatis는 이 과정을 간소화하고 효율적으로 관리하기 위해 설계된 **SQL 매퍼 프레임워크**로, 데이터베이스 쿼리 실행과 객체 매핑의 유연성을 제공합니다.
+특히 C 언어와 운영 체제 수준의 프로그래밍에서 컨텍스트는 **프로세스**와 **스레드**가 실행될 때 중요한 요소로 작용합니다.
 
-이번 글에서는 MyBatis의 특징, 장단점, 그리고 기본 사용법에 대해 알아보겠습니다.
+이 글에서는 C 프로그래밍 관점에서 컨텍스트의 정의와 역할, 그리고 이를 관리하는 방법을 알아보겠습니다.
 
 {:data-align="center"}
 
 <!-- outline-end -->
 
-### **MyBatis란?**
+### **컨텍스트란?**
 
-MyBatis는 **Java** 및 **SQL** 기반의 퍼시스턴스 프레임워크로, 개발자가 SQL, 저장 프로시저, 그리고 고유한 매핑 규칙을 사용하여 데이터베이스와 상호작용할 수 있도록 지원합니다.
+컨텍스트(Context)는 간단히 말해 **프로그램 실행에 필요한 정보의 집합**입니다.
 
-특히 MyBatis는 ORM(Object-Relational Mapping) 도구인 Hibernate와는 다르게, SQL을 직접 작성하여 세밀한 데이터베이스 조작이 가능합니다.
+1. **레지스터 상태**: CPU 레지스터에 저장된 값들 (예: 프로그램 카운터, 스택 포인터 등).
+2. **메모리 상태**: 프로세스가 사용하는 힙, 스택, 데이터 섹션 등.
+3. **I/O 상태**: 파일 디스크립터, 네트워크 연결 등.
+4. **스케줄링 정보**: 운영 체제가 프로세스를 언제 실행할지 결정하는 정보.
 
-### **MyBatis의 주요 특징**
+### **컨텍스트의 종류**
 
-1. **SQL 중심의 데이터 매핑**
+1. **프로세스 컨텍스트**
 
-   - 개발자가 SQL을 직접 작성하여 데이터베이스 작업을 제어합니다.
-   - XML 또는 어노테이션을 사용해 SQL 문장을 정의할 수 있습니다.
+   - 단일 프로그램이 실행될 때 운영 체제는 **프로세스 컨텍스트**를 유지합니다.
+   - 여기에는 메모리 매핑, 파일 디스크립터, 스케줄링 정보 등이 포함됩니다.
+   - 예를 들어, `fork()` 시스템 호출은 부모 프로세스의 컨텍스트를 자식 프로세스로 복사합니다.
 
-2. **유연한 매핑**
+2. **스레드 컨텍스트**
+   - 스레드는 프로세스 내에서 독립적으로 실행되며, **스레드 컨텍스트**는 해당 스레드에 대한 상태를 관리합니다.
+   - 레지스터 값과 스택 정보가 주요 부분입니다.
+   - 스레드는 같은 프로세스 컨텍스트를 공유하지만, 스택과 레지스터는 고유합니다.
 
-   - 데이터베이스의 테이블과 Java 객체 간의 매핑을 간단히 설정할 수 있습니다.
-   - 복잡한 관계형 데이터베이스 구조를 손쉽게 객체화합니다.
+### **컨텍스트 스위칭(Context Switching)**
 
-3. **강력한 커스터마이징**
+**컨텍스트 스위칭**은 CPU가 한 프로세스(또는 스레드)에서 다른 프로세스로 전환할 때 발생합니다.
 
-   - MyBatis는 SQL을 직접 제어하므로 복잡한 쿼리를 처리하거나 고성능 쿼리를 최적화할 수 있습니다.
-   - 다양한 캐싱 전략과 플러그인을 제공하여 성능을 향상시킬 수 있습니다.
+운영 체제는 이전 프로세스의 컨텍스트를 저장하고, 다음 프로세스의 컨텍스트를 복원합니다.
 
-4. **간단한 설정**
-   - MyBatis는 설정 파일(XML)과 최소한의 Java 코드만으로 작동합니다.
-   - 별도의 스키마 생성이나 ORM에 의존하지 않습니다.
+#### **컨텍스트 스위칭의 단계**
 
-### **MyBatis의 장단점**
+1. 현재 실행 중인 프로세스의 컨텍스트 저장.
+2. 다음 실행할 프로세스의 컨텍스트 로드.
+3. CPU가 다음 프로세스를 실행.
 
-#### **장점**
+#### **컨텍스트 스위칭의 비용**
 
-- **SQL 제어**: 개발자가 SQL 문을 직접 작성하여 높은 수준의 데이터베이스 제어 가능.
-- **유연성**: ORM 도구가 처리하기 어려운 복잡한 쿼리와 관계를 쉽게 다룰 수 있음.
-- **빠른 학습 곡선**: SQL에 익숙한 개발자는 빠르게 MyBatis를 습득할 수 있음.
-- **XML 지원**: XML 파일을 통해 명확하고 선언적인 방식으로 매핑 설정 가능.
+- 저장 및 복원 작업으로 인해 오버헤드가 발생합니다.
+- 특히, 캐시 미스와 메모리 액세스로 성능 저하가 있을 수 있습니다.
 
-#### **단점**
+### **C 언어에서 컨텍스트 관리**
 
-- **SQL 작성 부담**: SQL을 직접 작성해야 하므로, 코드 양이 많아질 수 있음.
-- **유지보수 어려움**: 쿼리가 많아질수록 유지보수가 복잡해질 수 있음.
-- **비표준화**: 특정 데이터베이스에 의존적인 SQL 문장을 작성할 가능성이 높음.
+C 언어는 직접 하드웨어와 메모리를 제어할 수 있으므로, 컨텍스트 관리가 중요한 역할을 합니다.  
+일반적으로 컨텍스트 관리에는 다음 요소가 사용됩니다:
 
-### **MyBatis 기본 사용법**
+#### **1. `setjmp`와 `longjmp`**
 
-#### **1. 설정 파일 구성**
+- **`setjmp`**: 현재 컨텍스트를 저장합니다.
+- **`longjmp`**: 저장된 컨텍스트로 복원합니다.
 
-MyBatis는 `mybatis-config.xml` 파일을 통해 설정됩니다.
+```c
+#include <setjmp.h>
+#include <stdio.h>
 
-```xml
-<configuration>
-    <environments default="development">
-        <environment id="development">
-            <transactionManager type="JDBC" />
-            <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.cj.jdbc.Driver" />
-                <property name="url" value="jdbc:mysql://localhost:3306/mydb" />
-                <property name="username" value="root" />
-                <property name="password" value="password" />
-            </dataSource>
-        </environment>
-    </environments>
-</configuration>
-```
+jmp_buf buffer;
 
-#### **2. 매핑 파일 구성**
-
-`mapper.xml` 파일에서 SQL 문과 객체 매핑을 정의합니다.
-
-```xml
-<mapper namespace="com.example.mapper.UserMapper">
-    <select id="getUserById" parameterType="int" resultType="com.example.model.User">
-        SELECT * FROM users WHERE id = #{id}
-    </select>
-</mapper>
-```
-
-#### **3. DAO 인터페이스 작성**
-
-매퍼 파일과 연결되는 인터페이스를 작성합니다.
-
-```java
-package com.example.mapper;
-
-import com.example.model.User;
-
-public interface UserMapper {
-    User getUserById(int id);
+void second() {
+    printf("Second function\n");
+    longjmp(buffer, 1); // 저장된 위치로 복원
 }
-```
 
-#### **4. MyBatis를 사용한 데이터 조회**
-
-Java 코드에서 MyBatis 세션을 통해 데이터베이스 작업을 수행합니다.
-
-```java
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-
-public class MyBatisExample {
-    public static void main(String[] args) {
-        SqlSessionFactory sqlSessionFactory = MyBatisUtil.getSqlSessionFactory();
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            UserMapper userMapper = session.getMapper(UserMapper.class);
-            User user = userMapper.getUserById(1);
-            System.out.println("User Name: " + user.getName());
-        }
+void first() {
+    if (setjmp(buffer) == 0) {
+        printf("First function\n");
+        second();
+    } else {
+        printf("Back to first function\n");
     }
 }
+
+int main() {
+    first();
+    return 0;
+}
 ```
 
----
+#### **2. POSIX 스레드(Pthreads)**
 
-### **MyBatis를 사용할 때 고려해야 할 점**
+- Pthreads는 C에서 멀티스레딩을 구현하기 위한 라이브러리로, 스레드 컨텍스트 관리를 지원합니다.
 
-1. **SQL 재사용**
+```c
+#include <pthread.h>
+#include <stdio.h>
 
-   - XML 매퍼에서 `<sql>` 태그를 활용해 공통 SQL 구문을 재사용할 수 있습니다.
+void* thread_function(void* arg) {
+    printf("Thread ID: %lu\n", pthread_self());
+    return NULL;
+}
 
-2. **트랜잭션 관리**
+int main() {
+    pthread_t thread;
+    pthread_create(&thread, NULL, thread_function, NULL);
+    pthread_join(thread, NULL);
+    return 0;
+}
+```
 
-   - MyBatis 자체적으로 트랜잭션 관리를 제공하지만, Spring과 통합하여 관리하는 것이 더 일반적입니다.
+### **컨텍스트 관리의 중요성**
 
-3. **캐싱 활용**
-   - MyBatis는 1차, 2차 캐싱을 제공하므로, 성능 최적화를 위해 적절히 사용해야 합니다.
+컨텍스트 관리는 효율적인 프로그램 실행을 위한 핵심입니다.
 
----
+1. **안정성**  
+   프로그램이 실행 중 예기치 않은 상황(예: 인터럽트)이 발생하더라도 정상적으로 복구할 수 있습니다.
+
+2. **멀티태스킹**  
+   여러 프로세스와 스레드를 효율적으로 관리하여 CPU 자원을 최적화합니다.
+
+3. **디버깅과 에러 복구**  
+   예외 상황에서 프로그램 상태를 저장하고 적절히 처리할 수 있습니다.
 
 ### **결론**
 
-MyBatis는 SQL 중심의 데이터 매핑을 선호하는 개발자들에게 적합한 프레임워크로, 간단한 설정과 강력한 커스터마이징 기능을 제공합니다.
+C 컨텍스트는 프로세스와 스레드가 실행되는 환경과 상태를 의미하며, 이를 효과적으로 관리하면 멀티태스킹 환경에서 안정성과 성능을 높일 수 있습니다.
 
-SQL을 직접 작성함으로써 데이터베이스 작업을 더 세밀히 제어할 수 있으며, 복잡한 데이터 구조를 다룰 때 매우 유용합니다.
+특히 `setjmp`, `longjmp`, Pthreads와 같은 도구는 C 언어로 컨텍스트를 다룰 때 유용합니다.
 
-하지만, SQL 관리가 어려울 수 있으므로 코드 품질과 유지보수를 고려한 설계가 필요합니다.
+컨텍스트를 이해하면 더 나은 시스템 프로그램과 멀티스레드 애플리케이션을 설계할 수 있습니다.
 
-MyBatis의 장점을 극대화하려면 Spring과 통합하여 사용하거나 적절한 매핑 전략을 수립하는 것이 좋습니다.
-
-MyBatis를 활용해 데이터베이스와의 상호작용을 효과적으로 관리해 보세요! 🚀
+**컨텍스트 관리의 중요성을 기억하며 효율적인 코드 작성에 도전해 보세요!** 🚀
