@@ -83,7 +83,7 @@ const Relation = styled.span`
   color: #44484d;
 `;
 const Name = styled.span`
-  font-size: 1rem
+  font-size: 1rem;
 `;
 
 const Details = styled.div`
@@ -96,7 +96,7 @@ const AccountInfo = styled.div``;
 const CopyButton = styled.button`
   border: none;
   border-radius: 5px;
-  padding: 0.1em 0.2em;
+  padding: 0.2em 0.2em;
   cursor: pointer;
   gap: 2px;
   outline: none;
@@ -113,11 +113,11 @@ const AccountLinks = styled.div`
 const AccountButton = styled.button`
   display: flex;
   align-items: center;
-  justify-content: center;
-  border: 1px solid #dfdfdf;
+  /* justify-content: center; */
+  /* border: 1px solid #dfdfdf; */
   border-radius: 5px;
-  margin: 5px 0;
-  padding: 0 0.8em;
+  margin: 9px 0 5px 0;
+  /* padding: 0 0.8em; */
   width: inherit;
   font-size: 0.7rem;
   cursor: pointer;

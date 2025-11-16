@@ -1,59 +1,55 @@
 {
   "greeting": {
-    "title": "장세모 \uD83D\uDC8D 황네모\n결혼합니다!",
+    "title": "김연욱 \uD83D\uDC8D 김은혜\n결혼합니다!",
     "message": "저희 결혼합니다.\n\n서로에게 알맞은 온도로 따뜻하던 우리.\n부부로서 첫걸음을 내딛는 그 설렘의 순간에\n소중한 분들을 초대합니다.",
     "host": {
       "groom": {
-        "name": "세모",
+        "name": "김연욱",
         "relation": "아들",
         "parents": [
           {
             "relation": "아버지",
-            "name": "장아빠"
+            "name": "김명섭"
           },
           {
             "relation": "어머니",
-            "name": "이엄마"
+            "name": "박귀명"
           }
         ]
       },
       "bride": {
-        "name": "네모",
+        "name": "김은혜",
         "relation": "딸",
         "parents": [
           {
             "relation": "아버지",
-            "name": "황아빠"
-          },
-          {
-            "relation": "어머니",
-            "name": "이엄마"
+            "name": "김성환"
           }
         ]
       }
     },
-    "eventDetail": "2024년 2월 17일 (토) 14:00\n아펠가모 공덕 라로브홀"
+    "eventDetail": "2026년 2월 21일 (토) 16:00\nKU 컨벤션 웨딩홀"
   },
   "hostInfo": [
     {
       "host": "신랑측",
       "accountInfo": [
         {
-          "name": "장세모",
+          "name": "김연욱",
           "relation": "신랑",
-          "bank": "카카오뱅크",
-          "account": "1234-56-789012",
-          "kakaopayAccount": "",
+          "bank": "농협",
+          "account": "302-1424-5225-41",
+          "kakaopayAccount": "1234",
           "tossAccount": ""
         },
         {
-          "name": "장아빠",
+          "name": "김명섭",
           "relation": "아버지",
           "bank": "농협",
           "account": "123-45-678901"
         },
         {
-          "name": "이엄마",
+          "name": "박귀명",
           "relation": "어머니",
           "bank": "농협",
           "account": "123-45-678901"
@@ -64,22 +60,16 @@
       "host": "신부측",
       "accountInfo": [
         {
-          "name": "황네모",
+          "name": "김은혜",
           "relation": "신부",
           "bank": "토스뱅크",
           "account": "1234-5678-9012",
-          "kakaopayAccount": "",
+          "kakaopayAccount": "{수정예정",
           "tossAccount": ""
         },
         {
-          "name": "황아빠",
+          "name": "김성환",
           "relation": "아버지",
-          "bank": "농협",
-          "account": "123-45-678901"
-        },
-        {
-          "name": "이엄마",
-          "relation": "어머니",
           "bank": "농협",
           "account": "123-45-678901"
         }
@@ -87,10 +77,10 @@
     }
   ],
   "mapInfo": {
-    "address1": "아펠가모 공덕 라로브홀",
-    "address2": "서울 마포구 마포대로 92\n효성해링턴스퀘어 B동 7층\n02-2197-0230",
-    "naverMap": "https://naver.me/IM4RDses",
-    "kakaoMap": "https://kko.kakao.com/otznTfkVWV",
+    "address1": "KU 컨벤션 웨딩홀",
+    "address2": "서울 광진구 아차산로 36길 5 단독홀\n02-447-4045",
+    "naverMap": "https://naver.me/I5y0EmjB",
+    "kakaoMap": "https://kko.kakao.com/qIem0m6pWU",
     "lat": 37.54222,
     "lon": 126.952708
   },
